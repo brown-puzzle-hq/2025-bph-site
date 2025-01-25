@@ -39,7 +39,7 @@ const InPersonTimeline = [
   },
   {
     title: "Wrap-Up",
-    description: `Wrap-up will be held on ${formatter.format(IN_PERSON.WRAPUP_TIME)} in MacMillan 117, with doors opening at ${timeOnly.format(IN_PERSON.WRAPUP_DOOR_TIME)}. This will be livestreamed for online participants.`,
+    description: `Wrap-up will be held on ${formatter.format(IN_PERSON.WRAPUP_TIME)} in MacMillan 117, with doors opening at ${timeOnly.format(IN_PERSON.WRAPUP_DOOR_TIME)}.`,
   },
 ];
 
@@ -54,7 +54,7 @@ const OnlineTimeline = [
   },
   {
     title: "Wrap-Up",
-    description: `Wrap-up will be held on ${formatter.format(REMOTE.WRAPUP_TIME)}. This will be livestreamed for online participants.`,
+    description: `A written wrap-up will be released on ${formatter.format(REMOTE.WRAPUP_TIME)}. This will contain a recording of our in-person wrap-up, as well as more details about the Remote Event.`,
   },
 ];
 
@@ -74,7 +74,7 @@ export default function Page() {
             >
               <h2>What is Brown Puzzlehunt?</h2>
               <p>
-                Brown Puzzlehunt 2025 is our 3rd annual puzzlehunt, directed by
+                Brown Puzzlehunt 2025 is the third annual puzzlehunt run by
                 current Brown and RISD students.
               </p>
               <p>
@@ -127,80 +127,234 @@ export default function Page() {
                 .
               </p>
             </TOCSection>
-            <TOCSection sectionId={1} tocTitle="Who can participate?">
-              <h2>Who can participate?</h2>
+            <TOCSection
+              sectionId={1}
+              tocTitle="When and where is this happening?"
+            >
+              <h2>When and where is this happening?</h2>
               <p>
-                Brown Puzzlehunt is open to anyone, anywhere in the world. We
-                have taken steps to ensure that every puzzle is accessible to
+                This year, Brown Puzzlehunt is offering three 
+                different ways to participate across two weekends. 
+                You can hunt in-person, hunt fully remotely, 
+                or purchase a Box.
+              </p>
+              <h3>In-Person Event</h3>
+              <Timeline timeline={InPersonTimeline} />
+              <p>
+                If you come to campus, you'll get to do events, physical puzzles, 
+                interactions, and the in-person runaround! The In-Person Event will run from{" "}
+                {formatter.format(IN_PERSON.KICKOFF_TIME)} to{" "}
+                {formatter.format(IN_PERSON.END_TIME)}, at{" "}
+                <strong>Brown University</strong> in <strong>Providence, Rhode Island</strong>.
+              </p>
+              <p>
+                <strong>All in-person participants </strong>
+                need to print and fill out{" "}
+                <Link
+                  href="https://studentactivities.brown.edu/sites/default/files/safety/Physical%20Activity%20Release.pdf"
+                  className="text-blue-500 no-underline hover:underline"
+                >
+                  this waiver
+                </Link>{" "}
+                ahead of time in order to come to campus. We will collect these at kickoff.
+              </p>
+              
+              <h3>Remote Event</h3>
+              <Timeline timeline={OnlineTimeline} />
+              <p>
+                If you can't come to Brown's campus, you can do our online-only event. 
+                This runs from {formatter.format(REMOTE.START_TIME)} to{" "}
+                {formatter.format(REMOTE.END_TIME)}. (This is a different weekend than 
+                the In-Person Event!) 
+              </p>
+              <p>
+                There are two different ways to participate during the Remote Weekend. 
+                You can participate fully remotely, or you can purchase a Box.
+              </p>
+              <h4>Remote + the Box</h4>
+              <p>
+                In early March, we will be selling Boxes to 50 remote teams 
+                (first come, first served). These Boxes will contain: 
+              </p>
+              <ul>
+                <li>A pin</li>
+                <li>Stickers</li>
+                <li>As many physical puzzles as we can fit inside it</li>
+              </ul>
+              <p>
+                If you get a Box, you will be able to do most or all of the physical 
+                puzzles (because you'll have them with you!)
+              </p>
+              <p>
+                Check out the Box section for more details.
+              </p>
+              <h4>Fully Remote (No Box)</h4>
+              <p>
+                If you don't receive a Box, we will provide fully remote-accessible 
+                versions of all physical puzzles. <strong>You will be able to solve every puzzle 
+                in the hunt even if you are fully remote</strong>.
+              </p>
+              
+              <h3>Which experience should I sign up for?</h3>
+              <p>
+                If you can make it to the In-Person Event, we highly recommend 
+                you do so. You'll get to do all of the physical puzzles, 
+                in-person interactions, events, and the in-person runaround.
+              </p>
+              <p>
+                If you get a Box, you won't be able to do the in-person interactions, events, or
+                the in-person runaround. However, you will get to do all of our physical puzzles, and 
+                you'll also get cool merch!
+              </p>
+              <p>
+                If you participate as a fully remote team (with no Box), you'll still be able to solve 
+                every puzzle in the hunt. This experience will be similar to other online-only hunts that 
+                don't expect any in-person involvement.
+              </p>
+              <table>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>In-Person</th>
+                    <th>Remote With Box</th>
+                    <th>Remote, No Box</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Final runaround</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                  </tr>
+                  <tr>
+                    <td>Events and interactions</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                  </tr>
+                  <tr>
+                    <td>Physical puzzles</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                  </tr>
+                  <tr>
+                    <td>Hunt merch</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                  </tr>
+                  <tr>
+                    <td>Full puzzle accessibility</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>Essentially, we are designing three different hunts. We're working to ensure that 
+                these are each enjoyable, fully accessible experiences.
+              </p>
+            </TOCSection>
+            <TOCSection sectionId={2} tocTitle="What are the Boxes?">
+              <h2>What are the Boxes?</h2>
+              <p>
+                In <strong>early March</strong>, we will be selling Boxes to 50 remote teams 
+                (first come, first served). 
+              </p>
+              <p>
+                The Boxes will each contain:
+              </p>
+              <ul>
+                <li>A pin</li>
+                <li>Stickers</li>
+                <li>As many physical puzzles as we can fit inside it</li>
+              </ul>
+              <p>
+                If you get a Box, you will be able to do most or all of the physical 
+                puzzles (because you'll have them with you!)
+              </p>
+              <h3>Who can get a Box?</h3>
+              <p>
+                We will mail a Box (at no additional cost) anywhere 
+                in the United States.
+              </p>
+              <p>
+                If you're outside the United States, we're sorry; we're not able to send you
+                a Box this year! International shipping at scale is a really hard problem. 
+              </p>
+              <p>
+                You could send a Box to a friend in the US, and get 
+                them to mail it on to you; but we won't be able to vouch that those Boxes 
+                will arrive, and we won't be able to track them. You'll have to weigh up the cost 
+                and the risk yourself.
+              </p>
+              <h3>How much will a Box cost?</h3>
+              <p>
+                Brown University policy prohibits us from selling the Boxes at a loss. 
+                The Boxes will therefore be priced to cover materials, tax, surcharge, 
+                and shipping, with no profit margin.
+              </p>
+              <p>
+                As such, we don't know exactly how much they'll cost yet, but we imagine that 
+                it will be in the $20 - $25 range. We're working on getting the price as low as possible!
+              </p>
+              <p>
+                If you know you might want a Box, but you don't think you can afford it, 
+                we can arrange something for you. Please contact us at brownpuzzleHQ [at] gmail [dot] com 
+                and we'll find a solution.
+              </p>
+              <h3>How many puzzles will be inside a Box?</h3>
+              <p>
+                It's hard to say (because everything is up in the air at the moment) 
+                but we're planning to have at least 6 puzzles be in the Box. Maybe more, 
+                but no promises.
+              </p>
+              <p>
+                You'll also get cool merch!
+              </p>
+              <h3>I'm interested in getting a Box. What should I do?</h3>
+              <p>
+                Register a team (with an email you actually check), and 
+                indicate that you're interested in purchasing a Box. When more news 
+                about Boxes is available, we'll email everyone who said they might want a Box. 
+                (We'll also put out general community announcements, but giving us your email 
+                is the best way to stay informed.)
+              </p>
+            </TOCSection>
+            <TOCSection sectionId={3} tocTitle="Who can participate in the hunt?">
+              <h2>Who can participate in the hunt?</h2>
+              <p>
+                Brown Puzzlehunt is open to anyone, anywhere in the world. We've 
+                taken steps to ensure that every puzzle is accessible to
                 remote solvers, except for the final runaround. Teams familiar
                 with Brown/RISD culture may have some advantage in solving
                 puzzles.
               </p>
               <p>
-                We recommend teams to be around 7 to 10 people. The maximum team
-                size is 12 people, but there is no minimum team size - you can
+                We recommend teams to be around 6 to 8 people. The maximum team
+                size is 10 people, but there is no minimum team size - you can
                 still have fun with a team of 2! Students and those new to
                 hunting are encouraged to build teams on the larger side.
               </p>
               <p>
-                Additionally, for your team to win, you must have at least one
+                Additionally, for your team to win the In-Person Event, you must have at least one
                 current Brown/RISD student on-campus. If you do not have a
                 current Brown/RISD student on your team, you will be able to do
                 the final runaround, but you will not be able to win.
               </p>
+              <p>
+                Any team can win the Remote Event, regardless of team composition.
+              </p>
             </TOCSection>
-            <TOCSection
-              sectionId={2}
-              tocTitle="When and where is this happening?"
-            >
-              <h2>When and where is this happening?</h2>
-              <p>
-                Brown Puzzlehunt is available both as an in-person event and as
-                an online event. The in-person event will run from{" "}
-                {formatter.format(IN_PERSON.KICKOFF_TIME)} to{" "}
-                {formatter.format(IN_PERSON.END_TIME)}. The online event will
-                run a week later, from {formatter.format(REMOTE.START_TIME)} to{" "}
-                {formatter.format(REMOTE.END_TIME)}. These events are split into
-                two different weeks so we can deliver a better hunt experience!
-              </p>
-              <p>
-                The main difference between the in-person and the online event
-                is kickoff, access to physical puzzles, and runarounds. While
-                physical events are not are not essential to finish, they will
-                be fun and will help you progress.
-              </p>
-              <h3>In-person timeline</h3>
-              <p>
-                The in-person event will run from{" "}
-                {formatter.format(IN_PERSON.KICKOFF_TIME)} to{" "}
-                {formatter.format(IN_PERSON.END_TIME)} at Brown University in
-                Providence, Rhode Island. <strong>All participants</strong> will
-                need to print and fill out this{" "}
-                <Link
-                  href="https://studentactivities.brown.edu/sites/default/files/safety/Physical%20Activity%20Release.pdf"
-                  className="text-blue-500 no-underline hover:underline"
-                >
-                  waiver
-                </Link>{" "}
-                in order to come on campus. We will collect these at kickoff.
-              </p>
-              <Timeline timeline={InPersonTimeline} />
-              <h3>Online timeline</h3>
-              <p>
-                If you cannot make it to the in-person event, you can also
-                participate online from {formatter.format(REMOTE.START_TIME)} to{" "}
-                {formatter.format(REMOTE.END_TIME)}. All puzzles will be
-                available online, except for physical puzzles and runarounds.
-              </p>
-              <Timeline timeline={OnlineTimeline} />
-            </TOCSection>
-            <TOCSection sectionId={3} tocTitle="How do puzzles work?">
+            <TOCSection sectionId={4} tocTitle="How do puzzles work?">
               <h2>How do puzzles work?</h2>
               <p>
                 All puzzles will be visible on the website. This is where you
                 will submit your answers and receive new puzzles. Some puzzles
-                will be available at the start of the hunt, and some puzzles
-                will be unlocked after solving another puzzles.
+                will be available at the start of the hunt; solving puzzles will 
+                unlock more puzzles.
               </p>
               <p>
                 Each answer is a string of letters A-Z. Answers are not case- or
@@ -216,7 +370,7 @@ export default function Page() {
                 direct you towards it first.
               </p>
             </TOCSection>
-            <TOCSection sectionId={4} tocTitle="How do hints work?">
+            <TOCSection sectionId={5} tocTitle="How do hints work?">
               <h2>How do hints work? </h2>
               <p>
                 When puzzles drop, teams will gain one hint request every three
@@ -237,7 +391,16 @@ export default function Page() {
                 you can email us at any time.
               </p>
             </TOCSection>
-            <TOCSection sectionId={5} tocTitle="What else?">
+            <TOCSection sectionId={6} tocTitle="Being On-Campus">
+              <h2>Being On-Campus</h2>
+              <p>
+              If you are going to be on-campus, we will need you to let us know where your HQ is. This is the location where you will be spending most of your time solving puzzles while you're on-campus. If you are a student team or have student members, this might be a dorm common area or an apartment near campus, or a noise-tolerant space like the Student Center or some floors of the SciLi.
+              </p>
+              <p>
+              If you need a place for your team to work during the hunt, let us know during the registration process and we will try to accommodate you. Our ability to allocate classrooms like this will be limited, so we will prioritize teams which do not have other spaces available and who register in advance.
+              </p>
+            </TOCSection>
+            <TOCSection sectionId={7} tocTitle="What else?">
               <h2>What else?</h2>
               <p>
                 You may use any external sources for help, including other
