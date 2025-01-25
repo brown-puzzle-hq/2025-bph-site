@@ -9,7 +9,6 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await auth();
-
   const leftMenuItems: MenuItem[] = [
     {
       title: "Home",
