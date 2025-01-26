@@ -69,7 +69,7 @@ export default function PuzzleTable({
                 </TableCell>
                 <TableCell>
                   {solvedPuzzles.some((sp) => sp.puzzleId === puzzle.id) && (
-                    <p className="text-emerald-600">{puzzle.answer}</p>
+                    <p className="text-correct-guess">{puzzle.answer}</p>
                   )}
                 </TableCell>
               </TableRow>

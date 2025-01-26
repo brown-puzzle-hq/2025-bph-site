@@ -591,7 +591,7 @@ export function RegisterForm({}: RegisterFormProps) {
 
         <div className="my-8 text-sm">
           Already registered for the hunt?{" "}
-          <Link href="/login" className="text-blue-500 hover:underline">
+          <Link href="/login" className="text-link hover:underline">
             Login
           </Link>
         </div>

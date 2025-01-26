@@ -114,8 +114,16 @@ export default async function Page({
               <p>
                 <span className="font-semibold">Team </span>
                 <Link
+<<<<<<< Updated upstream
                   href={`/teams/${hint.team.id}`}
+                  className="text-blue-600 hover:underline"
+||||||| Stash base
+                  href={`/admin/teams/${hint.team.id}`}
+                  className="text-blue-600 hover:underline"
+=======
+                  href={`/admin/teams/${hint.team.id}`}
                   className="text-link hover:underline"
+>>>>>>> Stashed changes
                 >
                   {hint.team.displayName}
                 </Link>

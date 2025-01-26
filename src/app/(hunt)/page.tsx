@@ -14,7 +14,7 @@ export default async function Home() {
           <h1 className="text-crimson-500">Welcome!</h1>
           <p className="mt-2">
             New to the hunt?{" "}
-            <Link href="/register" className="text-blue-600 hover:underline">
+            <Link href="/register" className="text-link hover:underline">
               Register
             </Link>
           </p>

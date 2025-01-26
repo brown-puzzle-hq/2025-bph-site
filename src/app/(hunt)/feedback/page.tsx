@@ -1,9 +1,9 @@
+import Link from "next/link";
 import { auth } from "@/auth";
 import { db } from "@/db/index";
-import FeedbackForm from "./FeedbackForm";
-import { or, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { feedback } from "~/server/db/schema";
-import Link from "next/link";
+import FeedbackForm from "./FeedbackForm";
 
 export default async function Home() {
   const session = await auth();

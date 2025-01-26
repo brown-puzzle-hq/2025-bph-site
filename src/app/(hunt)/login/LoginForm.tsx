@@ -82,7 +82,7 @@ export function LoginForm() {
                 <FormLabel>Password</FormLabel>
                 <Link
                   href="mailto:brownpuzzlehq@gmail.com"
-                  className="text-sm text-blue-500 hover:underline"
+                  className="text-sm text-link hover:underline"
                   tabIndex={-1}
                 >
                   Forgot?
@@ -105,7 +105,7 @@ export function LoginForm() {
         </Button>
         <div className="pt-4 text-sm">
           New to the hunt?{" "}
-          <Link href="/register" className="text-secondary hover:underline">
+          <Link href="/register" className="text-link hover:underline">
             Register
           </Link>
         </div>

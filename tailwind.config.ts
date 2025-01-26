@@ -16,10 +16,27 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
-        link: colors.gray[500],
-        secondary: "#808080",
-        nav: "#3b064d", // ripe-plum-950
+        // Main is the primary color of the site
+        "main-bg": "#3b064d",
+        "main-text": colors.gray[300],
+        "main-header": colors.gray[200],
 
+        // Secondary is for text fields
+        // Ideally this should be a light background with dark text
+        "secondary-bg": "#fff0f0",
+        "secondary-text": colors.black,
+
+        // Other backgrounds
+        "footer-bg": "#3b064d",
+        "nav-bg": "#3b064d",
+
+        // Other text colors
+        link: colors.blue[300],
+        "correct-guess": colors.emerald[300],
+        "incorrect-guess": colors.rose[300],
+        error: colors.red[300],
+
+        // Colors
         "ripe-plum": {
           "50": "#fbf4ff",
           "100": "#f6e9fe",
