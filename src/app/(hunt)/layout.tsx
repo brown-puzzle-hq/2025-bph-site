@@ -69,7 +69,7 @@ export default async function RootLayout({
   }
 
   return (
-    <div className="text-main-text">
+    <div className="text-main-text bg-main-bg">
       {/* Navbar */}
       <div className="bg-nav-bg">
         <HamburgerMenu
@@ -80,7 +80,7 @@ export default async function RootLayout({
       {/* Navbar spacer */}
       <div className="min-h-[56px]" />
 
-      <main className="flex min-h-[calc(100vh-56px-32px)] bg-main-bg pt-6">
+      <main className="flex min-h-[calc(100vh-56px-32px)] pt-6">
         {children}
       </main>
       <Toaster />
