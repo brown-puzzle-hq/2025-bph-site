@@ -10,17 +10,17 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  Activity,
   ArrowUpRight,
   MessageCircleQuestion,
+  PackageOpen,
   Puzzle,
   UsersRound,
 } from "lucide-react";
 
 import { ActivityItem, ActivityChart } from "./ActivityChart";
 import { db } from "~/server/db/index";
-import { errata, guesses, hints, teams } from "~/server/db/schema";
-import { count, eq, isNull, not, sql } from "drizzle-orm";
+import { guesses, hints, teams } from "~/server/db/schema";
+import { count, and, eq, isNull, not, sql } from "drizzle-orm";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
 
 type hintLeaderboardItem = {
@@ -94,14 +94,16 @@ export async function Dashboard() {
       await db
         .select({ count: count() })
         .from(teams)
-        .where(eq(teams.wantsBox, true))
+        .where(
+          and(eq(teams.interactionMode, "remote"), eq(teams.wantsBox, true)),
+        )
     )[0]?.count ?? 0;
   const numBoxesHad =
     (
       await db
         .select({ count: count() })
         .from(teams)
-        .where(eq(teams.hasBox, true))
+        .where(and(eq(teams.interactionMode, "remote"), eq(teams.hasBox, true)))
     )[0]?.count ?? 0;
 
   /* Activity Table (chunk 4) */
@@ -258,7 +260,7 @@ export async function Dashboard() {
               <CardTitle className="text-sm font-medium">
                 Remote Boxes
               </CardTitle>
-              <Activity className="text-muted-foreground h-4 w-4" />
+              <PackageOpen className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{numBoxesHad}</div>
