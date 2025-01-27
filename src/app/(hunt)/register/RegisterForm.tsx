@@ -286,7 +286,7 @@ export function RegisterForm({}: RegisterFormProps) {
 
         <div className="mb-8">
           <FormLabel className="flex flex-row justify-between">
-            <span>
+            <span className="text-main-header mb-2">
               Team members <span className="text-red-500">*</span>
             </span>
             <span className="text-[0.8rem] font-medium text-red-500">
@@ -346,7 +346,7 @@ export function RegisterForm({}: RegisterFormProps) {
                   <FormItem className="w-1/2">
                     <FormControl  className="bg-secondary-bg text-secondary-text">
                       <Input
-                        className={`border-0 border-b ${form.formState.errors.members?.[index] ? "border-red-300" : ""} text-main-header shadow-none focus-visible:ring-transparent`}
+                        className={`border-0 border-b ${form.formState.errors.members?.[index] ? "border-red-300" : ""} text-secondary-text shadow-none focus-visible:ring-transparent`}
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Email"
@@ -426,14 +426,14 @@ export function RegisterForm({}: RegisterFormProps) {
                       disabled={new Date() > IN_PERSON.END_TIME}
                     />
                     <FormLabel
-                      className={`font-normal text-main-text opacity-${new Date() > IN_PERSON.END_TIME ? 50 : 100}`}
+                      className={`font-normal text-main-header opacity-${new Date() > IN_PERSON.END_TIME ? 50 : 100}`}
                     >
                       In-person
                     </FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <RadioGroupItem value="remote" />
-                    <FormLabel className="font-normal text-main-text">
+                    <FormLabel className="font-normal text-main-header">
                       Remote
                     </FormLabel>
                   </FormItem>

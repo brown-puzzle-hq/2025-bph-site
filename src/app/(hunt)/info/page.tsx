@@ -313,14 +313,14 @@ export default function Page() {
                 the hunt, consider{" "}
                 <Link
                   href="https://bbis.advancement.brown.edu/BBPhenix/give-now?did=05732af4-d994-4d40-bcd6-fb42d07b6eab"
-                  className="text-blue-500 no-underline hover:underline"
+                  className="no-underline hover:underline"
                 >
                   donating
-                </Link>{" "}
-                to{" "}
+                </Link>
+                {" "}to{" "}
                 <Link
                   href="https://brownpuzzle.club/"
-                  className="text-blue-500 no-underline hover:underline"
+                  className="no-underline hover:underline"
                 >
                   Brown Puzzle Club
                 </Link>
@@ -383,7 +383,7 @@ export default function Page() {
                 need to print and fill out{" "}
                 <Link
                   href="https://studentactivities.brown.edu/sites/default/files/safety/Physical%20Activity%20Release.pdf"
-                  className="text-blue-500 no-underline hover:underline"
+                  className="no-underline hover:underline"
                 >
                   this waiver
                 </Link>{" "}

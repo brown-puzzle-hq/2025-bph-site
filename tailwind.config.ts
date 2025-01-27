@@ -18,13 +18,13 @@ export default {
       colors: {
         // Main is the primary color of the site
         "main-bg": "#452c63",
-        "main-text": "#f2f0fd",
+        "main-text": "#faf7fd", // whiter than it should be, but we need the brightness
         "main-header": "#e7e3fc",
         "main-accent": "#e7e3fc",
 
         // Secondary is for text fields
         // Ideally this should be a light background with dark text
-        "secondary-bg": "#fff0f0",
+        "secondary-bg": "#e7e3fc",
         "secondary-text": colors.black,
 
         // Other backgrounds
