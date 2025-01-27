@@ -89,18 +89,20 @@ export async function Dashboard() {
   const percentAnsweredHints = ((answeredHints / totalHints) * 100).toFixed(2);
 
   // Get remote box interest count
-  const numBoxWanted = (
-    await db
-      .select({ count: count() })
-      .from(teams)
-      .where(eq(teams.wantsBox, true))
-  )[0]?.count ?? 0;
-  const numBoxHad = (
-    await db
-      .select({ count: count() })
-      .from(teams)
-      .where(eq(teams.hasBox, true))
-  )[0]?.count ?? 0;
+  const numBoxWanted =
+    (
+      await db
+        .select({ count: count() })
+        .from(teams)
+        .where(eq(teams.wantsBox, true))
+    )[0]?.count ?? 0;
+  const numBoxHad =
+    (
+      await db
+        .select({ count: count() })
+        .from(teams)
+        .where(eq(teams.hasBox, true))
+    )[0]?.count ?? 0;
 
   /* Activity Table (chunk 4) */
   const data: Record<number, ActivityItem> = {};
@@ -253,7 +255,9 @@ export async function Dashboard() {
           </Card>
           <Card x-chunk="dashboard-01-chunk-3">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Remote Boxes</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Remote Boxes
+              </CardTitle>
               <Activity className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
