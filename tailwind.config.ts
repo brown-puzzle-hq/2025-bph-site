@@ -18,9 +18,9 @@ export default {
       colors: {
         // Main is the primary color of the site
         "main-bg": "#452c63",
-        "main-text": "#d6ccf9",
-        "main-header": "#f2f0fd",
-        "main-accent": "#f2f0fd",
+        "main-text": "#f2f0fd",
+        "main-header": "#e7e3fc",
+        "main-accent": "#e7e3fc",
 
         // Secondary is for text fields
         // Ideally this should be a light background with dark text

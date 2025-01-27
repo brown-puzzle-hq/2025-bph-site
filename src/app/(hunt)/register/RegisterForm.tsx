@@ -205,12 +205,12 @@ export function RegisterForm({}: RegisterFormProps) {
           render={({ field }) => (
             <FormItem className="mb-8">
               <FormLabel className="flex flex-row justify-between">
-                <span className="text-black">
+                <span className="text-main-header">
                   Username <span className="text-red-500">*</span>
                 </span>
                 <FormMessage />
               </FormLabel>
-              <FormControl>
+              <FormControl className="bg-secondary-bg text-secondary-text">
                 <Input placeholder="jcarberr" autoComplete="on" {...field} />
               </FormControl>
               <FormDescription>
@@ -228,12 +228,12 @@ export function RegisterForm({}: RegisterFormProps) {
           render={({ field }) => (
             <FormItem className="mb-8">
               <FormLabel className="flex flex-row justify-between">
-                <span className="text-black">
+                <span className="text-main-header">
                   Display name <span className="text-red-500">*</span>
                 </span>
                 <FormMessage />
               </FormLabel>
-              <FormControl>
+              <FormControl className="bg-secondary-bg text-secondary-text">
                 <Input placeholder="Josiah Carberry" {...field} />
               </FormControl>
               <FormDescription>
@@ -250,12 +250,12 @@ export function RegisterForm({}: RegisterFormProps) {
           render={({ field }) => (
             <FormItem className="mb-8">
               <FormLabel className="flex flex-row justify-between">
-                <span className="text-black">
+                <span className="text-main-header">
                   Password <span className="text-red-500">*</span>
                 </span>
                 <FormMessage />
               </FormLabel>
-              <FormControl>
+              <FormControl className="bg-secondary-bg text-secondary-text">
                 <Input type="password" {...field} />
               </FormControl>
               <FormDescription>
@@ -272,12 +272,12 @@ export function RegisterForm({}: RegisterFormProps) {
           render={({ field }) => (
             <FormItem className="mb-8">
               <FormLabel className="flex flex-row justify-between">
-                <span className="text-black">
+                <span className="text-main-header">
                   Confirm password <span className="text-red-500">*</span>
                 </span>
                 <FormMessage />
               </FormLabel>
-              <FormControl>
+              <FormControl className="bg-secondary-bg text-secondary-text">
                 <Input type="password" {...field} />
               </FormControl>
             </FormItem>
@@ -301,9 +301,9 @@ export function RegisterForm({}: RegisterFormProps) {
                 name={`members.${index}.name`}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
-                    <FormControl>
+                    <FormControl className="bg-secondary-bg text-secondary-text">
                       <Input
-                        className="rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent"
+                        className="border-0 border-b shadow-none focus-visible:ring-transparent"
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Name"
@@ -344,9 +344,9 @@ export function RegisterForm({}: RegisterFormProps) {
                 name={`members.${index}.email`}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
-                    <FormControl>
+                    <FormControl  className="bg-secondary-bg text-secondary-text">
                       <Input
-                        className={`rounded-none border-0 border-b ${form.formState.errors.members?.[index] ? "border-red-300" : ""} p-0 text-black shadow-none focus-visible:ring-transparent`}
+                        className={`border-0 border-b ${form.formState.errors.members?.[index] ? "border-red-300" : ""} text-main-header shadow-none focus-visible:ring-transparent`}
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Email"
@@ -408,7 +408,7 @@ export function RegisterForm({}: RegisterFormProps) {
           render={({ field }) => (
             <FormItem className="mb-8 space-y-3">
               <FormLabel className="flex flex-row justify-between">
-                <span className="text-black">
+                <span className="text-main-header">
                   We will be competing...{" "}
                   <span className="text-red-500">*</span>
                 </span>
@@ -426,14 +426,14 @@ export function RegisterForm({}: RegisterFormProps) {
                       disabled={new Date() > IN_PERSON.END_TIME}
                     />
                     <FormLabel
-                      className={`font-normal text-black opacity-${new Date() > IN_PERSON.END_TIME ? 50 : 100}`}
+                      className={`font-normal text-main-text opacity-${new Date() > IN_PERSON.END_TIME ? 50 : 100}`}
                     >
                       In-person
                     </FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <RadioGroupItem value="remote" />
-                    <FormLabel className="font-normal text-black">
+                    <FormLabel className="font-normal text-main-text">
                       Remote
                     </FormLabel>
                   </FormItem>
@@ -452,10 +452,10 @@ export function RegisterForm({}: RegisterFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between">
-                    <span className="text-black">Brown/RISD team members</span>
+                    <span className="text-main-header">Brown/RISD team members</span>
                     <FormMessage />
                   </FormLabel>
-                  <FormControl>
+                  <FormControl className="bg-secondary-bg text-secondary-text">
                     <Input {...field} type="number" min="0" />
                   </FormControl>
                   <FormDescription>
@@ -472,12 +472,12 @@ export function RegisterForm({}: RegisterFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between">
-                    <span className="text-black">
+                    <span className="text-main-header">
                       Phone number <span className="text-red-500">*</span>
                     </span>
                     <FormMessage />
                   </FormLabel>
-                  <FormControl>
+                  <FormControl className="bg-secondary-bg text-secondary-text">
                     <Input
                       {...field}
                       onChange={(e) => {
@@ -508,7 +508,7 @@ export function RegisterForm({}: RegisterFormProps) {
                       room.
                     </FormDescription>
                   </div>
-                  <FormControl>
+                  <FormControl className="bg-secondary-bg text-secondary-text">
                     <Switch
                       checked={field.value}
                       onCheckedChange={field.onChange}
@@ -524,10 +524,10 @@ export function RegisterForm({}: RegisterFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between">
-                    <span className="text-black">Solving location</span>
+                    <span className="text-main-header">Solving location</span>
                     <FormMessage />
                   </FormLabel>
-                  <FormControl>
+                  <FormControl className="bg-secondary-bg text-secondary-text">
                     <Input {...field} />
                   </FormControl>
                   <FormDescription>
@@ -547,7 +547,7 @@ export function RegisterForm({}: RegisterFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between">
-                    <span className="text-black">
+                    <span className="text-main-header">
                       Remote box <span className="text-red-500">*</span>
                     </span>
                     <FormMessage />
@@ -579,13 +579,13 @@ export function RegisterForm({}: RegisterFormProps) {
                     >
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <RadioGroupItem value="true" />
-                        <FormLabel className="font-normal text-black">
+                        <FormLabel className="font-normal text-main-header">
                           Yes, I might be interested!
                         </FormLabel>
                       </FormItem>
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <RadioGroupItem value="false" />
-                        <FormLabel className="font-normal text-black">
+                        <FormLabel className="font-normal text-main-header">
                           No thank you.
                         </FormLabel>
                       </FormItem>
