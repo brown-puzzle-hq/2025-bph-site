@@ -69,7 +69,7 @@ export default async function RootLayout({
   }
 
   return (
-    <div className="text-main-text bg-main-bg">
+    <div className="text-main-text">
       {/* Navbar */}
       <div className="bg-nav-bg">
         <HamburgerMenu
