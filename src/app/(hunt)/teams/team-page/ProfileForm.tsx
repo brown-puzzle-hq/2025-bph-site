@@ -272,11 +272,11 @@ export function ProfileForm({
             <FormItem className="mb-8">
               <FormLabel className="flex flex-row justify-between">
                 <span className="text-main-header">
-                  Display name <span className="text-red-500">*</span>
+                  Display name <span className="text-error">*</span>
                 </span>
-                <FormMessage />
+                <FormMessage className="text-error" />
               </FormLabel>
-              <FormControl className="bg-secondary-bg text-secondary-text">
+              <FormControl className="">
                 <Input placeholder="Josiah Carberry" {...field} />
               </FormControl>
               <FormDescription>
@@ -288,13 +288,13 @@ export function ProfileForm({
 
         <div className="mb-8">
           <FormLabel className="flex flex-row justify-between">
-            <span className="text-main-header mb-1.5">
-              Team members <span className="text-red-500">*</span>
+            <span className="mb-1.5 text-main-header">
+              Team members <span className="text-error">*</span>
             </span>
             {!form
               .getValues("members")
               .some((member: Member) => member?.email) && (
-              <span className="text-[0.8rem] font-medium text-red-500">
+              <span className="text-[0.8rem] font-medium text-error">
                 At least one email required
               </span>
             )}
@@ -307,9 +307,9 @@ export function ProfileForm({
                 name={`members.${index}.name`}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
-                    <FormControl className="bg-secondary-bg text-secondary-text">
+                    <FormControl className="text-main-text placeholder:text-main-accent">
                       <Input
-                        className="border-0 border-b shadow-none focus-visible:ring-transparent"
+                        className="rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent"
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Name"
@@ -350,9 +350,9 @@ export function ProfileForm({
                 name={`members.${index}.email`}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
-                    <FormControl className="bg-secondary-bg text-secondary-text">
+                    <FormControl className="text-main-text placeholder:text-main-accent">
                       <Input
-                        className={`border-0 border-b ${form.formState.errors.members?.[index] ? "border-red-300" : ""} shadow-none focus-visible:ring-transparent`}
+                        className={`rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent ${form.formState.errors.members?.[index] ? "border-red-300" : ""} text-current shadow-none focus-visible:ring-transparent`}
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Email"
@@ -414,7 +414,7 @@ export function ProfileForm({
           render={({ field }) => (
             <FormItem className="mb-8 space-y-3">
               <FormLabel className="text-main-header">
-                We will be competing... <span className="text-red-500">*</span>
+                We will be competing... <span className="text-error">*</span>
               </FormLabel>
               <FormControl>
                 <RadioGroup
@@ -469,8 +469,10 @@ export function ProfileForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between">
-                    <span className="text-main-header">Brown/RISD team members</span>
-                    <FormMessage />
+                    <span className="text-main-header">
+                      Brown/RISD team members
+                    </span>
+                    <FormMessage className="text-error" />
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -495,9 +497,9 @@ export function ProfileForm({
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between">
                     <span className="text-main-header">
-                      Phone number <span className="text-red-500">*</span>
+                      Phone number <span className="text-error">*</span>
                     </span>
-                    <FormMessage />
+                    <FormMessage className="text-error" />
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -524,7 +526,9 @@ export function ProfileForm({
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between">
                   <div>
-                    <FormLabel className="text-main-header">Room needed</FormLabel>
+                    <FormLabel className="text-main-header">
+                      Room needed
+                    </FormLabel>
                     <FormDescription>
                       Hunt weekend will be busy. Select this if you'll need a
                       room.
@@ -547,7 +551,7 @@ export function ProfileForm({
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between">
                     <span className="text-main-header">Solving location</span>
-                    <FormMessage />
+                    <FormMessage className="text-error" />
                   </FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -569,7 +573,7 @@ export function ProfileForm({
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between">
                     <span className="text-main-header">
-                      Remote box <span className="text-red-500">*</span>
+                      Remote box <span className="text-error">*</span>
                     </span>
                     <FormMessage />
                   </FormLabel>

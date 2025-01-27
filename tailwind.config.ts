@@ -20,12 +20,13 @@ export default {
         "main-bg": "#452c63",
         "main-text": "#faf7fd", // whiter than it should be, but we need the brightness
         "main-header": "#e7e3fc",
-        "main-accent": "#e7e3fc",
+        "main-accent": "#ac8ced",
 
         // Secondary is for text fields
         // Ideally this should be a light background with dark text
         "secondary-bg": "#e7e3fc",
         "secondary-text": colors.black,
+        "secondary-accent": colors.zinc[400],
 
         // Other backgrounds
         "footer-bg": "#322046",
@@ -35,7 +36,7 @@ export default {
         link: colors.blue[300],
         "correct-guess": colors.emerald[300],
         "incorrect-guess": colors.rose[300],
-        error: colors.red[300],
+        error: colors.red[400],
 
         // Colors
         mahogany: {

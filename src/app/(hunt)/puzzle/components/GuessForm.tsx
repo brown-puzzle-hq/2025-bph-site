@@ -89,7 +89,7 @@ export default function GuessForm({
                 {numberOfGuessesLeft}{" "}
                 {numberOfGuessesLeft === 1 ? "guess" : "guesses"} left
               </FormDescription>
-              <FormMessage>{error}</FormMessage>
+              <FormMessage className="text-error">{error}</FormMessage>
             </FormItem>
           )}
         />

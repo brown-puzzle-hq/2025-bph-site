@@ -63,7 +63,7 @@ export function LoginForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
-              <FormControl className="bg-secondary-bg text-secondary-text">
+              <FormControl className="bg-secondary-bg text-secondary-text placeholder:text-secondary-accent">
                 <Input
                   placeholder="jcarberr"
                   {...field}
@@ -87,14 +87,14 @@ export function LoginForm() {
                   Forgot?
                 </Link>
               </div>
-              <FormControl className="bg-secondary-bg text-secondary-text">
+              <FormControl className="bg-secondary-bg text-secondary-text placeholder:text-secondary-accent">
                 <Input
                   type="password"
                   placeholder="password"
                   {...field}
                 />
               </FormControl>
-              <FormMessage>{error}</FormMessage>
+              <FormMessage className="text-error">{error}</FormMessage>
             </FormItem>
           )}
         />
