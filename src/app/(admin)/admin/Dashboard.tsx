@@ -89,14 +89,14 @@ export async function Dashboard() {
   const percentAnsweredHints = ((answeredHints / totalHints) * 100).toFixed(2);
 
   // Get remote box interest count
-  const numBoxWanted =
+  const numBoxesWanted =
     (
       await db
         .select({ count: count() })
         .from(teams)
         .where(eq(teams.wantsBox, true))
     )[0]?.count ?? 0;
-  const numBoxHad =
+  const numBoxesHad =
     (
       await db
         .select({ count: count() })
@@ -261,9 +261,9 @@ export async function Dashboard() {
               <Activity className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{numBoxHad}</div>
+              <div className="text-2xl font-bold">{numBoxesHad}</div>
               <p className="text-muted-foreground text-xs">
-                {numBoxWanted} teams interested
+                {numBoxesWanted} teams interested
               </p>
             </CardContent>
           </Card>
