@@ -65,7 +65,7 @@ export default {
           "950": "#500000",
         },
       },
-      typography: ({ theme }) => ({
+      typography: ({ theme }: { theme: any }) => ({
         custom: {
           css: {
             "--tw-prose-body": theme("colors.main-text"),
