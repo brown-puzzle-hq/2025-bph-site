@@ -286,7 +286,7 @@ export function RegisterForm({}: RegisterFormProps) {
 
         <div className="mb-8">
           <FormLabel className="flex flex-row justify-between">
-            <span className="text-main-header mb-2">
+            <span className="text-main-header mb-1.5">
               Team members <span className="text-red-500">*</span>
             </span>
             <span className="text-[0.8rem] font-medium text-red-500">

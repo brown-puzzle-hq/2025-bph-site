@@ -63,9 +63,8 @@ export function LoginForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
-              <FormControl>
+              <FormControl className="bg-secondary-bg text-secondary-text">
                 <Input
-                  className="placeholder:text-gray-300"
                   placeholder="jcarberr"
                   {...field}
                 />
@@ -88,10 +87,9 @@ export function LoginForm() {
                   Forgot?
                 </Link>
               </div>
-              <FormControl>
+              <FormControl className="bg-secondary-bg text-secondary-text">
                 <Input
                   type="password"
-                  className="placeholder:text-gray-300"
                   placeholder="password"
                   {...field}
                 />
