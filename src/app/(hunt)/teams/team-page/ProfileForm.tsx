@@ -489,8 +489,7 @@ export function ProfileForm({
                     />
                   </FormControl>
                   <FormDescription>
-                    Primary method of communication, required for in-person
-                    teams.
+                    Useful for communication, especially for in-person teams.
                   </FormDescription>
                 </FormItem>
               )}

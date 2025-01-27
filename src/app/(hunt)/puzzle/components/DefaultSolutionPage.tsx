@@ -46,7 +46,7 @@ export default async function DefaultSolutionPage({
           Please return to the{" "}
           <Link
             href={`/puzzle/${puzzleId}`}
-            className="text-secondary hover:underline"
+            className="text-link hover:underline"
           >
             puzzle
           </Link>{" "}

@@ -18,11 +18,9 @@ export default async function Home() {
       : REMOTE.START_TIME)
   ) {
     return (
-      <div className="text-secondary flex grow flex-col items-center">
-        <div className="mb-6 flex grow flex-col items-center">
-          <h1 className="text-secondary mb-2">Puzzles!</h1>
-          <p>The hunt has not started yet.</p>
-        </div>
+      <div className="mb-6 flex grow flex-col items-center px-4 pt-6">
+        <h1 className="mb-2">Puzzles!</h1>
+        <p>The hunt has not started yet.</p>
       </div>
     );
   }
@@ -36,7 +34,7 @@ export default async function Home() {
         : REMOTE.END_TIME)
   ) {
     return (
-      <div className="text-secondary flex grow flex-col items-center">
+      <div className="mb-6 flex grow flex-col items-center px-4 pt-6">
         <h1 className="mb-2">Puzzles!</h1>
         <p>
           <Link href="/login" className="text-link hover:underline">
@@ -105,7 +103,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="mb-6 flex grow flex-col items-center">
+    <div className="mb-6 flex grow flex-col items-center px-4 pt-6">
       <h1 className="mb-2">Puzzles!</h1>
       <PuzzleTable
         availablePuzzles={availablePuzzles}
