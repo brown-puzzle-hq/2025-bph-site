@@ -95,6 +95,14 @@ export const registerFormSchema = z
       message: "Required",
       path: ["wantsBox"],
     },
+  )
+  .refine(
+    (data) =>
+      !(data.interactionMode === "in-person" && data.phoneNumber === ""),
+    {
+      message: "Required",
+      path: ["phoneNumber"],
+    },
   );
 
 type RegisterFormProps = {};
@@ -464,7 +472,9 @@ export function RegisterForm({}: RegisterFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between">
-                    <span className="text-black">Phone number</span>
+                    <span className="text-black">
+                      Phone number <span className="text-red-500">*</span>
+                    </span>
                     <FormMessage />
                   </FormLabel>
                   <FormControl>
@@ -479,7 +489,8 @@ export function RegisterForm({}: RegisterFormProps) {
                     />
                   </FormControl>
                   <FormDescription>
-                    Useful for communication, especially for in-person teams.
+                    Primary method of communication, required for in-person
+                    teams.
                   </FormDescription>
                 </FormItem>
               )}

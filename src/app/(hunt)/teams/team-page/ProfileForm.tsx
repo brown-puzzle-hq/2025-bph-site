@@ -81,6 +81,14 @@ export const profileFormSchema = z
       message: "Required",
       path: ["wantsBox"],
     },
+  )
+  .refine(
+    (data) =>
+      !(data.interactionMode === "in-person" && data.phoneNumber === ""),
+    {
+      message: "Required",
+      path: ["phoneNumber"],
+    },
   );
 
 type TeamInfoFormProps = {
@@ -223,19 +231,31 @@ export function ProfileForm({
 
   const isDirty = () => {
     const currentValues = form.getValues();
-    return Object.keys(currentValues).some((key) =>
-      key === "members"
-        ? serializeMembers(currentValues[key]) !== memberString
-        : key === "wantsBox"
-          ? currentValues["interactionMode"] === "remote" &&
+    return Object.keys(currentValues).some((key) => {
+      switch (key) {
+        case "members":
+          return serializeMembers(currentValues[key]) !== memberString;
+        case "wantsBox":
+          return (
+            currentValues["interactionMode"] === "remote" &&
             currentValues[key] != wantsBox
-          : (currentValues as ProfileFormValues)[
+          );
+        case "phoneNumber":
+          return (
+            currentValues["interactionMode"] === "in-person" &&
+            currentValues[key] == ""
+          );
+        default:
+          return (
+            (currentValues as ProfileFormValues)[
               key as keyof ProfileFormValues
             ] !=
             (form.formState.defaultValues as ProfileFormValues)[
               key as keyof ProfileFormValues
-            ],
-    );
+            ]
+          );
+      }
+    });
   };
 
   return (
@@ -474,7 +494,9 @@ export function ProfileForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex flex-row justify-between">
-                    <span className="text-black">Phone number</span>
+                    <span className="text-black">
+                      Phone number <span className="text-red-500">*</span>
+                    </span>
                     <FormMessage />
                   </FormLabel>
                   <FormControl>
@@ -489,7 +511,8 @@ export function ProfileForm({
                     />
                   </FormControl>
                   <FormDescription>
-                    Useful for communication, especially for in-person teams.
+                    Primary method of communication, required for in-person
+                    teams.
                   </FormDescription>
                 </FormItem>
               )}
