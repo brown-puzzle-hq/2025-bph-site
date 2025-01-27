@@ -210,7 +210,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 </span>
                 <FormMessage className="text-error" />
               </FormLabel>
-              <FormControl className="placeholder:text-main-accent text-main-text">
+              <FormControl className="text-main-text placeholder:text-main-accent">
                 <Input placeholder="jcarberr" autoComplete="on" {...field} />
               </FormControl>
               <FormDescription>
@@ -233,7 +233,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 </span>
                 <FormMessage className="text-error" />
               </FormLabel>
-              <FormControl className="placeholder:text-main-accent text-main-text">
+              <FormControl className="text-main-text placeholder:text-main-accent">
                 <Input placeholder="Josiah Carberry" {...field} />
               </FormControl>
               <FormDescription>
@@ -380,7 +380,7 @@ export function RegisterForm({}: RegisterFormProps) {
               />
 
               {/* X button */}
-                <Button
+              <Button
                 type="button"
                 variant="ghost"
                 size="sm"
@@ -409,8 +409,7 @@ export function RegisterForm({}: RegisterFormProps) {
             <FormItem className="mb-8 space-y-3">
               <FormLabel className="flex flex-row justify-between">
                 <span className="text-main-header">
-                  We will be competing...{" "}
-                  <span className="text-error">*</span>
+                  We will be competing... <span className="text-error">*</span>
                 </span>
                 <FormMessage className="text-error" />
               </FormLabel>

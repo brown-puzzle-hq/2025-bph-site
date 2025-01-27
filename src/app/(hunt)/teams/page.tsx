@@ -151,7 +151,7 @@ export default async function Home() {
         defaultValue="in-person"
         className="flex max-w-3xl flex-col items-center"
       >
-        <TabsList className="grid grid-cols-2 bg-secondary-bg space-x-1">
+        <TabsList className="grid grid-cols-2 space-x-1 bg-secondary-bg">
           <TabsTrigger value="in-person">In-Person</TabsTrigger>
           <TabsTrigger value="remote">Remote</TabsTrigger>
         </TabsList>

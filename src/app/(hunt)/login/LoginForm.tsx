@@ -64,10 +64,7 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl className="bg-secondary-bg text-secondary-text placeholder:text-secondary-accent">
-                <Input
-                  placeholder="jcarberr"
-                  {...field}
-                />
+                <Input placeholder="jcarberr" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -88,11 +85,7 @@ export function LoginForm() {
                 </Link>
               </div>
               <FormControl className="bg-secondary-bg text-secondary-text placeholder:text-secondary-accent">
-                <Input
-                  type="password"
-                  placeholder="password"
-                  {...field}
-                />
+                <Input type="password" placeholder="password" {...field} />
               </FormControl>
               <FormMessage className="text-error">{error}</FormMessage>
             </FormItem>

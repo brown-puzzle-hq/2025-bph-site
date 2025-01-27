@@ -66,7 +66,7 @@ export default function Landing() {
 
       {/* Div right below the image */}
       <div className="flex justify-center pt-[calc((100vw-850px)/8)]">
-        <div className="relative flex p-4 text-center w-[calc(60vw+200px)]">
+        <div className="relative flex w-[calc(60vw+200px)] p-4 text-center">
           <div className="w-1/3 p-2 md:p-4">
             <h1>What</h1>
             <p>

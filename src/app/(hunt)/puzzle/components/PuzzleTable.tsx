@@ -31,12 +31,8 @@ export default function PuzzleTable({
       <Table className="justify-center">
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="dark:text-neutral-400">
-              Puzzle
-            </TableHead>
-            <TableHead className="dark:text-neutral-400">
-              Answer
-            </TableHead>
+            <TableHead className="dark:text-neutral-400">Puzzle</TableHead>
+            <TableHead className="dark:text-neutral-400">Answer</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

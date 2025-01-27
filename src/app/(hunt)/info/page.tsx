@@ -316,8 +316,8 @@ export default function Page() {
                   className="no-underline hover:underline"
                 >
                   donating
-                </Link>
-                {" "}to{" "}
+                </Link>{" "}
+                to{" "}
                 <Link
                   href="https://brownpuzzle.club/"
                   className="no-underline hover:underline"

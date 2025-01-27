@@ -11,12 +11,14 @@ type TimelineItem = {
 
 export default function Timeline({ timeline }: { timeline: TimelineItem[] }) {
   return (
-    <div className="relative border border-gray-400 rounded-2xl px-6">
+    <div className="relative rounded-2xl border border-gray-400 px-6">
       <div className="relative border-s border-gray-200 dark:border-gray-700">
         {timeline.map(({ title, description }) => (
           <div className="ms-4">
             <Dot />
-            <p><strong>{title}</strong></p>
+            <p>
+              <strong>{title}</strong>
+            </p>
             <p className="text-main-accent">{description}</p>
           </div>
         ))}
