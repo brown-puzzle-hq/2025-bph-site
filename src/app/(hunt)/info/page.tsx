@@ -81,7 +81,7 @@ export default function Page() {
                 In a puzzlehunt, participants compete in teams to solve puzzles.
                 Puzzles can come in many different forms; the only commonality
                 is that there are usually no direct instructions, so it is up to
-                you to extract an English word from the information given. You
+                you to extract an English word or phrase from the information given. You
                 can read a longer introduction to puzzlehunts{" "}
                 <Link
                   href="https://blog.vero.site/post/puzzlehunts"
@@ -297,6 +297,22 @@ export default function Page() {
                 If you know you might want a Box, but you don't think you can afford it, 
                 we can arrange something for you. Please contact us at <u>brownpuzzleHQ [at] gmail [dot] com</u> 
                 and we'll find a solution.
+              </p>
+              <p>
+                We don't make any money off of the Boxes. If you want to support the hunt, consider{" "}
+                <Link
+                  href="https://bbis.advancement.brown.edu/BBPhenix/give-now?did=05732af4-d994-4d40-bcd6-fb42d07b6eab"
+                  className="text-blue-500 no-underline hover:underline"
+                >
+                  donating
+                </Link>{" "}
+                to{" "}
+                <Link
+                  href="https://brownpuzzle.club/"
+                  className="text-blue-500 no-underline hover:underline"
+                >
+                  Brown Puzzle Club
+                </Link>!
               </p>
               <h3>How many puzzles will be inside a Box?</h3>
               <p>
@@ -566,6 +582,7 @@ export default function Page() {
                 Bailey Merlino* ('26)<br/>
                 Eliot Geer* ('27)<br/>
                 Phil Avilov (RISD '27)<br/>
+                Chloe Johnson ('28)<br/>
               </p>
               <h3 className='text-center'>Technical Team</h3>
               <p className='text-center'>
