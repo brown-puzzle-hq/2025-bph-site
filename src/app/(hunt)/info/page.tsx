@@ -670,7 +670,7 @@ export default function Page() {
             </TOCSection>
           </article>
         </div>
-        <div className="hidden w-1/4 text-center lg:block">ART HERE???</div>
+        <div className="hidden w-1/4 text-center lg:block"></div>
       </div>
     </TOCContext.Provider>
   );
