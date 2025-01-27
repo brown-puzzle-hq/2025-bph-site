@@ -214,42 +214,42 @@ export default function Page() {
               <table>
                 <thead>
                   <tr>
-                    <th></th>
-                    <th>In-Person</th>
-                    <th>Remote With Box</th>
-                    <th>Remote, No Box</th>
+                    <th className="w-1/4"></th>
+                    <th className="w-1/4 text-center">In-Person</th>
+                    <th className="w-1/4 text-center">Remote With Box</th>
+                    <th className="w-1/4 text-center">Remote, No Box</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Final runaround</td>
-                    <td>✅</td>
-                    <td>❌</td>
-                    <td>❌</td>
+                    <td className="text-center">✅</td>
+                    <td className="text-center">❌</td>
+                    <td className="text-center">❌</td>
                   </tr>
                   <tr>
                     <td>Events and interactions</td>
-                    <td>✅</td>
-                    <td>❌</td>
-                    <td>❌</td>
+                    <td className="text-center">✅</td>
+                    <td className="text-center">❌</td>
+                    <td className="text-center">❌</td>
                   </tr>
                   <tr>
                     <td>Physical puzzles</td>
-                    <td>✅</td>
-                    <td>✅</td>
-                    <td>❌</td>
+                    <td className="text-center">✅</td>
+                    <td className="text-center">✅</td>
+                    <td className="text-center">❌</td>
                   </tr>
                   <tr>
                     <td>Hunt merch</td>
-                    <td>✅</td>
-                    <td>✅</td>
-                    <td>❌</td>
+                    <td className="text-center">✅</td>
+                    <td className="text-center">✅</td>
+                    <td className="text-center">❌</td>
                   </tr>
                   <tr>
                     <td>Full puzzle accessibility</td>
-                    <td>✅</td>
-                    <td>✅</td>
-                    <td>✅</td>
+                    <td className="text-center">✅</td>
+                    <td className="text-center">✅</td>
+                    <td className="text-center">✅</td>
                   </tr>
                 </tbody>
               </table>
@@ -550,7 +550,7 @@ export default function Page() {
               </p>
             </TOCSection>
             <TOCSection sectionId={8} tocTitle="Who's making this hunt?">
-              <h2>Who made this hunt?</h2>
+              <h2>Who's making this hunt?</h2>
               <h3 className="text-center">Officers</h3>
               <p className="text-center">
                 <strong>Club President</strong>: Megan Carlson ('26)
