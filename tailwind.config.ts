@@ -17,9 +17,10 @@ export default {
       },
       colors: {
         // Main is the primary color of the site
-        "main-bg": "#3b064d",
-        "main-text": colors.gray[300],
-        "main-header": colors.gray[200],
+        "main-bg": "#452c63",
+        "main-text": "#d6ccf9",
+        "main-header": "#f2f0fd",
+        "main-accent": "#f2f0fd",
 
         // Secondary is for text fields
         // Ideally this should be a light background with dark text
@@ -27,8 +28,8 @@ export default {
         "secondary-text": colors.black,
 
         // Other backgrounds
-        "footer-bg": "#3b064d",
-        "nav-bg": "#3b064d",
+        "footer-bg": "#322046",
+        "nav-bg": "#452c63",
 
         // Other text colors
         link: colors.blue[300],
@@ -72,7 +73,7 @@ export default {
             "--tw-prose-headings": theme("colors.main-header"),
             // "--tw-prose-lead": theme("colors.pink[700]"),
             "--tw-prose-links": theme("colors.link"),
-            "--tw-prose-bold": theme("colors.white"),
+            "--tw-prose-bold": theme("colors.main-header"),
             // "--tw-prose-counters": theme("colors.pink[600]"),
             // "--tw-prose-bullets": theme("colors.pink[400]"),
             // "--tw-prose-hr": theme("colors.pink[300]"),
