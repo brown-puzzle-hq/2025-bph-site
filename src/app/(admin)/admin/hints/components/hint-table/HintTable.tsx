@@ -25,7 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { HintClaimer } from "./Columns";
+import { FollowUpHint, HintClaimer } from "./Columns";
 
 interface HintTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -75,16 +75,40 @@ export function HintTable<TData, TValue>({
         const claimerB: HintClaimer | null = rowB.getValue("claimer");
         const statusA: string = rowA.getValue("status");
         const statusB: string = rowB.getValue("status");
+        const followUpsA: FollowUpHint[] | null = rowA.getValue("followUps");
+        const followUpsB: FollowUpHint[] | null = rowB.getValue("followUps");
+        const hasFollowUpA =
+          followUpsA && followUpsA[followUpsA.length - 1]?.userId !== userId;
+        const hasFollowUpB =
+          followUpsB && followUpsB[followUpsB.length - 1]?.userId !== userId;
 
         // Unclaimed hints are only below the user's claimed and unanswered hints
+        // Follow up hints are treated the same as unanswered hints
         if (claimerA === null) {
           if (claimerB === null) return 0;
-          if (claimerB.id === userId && statusB === "no_response") return -1;
+          if (
+            claimerB.id === userId &&
+            (statusB === "no_response" || hasFollowUpB)
+          )
+            return -1;
           return 1;
         }
         if (claimerB === null) {
-          if (claimerA.id === userId && statusA === "no_response") return 1;
+          if (
+            claimerA.id === userId &&
+            (statusA === "no_response" || hasFollowUpA)
+          )
+            return 1;
           return -1;
+        }
+
+        // The user's claimed follow up hints are only below completely unanswered hints
+        if (hasFollowUpA && claimerA.id === userId) {
+          if (hasFollowUpB && claimerB.id === userId) return 0;
+          return claimerB.id === userId && statusB === "no_response" ? -1 : 1;
+        }
+        if (hasFollowUpB && claimerB.id === userId) {
+          return claimerA.id === userId && statusA === "no_response" ? 1 : -1;
         }
 
         // Refundable hints are at the very bottom
@@ -92,10 +116,10 @@ export function HintTable<TData, TValue>({
           if (claimerA.id === userId)
             return statusB === "answered" && claimerB.id === userId ? 0 : -1;
           else if (statusB === "answered")
-            return claimerB.id === userId ? 1 : -1;
+            return claimerB.id === userId ? 1 : 0;
         }
         if (statusB === "answered") {
-          return claimerB.id === userId ? 1 : -1;
+          if (claimerB.id === userId) return 1;
         }
 
         // Refunded hints are right above them

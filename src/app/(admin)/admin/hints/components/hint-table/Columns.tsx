@@ -7,10 +7,12 @@ import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { FormattedTime } from "~/lib/time";
 
 export type HintClaimer = { id: string; displayName: string } | null;
+export type FollowUpHint = { id: number; userId: string } | null;
 
 export type HintWithRelations = typeof hints.$inferSelect & {
   team: { displayName: string };
   claimer: HintClaimer;
+  followUps: FollowUpHint[];
   puzzle: { name: string };
 };
 
@@ -137,5 +139,10 @@ export const columns: ColumnDef<HintWithRelations>[] = [
   {
     accessorKey: "status",
     header: () => null,
+  },
+  {
+    accessorKey: "followUps",
+    header: () => null,
+    cell: () => null,
   },
 ];

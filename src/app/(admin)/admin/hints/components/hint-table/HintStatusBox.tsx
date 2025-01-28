@@ -2,7 +2,7 @@ import { Row } from "@tanstack/react-table";
 import { claimHint, unclaimHint, refundHint } from "../../actions";
 import { toast } from "~/hooks/use-toast";
 import { useSession } from "next-auth/react";
-import { HintClaimer } from "./Columns";
+import { FollowUpHint, HintClaimer } from "./Columns";
 import { useTransition } from "react";
 
 export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
@@ -11,6 +11,7 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
   const hintId = row.getValue("id") as number;
   const claimer: HintClaimer = row.getValue("claimer");
   const status = row.getValue("status");
+  const followUps: FollowUpHint[] = row.getValue("followUps");
   const [isPending, startTransition] = useTransition();
 
   const handleClaim = () => {
@@ -80,7 +81,7 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
         </button>
       );
     else if (status == "answered") {
-      return (
+      return followUps[followUps.length - 1]?.userId === userId ? (
         <button
           className="rounded-md border border-gray-600 text-gray-600"
           onClick={handleRefund}
@@ -89,6 +90,10 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
           <p className="claimButton px-1">
             {isPending ? "REFUNDING" : "REFUND"}
           </p>
+        </button>
+      ) : (
+        <button className="rounded-md border border-gray-600 text-gray-600">
+          <p className="px-1">FOLLOW-UP</p>
         </button>
       );
     }
