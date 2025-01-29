@@ -158,10 +158,7 @@ export function HintTable<TData, TValue>({
       <div className="flex items-center justify-between space-x-2 pb-2">
         <Input
           placeholder="Filter hints..."
-          value={(table.getColumn("request")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("request")?.setFilterValue(event.target.value)
-          }
+          onChange={(event) => table.setGlobalFilter(event.target.value)}
           className="max-w-sm"
         />
         <div className="flex items-center space-x-2">
