@@ -8,10 +8,9 @@ export function formatTime(time: unknown) {
     return "";
   }
   return time.toLocaleString("en-US", {
-    year: "2-digit",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
     minute: "2-digit",
   });
 }
@@ -24,23 +23,23 @@ export const columns: ColumnDef<
 >[] = [
   {
     accessorKey: "teamDisplayName",
-    header: () => <div className="w-48">Team</div>,
+    header: () => <div>Team</div>,
     accessorFn: (row) => row.team!.displayName,
   },
   {
     accessorKey: "guess",
-    header: () => <div className="w-48">Guess</div>,
+    header: () => <div>Guess</div>,
     cell: ({ row }) => (
-      <div className="w-48 truncate">{row.getValue("guess")}</div>
+      <div className="truncate">{row.getValue("guess")}</div>
     ),
   },
   {
     accessorKey: "submitTime",
-    header: () => <div className="w-32">Guess Time</div>,
+    header: () => <div>Guess Time</div>,
     cell: ({ row }) => {
       const time = row.getValue("submitTime");
       return (
-        <div className="w-32 truncate font-medium">{formatTime(time)}</div>
+        <div className="w-24 font-medium">{formatTime(time)}</div>
       );
     },
   },

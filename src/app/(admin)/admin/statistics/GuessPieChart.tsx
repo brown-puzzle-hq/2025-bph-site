@@ -51,7 +51,7 @@ export default function GuessPieChart({ previousGuesses }: GuessPieChartProps) {
   return (
     <ChartContainer
       config={chartConfig}
-      className="mx-auto aspect-square w-2/3 max-w-lg"
+      className="mx-auto aspect-square w-full max-w-[360px]"
     >
       <PieChart>
         <ChartTooltip />
@@ -61,7 +61,7 @@ export default function GuessPieChart({ previousGuesses }: GuessPieChartProps) {
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={160}
+          outerRadius="100%"
         >
           {pieData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={`var(--color-${entry.name})`} />

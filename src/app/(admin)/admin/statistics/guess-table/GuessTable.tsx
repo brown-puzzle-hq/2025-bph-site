@@ -70,7 +70,7 @@ export function GuessTable<TData, TValue>({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between space-x-2 p-4">
+      <div className="flex items-center justify-between space-x-2 pb-2 pt-4">
         <Input
           placeholder="Filter guesses..."
           value={(table.getColumn("guess")?.getFilterValue() as string) ?? ""}
@@ -106,7 +106,7 @@ export function GuessTable<TData, TValue>({
                           header.column.getIsSorted() === "asc",
                         )
                       }
-                      className="hover:underline"
+                      className="hover:underline w-1/2"
                       role="button"
                     >
                       {header.isPlaceholder

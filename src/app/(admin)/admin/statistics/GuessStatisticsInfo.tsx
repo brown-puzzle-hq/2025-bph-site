@@ -40,18 +40,18 @@ export default async function GuessStatisticsInfo({
   });
 
   return (
-    <div className="flex w-2/3 min-w-36 grow flex-col items-center">
+    <div className="flex grow flex-col items-center">
       <DefaultHeader
         puzzleId={puzzleId}
         puzzleName={puzzle.name}
         hasSolution={true}
       />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="grid w-full max-w-[1200px] grid-cols-1 gap-4 p-4 md:grid-cols-2">
         <Card>
-          <CardHeader>
+          <CardHeader className="pb-0">
             <CardTitle>Guess Distribution</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex h-[calc(100%-40px)] p-4">
             {previousGuesses.length ? (
               <GuessPieChart previousGuesses={previousGuesses} />
             ) : (
@@ -61,10 +61,10 @@ export default async function GuessStatisticsInfo({
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHeader className="pb-0">
             <CardTitle>Recent Guesses</CardTitle>
           </CardHeader>
-          <CardContent className="h-full">
+          <CardContent>
             <GuessTable columns={columns} data={previousGuesses} />
           </CardContent>
         </Card>
