@@ -181,7 +181,7 @@ export default async function Page({
           )}
 
           {previousGuesses.length > 0 && (
-            <div className="flex flex-col items-center p-4 space-y-2">
+            <div className="flex flex-col items-center space-y-2 p-4">
               <Label>Previous Guesses</Label>
               <PreviousGuessTable previousGuesses={previousGuesses} />
             </div>
