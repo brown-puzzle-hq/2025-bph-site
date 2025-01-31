@@ -65,9 +65,7 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
         onClick={handleClaim}
         disabled={isPending}
       >
-        <p className="hint-button w-[51.3px] px-1">
-          {isPending ? ". . ." : "CLAIM"}
-        </p>
+        <p className="hint-button px-1">CLAIM</p>
       </button>
     );
   } else if (claimer?.id && claimer.id == userId) {
@@ -78,9 +76,7 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
           onClick={handleUnclaim}
           disabled={isPending}
         >
-          <p className="hint-button w-[71.14px] px-1">
-            {isPending ? ". . ." : "UNCLAIM"}
-          </p>
+          <p className="hint-button px-1">UNCLAIM</p>
         </button>
       );
     else if (status == "answered") {
@@ -94,9 +90,7 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
           onClick={handleRefund}
           disabled={isPending}
         >
-          <p className="hint-button w-[63.64px] px-1">
-            {isPending ? ". . ." : "REFUND"}
-          </p>
+          <p className="hint-button px-1">REFUND</p>
         </button>
       );
     }
