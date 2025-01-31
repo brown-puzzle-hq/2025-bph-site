@@ -80,9 +80,11 @@ export function HintTable<TData, TValue>({
         const followUpsA: FollowUpHint[] | null = rowA.getValue("followUps");
         const followUpsB: FollowUpHint[] | null = rowB.getValue("followUps");
         const hasFollowUpA =
-          followUpsA && followUpsA[followUpsA.length - 1]?.userId === rowA.getValue("teamId");
+          followUpsA &&
+          followUpsA[followUpsA.length - 1]?.userId === rowA.getValue("teamId");
         const hasFollowUpB =
-          followUpsB && followUpsB[followUpsB.length - 1]?.userId === rowB.getValue("teamId");
+          followUpsB &&
+          followUpsB[followUpsB.length - 1]?.userId === rowB.getValue("teamId");
 
         // Unclaimed hints are only below the user's claimed and unanswered hints
         // Follow up hints are treated the same as unanswered hints
