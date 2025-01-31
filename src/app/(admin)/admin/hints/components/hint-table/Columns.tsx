@@ -143,6 +143,9 @@ export const columns: ColumnDef<HintWithRelations>[] = [
   {
     accessorKey: "followUps",
     header: () => null,
-    cell: () => null,
+  },
+  {
+    accessorKey: "teamId",
+    header: () => null,
   },
 ];

@@ -67,6 +67,8 @@ export function HintTable<TData, TValue>({
       columnVisibility: {
         responseTime: false,
         status: false,
+        followUps: false,
+        teamId: false,
       },
     },
     sortingFns: {
@@ -78,9 +80,9 @@ export function HintTable<TData, TValue>({
         const followUpsA: FollowUpHint[] | null = rowA.getValue("followUps");
         const followUpsB: FollowUpHint[] | null = rowB.getValue("followUps");
         const hasFollowUpA =
-          followUpsA && followUpsA[followUpsA.length - 1]?.userId !== userId;
+          followUpsA && followUpsA[followUpsA.length - 1]?.userId === rowA.getValue("teamId");
         const hasFollowUpB =
-          followUpsB && followUpsB[followUpsB.length - 1]?.userId !== userId;
+          followUpsB && followUpsB[followUpsB.length - 1]?.userId === rowB.getValue("teamId");
 
         // Unclaimed hints are only below the user's claimed and unanswered hints
         // Follow up hints are treated the same as unanswered hints
@@ -209,7 +211,7 @@ export function HintTable<TData, TValue>({
                     onClick={(event) => {
                       if (
                         event.target instanceof HTMLElement &&
-                        event.target.classList.contains("claimButton")
+                        event.target.classList.contains("hint-button")
                       )
                         return;
                       if (event.metaKey || event.ctrlKey) {

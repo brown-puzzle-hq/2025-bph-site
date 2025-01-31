@@ -12,6 +12,7 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
   const claimer: HintClaimer = row.getValue("claimer");
   const status = row.getValue("status");
   const followUps: FollowUpHint[] = row.getValue("followUps");
+  const teamId: string = row.getValue("teamId");
   const [isPending, startTransition] = useTransition();
 
   const handleClaim = () => {
@@ -60,40 +61,42 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
   } else if (!claimer) {
     return (
       <button
-        className="rounded-md border border-emerald-600 text-emerald-600"
+        className="hint-button rounded-md border border-emerald-600 text-emerald-600 disabled:pointer-events-none disabled:opacity-50"
         onClick={handleClaim}
         disabled={isPending}
       >
-        <p className="claimButton px-1">{isPending ? "CLAIMING" : "CLAIM"}</p>
+        <p className="hint-button w-[51.3px] px-1">
+          {isPending ? ". . ." : "CLAIM"}
+        </p>
       </button>
     );
   } else if (claimer?.id && claimer.id == userId) {
     if (status == "no_response")
       return (
         <button
-          className="rounded-md border border-red-600 text-red-600"
+          className="hint-button rounded-md border border-red-600 text-red-600 disabled:pointer-events-none disabled:opacity-50"
           onClick={handleUnclaim}
           disabled={isPending}
         >
-          <p className="claimButton px-1">
-            {isPending ? "UNCLAIMING" : "UNCLAIM"}
+          <p className="hint-button w-[71.14px] px-1">
+            {isPending ? ". . ." : "UNCLAIM"}
           </p>
         </button>
       );
     else if (status == "answered") {
-      return followUps[followUps.length - 1]?.userId === userId ? (
+      return followUps[followUps.length - 1]?.userId === teamId ? (
+        <button className="rounded-md border border-gray-600 text-gray-600">
+          <p className="px-1">FOLLOW-UP</p>
+        </button>
+      ) : (
         <button
-          className="rounded-md border border-gray-600 text-gray-600"
+          className="hint-button rounded-md border border-gray-600 text-gray-600 disabled:pointer-events-none disabled:opacity-50"
           onClick={handleRefund}
           disabled={isPending}
         >
-          <p className="claimButton px-1">
-            {isPending ? "REFUNDING" : "REFUND"}
+          <p className="hint-button w-[63.64px] px-1">
+            {isPending ? ". . ." : "REFUND"}
           </p>
-        </button>
-      ) : (
-        <button className="rounded-md border border-gray-600 text-gray-600">
-          <p className="px-1">FOLLOW-UP</p>
         </button>
       );
     }
