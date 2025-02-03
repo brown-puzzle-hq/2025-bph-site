@@ -7,7 +7,7 @@ import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
 import { HintWithRelations } from "../hint-table/Columns";
 import { refundHint, respondToHint } from "../../actions";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export function ResponseBox({ hint }: { hint: HintWithRelations }) {
   const { data: session } = useSession();
@@ -66,9 +66,11 @@ export function ResponseBox({ hint }: { hint: HintWithRelations }) {
     );
   }
 
-  const [response, setResponse] = useState('');
+  const [response, setResponse] = useState("");
 
-  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextareaChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
     setResponse(event.target.value);
   };
 
@@ -85,7 +87,11 @@ export function ResponseBox({ hint }: { hint: HintWithRelations }) {
           onChange={handleTextareaChange}
         />
         <div className="flex items-center space-x-2">
-          <Button className="mt-4 w-fit" onClick={handleResponse} disabled={!response}>
+          <Button
+            className="mt-4 w-fit"
+            onClick={handleResponse}
+            disabled={!response}
+          >
             Respond
           </Button>
           <Button
