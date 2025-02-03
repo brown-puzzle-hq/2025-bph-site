@@ -86,12 +86,13 @@ export default async function Page({
       id: true,
       request: true,
       response: true,
-      teamId: true,
-      claimer: true,
     },
     with: {
+      team: { columns: { id: true, displayName: true } },
+      claimer: { columns: { id: true, displayName: true } },
       followUps: {
-        columns: { id: true, message: true, userId: true },
+        columns: { id: true, message: true },
+        with: { user: { columns: { id: true, displayName: true } } },
       },
     },
   });
@@ -118,7 +119,7 @@ export default async function Page({
                   href={`/teams/${hint.team.id}`}
                   className="text-blue-500 hover:underline"
                 >
-                  {hint.team.displayName}
+                  {hint.team.displayName} ({hint.team.id})
                 </Link>
               </p>
               <p>

@@ -1,5 +1,4 @@
 "use client";
-import { toast } from "~/hooks/use-toast";
 import { useState, startTransition, Fragment } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -26,11 +25,21 @@ type TableProps = {
 // Intitial state
 type PreviousHints = {
   id: number;
-  teamId: string;
-  claimer: string | null;
   request: string;
   response: string | null;
-  followUps: { id: number; message: string; userId: string }[];
+  team: {
+    id: string;
+    displayName: string;
+  };
+  claimer: {
+    id: string | null;
+    displayName: string | null;
+  };
+  followUps: {
+    id: number;
+    message: string;
+    user: { id: string; displayName: string };
+  }[];
 }[];
 
 // Requesting hint state
@@ -74,8 +83,14 @@ export default function PreviousHintTable({
         ...prev,
         {
           id: 0,
-          teamId: session?.user?.id!,
-          claimer: null,
+          team: {
+            displayName: session?.user?.displayName!,
+            id: session?.user?.id!,
+          },
+          claimer: {
+            displayName: null,
+            id: null,
+          },
           request,
           response: null,
           followUps: [],
@@ -163,7 +178,10 @@ export default function PreviousHintTable({
                 followUps: hint.followUps.concat({
                   id: 0,
                   message,
-                  userId: session!.user!.id!,
+                  user: {
+                    displayName: session!.user!.displayName,
+                    id: session!.user!.id!,
+                  },
                 }),
               }
             : hint,
@@ -340,7 +358,7 @@ export default function PreviousHintTable({
                     {anonymize ? "Team" : teamDisplayName}
                   </p>
                   {/* If the hint request was made by the current user, allow edits */}
-                  {hint.teamId === session?.user?.id && (
+                  {hint.team.id === session?.user?.id && (
                     <div>
                       {edit?.id === hint.id && edit.type === "request" ? (
                         <div className="space-x-2">
@@ -423,7 +441,7 @@ export default function PreviousHintTable({
                   {/* Top section for claimer ID, the follow-up button, and the edit button */}
                   <div className="flex items-center justify-between">
                     <p className="pb-1 font-bold">
-                      {anonymize ? "Admin" : hint.claimer}
+                      {anonymize ? "Admin" : hint.claimer.displayName}
                     </p>
                     <div className="flex space-x-2">
                       {/* Follow-up button */}
@@ -450,7 +468,7 @@ export default function PreviousHintTable({
                         </button>
                       )}
                       {/* If the response was made by the current user, allow edits */}
-                      {hint.claimer === session?.user?.id && (
+                      {hint.claimer.id === session?.user?.id && (
                         <div>
                           {edit?.id === hint.id && edit.type === "response" ? (
                             <div className="space-x-2">
@@ -527,17 +545,17 @@ export default function PreviousHintTable({
                   <TableCell className="break-words pr-5">
                     {/* Top section with userId and edit button */}
                     <div className="flex justify-between">
-                      {followUp.userId === hint.teamId ? (
+                      {followUp.user.id === hint.team.id ? (
                         <p className="pb-1 font-bold">
                           {anonymize ? "Team" : teamDisplayName}
                         </p>
                       ) : (
                         <p className="pb-1 font-bold">
-                          {anonymize ? "Admin" : followUp.userId}
+                          {anonymize ? "Admin" : followUp.user.displayName}
                         </p>
                       )}
                       {/* If the previous hint follow-up was made by user, allow edits */}
-                      {followUp.userId === session?.user?.id && (
+                      {followUp.user.id === session?.user?.id && (
                         <div>
                           {edit?.type === "follow-up" &&
                           edit.id === followUp.id ? (
