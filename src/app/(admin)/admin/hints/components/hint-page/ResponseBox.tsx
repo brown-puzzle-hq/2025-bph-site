@@ -7,11 +7,12 @@ import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
 import { HintWithRelations } from "../hint-table/Columns";
 import { refundHint, respondToHint } from "../../actions";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export function ResponseBox({ hint }: { hint: HintWithRelations }) {
   const { data: session } = useSession();
   const currHinter = session?.user?.id;
+  const [response, setResponse] = useState("");
 
   const handleResponse = async () => {
     const textarea = document.getElementById(
@@ -65,8 +66,6 @@ export function ResponseBox({ hint }: { hint: HintWithRelations }) {
       </div>
     );
   }
-
-  const [response, setResponse] = useState("");
 
   const handleTextareaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
