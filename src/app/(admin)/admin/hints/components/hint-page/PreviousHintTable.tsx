@@ -1,5 +1,5 @@
 "use client";
-import { useState, startTransition, Fragment } from "react";
+import { useState, useTransition, startTransition, Fragment } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
@@ -75,10 +75,11 @@ export default function PreviousHintTable({
   const [followUp, setFollowUp] = useState<FollowUp | null>(null);
   const [edit, setEdit] = useState<EditedMessage | null>(null);
   const [hiddenFollowUps, setHiddenFollowUps] = useState<number[]>([]);
+  const [isPendingSubmit, startTransitionSubmit] = useTransition();
 
   const handleSubmitRequest = async (puzzleId: string, message: string) => {
     // Optimistic update
-    startTransition(() => {
+    startTransitionSubmit(() => {
       setOptimisticHints((prev) => [
         ...prev,
         {
@@ -313,6 +314,7 @@ export default function PreviousHintTable({
                   hintRequestState.isSolved ||
                   !!hintRequestState.unansweredHint ||
                   hintRequestState.hintsRemaining < 1 ||
+                  isPendingSubmit ||
                   optimisticHints.some((hint) => !hint.response) ||
                   new Date() >
                     (session?.user?.interactionMode === "in-person"
@@ -333,6 +335,7 @@ export default function PreviousHintTable({
                   hintRequestState.isSolved ||
                   !!hintRequestState.unansweredHint ||
                   hintRequestState.hintsRemaining < 1 ||
+                  isPendingSubmit ||
                   optimisticHints.some((hint) => !hint.response) ||
                   new Date() >
                     (session?.user?.interactionMode === "in-person"
