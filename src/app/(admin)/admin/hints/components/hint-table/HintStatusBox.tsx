@@ -82,7 +82,7 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
     else if (status == "answered") {
       return followUps[followUps.length - 1]?.userId === teamId ? (
         <button className="rounded-md border border-gray-600 text-gray-600">
-          <p className="px-1">FOLLOW-UP</p>
+          <p className="px-1">REPLY</p>
         </button>
       ) : (
         <button

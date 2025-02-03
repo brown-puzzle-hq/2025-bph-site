@@ -262,6 +262,10 @@ export default function PreviousHintTable({
       }
     }
 
+    if (optimisticHints.some((hint) => !hint.response)) {
+      return <>You have an outstanding hint on this puzzle.</>;
+    }
+
     if (hintsRemaining === 0) {
       return <>No hints remaining.</>;
     } else if (hintsRemaining === 1) {
@@ -294,6 +298,7 @@ export default function PreviousHintTable({
                   hintRequestState.isSolved ||
                   !!hintRequestState.unansweredHint ||
                   hintRequestState.hintsRemaining < 1 ||
+                  optimisticHints.some((hint) => !hint.response) ||
                   new Date() >
                     (session?.user?.interactionMode === "in-person"
                       ? IN_PERSON.END_TIME
@@ -313,6 +318,7 @@ export default function PreviousHintTable({
                   hintRequestState.isSolved ||
                   !!hintRequestState.unansweredHint ||
                   hintRequestState.hintsRemaining < 1 ||
+                  optimisticHints.some((hint) => !hint.response) ||
                   new Date() >
                     (session?.user?.interactionMode === "in-person"
                       ? IN_PERSON.END_TIME
