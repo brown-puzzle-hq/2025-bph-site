@@ -289,7 +289,7 @@ export default function PreviousHintTable({
               </p>
               <AutosizeTextarea
                 maxHeight={500}
-                className="resize-none border-black bg-white"
+                className="resize-none border-black bg-secondary-bg text-secondary-accent"
                 disabled={
                   hintRequestState.isSolved ||
                   !!hintRequestState.unansweredHint ||
