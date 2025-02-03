@@ -32,9 +32,9 @@ type PreviousHints = {
     displayName: string;
   };
   claimer: {
-    id: string | null;
-    displayName: string | null;
-  };
+    id: string;
+    displayName: string;
+  } | null;
   followUps: {
     id: number;
     message: string;
@@ -87,10 +87,7 @@ export default function PreviousHintTable({
             displayName: session?.user?.displayName!,
             id: session?.user?.id!,
           },
-          claimer: {
-            displayName: null,
-            id: null,
-          },
+          claimer: null,
           request,
           response: null,
           followUps: [],
