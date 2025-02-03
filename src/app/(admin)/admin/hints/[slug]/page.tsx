@@ -36,6 +36,7 @@ export default async function Page({
     );
   }
 
+  // Get hint data
   const hint = await db.query.hints.findFirst({
     where: eq(hints.id, hintId),
     with: {
@@ -115,7 +116,7 @@ export default async function Page({
                 <span className="font-semibold">Team </span>
                 <Link
                   href={`/teams/${hint.team.id}`}
-                  className="text-link hover:underline"
+                  className="text-blue-500 hover:underline"
                 >
                   {hint.team.displayName}
                 </Link>
@@ -124,7 +125,7 @@ export default async function Page({
                 <span className="font-semibold">Puzzle </span>
                 <Link
                   href={`/puzzle/${hint.puzzleId}`}
-                  className="text-link hover:underline"
+                  className="text-blue-500 hover:underline"
                 >
                   {hint.puzzle.name}
                 </Link>
