@@ -7,6 +7,7 @@ import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
 import { HintWithRelations } from "../hint-table/Columns";
 import { refundHint, respondToHint } from "../../actions";
+import React, { useState } from 'react';
 
 export function ResponseBox({ hint }: { hint: HintWithRelations }) {
   const { data: session } = useSession();
@@ -65,6 +66,12 @@ export function ResponseBox({ hint }: { hint: HintWithRelations }) {
     );
   }
 
+  const [response, setResponse] = useState('');
+
+  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setResponse(event.target.value);
+  };
+
   if (hint.claimer?.id == currHinter)
     return (
       <div className="full grid gap-1.5">
@@ -74,15 +81,18 @@ export function ResponseBox({ hint }: { hint: HintWithRelations }) {
           className="resize-none"
           placeholder="No response yet"
           id={`hint-response-${hint.id}`}
+          value={response}
+          onChange={handleTextareaChange}
         />
         <div className="flex items-center space-x-2">
-          <Button className="mt-4 w-fit" onClick={handleResponse}>
+          <Button className="mt-4 w-fit" onClick={handleResponse} disabled={!response}>
             Respond
           </Button>
           <Button
             variant="outline"
             className="mt-4 w-fit"
             onClick={handleResponseAndRefund}
+            disabled={!response}
           >
             Respond & Refund
           </Button>
