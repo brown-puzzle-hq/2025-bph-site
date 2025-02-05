@@ -15,7 +15,7 @@ import { Label } from "~/components/ui/label";
 
 export default async function Page({
   params,
-  searchParams
+  searchParams,
 }: {
   params: Promise<{ slug: number }>;
   searchParams?: { reply?: boolean };
