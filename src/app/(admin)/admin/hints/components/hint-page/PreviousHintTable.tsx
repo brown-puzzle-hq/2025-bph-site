@@ -20,6 +20,7 @@ type TableProps = {
   previousHints: PreviousHints;
   hintRequestState?: HintRequestState;
   teamDisplayName?: string;
+  reply?: number;
 };
 
 // Intitial state
@@ -68,11 +69,14 @@ export default function PreviousHintTable({
   previousHints,
   hintRequestState,
   teamDisplayName,
+  reply,
 }: TableProps) {
   const { data: session } = useSession();
   const [optimisticHints, setOptimisticHints] = useState(previousHints);
   const [request, setRequest] = useState<string>("");
-  const [followUp, setFollowUp] = useState<FollowUp | null>(null);
+  const [followUp, setFollowUp] = useState<FollowUp | null>(
+    reply ? { hintId: reply, message: "" } : null,
+  );
   const [edit, setEdit] = useState<EditedMessage | null>(null);
   const [hiddenFollowUps, setHiddenFollowUps] = useState<number[]>([]);
   const [isPendingSubmit, startTransitionSubmit] = useTransition();
@@ -290,6 +294,12 @@ export default function PreviousHintTable({
       return <>{hintsRemaining} hints remaining.</>;
     }
   };
+
+  if (reply) {
+    document
+      .getElementById(`${reply}-follow-up-request`)
+      ?.scrollIntoView({ behavior: "smooth" });
+  }
 
   return (
     <Table className="table-fixed">
@@ -620,6 +630,7 @@ export default function PreviousHintTable({
             {/* New follow-up request row */}
             {followUp !== null && followUp.hintId === hint.id && (
               <TableRow
+                id={`${hint.id}-follow-up-request`}
                 key={`${hint.id}-follow-up-request`}
                 className="border-0 hover:bg-inherit"
               >
