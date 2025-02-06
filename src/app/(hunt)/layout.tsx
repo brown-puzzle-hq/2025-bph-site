@@ -100,12 +100,14 @@ export default async function RootLayout({
           >
             puzzle club
           </Link>{" "}
-          or checking out our <Link
+          or checking out our{" "}
+          <Link
             href="https://brownpuzzle.club/archive/"
             className="text-link hover:underline"
           >
             archive
-          </Link>!
+          </Link>
+          !
         </p>
       </footer>
     </body>
