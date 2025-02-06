@@ -9,7 +9,13 @@ import { HintWithRelations } from "../hint-table/Columns";
 import { refundHint, respondToHint } from "../../actions";
 import { useState } from "react";
 
-export function ResponseBox({ hint, members }: { hint: HintWithRelations, members: string }) {
+export function ResponseBox({
+  hint,
+  members,
+}: {
+  hint: HintWithRelations;
+  members: string;
+}) {
   const { data: session } = useSession();
   const currHinter = session?.user?.id;
   const [response, setResponse] = useState("");
@@ -20,7 +26,11 @@ export function ResponseBox({ hint, members }: { hint: HintWithRelations, member
     ) as HTMLTextAreaElement;
 
     // NOTE: might want to give users their response again
-    const { error, title } = await respondToHint(hint.id, textarea.value, members);
+    const { error, title } = await respondToHint(
+      hint.id,
+      textarea.value,
+      members,
+    );
 
     if (error) {
       toast({

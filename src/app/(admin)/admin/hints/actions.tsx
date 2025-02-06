@@ -7,7 +7,11 @@ import { eq, and, isNull, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { sendEmail } from "~/lib/utils";
 
-export async function respondToHint(hintId: number, response: string, members: string) {
+export async function respondToHint(
+  hintId: number,
+  response: string,
+  members: string,
+) {
   const session = await auth();
   if (session?.user?.role !== "admin") {
     throw new Error("Not authorized");
