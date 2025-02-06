@@ -11,78 +11,65 @@ const formatter = new Intl.DateTimeFormat("en-US", {
 
 export default function Landing() {
   const [scrollY, setScrollY] = useState(0);
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
-    <div className="relative w-screen overflow-hidden">
-      <div className="relative h-[100vh] w-screen">
-        {/* absolute background with stars */}
-        <div
-          className="absolute inset-0 z-0 w-full bg-cover bg-top sm:h-[100vh] md:h-[150vh]"
-          style={{
-            backgroundImage: `url(/home/4.png)`,
-            transform: `translateY(${scrollY * -0.1}px)`,
-            clipPath: `inset-0`,
-          }}
+    <div className="flex h-[90vh] w-screen justify-center overflow-hidden md:h-[125vh]">
+      <div className="relative h-full w-full min-w-[175vw] md:min-w-0">
+        {/* Absolute background with stars */}
+        <img
+          src="/home/4.png"
+          className="absolute top-0 h-auto w-full"
+          style={{ transform: `translateY(${scrollY * -0.1}px)` }}
         />
 
         {/* Back cityscape */}
-        <div
-          className="z-1 absolute inset-0 w-full bg-cover bg-top bg-no-repeat sm:h-[100vh] md:h-[150vh]"
-          style={{
-            backgroundImage: `url(/home/3.png)`,
-            transform: `translateY(${scrollY * -0.3}px)`,
-            clipPath: `inset-0`,
-          }}
+        <img
+          src="/home/3.png"
+          className="absolute top-[2vh] h-auto w-full"
+          style={{ transform: `translateY(${scrollY * -0.3}px)` }}
         />
 
-        {/*  Middle cityscape with lamps */}
-        <div
-          className="absolute inset-0 z-[2] w-full bg-cover bg-top bg-no-repeat sm:h-[100vh] md:h-[150vh] lg:z-[3]"
-          style={{
-            backgroundImage: `url(/home/2.png)`,
-            transform: `translateY(${scrollY * -0.5}px)`,
-            clipPath: `inset-0`,
-          }}
+        {/* Middle cityscape with lamps */}
+        <img
+          src="/home/2.png"
+          className="absolute top-[4vh] h-auto w-full"
+          style={{ transform: `translateY(${scrollY * -0.6}px)` }}
         />
 
-        {/* /* Red overlay to cover background */}
-        <div className="absolute bottom-0 z-[3] h-[100vh] w-screen translate-y-[50vh] bg-[#4e0000] md:h-[70vh] lg:z-[0]"></div>
+        {/* Front theater building (stays above the red div) */}
+        <img
+          src="/home/1.png"
+          className="absolute top-[6vh] h-auto w-full"
+          style={{ transform: `translateY(${scrollY * -1}px)` }}
+        />
 
-        {/* /* Front theater building (stays above the red div) */}
+        {/* Invisible clickable overlay */}
         <div
-          className="absolute inset-0 z-[4] w-full bg-cover bg-top bg-no-repeat sm:h-[100vh] md:h-[150vh] lg:h-[200vh]"
+          className="absolute bg-red-500 opacity-30"
           style={{
-            backgroundImage: `url(/home/1.png)`,
+            top: `calc(6vh + 35vw)`,
+            left: "30%",
+            width: "40%",
+            height: "5vw",
             transform: `translateY(${scrollY * -1}px)`,
-            clipPath: `inset-0`,
+            pointerEvents: "auto",
           }}
         />
-      </div>
-
-      {/* Invisible clickable overlay */}
-      <div
-        className="absolute left-1/2 top-[47%] z-[6] h-[10vh] w-2/3 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer"
-        style={{
-          transform: `translate(-50%, -50%) translateY(${scrollY * -1}px)`, // Apply dynamic Y shift
-        }}
-      >
-        <Link
-          href="/register"
-          className="absolute left-0 top-0 h-full w-full"
-        />
+        <Link href="/register" className="h-full w-full" />
       </div>
 
       {/* Div right below the image */}
-      <div className="relative z-[6] flex justify-center pt-[calc((100vw-850px)/8)]">
+      {/* <div className="relative z-[6] flex justify-center pt-[calc((100vw-850px)/8)]">
         <div className="relative flex w-[calc(60vw+200px)] p-4 text-center">
           <div className="absolute left-1/2 top-[-50px] -translate-x-1/2 transform">
             <Link
@@ -134,8 +121,7 @@ export default function Landing() {
             </p>
           </div>
         </div>
-      </div>
-      {/* Red overlay covering the bottom 50vh and partially overlaying images */}
+      </div> */}
     </div>
   );
 }
