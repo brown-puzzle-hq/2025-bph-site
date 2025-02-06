@@ -40,7 +40,7 @@ export default async function Page({
   const hint = await db.query.hints.findFirst({
     where: eq(hints.id, hintId),
     with: {
-      team: { columns: { displayName: true, id: true } },
+      team: { columns: { displayName: true, id: true, members: true } },
       claimer: { columns: { id: true, displayName: true } },
       puzzle: { columns: { name: true } },
     },
@@ -169,7 +169,7 @@ export default async function Page({
             <RequestBox hint={hint} />
             {(hint.response ||
               (hint.claimer && hint.claimer.id === session.user.id)) && (
-              <ResponseBox hint={hint} />
+              <ResponseBox hint={hint} members={hint.team.members} />
             )}
           </div>
 

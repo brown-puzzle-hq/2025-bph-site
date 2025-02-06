@@ -5,8 +5,9 @@ import { hints } from "@/db/schema";
 import { db } from "@/db/index";
 import { eq, and, isNull, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { sendEmail } from "~/lib/utils";
 
-export async function respondToHint(hintId: number, response: string) {
+export async function respondToHint(hintId: number, response: string, members: string) {
   const session = await auth();
   if (session?.user?.role !== "admin") {
     throw new Error("Not authorized");
@@ -62,6 +63,8 @@ export async function respondToHint(hintId: number, response: string) {
       };
     }
   }
+
+  sendEmail(members, "Hint Answered", response);
 
   return { error: null };
 }
