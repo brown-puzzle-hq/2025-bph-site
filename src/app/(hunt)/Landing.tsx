@@ -23,12 +23,12 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="flex h-[90vh] w-screen justify-center overflow-hidden md:h-[125vh]">
-      <div className="relative h-full w-full min-w-[175vw] md:min-w-0">
+    <div className="flex w-screen justify-center overflow-hidden h-[150vh]">
+      <div className="relative w-full h-full">
         {/* Absolute background with stars */}
         <img
           src="/home/4.png"
-          className="absolute top-0 h-auto w-full"
+          className="absolute top-[0vh] h-auto w-full"
           style={{ transform: `translateY(${scrollY * -0.1}px)` }}
         />
 
@@ -42,35 +42,43 @@ export default function Landing() {
         {/* Middle cityscape with lamps */}
         <img
           src="/home/2.png"
-          className="absolute top-[4vh] h-auto w-full"
+          className="absolute top-[5vh] h-auto w-full"
           style={{ transform: `translateY(${scrollY * -0.6}px)` }}
         />
 
         {/* Front theater building (stays above the red div) */}
         <img
           src="/home/1.png"
-          className="absolute top-[6vh] h-auto w-full"
+          className="absolute top-[9vh] h-auto w-full"
           style={{ transform: `translateY(${scrollY * -1}px)` }}
         />
 
         {/* Invisible clickable overlay */}
         <div
-          className="absolute bg-red-500 opacity-30"
+          className="absolute rounded-md bg-black opacity-0 hover:opacity-5"
           style={{
-            top: `calc(6vh + 35vw)`,
-            left: "30%",
-            width: "40%",
+            top: `calc(11.25vh + 34vw)`,
+            left: "35%",
+            width: "30%",
             height: "5vw",
             transform: `translateY(${scrollY * -1}px)`,
             pointerEvents: "auto",
           }}
-        />
-        <Link href="/register" className="h-full w-full" />
-      </div>
+        >
+          <Link href="/register" className="absolute h-full w-full" />
+        </div>
 
-      {/* Div right below the image */}
-      {/* <div className="relative z-[6] flex justify-center pt-[calc((100vw-850px)/8)]">
-        <div className="relative flex w-[calc(60vw+200px)] p-4 text-center">
+        {/* Div right below the image */}
+        <div
+          className="absolute flex justify-center text-center"
+          style={{
+            top: `calc(80vw)`,
+            left: "20%",
+            width: "60%",
+            transform: `translateY(${scrollY * -1}px)`,
+            pointerEvents: "auto",
+          }}
+        >
           <div className="absolute left-1/2 top-[-50px] -translate-x-1/2 transform">
             <Link
               href="/register"
@@ -121,7 +129,7 @@ export default function Landing() {
             </p>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
