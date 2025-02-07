@@ -55,7 +55,11 @@ export default function Landing() {
         />
 
         {/* /* Red overlay to cover background */}
+<<<<<<< HEAD
         <div className="absolute bottom-0 z-[3] h-[105vh] w-screen translate-y-[55vh] bg-[#4e0000] md:h-[70vh] lg:z-[0]"></div>
+=======
+        <div className="absolute bottom-0 z-[3] h-[100vh] w-screen translate-y-[50vh] bg-[#4e0000] md:h-[70vh] lg:z-[0]"></div>
+>>>>>>> origin/main
 
         {/* /* Front theater building (stays above the red div) */}
         <div
@@ -87,7 +91,7 @@ export default function Landing() {
           <div className="absolute left-1/2 top-[-50px] -translate-x-1/2 transform">
             <Link
               href="/register"
-              className="rounded-md bg-main-text px-8 py-3 text-lg font-semibold text-secondary-text transition duration-200 hover:bg-secondary-accent"
+              className="rounded-md bg-main-text px-8 py-3 text-lg font-semibold text-secondary-accent transition duration-200 hover:bg-secondary-text"
             >
               Register!
             </Link>
