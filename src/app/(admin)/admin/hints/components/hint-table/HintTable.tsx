@@ -85,29 +85,8 @@ export function HintTable<TData, TValue>({
         const hasFollowUpB =
           followUpsB &&
           followUpsB[followUpsB.length - 1]?.userId === rowB.getValue("teamId");
-        const parseTime = (dateString: string) => {
-          const [date, time, period] = dateString.split(" ");
-          const [month, day] = date!.split("/");
-          const [hour, minute] = time!.split(":");
-          if (period === "PM") {
-            return new Date(
-              0,
-              parseInt(month!) - 1,
-              parseInt(day!),
-              parseInt(hour!) + 12,
-              parseInt(minute!),
-            );
-          }
-          return new Date(
-            0,
-            parseInt(month!) - 1,
-            parseInt(day!),
-            parseInt(hour!),
-            parseInt(minute!),
-          );
-        };
-        const dateA: Date = parseTime(rowA.getValue("requestTime"));
-        const dateB: Date = parseTime(rowB.getValue("requestTime"));
+        const dateA: Date = new Date(rowA.getValue("requestTime"));
+        const dateB: Date = new Date(rowB.getValue("requestTime"));
         const FIFO = dateA <= dateB ? 1 : -1;
 
         // Unclaimed hints are only below the user's claimed and unanswered hints
