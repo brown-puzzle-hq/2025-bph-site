@@ -110,7 +110,6 @@ export function GuessTable<TData, TValue>({
                         )
                       }
                       className="w-1/2"
-                      role="button"
                     >
                       {header.isPlaceholder
                         ? null
