@@ -303,9 +303,13 @@ export default function PreviousHintTable({
 
   useEffect(() => {
     if (reply) {
-      document
-        .getElementById(`${reply}-follow-up-request`)
-        ?.scrollIntoView({ behavior: "smooth" });
+      const element = document.getElementById(`${reply}-follow-up-request`);
+      if (element) {
+        const offset =
+          5 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const y = element.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
     }
   }, []);
 
