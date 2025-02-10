@@ -52,7 +52,10 @@ export async function canViewPuzzle(puzzleId: string, session: Session | null) {
 
   // If the hunt has ended for in-person teams
   // In-person teams can view puzzles
-  if (session.user.interactionMode === "in-person" && currentTime > IN_PERSON.END_TIME) {
+  if (
+    session.user.interactionMode === "in-person" &&
+    currentTime > IN_PERSON.END_TIME
+  ) {
     return "SUCCESS";
   }
 
