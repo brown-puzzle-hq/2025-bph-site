@@ -56,7 +56,7 @@ export async function sendEmail(to: string, subject: string, text: string) {
     const emails = deserializeMembers(to).map((member) => member.email!);
     console.log(emails);
     const response = await resend.emails.send({
-      from: `"Brown Puzzlehunt" <notification@brownpuzzlehunt.com>`,
+      from: `"Brown Puzzlehunt" <notifications@brownpuzzlehunt.com>`,
       to: emails,
       subject,
       text,
