@@ -1,9 +1,8 @@
-import { insertUnlock } from "./app/(hunt)/puzzle/actions";
-import { auth } from "./server/auth/auth";
+import { redirect } from "next/navigation";
 import { db } from "./server/db";
 import { teams, guesses, hints, unlocks } from "./server/db/schema";
 import { and, count, eq, ne } from "drizzle-orm";
-import { redirect } from "next/navigation";
+import { insertUnlock } from "./app/(hunt)/puzzle/actions";
 import { Session } from "next-auth";
 
 /** REGISTRATION AND HUNT START */
@@ -32,66 +31,51 @@ export const NUMBER_OF_GUESSES_PER_PUZZLE = 20;
  * You should really avoid changing anything here after the hunt starts
  */
 
-/** Checks whether the user can view the puzzle.
- * Returns true if possible; otherwise, redirects the user to another page. */
-export async function canViewPuzzle(puzzleId: string, session: Session) {
+/** Checks whether the user can view the puzzle. */
+export async function canViewPuzzle(puzzleId: string, session: Session | null) {
   const currentTime = new Date();
 
   // If the hunt has ended for everyone, anyone can view the puzzle
   if (currentTime > REMOTE.END_TIME) {
-    return true;
+    return "SUCCESS";
   }
 
   // Otherwise, they must be signed-in
   if (!session?.user?.id) {
-    redirect("/login");
+    return "NOT AUTHENTICATED";
   }
 
   // Admin can always view the puzzle
   if (session.user.role == "admin") {
-    return true;
-  }
-
-  // Testsolvers can always view the puzzle if they unlocked it
-  if (session.user.role === "testsolver") {
-    const isUnlocked =
-      (INITIAL_PUZZLES && INITIAL_PUZZLES.includes(puzzleId)) ||
-      (await db.query.unlocks.findFirst({
-        columns: { id: true },
-        where: and(
-          eq(unlocks.teamId, session.user.id),
-          eq(unlocks.puzzleId, puzzleId),
-        ),
-      }));
-    return isUnlocked;
+    return "SUCCESS";
   }
 
   // If the hunt has ended for in-person teams
   // In-person teams can view puzzles
   if (currentTime > IN_PERSON.END_TIME) {
     if (session.user.interactionMode === "in-person") {
-      return true;
+      return "SUCCESS";
     }
   }
 
-  // If the hunt has started for in-person teams or remote team
+  // If they are a testsolver, or the hunt has started for them,
   // then check whether they have unlocked the puzzle
   if (
+    session.user.role === "testsolver" ||
     currentTime >
-    (session.user.interactionMode === "in-person"
-      ? IN_PERSON.START_TIME
-      : REMOTE.START_TIME)
+      (session.user.interactionMode === "in-person"
+        ? IN_PERSON.START_TIME
+        : REMOTE.START_TIME)
   ) {
-    const isUnlocked =
-      (INITIAL_PUZZLES && INITIAL_PUZZLES.includes(puzzleId)) ||
-      (await db.query.unlocks.findFirst({
-        columns: { id: true },
-        where: and(
-          eq(unlocks.teamId, session.user.id),
-          eq(unlocks.puzzleId, puzzleId),
-        ),
-      }));
-    return isUnlocked;
+    const isInitialPuzzle = INITIAL_PUZZLES.includes(puzzleId);
+    const isUnlocked = !!(await db.query.unlocks.findFirst({
+      columns: { id: true },
+      where: and(
+        eq(unlocks.teamId, session.user.id),
+        eq(unlocks.puzzleId, puzzleId),
+      ),
+    }));
+    return isInitialPuzzle || isUnlocked ? "SUCCESS" : "NOT AUTHORIZED";
   }
 
   // The hunt has not started yet and the user is not an admin or testsolver
@@ -172,6 +156,42 @@ export async function checkFinishHunt(teamId: string, puzzleId: string) {
   }
 }
 
+/** Solution drop system */
+
+/** Checks whether the user can view the solution.
+ *  Does not check whether the solution actually exists.
+ */
+export async function canViewSolution(
+  puzzleId: string,
+  session: Session | null,
+) {
+  // If the hunt has ended, anyone can view solutions
+  if (new Date() > REMOTE.END_TIME) {
+    return "SUCESSS";
+  }
+
+  // If the hunt has not ended, users must be signed-in
+  if (!session?.user?.id) {
+    return "NOT AUTHENTICATED";
+  }
+
+  // Admin can always view the solution
+  if (session.user.role == "admin") {
+    return "SUCCESS";
+  }
+
+  // Everyone else needs to have solved the puzzle
+  const isSolved = !!(await db.query.guesses.findFirst({
+    where: and(
+      eq(guesses.teamId, session.user.id),
+      eq(guesses.puzzleId, puzzleId),
+      guesses.isCorrect,
+    ),
+  }));
+
+  return isSolved ? "SUCCESS" : "NOT AUTHORIZED";
+}
+
 /* HINTING SYSTEM
  * Teams currently get a hint request every three hours since the start of the hunt.
  * Teams cannot have more than one outstanding request at a time.
@@ -195,35 +215,4 @@ export async function getNumberOfHintsRemaining(teamId: string) {
     .where(and(eq(hints.teamId, teamId), ne(hints.status, "refunded")));
   const usedHints = query[0]?.count ? query[0].count : 0;
   return totalHints - usedHints;
-}
-
-/** Solution drop system */
-
-/** Checks whether the user can view the solution.
- * WARNING: make sure to exclude certain puzzles if the solutions aren't available.
- */
-export async function canViewSolution(puzzleId: string) {
-  // If the hunt has ended, anyone can view solutions
-  if (new Date() > IN_PERSON.END_TIME) {
-    return true;
-  }
-
-  // If the hunt has not ended, users must be signed-in
-  // And have solved the puzzle
-  const session = await auth()!;
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
-
-  const isSolved = !!(await db.query.guesses.findFirst({
-    where: and(
-      eq(guesses.teamId, session.user.id),
-      eq(guesses.puzzleId, puzzleId),
-      guesses.isCorrect,
-    ),
-  }));
-
-  return (
-    session.user.role == "admin" || isSolved || new Date() > IN_PERSON.END_TIME
-  );
 }
