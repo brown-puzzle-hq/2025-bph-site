@@ -1,5 +1,11 @@
 "use client";
-import { useState, useTransition, startTransition, Fragment } from "react";
+import {
+  useState,
+  useEffect,
+  useTransition,
+  startTransition,
+  Fragment,
+} from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
@@ -295,11 +301,13 @@ export default function PreviousHintTable({
     }
   };
 
-  if (reply) {
-    document
-      .getElementById(`${reply}-follow-up-request`)
-      ?.scrollIntoView({ behavior: "smooth" });
-  }
+  useEffect(() => {
+    if (reply) {
+      document
+        .getElementById(`${reply}-follow-up-request`)
+        ?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
 
   return (
     <Table className="table-fixed">
