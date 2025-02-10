@@ -33,7 +33,7 @@ export default async function Home() {
           </p>
         </div>
       );
-    } // Otherwise, let them see all of othe puzzles
+    } // Otherwise, let them see all of the puzzles
     else {
       availablePuzzles = (
         await db.query.puzzles.findMany({

@@ -94,7 +94,7 @@ export const profileFormSchema = z
 type TeamInfoFormProps = {
   id: string;
   displayName: string;
-  role: "admin" | "user";
+  role: "admin" | "user" | "testsolver";
   memberString: string;
   interactionMode: "in-person" | "remote";
   numCommunity: string;
