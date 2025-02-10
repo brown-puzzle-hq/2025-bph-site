@@ -644,6 +644,10 @@ export function ProfileForm({
                       <RadioGroupItem value="admin" />
                       <FormLabel className="font-normal">Admin</FormLabel>
                     </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <RadioGroupItem value="testsolver" />
+                      <FormLabel className="font-normal">Testsolver</FormLabel>
+                    </FormItem>
                   </RadioGroup>
                 </FormControl>
               </FormItem>
