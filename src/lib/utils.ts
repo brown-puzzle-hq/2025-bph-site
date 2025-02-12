@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import axios from "axios";
+import { ReactNode } from "react";
 
 export type Member = {
   id?: number;
@@ -49,7 +50,7 @@ export async function sendBotMessage(message: string) {
   }
 }
 
-export async function sendEmail(to: string, subject: string, text: string) {
+export async function sendEmail(to: string, subject: string, react: ReactNode) {
   // To should be a comma-separated list of names and email addresses
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
@@ -57,9 +58,10 @@ export async function sendEmail(to: string, subject: string, text: string) {
     console.log(emails);
     const response = await resend.emails.send({
       from: `"Brown Puzzlehunt" <notifications@brownpuzzlehunt.com>`,
+      replyTo: `"Puzzle HQ" <brownpuzzlehq@gmail.com>`,
       to: emails,
       subject,
-      text,
+      react
     });
     return { success: true, response };
   } catch (error: any) {

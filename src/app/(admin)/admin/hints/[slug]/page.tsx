@@ -42,7 +42,7 @@ export default async function Page({
     with: {
       team: { columns: { displayName: true, id: true, members: true } },
       claimer: { columns: { id: true, displayName: true } },
-      puzzle: { columns: { name: true } },
+      puzzle: { columns: { id: true, name: true } },
     },
   });
 

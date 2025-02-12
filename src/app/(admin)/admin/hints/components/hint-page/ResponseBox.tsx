@@ -27,7 +27,7 @@ export function ResponseBox({
 
     // NOTE: might want to give users their response again
     const { error, title } = await respondToHint(
-      hint.id,
+      hint,
       textarea.value,
       members,
     );
