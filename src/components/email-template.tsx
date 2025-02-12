@@ -16,7 +16,7 @@ export const HintEmailTemplate: React.FC<Readonly<HintEmailTemplateProps>> = ({
       color: "#333 !important",
     }}
   >
-    <p>Hi {hint.team.displayName},</p>
+    <p style={{ marginTop: "0" }}>Hi {hint.team.displayName},</p>
 
     <p>
       Your hint request for <strong>{hint.puzzle.name}</strong> has been
@@ -62,7 +62,7 @@ export const HintEmailTemplate: React.FC<Readonly<HintEmailTemplateProps>> = ({
       .
     </p>
 
-    <p>
+    <p style={{ marginBottom: "0" }}>
       Happy hunting,
       <br />
       Puzzle HQ
