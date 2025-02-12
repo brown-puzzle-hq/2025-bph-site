@@ -24,6 +24,7 @@ export const REMOTE = {
   WRAPUP_TIME: new Date("2025-04-26T17:00:00Z"),
 };
 
+/** GUESSES */
 export const NUMBER_OF_GUESSES_PER_PUZZLE = 20;
 
 /** PUZZLE UNLOCK SYSTEM

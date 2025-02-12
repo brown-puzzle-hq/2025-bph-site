@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { puzzles } from "~/server/db/schema";
 
 import { puzzleId, SolutionBody } from "./data";
-import DefaultHeader from "../components/DefaultHeader";
+import DefaultHeader from "../../components/DefaultHeader";
 
 export default async function RootLayout({
   children,
@@ -13,6 +13,7 @@ export default async function RootLayout({
   const puzzle = await db.query.puzzles.findFirst({
     where: eq(puzzles.id, puzzleId),
   })!;
+
   if (!puzzle) {
     redirect("/404");
   }

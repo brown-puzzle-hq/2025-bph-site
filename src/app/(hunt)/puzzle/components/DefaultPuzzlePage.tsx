@@ -32,7 +32,7 @@ export default async function DefaultPuzzlePage({
   // If user is not logged in, show puzzle without errata or guesses
   if (!session?.user?.id) {
     return (
-      <div className="flex w-2/3 min-w-36 justify-center space-x-2">
+      <div className="flex min-w-36 justify-center space-x-2">
         <div className="mt-4">{puzzleBody}</div>
         {copyText && <CopyButton copyText={copyText}></CopyButton>}
       </div>
