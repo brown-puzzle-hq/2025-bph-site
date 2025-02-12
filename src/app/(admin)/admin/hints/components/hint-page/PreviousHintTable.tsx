@@ -42,10 +42,12 @@ type PreviousHints = {
     id: string;
     displayName: string;
   } | null;
+  requestTime: Date;
   followUps: {
     id: number;
     message: string;
     user: { id: string; displayName: string };
+    time: Date;
   }[];
 }[];
 
@@ -101,6 +103,7 @@ export default function PreviousHintTable({
           claimer: null,
           request,
           response: null,
+          requestTime: new Date(),
           followUps: [],
         },
       ]);
@@ -190,6 +193,7 @@ export default function PreviousHintTable({
                     displayName: session!.user!.displayName,
                     id: session!.user!.id!,
                   },
+                  time: new Date(),
                 }),
               }
             : hint,
