@@ -89,7 +89,7 @@ export default function Landing() {
             clipPath: `inset-0`,
           }}
         />
-        <div className="absolute left-[10%] w-fit md:left-[5%] lg:left-[2%]">
+        <div className="absolute left-[10%] w-fit md:left-[5%] lg:left-[2%] 2xl:left-[-13%]">
           {/* Spotlight */}
           <div
             ref={spotlight1Ref}
