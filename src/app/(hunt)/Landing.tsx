@@ -94,7 +94,7 @@ export default function Landing() {
         {/* Spotlight */}
         <div
           ref={spotlight1Ref}
-          className="absolute top-10 z-[0] h-[20vh] w-[50vw] bg-cover bg-top bg-no-repeat"
+          className="absolute top-10 z-[0] h-[5vh] w-[10vw] bg-cover bg-top bg-no-repeat md:h-[20vh] md:w-[50vw]"
           style={{
             backgroundImage: `url(/home/Spotlight.PNG)`,
             transition: "transform 0.02s linear",
