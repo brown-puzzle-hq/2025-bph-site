@@ -21,31 +21,30 @@ export default function Landing() {
     const moveSpotlights = () => {
       if (spotlight1Ref.current && spotlight2Ref.current) {
         const screenWidth = window.innerWidth;
+        const movementRange = Math.min(screenWidth / 4, 150); // Prevent excessive movement on small screens
 
-        // Spotlight 1 (Left to Right)
-        const x1 = screenWidth / 2 + Math.sin(angle) * (screenWidth / 4);
-        const y1 = 10 + Math.cos(angle) * 30; // Slight vertical movement
-        const rotation1 = Math.sin(angle) * 15 + 90; // Arcing effect
+        // Responsive offsets
+        const offset1 = Math.min(screenWidth / 3, 500); // Prevent going off-screen
+        const offset2 = Math.min(screenWidth / 3, 300);
 
-        spotlight1Ref.current.style.transform = `translate(${x1 - 500}px, ${y1}px) rotate(${rotation1}deg)`;
+        // Spotlight 1
+        const x1 = screenWidth / 2 + Math.sin(angle) * movementRange - offset1;
+        const y1 = 10 + Math.cos(angle) * 30;
+        const rotation1 = Math.sin(angle) * 15 + 90;
+        spotlight1Ref.current.style.transform = `translate(${x1}px, ${y1}px) rotate(${rotation1}deg)`;
 
-        // Spotlight 2 (Right to Left, Opposite Movement)
-        const x2 = screenWidth / 2 + Math.sin(-angle) * (screenWidth / 4);
+        // Spotlight 2 (opposite movement)
+        const x2 = screenWidth / 2 + Math.sin(-angle) * movementRange - offset2;
         const y2 = 10 + Math.cos(-angle) * 30;
         const rotation2 = Math.sin(-angle) * 15 + 90;
+        spotlight2Ref.current.style.transform = `translate(${x2}px, ${y2}px) rotate(${rotation2}deg)`;
 
-        spotlight2Ref.current.style.transform = `translate(${x2 - 200}px, ${y2 + 50}px) rotate(${rotation2}deg)`;
-
-        // Increase angle for next frame
-        setAngle((prevAngle) => prevAngle + 0.01); // Adjust speed
-
-        // Request next frame
+        setAngle((prevAngle) => prevAngle + 0.01);
         animationFrameId = requestAnimationFrame(moveSpotlights);
       }
     };
 
     animationFrameId = requestAnimationFrame(moveSpotlights);
-
     return () => cancelAnimationFrame(animationFrameId);
   }, [angle]);
 
@@ -94,7 +93,7 @@ export default function Landing() {
         {/* Spotlight */}
         <div
           ref={spotlight1Ref}
-          className="absolute top-10 z-[0] h-[5vh] w-[10vw] bg-cover bg-top bg-no-repeat md:h-[20vh] md:w-[50vw]"
+          className="absolute top-10 z-[0] h-[5vh] w-[50vw] bg-cover bg-top bg-no-repeat md:h-[20vh]"
           style={{
             backgroundImage: `url(/home/Spotlight.PNG)`,
             transition: "transform 0.02s linear",
@@ -103,7 +102,7 @@ export default function Landing() {
         {/* Spotlight */}
         <div
           ref={spotlight2Ref}
-          className="absolute top-10 z-[0] h-[20vh] w-[50vw] bg-cover bg-top bg-no-repeat"
+          className="absolute top-10 z-[0] h-[5vh] w-[50vw] bg-cover bg-top bg-no-repeat md:h-[20vh]"
           style={{
             backgroundImage: `url(/home/Spotlight.PNG)`,
             transition: "transform 0.02s linear",
