@@ -24,6 +24,18 @@ export const REMOTE = {
   WRAPUP_TIME: new Date("2025-04-26T17:00:00Z"),
 };
 
+/** HUNT CONFIGURATION */
+
+/** SEQUENCES */
+
+/** The sequence list is ordered. Sequences that occur earlier in the list
+ * will be displayed earlier. Puzzles that occur earlier in the list will
+ * be displayed earlier. */
+export const SEQUENCES = [
+  ["seq1", "seq2"],
+  ["seq1", "seq3"],
+];
+
 /** GUESSES */
 export const NUMBER_OF_GUESSES_PER_PUZZLE = 20;
 
