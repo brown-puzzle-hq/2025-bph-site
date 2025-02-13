@@ -24,8 +24,8 @@ export default function Landing() {
         const movementRange = Math.min(screenWidth / 4, 150); // Prevent excessive movement on small screens
 
         // Responsive offsets
-        const offset1 = Math.min(screenWidth / 3, 500); // Prevent going off-screen
-        const offset2 = Math.min(screenWidth / 3, 300);
+        const offset1 = Math.min(screenWidth / 3, 650); // Prevent going off-screen
+        const offset2 = Math.min(screenWidth / 3, 220);
 
         // Spotlight 1
         const x1 = screenWidth / 2 + Math.sin(angle) * movementRange - offset1;
@@ -89,28 +89,29 @@ export default function Landing() {
             clipPath: `inset-0`,
           }}
         />
-
-        {/* Spotlight */}
-        <div
-          ref={spotlight1Ref}
-          className="absolute top-10 z-[0] h-[5vh] w-[50vw] bg-cover bg-top bg-no-repeat md:h-[20vh]"
-          style={{
-            backgroundImage: `url(/home/Spotlight.PNG)`,
-            transition: "transform 0.02s linear",
-          }}
-        />
-        {/* Spotlight */}
-        <div
-          ref={spotlight2Ref}
-          className="absolute top-10 z-[0] h-[5vh] w-[50vw] bg-cover bg-top bg-no-repeat md:h-[20vh]"
-          style={{
-            backgroundImage: `url(/home/Spotlight.PNG)`,
-            transition: "transform 0.02s linear",
-          }}
-        />
+        <div className="absolute left-[10%] w-fit md:left-[5%] lg:left-[2%]">
+          {/* Spotlight */}
+          <div
+            ref={spotlight1Ref}
+            className="absolute z-[0] h-[5vh] w-[50vw] bg-cover bg-top bg-no-repeat md:h-[20vh]"
+            style={{
+              backgroundImage: `url(/home/Spotlight.PNG)`,
+              transition: "transform 0.02s linear",
+            }}
+          />
+          {/* Spotlight */}
+          <div
+            ref={spotlight2Ref}
+            className="absolute z-[0] h-[5vh] w-[50vw] bg-cover bg-top bg-no-repeat md:h-[20vh]"
+            style={{
+              backgroundImage: `url(/home/Spotlight.PNG)`,
+              transition: "transform 0.02s linear",
+            }}
+          />
+        </div>
 
         {/* Red overlay to cover background */}
-        <div className="absolute bottom-0 z-[3] h-[105vh] w-screen translate-y-[55vh] bg-[#4e0000] md:h-[70vh] lg:z-[0] lg:z-[3]"></div>
+        <div className="absolute bottom-0 z-[3] h-[105vh] w-screen translate-y-[55vh] bg-[#4e0000] md:h-[70vh] lg:z-[-1] lg:z-[3]"></div>
 
         {/* Front theater building (stays above the red div) */}
         <div
