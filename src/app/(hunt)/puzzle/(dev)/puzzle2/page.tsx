@@ -1,4 +1,4 @@
-import DefaultPuzzlePage from "../components/DefaultPuzzlePage";
+import DefaultPuzzlePage from "@/puzzle/components/DefaultPuzzlePage";
 import { PuzzleBody } from "./data";
 import { puzzleId } from "./data";
 
