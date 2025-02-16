@@ -13,7 +13,7 @@ export default async function DefaultHeader({
 }) {
   const session = await auth();
   return (
-    <div className="mb-4 min-w-36 flex-col items-center text-center">
+    <div className="mb-4 w-full flex-col items-center text-center md:w-2/3">
       <h1>{puzzleName}</h1>
       <div className="space-x-2 text-sm">
         <Link

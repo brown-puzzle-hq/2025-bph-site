@@ -32,7 +32,7 @@ export default async function DefaultPuzzlePage({
   // If user is not logged in, show puzzle without errata or guesses
   if (!session?.user?.id) {
     return (
-      <div className="flex min-w-36 justify-center space-x-2">
+      <div className="flex w-full justify-center space-x-2 md:w-2/3">
         <div className="mt-4">{puzzleBody}</div>
         {copyText && <CopyButton copyText={copyText}></CopyButton>}
       </div>
@@ -64,17 +64,16 @@ export default async function DefaultPuzzlePage({
     NUMBER_OF_GUESSES_PER_PUZZLE - previousGuesses.length;
 
   return (
-    <>
-      <div className="w-2/3 min-w-36">
-        <ErratumDialog errataList={errataList} />
-      </div>
+    <div className="w-full md:w-2/3">
+      
+      <ErratumDialog errataList={errataList} />
 
-      <div className="flex w-2/3 min-w-36 justify-center space-x-2">
+      <div className="flex justify-center space-x-2">
         <div className="mt-4">{puzzleBody}</div>
         {copyText && <CopyButton copyText={copyText}></CopyButton>}
       </div>
 
-      <div className="mt-4 w-2/3 min-w-36">
+      <div className="mt-4">
         {!hasCorrectGuess && numberOfGuessesLeft > 0 && (
           <div className="mt-2">
             <GuessForm
@@ -90,9 +89,9 @@ export default async function DefaultPuzzlePage({
         )}
       </div>
 
-      <div className="mb-4">
+      <div className="flex justify-center mb-4">
         <PreviousGuessTable previousGuesses={previousGuesses} />
       </div>
-    </>
+    </div>
   );
 }
