@@ -65,7 +65,6 @@ export default async function DefaultPuzzlePage({
 
   return (
     <div className="w-full md:w-2/3">
-      
       <ErratumDialog errataList={errataList} />
 
       <div className="flex justify-center space-x-2">
@@ -89,7 +88,7 @@ export default async function DefaultPuzzlePage({
         )}
       </div>
 
-      <div className="flex justify-center mb-4">
+      <div className="mb-4 flex justify-center">
         <PreviousGuessTable previousGuesses={previousGuesses} />
       </div>
     </div>
