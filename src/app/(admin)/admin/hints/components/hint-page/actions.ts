@@ -1,8 +1,9 @@
 "use server";
 
 import { and, eq } from "drizzle-orm";
+import { FollowUpEmailTemplate, FollowUpEmailTemplateProps } from "~/components/email-template";
 import { getNumberOfHintsRemaining } from "~/hunt.config";
-import { sendBotMessage } from "~/lib/utils";
+import { sendBotMessage, sendEmail } from "~/lib/utils";
 import { auth } from "~/server/auth/auth";
 import { db } from "~/server/db/index";
 import { followUps, hints, teams } from "~/server/db/schema";
@@ -89,7 +90,14 @@ export async function editMessage(
 }
 
 /** Inserts a follow-up hint into the hint table */
-export async function insertFollowUp(hintId: number, message: string) {
+export async function insertFollowUp({
+  hintId,
+  members,
+  teamDisplayName,
+  puzzleId,
+  puzzleName,
+  message,
+}: FollowUpEmailTemplateProps & { hintId: number; members: string }) {
   const session = await auth();
   if (!session?.user?.id) {
     throw new Error("Not logged in");
@@ -104,6 +112,15 @@ export async function insertFollowUp(hintId: number, message: string) {
         time: new Date(),
       })
       .returning({ id: followUps.id });
+    
+    if (result[0]?.id && members) {
+      sendEmail(
+        members,
+        `Follow-Up Hint [${puzzleName}]`,
+        FollowUpEmailTemplate({ teamDisplayName, puzzleId, puzzleName, message }),
+      )
+    }
+    
     return result[0]?.id ?? null;
   } catch (_) {
     return null;

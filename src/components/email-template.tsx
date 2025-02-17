@@ -16,14 +16,16 @@ export const HintEmailTemplate: React.FC<Readonly<HintEmailTemplateProps>> = ({
       color: "#333 !important",
     }}
   >
-    <p style={{ marginTop: "0" }}>Hi {hint.team.displayName},</p>
+    <p style={{ marginTop: "0", color: "#333 !important" }}>
+      Hi {hint.team.displayName},
+    </p>
 
-    <p>
+    <p style={{ color: "#333 !important" }}>
       Your hint request for <strong>{hint.puzzle.name}</strong> has been
       answered.
     </p>
 
-    <p>
+    <p style={{ color: "#333 !important" }}>
       <strong>Request:</strong>
     </p>
     <blockquote
@@ -37,7 +39,7 @@ export const HintEmailTemplate: React.FC<Readonly<HintEmailTemplateProps>> = ({
       {hint.request}
     </blockquote>
 
-    <p>
+    <p style={{ color: "#333 !important" }}>
       <strong>Response:</strong>
     </p>
     <blockquote
@@ -51,7 +53,7 @@ export const HintEmailTemplate: React.FC<Readonly<HintEmailTemplateProps>> = ({
       {response}
     </blockquote>
 
-    <p>
+    <p style={{ color: "#333 !important" }}>
       You can view it at{" "}
       <a
         href={`https://www.brownpuzzlehunt.com/puzzle/${hint.puzzleId}/hint`}
@@ -62,10 +64,69 @@ export const HintEmailTemplate: React.FC<Readonly<HintEmailTemplateProps>> = ({
       .
     </p>
 
-    <p style={{ marginBottom: "0" }}>
+    <p style={{ marginBottom: "0", color: "#333 !important" }}>
       Happy hunting,
       <br />
       Puzzle HQ
     </p>
+  </div>
+);
+
+export interface FollowUpEmailTemplateProps {
+  teamDisplayName?: string;
+  puzzleId?: string;
+  puzzleName?: string;
+  message: string;
+}
+
+export const FollowUpEmailTemplate: React.FC<
+  Readonly<FollowUpEmailTemplateProps>
+> = ({ teamDisplayName, puzzleId, puzzleName, message }) => (
+  <div
+    style={{
+      fontFamily: "Arial, sans-serif",
+      fontSize: "14px",
+      color: "#333 !important",
+    }}
+  >
+    <p style={{ marginTop: "0", color: "#333 !important" }}>
+      Hi {teamDisplayName},
+    </p>
+
+    <p style={{ color: "#333 !important" }}>
+      A new follow-up for <strong>{puzzleName}</strong> has been posted.
+    </p>
+
+    <p style={{ color: "#333 !important" }}>
+      <strong>Follow-Up:</strong>
+    </p>
+    <blockquote
+      style={{
+        margin: "10px 0",
+        padding: "10px",
+        borderLeft: "4px solid #ccc",
+        background: "#f9f9f9",
+      }}
+    >
+      {message}
+    </blockquote>
+
+    <p style={{ color: "#333 !important" }}>
+      You can view it at{" "}
+      <a
+        href={`https://www.brownpuzzlehunt.com/puzzle/${puzzleId}/hint`}
+        style={{ color: "#1a73e8", textDecoration: "none", fontWeight: "bold" }}
+      >
+        https://www.brownpuzzlehunt.com/puzzle/{puzzleId}/hint
+      </a>
+      .
+    </p>
+
+    <p style={{ marginBottom: "0", color: "#333 !important" }}>
+      Happy hunting,
+      <br />
+      Puzzle HQ
+    </p>
+    {/* TODO: alternate placing and not placing invisible character to prevent gmail from clipping email */}
   </div>
 );

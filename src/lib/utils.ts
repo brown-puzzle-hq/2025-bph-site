@@ -54,8 +54,7 @@ export async function sendEmail(to: string, subject: string, react: ReactNode) {
   // To should be a comma-separated list of names and email addresses
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
-    const emails = deserializeMembers(to).map((member) => member.email!);
-    console.log(emails);
+    const emails = deserializeMembers(to).map((member) => member.email ?? "").filter(Boolean);
     const response = await resend.emails.send({
       from: `"Brown Puzzlehunt" <notifications@brownpuzzlehunt.com>`,
       replyTo: `"Puzzle HQ" <brownpuzzlehq@gmail.com>`,

@@ -20,6 +20,8 @@ type TableProps = {
   previousHints: PreviousHints;
   hintRequestState?: HintRequestState;
   teamDisplayName?: string;
+  puzzleId?: string;
+  puzzleName?: string;
 };
 
 // Intitial state
@@ -30,6 +32,7 @@ type PreviousHints = {
   team: {
     id: string;
     displayName: string;
+    members: string;
   };
   claimer: {
     id: string;
@@ -68,6 +71,8 @@ export default function PreviousHintTable({
   previousHints,
   hintRequestState,
   teamDisplayName,
+  puzzleId,
+  puzzleName,
 }: TableProps) {
   const { data: session } = useSession();
   const [optimisticHints, setOptimisticHints] = useState(previousHints);
@@ -86,6 +91,7 @@ export default function PreviousHintTable({
           team: {
             displayName: session?.user?.displayName!,
             id: session?.user?.id!,
+            members: "",
           },
           claimer: null,
           request,
@@ -164,7 +170,7 @@ export default function PreviousHintTable({
     }
   };
 
-  const handleSubmitFollowUp = async (hintId: number, message: string) => {
+  const handleSubmitFollowUp = async (hintId: number, message: string, members: string) => {
     // Optimistic update
     startTransition(() => {
       setOptimisticHints((prev) =>
@@ -186,7 +192,17 @@ export default function PreviousHintTable({
       );
     });
     setFollowUp(null);
-    const followUpId = await insertFollowUp(hintId, message);
+    // TOOD: is there a better option than passing a ton of arguments?
+    // wondering if we should have centralized hint types, same goes for inserting/emailing normal hint responses
+    // Also might be more efficient to only pass team members once instead of storing in each hint
+    const followUpId = await insertFollowUp({
+      hintId,
+      members,
+      teamDisplayName,
+      puzzleId,
+      puzzleName,
+      message,
+    });
     if (followUpId === null) {
       // Revert optimistic update
       startTransition(() => {
@@ -639,7 +655,8 @@ export default function PreviousHintTable({
                   <div className="flex space-x-2 pt-3">
                     <Button
                       onClick={() =>
-                        handleSubmitFollowUp(hint.id, followUp.message)
+                        // TODO: probably unsafe to be using anonmyize here
+                        handleSubmitFollowUp(hint.id, followUp.message, anonymize ? "": hint.team.members)
                       }
                     >
                       Submit

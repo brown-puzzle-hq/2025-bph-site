@@ -48,7 +48,7 @@ export default async function DefaultHintPage({
       response: true,
     },
     with: {
-      team: { columns: { id: true, displayName: true } },
+      team: { columns: { id: true, displayName: true, members: true } },
       claimer: { columns: { id: true, displayName: true } },
       followUps: {
         columns: { id: true, message: true, userId: true },

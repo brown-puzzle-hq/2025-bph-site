@@ -88,7 +88,7 @@ export default async function Page({
       response: true,
     },
     with: {
-      team: { columns: { id: true, displayName: true } },
+      team: { columns: { id: true, displayName: true, members: true } },
       claimer: { columns: { id: true, displayName: true } },
       followUps: {
         columns: { id: true, message: true },
@@ -178,6 +178,8 @@ export default async function Page({
               <PreviousHintTable
                 previousHints={previousHints}
                 teamDisplayName={hint.team.displayName}
+                puzzleId={hint.puzzle.id}
+                puzzleName={hint.puzzle.name}
               />
             </div>
           )}
