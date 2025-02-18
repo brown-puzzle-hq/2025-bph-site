@@ -72,6 +72,7 @@ export const HintEmailTemplate: React.FC<Readonly<HintEmailTemplateProps>> = ({
   </div>
 );
 
+// TODO: ideally we make these not optional
 export interface FollowUpEmailTemplateProps {
   teamDisplayName?: string;
   puzzleId?: string;

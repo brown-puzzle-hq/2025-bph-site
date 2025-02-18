@@ -86,10 +86,12 @@ export default async function DefaultHintPage({
   return (
     <div className="mb-12 w-full md:w-2/3">
       <PreviousHintTable
-        anonymize={true}
+        teamSide={true}
         previousHints={previousHints}
         hintRequestState={hintState}
-        teamDisplayName={session.user?.id}
+        teamDisplayName={session.user?.displayName}
+        puzzleId={puzzleId}
+        puzzleName={puzzle.name}
       />
     </div>
   );

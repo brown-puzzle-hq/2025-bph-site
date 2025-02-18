@@ -93,11 +93,12 @@ export async function editMessage(
 export async function insertFollowUp({
   hintId,
   members,
+  teamId,
   teamDisplayName,
   puzzleId,
   puzzleName,
   message,
-}: FollowUpEmailTemplateProps & { hintId: number; members: string }) {
+}: FollowUpEmailTemplateProps & { hintId: number; teamId?: string, members: string }) {
   const session = await auth();
   if (!session?.user?.id) {
     throw new Error("Not logged in");
@@ -113,15 +114,20 @@ export async function insertFollowUp({
       })
       .returning({ id: followUps.id });
     
-    if (result[0]?.id && members) {
-      sendEmail(
-        members,
-        `Follow-Up Hint [${puzzleName}]`,
-        FollowUpEmailTemplate({ teamDisplayName, puzzleId, puzzleName, message }),
-      )
+    if (result[0]?.id) {
+       if (members) {
+        sendEmail(
+          members,
+          `Follow-Up Hint [${puzzleName}]`,
+          FollowUpEmailTemplate({ teamDisplayName, puzzleId, puzzleName, message }),
+        )
+      } else {
+        const hintMessage = `🙏 **Hint** [follow-up](https://www.brownpuzzlehunt.com/admin/hints/${hintId}?reply=true) by [${teamDisplayName}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleName}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${message} <@&1310029428864057504>`;
+        await sendBotMessage(hintMessage);
+      }
+      return result[0].id;
     }
-    
-    return result[0]?.id ?? null;
+    return null;
   } catch (_) {
     return null;
   }

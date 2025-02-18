@@ -16,7 +16,7 @@ import {
 } from "./actions";
 
 type TableProps = {
-  anonymize?: boolean;
+  teamSide?: boolean;
   previousHints: PreviousHints;
   hintRequestState?: HintRequestState;
   teamDisplayName?: string;
@@ -67,7 +67,7 @@ type FollowUp = {
 };
 
 export default function PreviousHintTable({
-  anonymize,
+  teamSide,
   previousHints,
   hintRequestState,
   teamDisplayName,
@@ -198,6 +198,7 @@ export default function PreviousHintTable({
     const followUpId = await insertFollowUp({
       hintId,
       members,
+      teamId: session?.user?.id,
       teamDisplayName,
       puzzleId,
       puzzleName,
@@ -316,7 +317,7 @@ export default function PreviousHintTable({
                 where you're at and where you're stuck! Specific clues, steps,
                 and hypotheses are all helpful. If you're working with any
                 spreadsheets, diagrams, or external resources, you can include
-                links.
+                links.{teamDisplayName}
               </p>
               <AutosizeTextarea
                 maxHeight={500}
@@ -368,7 +369,7 @@ export default function PreviousHintTable({
                 {/* Top section with the team ID and the edit button */}
                 <div className="flex justify-between">
                   <p className="pb-0.5 pt-1 font-bold">
-                    {anonymize ? "Team" : teamDisplayName}
+                    {teamSide ? "Team" : teamDisplayName}
                   </p>
                   {/* If the hint request was made by the current user, allow edits */}
                   {hint.team.id === session?.user?.id && (
@@ -454,7 +455,7 @@ export default function PreviousHintTable({
                   {/* Top section for claimer ID, the follow-up button, and the edit button */}
                   <div className="flex items-center justify-between">
                     <p className="pb-1 font-bold">
-                      {anonymize ? "Admin" : hint.claimer?.displayName}
+                      {teamSide ? "Admin" : hint.claimer?.displayName}
                     </p>
                     <div className="flex space-x-2">
                       {/* Follow-up button */}
@@ -560,11 +561,11 @@ export default function PreviousHintTable({
                     <div className="flex justify-between">
                       {followUp.user.id === hint.team.id ? (
                         <p className="pb-1 font-bold">
-                          {anonymize ? "Team" : teamDisplayName}
+                          {teamSide ? "Team" : teamDisplayName}
                         </p>
                       ) : (
                         <p className="pb-1 font-bold">
-                          {anonymize ? "Admin" : followUp.user.displayName}
+                          {teamSide ? "Admin" : followUp.user.displayName}
                         </p>
                       )}
                       {/* If the previous hint follow-up was made by user, allow edits */}
@@ -655,8 +656,8 @@ export default function PreviousHintTable({
                   <div className="flex space-x-2 pt-3">
                     <Button
                       onClick={() =>
-                        // TODO: probably unsafe to be using anonmyize here
-                        handleSubmitFollowUp(hint.id, followUp.message, anonymize ? "": hint.team.members)
+                        // TODO: kinda jank to use empty team members as signal to not send email
+                        handleSubmitFollowUp(hint.id, followUp.message, teamSide ? "": hint.team.members)
                       }
                     >
                       Submit
