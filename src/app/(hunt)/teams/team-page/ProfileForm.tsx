@@ -27,6 +27,7 @@ import { updateTeam } from "../actions";
 import { roleEnum, interactionModeEnum } from "~/server/db/schema";
 import { X } from "lucide-react";
 import { IN_PERSON } from "~/hunt.config";
+import { serializeMembers, deserializeMembers, Member } from "~/lib/utils";
 
 const zPhone = z.string().transform((arg, ctx) => {
   if (!arg) {
@@ -103,31 +104,7 @@ type TeamInfoFormProps = {
   solvingLocation: string;
   wantsBox: boolean | null;
 };
-
-type Member = {
-  id?: number;
-  name: string | undefined;
-  email: string | undefined;
-};
-
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
-function serializeMembers(members: Member[]): string {
-  return JSON.stringify(
-    members
-      .filter((person) => person.name || person.email)
-      .map((person) => [person.name, person.email]),
-  );
-}
-
-function deserializeMembers(memberString: string): Member[] {
-  if (!memberString) return [];
-  return JSON.parse(memberString).map(([name, email]: [string, string]) => ({
-    id: undefined,
-    name,
-    email,
-  }));
-}
 
 function formatPhoneNumber(phoneNumber: string | null): string {
   if (!phoneNumber) return "";
@@ -313,6 +290,7 @@ export function ProfileForm({
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Name"
+                        autoComplete="off"
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             e.preventDefault();
@@ -356,6 +334,7 @@ export function ProfileForm({
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Email"
+                        autoComplete="off"
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             e.preventDefault();
