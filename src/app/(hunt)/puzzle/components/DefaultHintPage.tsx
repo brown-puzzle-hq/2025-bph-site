@@ -64,7 +64,10 @@ export default async function DefaultHintPage({
     },
   });
 
-  const hintsRemaining = await getNumberOfHintsRemaining(teamId, session!.user!.role);
+  const hintsRemaining = await getNumberOfHintsRemaining(
+    teamId,
+    session!.user!.role,
+  );
 
   const query = await db.query.hints.findFirst({
     columns: {},

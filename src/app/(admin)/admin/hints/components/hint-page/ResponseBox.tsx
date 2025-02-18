@@ -26,11 +26,7 @@ export function ResponseBox({
     ) as HTMLTextAreaElement;
 
     // NOTE: might want to give users their response again
-    const { error, title } = await respondToHint(
-      hint,
-      textarea.value,
-      members,
-    );
+    const { error, title } = await respondToHint(hint, textarea.value, members);
 
     if (error) {
       toast({

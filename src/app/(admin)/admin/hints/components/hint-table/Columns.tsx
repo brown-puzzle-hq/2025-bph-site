@@ -9,7 +9,7 @@ export type HintClaimer = { id: string; displayName: string } | null;
 export type FollowUpHint = { id: number; userId: string } | null;
 
 export type HintWithRelations = typeof hints.$inferSelect & {
-  team: { displayName: string};
+  team: { displayName: string };
   claimer: HintClaimer;
   followUps: FollowUpHint[];
   puzzle: { name: string };

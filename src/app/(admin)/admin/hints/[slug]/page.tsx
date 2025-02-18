@@ -172,7 +172,10 @@ export default async function Page({
             <RequestBox hint={hint} />
             {(hint.response ||
               (hint.claimer && hint.claimer.id === session.user.id)) && (
-              <ResponseBox hint={{ ...hint, followUps: [] }} members={hint.team.members} />
+              <ResponseBox
+                hint={{ ...hint, followUps: [] }}
+                members={hint.team.members}
+              />
             )}
           </div>
 
