@@ -47,7 +47,7 @@ export default async function DefaultHeader({
   }
 
   return (
-    <div className="">
+    <div className="flex flex-col items-center">
       <div className="flex space-x-2 px-4">
         {sequences.map((seq) => (
           <div className="flex space-x-2">
@@ -58,9 +58,9 @@ export default async function DefaultHeader({
                     <seq.icon className="hover:text-secondary-text" />
                   </Link>
                   {puzzId === puzzleId ? (
-                    <Triangle className="pointer-events-none absolute -bottom-5 left-1/2 w-2 -translate-x-1/2 fill-current" />
+                    <Triangle className="z-0 pointer-events-none absolute -bottom-5 left-1/2 w-2 -translate-x-1/2 fill-current" />
                   ) : (
-                    <span className="pointer-events-none absolute -bottom-7 left-1/2 w-max -translate-x-1/2 rounded bg-black px-2 py-1 text-xs text-main-text opacity-0 transition-opacity group-hover:opacity-100">
+                    <span className="z-10 pointer-events-none absolute -bottom-7 left-1/2 w-max -translate-x-1/2 rounded bg-black px-2 py-1 text-xs text-main-text opacity-0 transition-opacity group-hover:opacity-100">
                       {puzzId}
                     </span>
                   )}
