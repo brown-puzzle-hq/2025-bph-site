@@ -30,7 +30,7 @@ export default function PreviousGuessTable({
                     </p>
                   )}
                 </TableCell>
-                <TableCell className="hidden w-40 whitespace-nowrap md:table-cell text-right">
+                <TableCell className="hidden w-40 whitespace-nowrap text-right md:table-cell">
                   <FormattedTime time={guess.submitTime} />
                 </TableCell>
               </TableRow>
