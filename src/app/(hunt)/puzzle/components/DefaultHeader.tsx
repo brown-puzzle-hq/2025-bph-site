@@ -5,6 +5,7 @@ import { puzzles } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { canViewPuzzle, canViewSolution, SEQUENCES } from "~/hunt.config";
+import { Triangle } from "lucide-react";
 
 export default async function DefaultHeader({
   puzzleId,
@@ -50,15 +51,19 @@ export default async function DefaultHeader({
       <div className="flex space-x-2 px-4">
         {sequences.map((seq) => (
           <div className="flex space-x-2">
-            {seq.puzzles.map((puzzleId) =>
-              unlocked[puzzleId] ? (
+            {seq.puzzles.map((puzzId) =>
+              unlocked[puzzId] ? (
                 <div className="group relative">
-                  <Link href={`/puzzle/${puzzleId}`}>
+                  <Link href={`/puzzle/${puzzId}`}>
                     <seq.icon className="hover:text-secondary-text" />
                   </Link>
-                  <span className="pointer-events-none absolute -bottom-8 left-1/2 w-max -translate-x-1/2 rounded bg-black px-2 py-1 text-xs text-main-text opacity-0 transition-opacity group-hover:opacity-100">
-                    {puzzleId}
-                  </span>
+                  {puzzId === puzzleId ? (
+                    <Triangle className="pointer-events-none absolute -bottom-5 left-1/2 w-2 -translate-x-1/2 fill-current" />
+                  ) : (
+                    <span className="pointer-events-none absolute -bottom-7 left-1/2 w-max -translate-x-1/2 rounded bg-black px-2 py-1 text-xs text-main-text opacity-0 transition-opacity group-hover:opacity-100">
+                      {puzzId}
+                    </span>
+                  )}
                 </div>
               ) : (
                 <seq.icon className="cursor-help text-gray-500" />
