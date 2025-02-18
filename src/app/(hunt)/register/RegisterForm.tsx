@@ -370,7 +370,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-10 w-10 focus-visible:bg-neutral-100 focus-visible:text-neutral-900 focus-visible:ring-0"
+                className="h-7 w-7 p-1 hover:bg-footer-bg hover:text-main-text focus-visible:bg-footer-bg focus-visible:ring-0"
                 disabled={
                   fields.length == 1 &&
                   form.watch("members")[0]?.name === "" &&
@@ -446,8 +446,8 @@ export function RegisterForm({}: RegisterFormProps) {
                     <Input {...field} type="number" min="0" />
                   </FormControl>
                   <FormDescription>
-                    Number of undergraduates, graduates, faculty, or alumni.
-                    Must have at least one to win.
+                    Number of current undergraduate or graduate students on
+                    campus. Must have at least one to win.
                   </FormDescription>
                 </FormItem>
               )}

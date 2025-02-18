@@ -13,9 +13,16 @@ export default async function DefaultHintPage({
   puzzleId: string;
 }) {
   // Get user
-  const session = await auth()!;
-  if (!(await canViewPuzzle(puzzleId))) {
-    redirect("/404");
+  const session = await auth();
+
+  // Check if user can view puzzle
+  switch (await canViewPuzzle(puzzleId, session)) {
+    case "SUCCESS":
+      break;
+    case "NOT AUTHENTICATED":
+      redirect("/login");
+    case "NOT AUTHORIZED":
+      redirect("/puzzle");
   }
 
   const teamId = session?.user?.id;
@@ -57,7 +64,7 @@ export default async function DefaultHintPage({
     },
   });
 
-  const hintsRemaining = await getNumberOfHintsRemaining(teamId);
+  const hintsRemaining = await getNumberOfHintsRemaining(teamId, session!.user!.role);
 
   const query = await db.query.hints.findFirst({
     columns: {},

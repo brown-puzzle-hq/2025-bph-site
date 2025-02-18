@@ -95,7 +95,7 @@ export const profileFormSchema = z
 type TeamInfoFormProps = {
   id: string;
   displayName: string;
-  role: "admin" | "user";
+  role: "admin" | "user" | "testsolver";
   memberString: string;
   interactionMode: "in-person" | "remote";
   numCommunity: string;
@@ -290,6 +290,7 @@ export function ProfileForm({
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Name"
+                        autoComplete="off"
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             e.preventDefault();
@@ -333,6 +334,7 @@ export function ProfileForm({
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Email"
+                        autoComplete="off"
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             e.preventDefault();
@@ -367,7 +369,7 @@ export function ProfileForm({
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-10 w-10 text-gray-400 focus-visible:bg-neutral-100 focus-visible:text-neutral-900 focus-visible:ring-0"
+                className="h-7 w-7 p-1 hover:bg-footer-bg hover:text-main-text focus-visible:bg-footer-bg focus-visible:ring-0"
                 disabled={
                   fields.length == 1 &&
                   form.watch("members")[0]?.name === "" &&
@@ -620,6 +622,10 @@ export function ProfileForm({
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <RadioGroupItem value="admin" />
                       <FormLabel className="font-normal">Admin</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <RadioGroupItem value="testsolver" />
+                      <FormLabel className="font-normal">Testsolver</FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>

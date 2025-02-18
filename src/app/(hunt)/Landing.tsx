@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
 import Link from "next/link";
 
@@ -11,6 +11,33 @@ const formatter = new Intl.DateTimeFormat("en-US", {
 
 export default function Landing() {
   const [scrollY, setScrollY] = useState(0);
+  const [angle, setAngle] = useState(0); // Angle for sine wave
+  const spotlight1Ref = useRef<HTMLDivElement>(null); // First spotlight
+  const spotlight2Ref = useRef<HTMLDivElement>(null); // Second spotlight
+
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const moveSpotlights = () => {
+      if (spotlight1Ref.current && spotlight2Ref.current) {
+        // Spotlight 1
+        const rotation1 = Math.sin(angle) * 25;
+        spotlight1Ref.current.style.transformOrigin = "bottom"; // Set pivot point
+        spotlight1Ref.current.style.transform = `translateY(${scrollY * -0.5}px) rotate(${rotation1}deg)`; // Rotate
+
+        // Spotlight 2 (opposite movement)
+        const rotation2 = Math.sin(-angle) * 25;
+        spotlight2Ref.current.style.transformOrigin = "bottom"; // Set pivot point
+        spotlight2Ref.current.style.transform = `translateY(${scrollY * -0.5}px) rotate(${rotation2}deg)`;
+
+        setAngle((prevAngle) => prevAngle + 0.005);
+        animationFrameId = requestAnimationFrame(moveSpotlights);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(moveSpotlights);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [angle]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,9 +51,9 @@ export default function Landing() {
   return (
     <div className="relative w-screen overflow-hidden">
       <div className="relative h-[100vh] w-screen">
-        {/* absolute background with stars */}
+        {/* Absolute background with stars */}
         <div
-          className="absolute inset-0 h-[170vh] w-full bg-cover bg-top"
+          className="absolute inset-0 z-0 w-full bg-cover bg-top sm:h-[100vh] md:h-[150vh]"
           style={{
             backgroundImage: `url(/home/4.png)`,
             transform: `translateY(${scrollY * -0.1}px)`,
@@ -36,7 +63,7 @@ export default function Landing() {
 
         {/* Back cityscape */}
         <div
-          className="absolute inset-0 h-[170vh] w-full bg-cover bg-top bg-no-repeat"
+          className="z-1 absolute inset-0 w-full bg-cover bg-top bg-no-repeat sm:h-[100vh] md:h-[150vh]"
           style={{
             backgroundImage: `url(/home/3.png)`,
             transform: `translateY(${scrollY * -0.3}px)`,
@@ -46,17 +73,36 @@ export default function Landing() {
 
         {/* Middle cityscape with lamps */}
         <div
-          className="absolute inset-0 h-[170vh] w-full bg-cover bg-top bg-no-repeat"
+          className="absolute inset-0 z-[2] w-full bg-cover bg-top bg-no-repeat sm:h-[100vh] md:h-[150vh] lg:z-[3]"
           style={{
             backgroundImage: `url(/home/2.png)`,
             transform: `translateY(${scrollY * -0.5}px)`,
             clipPath: `inset-0`,
           }}
         />
-
-        {/* Front theater building */}
+        {/* Spotlight */}
         <div
-          className="relative h-[200vh] bg-cover bg-top bg-no-repeat"
+          ref={spotlight1Ref}
+          className="absolute bottom-[50vh] left-[12vw] aspect-[1/15] w-[10vh] bg-cover bg-top opacity-80 md:bottom-[30vh] md:left-[28vw] md:w-[20vh]"
+          style={{
+            backgroundImage: `url(/home/Spotlight.PNG)`,
+          }}
+        />
+        {/* Spotlight */}
+        <div
+          ref={spotlight2Ref}
+          className="absolute bottom-[50vh] right-[12vw] aspect-[1/15] w-[10vh] bg-cover bg-top opacity-80 md:bottom-[30vh] md:right-[28vw] md:w-[20vh]"
+          style={{
+            backgroundImage: `url(/home/Spotlight.PNG)`,
+          }}
+        />
+
+        {/* Red overlay to cover background */}
+        <div className="absolute bottom-0 z-[3] h-[105vh] w-screen translate-y-[55vh] bg-[#4e0000] md:h-[70vh] lg:z-[0]"></div>
+
+        {/* Front theater building (stays above the red div) */}
+        <div
+          className="absolute inset-0 z-[4] w-full bg-cover bg-top bg-no-repeat sm:h-[100vh] md:h-[150vh] lg:h-[200vh]"
           style={{
             backgroundImage: `url(/home/1.png)`,
             transform: `translateY(${scrollY * -1}px)`,
@@ -67,7 +113,7 @@ export default function Landing() {
 
       {/* Invisible clickable overlay */}
       <div
-        className="absolute left-1/2 top-[47%] h-[10vh] w-2/3 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer md:top-[53%] lg:top-[50%]"
+        className="absolute left-1/2 top-[47%] z-[6] h-[10vh] w-2/3 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer"
         style={{
           transform: `translate(-50%, -50%) translateY(${scrollY * -1}px)`, // Apply dynamic Y shift
         }}
@@ -79,7 +125,7 @@ export default function Landing() {
       </div>
 
       {/* Div right below the image */}
-      <div className="flex justify-center pt-[calc((100vw-850px)/8)]">
+      <div className="relative z-[6] flex justify-center pt-[calc((100vw-850px)/8)]">
         <div className="relative flex w-[calc(60vw+200px)] p-4 text-center">
           <div className="absolute left-1/2 top-[-50px] -translate-x-1/2 transform">
             <Link
@@ -117,14 +163,14 @@ export default function Landing() {
               </Link>
             </p>
           </div>
-          <div className="w-1/3 p-2 md:p-4">
+          <div className="z-5 w-1/3 p-2 md:p-4">
             <h1>Who?</h1>
             <p>
               Anyone can come to campus. (Just tell us so we know you're
               coming!)
             </p>
-            <p className="mt-2">Anyone can get a Box.</p>
-            <p className="mt-2">
+            <p className="z-5 mt-2">Anyone can get a Box.</p>
+            <p className="z-5 mt-2">
               <Link href="/info" className="no-underline hover:underline">
                 <i>Box? What box?</i>
               </Link>
