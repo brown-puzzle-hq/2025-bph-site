@@ -47,7 +47,7 @@ export default async function DefaultHeader({
   }
 
   return (
-    <div className="w-full">
+    <div className="">
       <div className="flex space-x-2 px-4">
         {sequences.map((seq) => (
           <div className="flex space-x-2">
