@@ -1,12 +1,14 @@
 "use server";
-
-import { and, eq } from "drizzle-orm";
-import { FollowUpEmailTemplate, FollowUpEmailTemplateProps } from "~/components/email-template";
-import { getNumberOfHintsRemaining } from "~/hunt.config";
-import { sendBotMessage, sendEmail } from "~/lib/utils";
 import { auth } from "~/server/auth/auth";
 import { db } from "~/server/db/index";
+import { and, eq } from "drizzle-orm";
 import { followUps, hints, teams } from "~/server/db/schema";
+import { getNumberOfHintsRemaining } from "~/hunt.config";
+import { sendBotMessage, sendEmail } from "~/lib/utils";
+import {
+  FollowUpEmailTemplate,
+  FollowUpEmailTemplateProps,
+} from "~/lib/email-template";
 
 export type MessageType = "request" | "response" | "follow-up";
 
@@ -98,7 +100,11 @@ export async function insertFollowUp({
   puzzleId,
   puzzleName,
   message,
-}: FollowUpEmailTemplateProps & { hintId: number; teamId?: string, members: string }) {
+}: FollowUpEmailTemplateProps & {
+  hintId: number;
+  teamId?: string;
+  members: string;
+}) {
   const session = await auth();
   if (!session?.user?.id) {
     throw new Error("Not logged in");
@@ -113,15 +119,24 @@ export async function insertFollowUp({
         time: new Date(),
       })
       .returning({ id: followUps.id });
-    
+
     if (result[0]?.id) {
-       if (members) {
-        sendEmail(
+      // If there are members, then this is a follow-up by a team
+      // So send an email
+      if (members) {
+        await sendEmail(
           members,
           `Follow-Up Hint [${puzzleName}]`,
-          FollowUpEmailTemplate({ teamDisplayName, puzzleId, puzzleName, message }),
-        )
-      } else {
+          FollowUpEmailTemplate({
+            teamDisplayName,
+            puzzleId,
+            puzzleName,
+            message,
+          }),
+        );
+      }
+      // Otherwise, notify admin on Discord that there is a follow-up
+      else {
         const hintMessage = `🙏 **Hint** [follow-up](https://www.brownpuzzlehunt.com/admin/hints/${hintId}?reply=true) by [${teamDisplayName}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleName}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${message} <@&1310029428864057504>`;
         await sendBotMessage(hintMessage);
       }

@@ -170,7 +170,11 @@ export default function PreviousHintTable({
     }
   };
 
-  const handleSubmitFollowUp = async (hintId: number, message: string, members: string) => {
+  const handleSubmitFollowUp = async (
+    hintId: number,
+    message: string,
+    members: string,
+  ) => {
     // Optimistic update
     startTransition(() => {
       setOptimisticHints((prev) =>
@@ -192,7 +196,7 @@ export default function PreviousHintTable({
       );
     });
     setFollowUp(null);
-    // TOOD: is there a better option than passing a ton of arguments?
+    // TODO: is there a better option than passing a ton of arguments?
     // wondering if we should have centralized hint types, same goes for inserting/emailing normal hint responses
     // Also might be more efficient to only pass team members once instead of storing in each hint
     const followUpId = await insertFollowUp({
@@ -657,7 +661,11 @@ export default function PreviousHintTable({
                     <Button
                       onClick={() =>
                         // TODO: kinda jank to use empty team members as signal to not send email
-                        handleSubmitFollowUp(hint.id, followUp.message, teamSide ? "": hint.team.members)
+                        handleSubmitFollowUp(
+                          hint.id,
+                          followUp.message,
+                          teamSide ? "" : hint.team.members,
+                        )
                       }
                     >
                       Submit
