@@ -18,15 +18,23 @@ export default async function DefaultHeader({
   // Get sequences that contain this puzzle
   const sequences = SEQUENCES.filter((seq) => seq.puzzles.includes(puzzleId));
 
-  // Show only unlocked puzzles in sequences
-  const unlockedSequences = await Promise.all(
-    sequences.map((seq) =>
-      seq.puzzles.filter(async (puzzleId) => {
-        const status = await canViewPuzzle(puzzleId, session);
-        return status === "SUCCESS";
-      }),
-    ),
-  );
+  // Highlight only unlocked puzzles in sequences
+  const unlocked: { [key: string]: boolean } = (
+    await Promise.all(
+      sequences.map(async (seq) => ({
+        puzzles: Object.fromEntries(
+          await Promise.all(
+            seq.puzzles.map(async (puzzleId) => [
+              puzzleId,
+              (await canViewPuzzle(puzzleId, session)) === "SUCCESS",
+            ]),
+          ),
+        ),
+      })),
+    )
+  ).reduce((acc, seq) => {
+    return { ...acc, ...seq.puzzles };
+  }, {});
 
   // Get puzzle name
   const puzzle = await db.query.puzzles.findFirst({
@@ -38,15 +46,24 @@ export default async function DefaultHeader({
   }
 
   return (
-    <div>
-      <div className="text-center">
-        {unlockedSequences.map((seq) => (
-          <div className="space-x-1">
-            {seq.map((puzzleId) => (
-              <span>
-                [<Link href={`/puzzle/${puzzleId}`}>{puzzleId}</Link>]
-              </span>
-            ))}
+    <div className="w-full">
+      <div className="flex space-x-2 px-4">
+        {sequences.map((seq) => (
+          <div className="flex space-x-2">
+            {seq.puzzles.map((puzzleId) =>
+              unlocked[puzzleId] ? (
+                <div className="group relative">
+                  <Link href={`/puzzle/${puzzleId}`}>
+                    <seq.icon className="hover:text-secondary-text" />
+                  </Link>
+                  <span className="pointer-events-none absolute -bottom-8 left-1/2 w-max -translate-x-1/2 rounded bg-black px-2 py-1 text-xs text-main-text opacity-0 transition-opacity group-hover:opacity-100">
+                    {puzzleId}
+                  </span>
+                </div>
+              ) : (
+                <seq.icon className="cursor-help text-gray-500" />
+              ),
+            )}
           </div>
         ))}
       </div>

@@ -4,7 +4,7 @@ import { teams, guesses, hints, unlocks } from "./server/db/schema";
 import { and, count, eq, ne } from "drizzle-orm";
 import { insertUnlock } from "./app/(hunt)/puzzle/actions";
 import { Session } from "next-auth";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, ScrollText, ShieldCheck } from "lucide-react";
 
 /** REGISTRATION AND HUNT START */
 export const REGISTRATION_START_TIME = new Date("2024-11-17T17:00:00.000Z");
@@ -35,13 +35,13 @@ export const REMOTE = {
 
 type Sequence = {
   name?: string;
-  icon?: LucideIcon;
+  icon: LucideIcon;
   puzzles: string[];
 };
 
 export const SEQUENCES: Sequence[] = [
-  { puzzles: ["seq1", "seq2"] },
-  { puzzles: ["seq1", "seq3"] },
+  { name: "A", icon: ScrollText, puzzles: ["seq1", "seq2"] },
+  { name: "B", icon: ShieldCheck, puzzles: ["seq1", "seq3"] },
 ];
 
 /** GUESSES */
