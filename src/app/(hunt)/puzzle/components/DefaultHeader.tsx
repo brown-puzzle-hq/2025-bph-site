@@ -55,7 +55,7 @@ export default async function DefaultHeader({
               unlocked[puzzId] ? (
                 <div className="group relative">
                   <Link href={`/puzzle/${puzzId}`}>
-                    <seq.icon className="hover:text-secondary-text" />
+                    <seq.icon />
                   </Link>
                   {puzzId === puzzleId ? (
                     <Triangle className="pointer-events-none absolute -bottom-5 left-1/2 z-0 w-2 -translate-x-1/2 fill-current" />
@@ -66,7 +66,7 @@ export default async function DefaultHeader({
                   )}
                 </div>
               ) : (
-                <seq.icon className="cursor-help text-gray-500" />
+                <seq.icon className="text-gray-500" />
               ),
             )}
           </div>
