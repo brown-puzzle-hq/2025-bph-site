@@ -68,7 +68,7 @@ export default async function DefaultPuzzlePage({
       <ErratumDialog errataList={errataList} />
 
       <div className="flex justify-center space-x-2">
-        <div className="mt-4">{puzzleBody}</div>
+        {puzzleBody}
         {copyText && <CopyButton copyText={copyText}></CopyButton>}
       </div>
 
