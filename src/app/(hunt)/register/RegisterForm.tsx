@@ -499,7 +499,7 @@ export function RegisterForm({}: RegisterFormProps) {
                   </div>
                   <FormControl className="text-main-text">
                     <Switch
-                      className="focus-visible:ring-offset-0 data-[state=unchecked]:bg-violet-950 data-[state=checked]:bg-violet-400"
+                      className="focus-visible:ring-offset-0 data-[state=checked]:bg-violet-400 data-[state=unchecked]:bg-violet-950"
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
