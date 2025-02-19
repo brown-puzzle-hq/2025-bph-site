@@ -32,6 +32,7 @@ export const hintStatusEnum = pgEnum("status", [
   "no_response",
   "answered",
   "refunded",
+  "resolved",
 ]);
 
 export const teams = createTable("team", {

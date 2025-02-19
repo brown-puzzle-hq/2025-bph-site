@@ -98,12 +98,16 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
           <p className="hint-button px-1">REFUND</p>
         </button>
       );
+    } else if (status == "resolved") {
+      return <p>Resolved</p>;
     }
   } else {
     if (status == "no_response") {
       return <p>Claimed</p>;
     } else if (status == "answered") {
       return <p>Answered</p>;
+    } else if (status == "resolved") {
+      return <p>Resolved</p>;
     }
   }
 }

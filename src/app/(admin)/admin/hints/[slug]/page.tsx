@@ -9,6 +9,7 @@ import PreviousHintTable from "../components/hint-page/PreviousHintTable";
 import PreviousGuessTable from "../components/hint-page/PreviousGuessTable";
 import { RequestBox } from "../components/hint-page/RequestBox";
 import { ResponseBox } from "../components/hint-page/ResponseBox";
+import { ResolveButton } from "../components/hint-page/ResolveButton";
 import { FormattedTime, ElapsedTime } from "~/lib/time";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
 import { Label } from "~/components/ui/label";
@@ -207,6 +208,10 @@ export default async function Page({
               <PreviousGuessTable previousGuesses={previousGuesses} />
             </div>
           )}
+
+          <div className="w-full p-6 md:w-2/3">
+            <ResolveButton hint={{ ...hint, followUps: [] }} />
+          </div>
         </div>
       </div>
     </div>

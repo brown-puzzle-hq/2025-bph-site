@@ -110,12 +110,27 @@ export function HintTable<TData, TValue>({
         }
 
         // The user's claimed follow up hints are only below completely unanswered hints
-        if (hasFollowUpA && claimerA.id === userId && statusA !== "refunded") {
-          if (hasFollowUpB && claimerB.id === userId && statusB !== "refunded")
+        if (
+          hasFollowUpA &&
+          claimerA.id === userId &&
+          statusA !== "refunded" &&
+          statusA !== "resolved"
+        ) {
+          if (
+            hasFollowUpB &&
+            claimerB.id === userId &&
+            statusB !== "refunded" &&
+            statusB !== "resolved"
+          )
             return FIFO;
           return claimerB.id === userId && statusB === "no_response" ? -1 : 1;
         }
-        if (hasFollowUpB && claimerB.id === userId && statusB !== "refunded") {
+        if (
+          hasFollowUpB &&
+          claimerB.id === userId &&
+          statusB !== "refunded" &&
+          statusB !== "resolved"
+        ) {
           return claimerA.id === userId && statusA === "no_response" ? 1 : -1;
         }
 
@@ -130,11 +145,11 @@ export function HintTable<TData, TValue>({
           if (claimerB.id === userId) return 1;
         }
 
-        // Refunded hints are right above them
-        if (statusA === "refunded") {
-          return statusB === "refunded" ? FIFO : -1;
+        // Refunded and resolved hints are right above them
+        if (statusA === "refunded" || statusA === "resolved") {
+          return statusB === "refunded" || statusB === "resolved" ? FIFO : -1;
         }
-        if (statusB === "refunded") return 1;
+        if (statusB === "refunded" || statusB === "resolved") return 1;
 
         // Answered hints are sorted by who answered them
         if (statusA === "answered") {

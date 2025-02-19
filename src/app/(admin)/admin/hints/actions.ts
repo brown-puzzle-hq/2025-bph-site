@@ -235,3 +235,54 @@ export async function refundHint(hintId: number) {
 
   return { error: null };
 }
+
+export async function resolveHint(hintId: number) {
+  const session = await auth();
+  if (session?.user?.role !== "admin") {
+    throw new Error("Not authorized");
+  }
+
+  // For a hint to be marked as resolved, the claimer must be the user
+  // And the hint status must be "answered"
+  let user = session.user.id ? session.user.id : "";
+  let result = await db
+    .update(hints)
+    .set({ status: "resolved" })
+    .where(
+      and(
+        eq(hints.id, hintId),
+        eq(hints.claimer, user),
+        eq(hints.status, "answered"),
+      ),
+    )
+    .returning({ id: hints.id });
+
+  revalidatePath("/admin/");
+
+  if (result.length != 1) {
+    let hint = await db.query.hints.findFirst({ where: eq(hints.id, hintId) });
+    if (!hint) {
+      return {
+        title: "Error marking hint as resolved",
+        error: "Hint entry not found",
+      };
+    } else if (hint.claimer !== user) {
+      return {
+        title: "Error marking hint as resolved",
+        error: "Hint not currently claimed by user",
+      };
+    } else if (hint.status !== "answered") {
+      return {
+        title: "Error marking hint as resolved",
+        error: "Hint status is not 'answered'",
+      };
+    } else {
+      return {
+        title: "Error marking hint as resolved",
+        error: "Unexpected error occured",
+      };
+    }
+  }
+
+  return { error: null };
+}

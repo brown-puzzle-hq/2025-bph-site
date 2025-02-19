@@ -96,8 +96,12 @@ export default function HintStatusBox({
           </button>
         </div>
       );
-    } else {
+    } else if (status == "refunded") {
       return <div className="p-4">Refunded by: {claimer.displayName}</div>;
+    } else {
+      return (
+        <div className="p-4">Marked as resolved by: {claimer.displayName}</div>
+      );
     }
   }
   // Puzzle is claimed by others
@@ -108,6 +112,10 @@ export default function HintStatusBox({
       return <div className="p-4">Answered by: {claimer.displayName}</div>;
     } else if (status == "refunded") {
       return <div className="p-4">Refunded by: {claimer.displayName}</div>;
+    } else {
+      return (
+        <div className="p-4">Marked as resolved by: {claimer.displayName}</div>
+      );
     }
   }
 }
