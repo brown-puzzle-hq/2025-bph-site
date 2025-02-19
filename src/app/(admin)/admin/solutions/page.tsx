@@ -41,6 +41,7 @@ export default async function Home() {
       var copyText;
 
       try {
+        // Try to import the puzzle data from the hunt folder
         const module = await import(
           `../../../(hunt)/puzzle/${puzzle.id}/data.tsx`
         );
@@ -48,9 +49,19 @@ export default async function Home() {
         solutionBody = !!module.SolutionBody();
         copyText = module.copyText;
       } catch (e) {
-        puzzleBody = false;
-        solutionBody = false;
-        copyText = null;
+        try {
+          // Try to import from the dev folder
+          const module = await import(
+            `../../../(hunt)/puzzle/(dev)/${puzzle.id}/data.tsx`
+          );
+          puzzleBody = !!module.PuzzleBody();
+          solutionBody = !!module.SolutionBody();
+          copyText = module.copyText;
+        } catch (e) {
+          puzzleBody = false;
+          solutionBody = false;
+          copyText = null;
+        }
       }
 
       return {
@@ -69,7 +80,7 @@ export default async function Home() {
       <div className="min-w-[60%]">
         <Table className="justify-center">
           <TableHeader>
-            <TableRow>
+            <TableRow className="hover:bg-inherit">
               <TableHead className="w-1/3">Name</TableHead>
               <TableHead className="w-1/3">Answer</TableHead>
               <TableHead className="w-1/3">Next Unlock</TableHead>
@@ -88,7 +99,7 @@ export default async function Home() {
                 return a.name.localeCompare(b.name);
               })
               .map((puzzle) => (
-                <TableRow key={puzzle.id}>
+                <TableRow key={puzzle.id} className="hover:bg-inherit">
                   <TableCell>
                     <Link
                       className="text-blue-500 hover:underline"
@@ -115,34 +126,34 @@ export default async function Home() {
                       </>
                     ))}
                   </TableCell>
-                  <TableCell className="justify-center hover:opacity-75">
+                  <TableCell className="justify-center">
                     {puzzle.puzzleBody && (
                       <div className="flex justify-center">
                         <Link href={`/puzzle/${puzzle.id}`}>
-                          <Puzzle className="text-red-500" />
+                          <Puzzle className="text-red-500 hover:opacity-75" />
                         </Link>
                       </div>
                     )}
                   </TableCell>
-                  <TableCell className="justify-center hover:opacity-75">
+                  <TableCell className="justify-center">
                     {puzzle.solutionBody && (
                       <div className="flex justify-center">
                         <Link href={`/puzzle/${puzzle.id}/solution`}>
-                          <KeyRound className="text-yellow-500" />
+                          <KeyRound className="text-yellow-500 hover:opacity-75" />
                         </Link>
                       </div>
                     )}
                   </TableCell>
-                  <TableCell className="justify-center hover:opacity-75">
+                  <TableCell className="justify-center">
                     <div className="flex justify-center">
                       <Link href={`/admin/statistics/${puzzle.id}`}>
-                        <ChartColumn className="text-black-500" />
+                        <ChartColumn className="text-black-500 hover:opacity-60" />
                       </Link>
                     </div>
                   </TableCell>
-                  <TableCell className="justify-center hover:opacity-75">
+                  <TableCell className="justify-center">
                     {puzzle.copyText && (
-                      <div className="flex justify-center">
+                      <div className="flex justify-center hover:opacity-60">
                         <CopyButton copyText={puzzle.copyText} />
                       </div>
                     )}
