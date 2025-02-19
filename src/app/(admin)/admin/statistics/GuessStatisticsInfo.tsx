@@ -43,7 +43,6 @@ export default async function GuessStatisticsInfo({
     <div className="flex grow flex-col items-center">
       <DefaultHeader
         puzzleId={puzzleId}
-        puzzleName={puzzle.name}
         hasSolution={true}
       />
       <div className="grid w-full max-w-[1200px] grid-cols-1 gap-4 p-4 md:grid-cols-2">

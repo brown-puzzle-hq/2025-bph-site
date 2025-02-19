@@ -43,7 +43,7 @@ export default async function DefaultHeader({
   })!;
 
   if (!puzzle) {
-    redirect("/404");
+    redirect("/puzzle"); // TODO: this never gets called, just get a 404 error
   }
 
   return (
