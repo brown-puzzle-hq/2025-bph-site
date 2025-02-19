@@ -49,7 +49,7 @@ export default async function AdminHamburgerMenu() {
       type: "link",
     },
     {
-      title: "logout",
+      title: "Logout",
       element: <LogoutButton />,
       type: "element",
     },

@@ -8,8 +8,8 @@ export default async function RootLayout({
   return (
     <body className="bg-white">
       <AdminHamburgerMenu />
+      <div className="min-h-[56px]" />
       <main className="flex min-h-[calc(100vh-56px)] pt-6">{children}</main>
-      <div className="min-h-[56px]"></div>
       <Toaster />
     </body>
   );

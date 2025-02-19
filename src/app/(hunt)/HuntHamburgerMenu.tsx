@@ -52,7 +52,7 @@ export async function HuntHamburgerMenu() {
     }
 
     rightMenuItems.push({
-      title: "logout",
+      title: "Logout",
       element: <LogoutButton />,
       type: "element",
     });
