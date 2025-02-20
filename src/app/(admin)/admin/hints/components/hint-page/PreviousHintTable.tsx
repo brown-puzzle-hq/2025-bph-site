@@ -494,8 +494,8 @@ export default function PreviousHintTable({
                       {teamSide ? "Admin" : hint.claimer?.displayName}
                     </p>
                     <div className="flex space-x-2">
-                      {/* Follow-up button, only show if collapsed */}
-                      {hiddenFollowUps.includes(hint.id) && (
+                      {/* Reply/Edit button, only show if there are no follow-ups */}
+                      {hint.followUps.length === 0 && (
                         <div>
                           {followUp?.hintId !== hint.id ? (
                             <button
@@ -705,7 +705,7 @@ export default function PreviousHintTable({
                 className="border-0 hover:bg-inherit"
               >
                 <TableCell className="relative">
-                  <div className="absolute inset-y-0 w-1 bg-gray-200"></div>
+                  <div className="absolute inset-y-0 w-1 bg-blue-200"></div>
                 </TableCell>
                 <TableCell className="break-words pr-5">
                   <p className="font-bold">Follow-Up</p>
