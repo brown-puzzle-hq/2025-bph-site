@@ -19,6 +19,7 @@
     "@neondatabase/serverless": "^0.10.3",
     "@next/env": "^14.2.15",
     "@pixi/events": "^7.4.2",
+    "@pixi/math": "^7.4.2",
     "@pixi/react": "^7.1.2",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",

@@ -23,6 +23,9 @@ importers:
       '@pixi/events':
         specifier: ^7.4.2
         version: 7.4.2(@pixi/core@7.4.2)(@pixi/display@7.4.2(@pixi/core@7.4.2))
+      '@pixi/math':
+        specifier: ^7.4.2
+        version: 7.4.2
       '@pixi/react':
         specifier: ^7.1.2
         version: 7.1.2(rbk2pa5kjfujbi7gk4qxenqa5a)
