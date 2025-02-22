@@ -91,7 +91,10 @@ export default async function DefaultPuzzlePage({
       </div>
 
       <div className="mb-4 flex w-full justify-center">
-        <PreviousGuessTable previousGuesses={previousGuesses} partialSolutions={partialSolutions} />
+        <PreviousGuessTable
+          previousGuesses={previousGuesses}
+          partialSolutions={partialSolutions}
+        />
       </div>
     </div>
   );

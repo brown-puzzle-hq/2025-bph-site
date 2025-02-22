@@ -33,4 +33,4 @@ export const copyText = "Hello, world!";
  * The `partialSolutions` object is used to prompt partial solutions on the puzzle page.
  * Each key is a partial solution, and the value is the prompt to be displayed.
  */
-export const partialSolutions: Record<string, string> = {}
+export const partialSolutions: Record<string, string> = {};
