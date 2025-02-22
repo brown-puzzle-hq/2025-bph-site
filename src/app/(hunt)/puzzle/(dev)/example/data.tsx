@@ -34,6 +34,6 @@ export const copyText = "Hello, world!";
  * Each key is a partial solution, and the value is the prompt to be displayed.
  */
 export const partialSolutions: Record<string, string> = {
-  "EXAMP": "ALMOST THERE",
-  "EXAMPL": "LEARN TO SPELL"
+  "EXAMP": "Almost there!",
+  "EXAMPL": "Learn to spell!"
 };
