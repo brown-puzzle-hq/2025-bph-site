@@ -7,9 +7,6 @@ export default function PreviousGuessTable({
 }: {
   previousGuesses: (typeof guesses.$inferSelect)[];
 }) {
-  const maxLength = Math.max(
-    ...previousGuesses.map((guess) => guess.guess.length),
-  );
   return (
     <div>
       <Table className="table-fixed md:table-auto">

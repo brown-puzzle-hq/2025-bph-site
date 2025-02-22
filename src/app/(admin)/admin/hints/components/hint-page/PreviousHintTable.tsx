@@ -460,7 +460,7 @@ export default function PreviousHintTable({
                     />
                   </div>
                 ) : (
-                  hint.request
+                  <div className="whitespace-pre-wrap">{hint.request}</div>
                 )}
               </TableCell>
             </TableRow>
@@ -580,7 +580,7 @@ export default function PreviousHintTable({
                         />
                       </div>
                     ) : (
-                      hint.response
+                      <div className="whitespace-pre-wrap">{hint.response}</div>
                     )}
                   </div>
                 </TableCell>
@@ -714,7 +714,7 @@ export default function PreviousHintTable({
                             />
                           </div>
                         ) : (
-                          hiddenFollowUp.message
+                          <div className="whitespace-pre-wrap">{hiddenFollowUp.message}</div>
                         )}
                       </div>
                     </TableCell>
