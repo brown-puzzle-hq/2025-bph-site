@@ -5,9 +5,11 @@ import { FormattedTime } from "~/lib/time";
 export default function PreviousGuessTable({
   previousGuesses,
   partialSolutions,
+  tasks,
 }: {
   previousGuesses: (typeof guesses.$inferSelect)[];
   partialSolutions: Record<string, string>;
+  tasks: Record<string, React.ReactNode>;
 }) {
   const maxLength = Math.max(
     ...previousGuesses.map((guess) => guess.guess.length),
@@ -36,6 +38,8 @@ export default function PreviousGuessTable({
                         {partialSolutions[guess.guess]}
                       </span>
                     </div>
+                  ) : tasks[guess.guess] ? (
+                    <p className="font-medium text-link">TASK ↑</p>
                   ) : (
                     <p className="font-medium text-incorrect-guess">
                       INCORRECT

@@ -30,7 +30,14 @@ export function SolutionBody(): JSX.Element | null {
 export const copyText = "Hello, world!";
 
 /**
- * The `partialSolutions` object is used to prompt partial solutions on the puzzle page.
- * Each key is a partial solution, and the value is the prompt to be displayed.
+ * The `partialSolutions` object is used to prompt solutions with significant progress.
+ * Each key is a partial solution, and the value is the prompt to be displayed. Keys must
+ * be in all caps, no spaces.
  */
 export const partialSolutions: Record<string, string> = {};
+
+/**
+ * The `tasks` object is used for multi-step puzzles. When a certain answer is submitted,
+ * more content will be added to the puzzle body. Keys must be in all caps, no spaces.
+ */
+export const tasks: Record<string, JSX.Element> = {};

@@ -14,11 +14,13 @@ export default async function DefaultPuzzlePage({
   puzzleBody,
   copyText,
   partialSolutions,
+  tasks,
 }: {
   puzzleId: string;
   puzzleBody: React.ReactNode;
   copyText: string | null;
   partialSolutions: Record<string, string>;
+  tasks: Record<string, React.ReactNode>;
 }) {
   // Authentication
   const session = await auth();
@@ -73,6 +75,16 @@ export default async function DefaultPuzzlePage({
         {puzzleBody}
         {copyText && <CopyButton copyText={copyText}></CopyButton>}
       </div>
+      {Object.keys(tasks).map((task) => {
+        if (previousGuesses.some((guess) => guess.guess === task)) {
+          return (
+            <div key={task}>
+              <hr className="my-4" />
+              {tasks[task]}
+            </div>
+          );
+        }
+      })}
 
       <div className="mt-4">
         {!hasCorrectGuess && numberOfGuessesLeft > 0 && (
@@ -94,6 +106,7 @@ export default async function DefaultPuzzlePage({
         <PreviousGuessTable
           previousGuesses={previousGuesses}
           partialSolutions={partialSolutions}
+          tasks={tasks}
         />
       </div>
     </div>
