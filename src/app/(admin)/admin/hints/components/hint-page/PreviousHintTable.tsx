@@ -495,7 +495,7 @@ export default function PreviousHintTable({
                     </p>
                     <div className="flex space-x-2">
                       {/* Follow-up button, only show if collapsed */}
-                      {hiddenFollowUps.includes(hint.id) && (
+                      {(!hint.followUps.length || hiddenFollowUps.includes(hint.id)) && (
                         <div>
                           {followUp?.hintId !== hint.id ? (
                             <button
