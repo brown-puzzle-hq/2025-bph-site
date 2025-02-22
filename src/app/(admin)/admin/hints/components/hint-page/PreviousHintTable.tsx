@@ -588,114 +588,137 @@ export default function PreviousHintTable({
 
             {/* Follow-ups row */}
             {!hiddenFollowUps.includes(hint.id) &&
-              hint.followUps.map((hiddenFollowUp, i, row) => (
-                <TableRow
-                  key={`${hiddenFollowUp.id}`}
-                  className="border-0 hover:bg-inherit"
-                >
-                  <TableCell className="relative">
-                    <div className="absolute inset-y-0 w-1 bg-blue-200"></div>
-                  </TableCell>
-                  <TableCell className="break-words pr-5">
-                    {/* Top section with userId and edit button */}
-                    <div className="flex items-center justify-between">
-                      {hiddenFollowUp.user.id === hint.team.id ? (
-                        <p className="pb-1 font-bold">
-                          {teamSide ? "Team" : teamDisplayName}
-                        </p>
-                      ) : (
-                        <p className="pb-1 font-bold">
-                          {teamSide ? "Admin" : hiddenFollowUp.user.displayName}
-                        </p>
-                      )}
-                      <div className="flex space-x-2">
-                        {i + 1 === row.length ? (
-                          followUp?.hintId !== hint.id ? (
-                            <button
-                              onClick={() => {
-                                setEdit(null);
-                                // Hide other follow-ups under the same hint
-                                setHiddenFollowUps((prev) =>
-                                  prev.filter((prevId) => prevId !== hint.id),
-                                );
-                                setFollowUp({
-                                  hintId: hint.id,
-                                  message: "",
-                                });
-                              }}
-                              className="text-link hover:underline"
-                            >
-                              Reply
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => setFollowUp(null)}
-                              className="text-link hover:underline"
-                            >
-                              Cancel
-                            </button>
-                          )
+              hint.followUps
+                .filter(
+                  (hiddenFollowUp) =>
+                    !teamSide || hiddenFollowUp.message !== "[Resolved]",
+                )
+                .map((hiddenFollowUp, i, row) => (
+                  <TableRow
+                    key={`${hiddenFollowUp.id}`}
+                    className="border-0 hover:bg-inherit"
+                  >
+                    <TableCell className="relative">
+                      <div className="absolute inset-y-0 w-1 bg-blue-200"></div>
+                    </TableCell>
+                    <TableCell className="break-words pr-5">
+                      {/* Top section with userId and edit button */}
+                      <div className="flex items-center justify-between">
+                        {hiddenFollowUp.user.id === hint.team.id ? (
+                          <p className="pb-1 font-bold">
+                            {teamSide ? "Team" : teamDisplayName}
+                          </p>
                         ) : (
-                          <div></div>
+                          <p className="pb-1 font-bold">
+                            {teamSide
+                              ? "Admin"
+                              : hiddenFollowUp.user.displayName}
+                          </p>
                         )}
-                        {/* If the previous hint follow-up was made by user, allow edits */}
-                        {hiddenFollowUp.user.id === session?.user?.id && (
-                          <div>
-                            {edit?.type === "follow-up" &&
-                            edit.id === hiddenFollowUp.id ? (
+                        <div className="flex space-x-2">
+                          {i + 1 === row.length &&
+                            !teamSide &&
+                            hiddenFollowUp.message !== "[Resolved]" &&
+                            hiddenFollowUp.user.id === hint.team.id && (
                               <button
                                 onClick={() =>
-                                  handleSubmitEdit(
+                                  // TODO: kinda jank to use empty team members as signal to not send email
+                                  handleSubmitFollowUp(
                                     hint.id,
-                                    edit.value,
-                                    "follow-up",
+                                    "[Resolved]",
+                                    "",
                                   )
                                 }
                                 className="text-link hover:underline"
                               >
-                                Save
+                                Ignore
                               </button>
-                            ) : (
+                            )}
+                          {i + 1 === row.length &&
+                            (followUp?.hintId !== hint.id ? (
                               <button
                                 onClick={() => {
-                                  setFollowUp(null);
-                                  setEdit({
-                                    id: hiddenFollowUp.id,
-                                    value: hiddenFollowUp.message,
-                                    type: "follow-up",
+                                  setEdit(null);
+                                  // Hide other follow-ups under the same hint
+                                  setHiddenFollowUps((prev) =>
+                                    prev.filter((prevId) => prevId !== hint.id),
+                                  );
+                                  setFollowUp({
+                                    hintId: hint.id,
+                                    message: "",
                                   });
                                 }}
                                 className="text-link hover:underline"
                               >
-                                Edit
+                                Reply
                               </button>
+                            ) : (
+                              <button
+                                onClick={() => setFollowUp(null)}
+                                className="text-link hover:underline"
+                              >
+                                Cancel
+                              </button>
+                            ))}
+                          {/* If the previous hint follow-up was made by user, allow edits */}
+                          {hiddenFollowUp.user.id === session?.user?.id &&
+                            hiddenFollowUp.message !== "[Resolved]" && (
+                              <div>
+                                {edit?.type === "follow-up" &&
+                                edit.id === hiddenFollowUp.id ? (
+                                  <button
+                                    onClick={() =>
+                                      handleSubmitEdit(
+                                        hint.id,
+                                        edit.value,
+                                        "follow-up",
+                                      )
+                                    }
+                                    className="text-link hover:underline"
+                                  >
+                                    Save
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => {
+                                      setFollowUp(null);
+                                      setEdit({
+                                        id: hiddenFollowUp.id,
+                                        value: hiddenFollowUp.message,
+                                        type: "follow-up",
+                                      });
+                                    }}
+                                    className="text-link hover:underline"
+                                  >
+                                    Edit
+                                  </button>
+                                )}
+                              </div>
                             )}
+                        </div>
+                      </div>
+                      {/* Botton section with follow-up message */}
+                      <div>
+                        {edit?.type === "follow-up" &&
+                        edit.id === hiddenFollowUp.id ? (
+                          <div className="pt-2">
+                            <AutosizeTextarea
+                              maxHeight={500}
+                              className="resize-none bg-secondary-bg text-secondary-accent focus-visible:ring-offset-0"
+                              value={edit.value}
+                              onChange={(e) => {
+                                if (!edit) return;
+                                setEdit({ ...edit, value: e.target.value });
+                              }}
+                            />
                           </div>
+                        ) : (
+                          hiddenFollowUp.message
                         )}
                       </div>
-                    </div>
-                    {/* Botton section with follow-up message */}
-                    <div>
-                      {edit?.type === "follow-up" &&
-                      edit.id === hiddenFollowUp.id ? (
-                        <div className="pt-2">
-                          <AutosizeTextarea
-                            maxHeight={500}
-                            className="resize-none bg-secondary-bg text-secondary-accent focus-visible:ring-offset-0"
-                            value={edit.value}
-                            onChange={(e) => {
-                              if (!edit) return;
-                              setEdit({ ...edit, value: e.target.value });
-                            }}
-                          />
-                        </div>
-                      ) : (
-                        hiddenFollowUp.message
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                  </TableRow>
+                ))}
 
             {/* New follow-up request row */}
             {followUp !== null && followUp.hintId === hint.id && (
@@ -705,7 +728,7 @@ export default function PreviousHintTable({
                 className="border-0 hover:bg-inherit"
               >
                 <TableCell className="relative">
-                  <div className="absolute inset-y-0 w-1 bg-gray-200"></div>
+                  <div className="absolute inset-y-0 w-1 bg-blue-200"></div>
                 </TableCell>
                 <TableCell className="break-words pr-5">
                   <p className="font-bold">Follow-Up</p>
