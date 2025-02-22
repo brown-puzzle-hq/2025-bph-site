@@ -315,10 +315,7 @@ export default function Game() {
           </TableHeader>
           <TableBody>
             {moves.map((round, index) => (
-              <TableRow
-                className="hover:bg-inherit"
-                key={index}
-              >
+              <TableRow className="hover:bg-inherit" key={index}>
                 <TableCell className="w-0 font-bold">
                   {index % 2 ? (
                     <ArrowDown className="h-4" />
