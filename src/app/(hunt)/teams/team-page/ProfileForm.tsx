@@ -218,7 +218,8 @@ export function ProfileForm({
       password: "",
       confirmPassword: "",
     });
-    document.activeElement instanceof HTMLElement && document.activeElement.blur();
+    document.activeElement instanceof HTMLElement &&
+      document.activeElement.blur();
     router.refresh(); // Ideally we remove this but seems like still necessary in some cases
   };
 
