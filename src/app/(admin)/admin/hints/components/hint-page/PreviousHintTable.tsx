@@ -714,7 +714,9 @@ export default function PreviousHintTable({
                             />
                           </div>
                         ) : (
-                          <div className="whitespace-pre-wrap">{hiddenFollowUp.message}</div>
+                          <div className="whitespace-pre-wrap">
+                            {hiddenFollowUp.message}
+                          </div>
                         )}
                       </div>
                     </TableCell>
