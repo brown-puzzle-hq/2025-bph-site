@@ -1,12 +1,17 @@
 "use client";
 import { useState } from "react";
-import { queryDatabase } from "./actions";
+import Image from "next/image";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
+import { EnlargedImage } from "~/components/ui/enlarged-component";
+
+import { queryDatabase } from "./actions";
 
 export default function Page() {
-  const [query, setQuery] = useState("SELECT * FROM bph_site_team;");
+  const [query, setQuery] = useState(
+    "SELECT * FROM bph_site_team;\nWHERE wants_box = true;",
+  );
   const [result, setResult] = useState<any>(null);
 
   async function executeQuery() {
@@ -26,6 +31,17 @@ export default function Page() {
         Enter an SQL query below and execute it against the database.
       </p>
 
+      <div className="mb-4">
+        <EnlargedImage
+          props={{
+            src: "/sql/schema.svg",
+            alt: "Database Schema",
+            width: 600,
+            height: 600,
+          }}
+        />
+      </div>
+
       {/* SQL Query Input Box */}
       <pre>
         <AutosizeTextarea
@@ -40,7 +56,7 @@ export default function Page() {
       {/* Execute Button */}
       <Button
         onClick={executeQuery}
-        className="mt-3 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-500"
+        className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-500"
       >
         Execute SQL
       </Button>
@@ -74,13 +90,22 @@ export default function Page() {
             <TabsContent value="emails" className="w-screen">
               <pre className="text-wrap text-sm text-gray-800">
                 <div className="p-4">
-                  {JSON.parse(result)?.rows?.[0]?.members
-                    ? JSON.parse(result).rows.map((row: any) =>
-                        JSON.parse(row.members).map(
-                          ([name, email]: [string, string]) => `${email}\n`,
-                        ),
-                      )
-                    : "No emails found."}
+                  {(() => {
+                    try {
+                      const parsedResult = JSON.parse(result);
+                      if (parsedResult?.rows?.[0]?.members) {
+                        return parsedResult.rows.map((row: any) =>
+                          JSON.parse(row.members).map(
+                            ([name, email]: [string, string]) => `${email}\n`,
+                          ),
+                        );
+                      }
+                      return "No emails found.";
+                    } catch (error) {
+                      console.error("SQL Parsing Error:", error);
+                      return "SQL error";
+                    }
+                  })()}
                 </div>
               </pre>
             </TabsContent>
