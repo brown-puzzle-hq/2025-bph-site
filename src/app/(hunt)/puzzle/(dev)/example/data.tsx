@@ -44,6 +44,12 @@ export const partialSolutions: Record<string, string> = {
  * more content will be added to the puzzle body. Keys must be in all caps, no spaces.
  */
 export const tasks: Record<string, JSX.Element> = {
-  "EX": <div className="text-center">This is a task unlocked by submitting EX.</div>,
-  "EXAM": <div className="text-center">This is a task unlocked by submitting EXAM.</div>,
-}
+  EX: (
+    <div className="text-center">This is a task unlocked by submitting EX.</div>
+  ),
+  EXAM: (
+    <div className="text-center">
+      This is a task unlocked by submitting EXAM.
+    </div>
+  ),
+};
