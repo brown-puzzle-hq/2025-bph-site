@@ -12,11 +12,13 @@ import CopyButton from "./CopyButton";
 export default async function DefaultPuzzlePage({
   puzzleId,
   puzzleBody,
-  copyText = null,
+  copyText,
+  partialSolutions,
 }: {
   puzzleId: string;
   puzzleBody: React.ReactNode;
-  copyText?: string | null;
+  copyText: string | null;
+  partialSolutions: Record<string, string>;
 }) {
   // Authentication
   const session = await auth();
@@ -89,7 +91,7 @@ export default async function DefaultPuzzlePage({
       </div>
 
       <div className="mb-4 flex w-full justify-center">
-        <PreviousGuessTable previousGuesses={previousGuesses} />
+        <PreviousGuessTable previousGuesses={previousGuesses} partialSolutions={partialSolutions} />
       </div>
     </div>
   );

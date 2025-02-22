@@ -34,6 +34,7 @@ export default {
         // Other text colors
         link: colors.blue[300],
         "correct-guess": colors.emerald[300],
+        "partial-guess": colors.yellow[300],
         "incorrect-guess": colors.rose[300],
         error: colors.red[400],
 
