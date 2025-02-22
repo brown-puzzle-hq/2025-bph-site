@@ -1,5 +1,11 @@
 import DefaultPuzzlePage from "@/puzzle/components/DefaultPuzzlePage";
-import { puzzleId, PuzzleBody, copyText, partialSolutions } from "./data";
+import {
+  puzzleId,
+  PuzzleBody,
+  copyText,
+  partialSolutions,
+  tasks,
+} from "./data";
 
 export default async function Page() {
   return (
@@ -8,6 +14,7 @@ export default async function Page() {
       puzzleBody={PuzzleBody()}
       copyText={copyText}
       partialSolutions={partialSolutions}
+      tasks={tasks}
     />
   );
 }
