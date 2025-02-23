@@ -1,7 +1,7 @@
 "use client";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 
 const formatter = new Intl.DateTimeFormat("en-US", {
   year: "2-digit",
@@ -16,6 +16,8 @@ const shortFormatter = new Intl.DateTimeFormat("en-US", {
 
 export default function Landing() {
   const { scrollYProgress } = useScroll();
+  const controls = useAnimation();
+
   return (
     <div className="relative grid overflow-hidden">
       <motion.img
@@ -62,6 +64,19 @@ export default function Landing() {
       <motion.img
         className="z-[2] col-start-1 row-start-1 min-h-[125vh] object-cover"
         src="/home/1.png"
+      />
+      <motion.img
+        className="z-[2] col-start-1 row-start-1 min-h-[125vh] object-cover"
+        src="/home/Register.png"
+        initial={{ opacity: 0 }}
+        animate={controls}
+        transition={{ duration: 0.1, ease: "easeInOut" }}
+      />
+      <Link
+        className="absolute bottom-[calc(max(73vw,81.11vh))] left-[calc(min(35vw,50vw-16.67vh))] right-[calc(min(35vw,50vw-16.67vh))] z-[2] col-start-1 row-start-1 h-[calc(max(4.5vw,5vh))]"
+        href="/register"
+        onMouseEnter={() => controls.start({ opacity: 1 })}
+        onMouseLeave={() => controls.start({ opacity: 0 })}
       />
       <div className="absolute bottom-12 left-1/2 z-[2] grid w-full -translate-x-1/2 transform grid-cols-3 gap-4 p-4 text-center lg:bottom-16 lg:w-3/4 lg:grid-cols-1">
         <div className="space-y-2">
