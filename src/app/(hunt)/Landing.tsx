@@ -12,6 +12,8 @@ const formatter = new Intl.DateTimeFormat("en-US", {
 export default function Landing() {
   const [scrollY, setScrollY] = useState(0);
   const [angle, setAngle] = useState(0); // Angle for sine wave
+  const [registerHovered, setRegisterHovered] = useState(false);
+
   const spotlight1Ref = useRef<HTMLDivElement>(null); // First spotlight
   const spotlight2Ref = useRef<HTMLDivElement>(null); // Second spotlight
 
@@ -46,6 +48,21 @@ export default function Landing() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleMouseEnter = () => {
+    setRegisterHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setRegisterHovered(false);
+  };
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = "/home/TheaterRegister.png"; // Preload hover image
+    const img2 = new Image();
+    img2.src = "/home/1.png"; // Preload spotlight image
   }, []);
 
   return (
@@ -102,26 +119,24 @@ export default function Landing() {
 
         {/* Front theater building (stays above the red div) */}
         <div
-          className="absolute inset-0 z-[4] w-full bg-cover bg-top bg-no-repeat sm:h-[100vh] md:h-[150vh] lg:h-[200vh]"
+          className="absolute inset-0 z-[4] w-full bg-cover bg-top bg-no-repeat transition-all duration-300 ease-in-out sm:h-[100vh] md:h-[150vh] lg:h-[200vh]"
           style={{
-            backgroundImage: `url(/home/1.png)`,
+            backgroundImage: `url(${registerHovered ? "/home/TheaterRegister.png" : "/home/1.png"})`,
             transform: `translateY(${scrollY * -1}px)`,
-            clipPath: `inset-0`,
           }}
-        />
-      </div>
-
-      {/* Invisible clickable overlay */}
-      <div
-        className="absolute left-1/2 top-[47%] z-[6] h-[10vh] w-2/3 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer"
-        style={{
-          transform: `translate(-50%, -50%) translateY(${scrollY * -1}px)`, // Apply dynamic Y shift
-        }}
-      >
-        <Link
-          href="/register"
-          className="absolute left-0 top-0 h-full w-full"
-        />
+        >
+          {/* Thin strip at 30% height for hover effect */}
+          <div
+            className="absolute left-0 top-[30%] z-[5] h-[5%] w-full bg-transparent"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <Link
+              href="/register"
+              className="absolute left-0 top-0 h-full w-full"
+            />
+          </div>
+        </div>
       </div>
 
       {/* Div right below the image */}
