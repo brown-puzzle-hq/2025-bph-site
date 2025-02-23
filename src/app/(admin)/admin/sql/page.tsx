@@ -51,13 +51,13 @@ export default function Page() {
   };
 
   return (
-    <div className="mx-auto w-1/2 pb-6">
+    <div className="mx-auto px-4 w-full md:w-2/3 lg:w-1/2 pb-6">
       <h1 className="text-2xl font-bold">SQL Query Executor</h1>
       <p className="mb-4 text-gray-600">
         Enter an SQL query below to execute it against the database.
       </p>
 
-      <div className="mb-4">
+      <div className="flex mb-4 justify-center">
         <EnlargedImage
           props={{
             src: "/sql/schema.svg",
