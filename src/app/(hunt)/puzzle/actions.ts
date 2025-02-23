@@ -26,16 +26,20 @@ import { sendBotMessage } from "~/lib/utils";
 
 export type TxType = Parameters<Parameters<typeof db.transaction>[0]>[0];
 export type MessageType = "request" | "response" | "follow-up";
+export type viewStatus = "success" | "not_authenticated" | "not_authorized";
 
-export async function canViewPuzzle(puzzleId: string, session: Session | null) {
+export async function canViewPuzzle(
+  puzzleId: string,
+  session: Session | null,
+): Promise<viewStatus> {
   const currentTime = new Date();
 
   // If the hunt has ended for everyone, anyone can view the puzzle
-  if (currentTime > REMOTE.END_TIME) return "SUCCESS";
+  if (currentTime > REMOTE.END_TIME) return "success";
   // Otherwise, they must be signed-in
-  if (!session?.user?.id) return "NOT AUTHENTICATED";
+  if (!session?.user?.id) return "not_authenticated";
   // Admin can always view the puzzle
-  if (session.user.role == "admin") return "SUCCESS";
+  if (session.user.role == "admin") return "success";
 
   // If the hunt has ended for in-person teams
   // In-person teams can view puzzles
@@ -43,7 +47,7 @@ export async function canViewPuzzle(puzzleId: string, session: Session | null) {
     session.user.interactionMode === "in-person" &&
     currentTime > IN_PERSON.END_TIME
   )
-    return "SUCCESS";
+    return "success";
 
   // If they are a testsolver, or the hunt has started for them,
   // then check whether they have unlocked the puzzle
@@ -63,7 +67,7 @@ export async function canViewPuzzle(puzzleId: string, session: Session | null) {
       ),
     }));
 
-    return isInitialPuzzle || isUnlocked ? "SUCCESS" : "NOT AUTHORIZED";
+    return isInitialPuzzle || isUnlocked ? "success" : "not_authorized";
   }
 
   // The hunt has not started yet and the user is not an admin or testsolver
@@ -76,24 +80,23 @@ export async function canViewPuzzle(puzzleId: string, session: Session | null) {
 export async function canViewSolution(
   puzzleId: string,
   session: Session | null,
-) {
+): Promise<viewStatus> {
   // If the hunt has ended, anyone can view solutions
-  if (new Date() > REMOTE.END_TIME) return "SUCESSS";
+  if (new Date() > REMOTE.END_TIME) return "success";
   // If the hunt has not ended, users must be signed-in
-  if (!session?.user?.id) return "NOT AUTHENTICATED";
+  if (!session?.user?.id) return "not_authenticated";
   // Admin can always view the solution
-  if (session.user.role == "admin") return "SUCCESS";
+  if (session.user.role == "admin") return "success";
 
   // Everyone else needs to have solved the puzzle
-  const isSolved = !!(await db.query.guesses.findFirst({
+  const solved = await db.query.solves.findFirst({
     where: and(
-      eq(guesses.teamId, session.user.id),
-      eq(guesses.puzzleId, puzzleId),
-      guesses.isCorrect,
+      eq(solves.teamId, session.user.id),
+      eq(solves.puzzleId, puzzleId),
     ),
-  }));
+  });
 
-  return isSolved ? "SUCCESS" : "NOT AUTHORIZED";
+  return solved ? "success" : "not_authorized";
 }
 
 export async function handleGuess(puzzleId: string, guess: string) {

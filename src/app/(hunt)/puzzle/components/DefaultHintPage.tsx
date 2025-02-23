@@ -4,7 +4,8 @@ import { auth } from "@/auth";
 import { db } from "~/server/db";
 import { eq, and } from "drizzle-orm";
 import { guesses, hints, puzzles } from "~/server/db/schema";
-import { canViewPuzzle, getNumberOfHintsRemaining } from "~/hunt.config";
+import { canViewPuzzle } from "../actions";
+import { getNumberOfHintsRemaining } from "~/hunt.config";
 import PreviousHintTable from "~/app/(admin)/admin/hints/components/hint-page/PreviousHintTable";
 
 export default async function DefaultHintPage({
@@ -17,11 +18,11 @@ export default async function DefaultHintPage({
 
   // Check if user can view puzzle
   switch (await canViewPuzzle(puzzleId, session)) {
-    case "SUCCESS":
+    case "success":
       break;
-    case "NOT AUTHENTICATED":
+    case "not_authenticated":
       redirect("/login");
-    case "NOT AUTHORIZED":
+    case "not_authorized":
       redirect("/puzzle");
   }
 

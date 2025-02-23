@@ -6,7 +6,8 @@ import { redirect } from "next/navigation";
 import PreviousGuessTable from "./PreviousGuessTable";
 import ErratumDialog from "./ErratumDialog";
 import GuessForm from "./GuessForm";
-import { canViewPuzzle, NUMBER_OF_GUESSES_PER_PUZZLE } from "~/hunt.config";
+import { canViewPuzzle } from "../actions";
+import { NUMBER_OF_GUESSES_PER_PUZZLE } from "~/hunt.config";
 import CopyButton from "./CopyButton";
 
 export default async function DefaultPuzzlePage({
@@ -21,11 +22,11 @@ export default async function DefaultPuzzlePage({
   // Authentication
   const session = await auth();
   switch (await canViewPuzzle(puzzleId, session)) {
-    case "SUCCESS":
+    case "success":
       break;
-    case "NOT AUTHENTICATED":
+    case "not_authenticated":
       redirect("/login");
-    case "NOT AUTHORIZED":
+    case "not_authorized":
       redirect("/puzzle");
   }
 
