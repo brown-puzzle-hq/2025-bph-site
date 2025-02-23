@@ -10,7 +10,9 @@ export default function CopyButton({ copyText }: { copyText: string }) {
         toast({
           title: "Puzzle copied to clipboard!",
           description: (
-            <span className="block w-[29em] truncate">{copyText}</span>
+            <span className="block max-w-[calc(100vw-64px)] truncate md:max-w-[356px]">
+              {copyText}
+            </span>
           ),
         });
       }}
