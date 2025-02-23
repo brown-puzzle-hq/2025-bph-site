@@ -41,8 +41,8 @@ export function EnlargedImage({ props }: { props: ImageProps }) {
             <Image
               src={props.src}
               alt={props.alt}
-              height={(props.height || 800) * 2}
-              width={(props.width || 800) * 2}
+              height={(typeof props.height === 'number' ? props.height : 800) * 2}
+              width={(typeof props.width === 'number' ? props.width : 800) * 2}
               className="max-h-none max-w-none rounded-lg"
             />
           </div>

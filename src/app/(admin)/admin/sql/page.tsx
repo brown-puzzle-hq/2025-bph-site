@@ -1,16 +1,17 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
 import { EnlargedImage } from "~/components/ui/enlarged-component";
 
 import { queryDatabase } from "./actions";
+import CopyButton from "../solutions/CopyButton";
 
 export default function Page() {
+  const [activeTab, setActiveTab] = useState("emails");
   const [query, setQuery] = useState(
-    "SELECT * FROM bph_site_team;\nWHERE wants_box = true;",
+    "SELECT * FROM bph_site_team\nWHERE wants_box = true;",
   );
   const [result, setResult] = useState<any>(null);
 
@@ -24,11 +25,36 @@ export default function Page() {
     }
   }
 
+  const getContent = () => {
+    if (activeTab === "raw") {
+      return typeof result === "string"
+        ? result
+        : result?.error || "No query yet.";
+    } else {
+      try {
+        const parsedResult = JSON.parse(result);
+        if (parsedResult?.rows?.[0]?.members) {
+          return parsedResult.rows
+            .map((row: any) =>
+              JSON.parse(row.members)
+                .map(([_, email]: [string, string]) => email)
+                .filter(Boolean),
+            )
+            .flat()
+            .join("\n");
+        }
+        return "No emails found.";
+      } catch (error) {
+        return "SQL error";
+      }
+    }
+  };
+
   return (
-    <div className="mx-auto max-w-2xl p-6">
+    <div className="mx-auto w-1/2 pb-6">
       <h1 className="text-2xl font-bold">SQL Query Executor</h1>
       <p className="mb-4 text-gray-600">
-        Enter an SQL query below and execute it against the database.
+        Enter an SQL query below to execute it against the database.
       </p>
 
       <div className="mb-4">
@@ -56,15 +82,15 @@ export default function Page() {
       {/* Execute Button */}
       <Button
         onClick={executeQuery}
-        className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-500"
+        className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-500 hover:opacity-90"
       >
         Execute SQL
       </Button>
 
-      {result && (
-        <div className="mt-8 w-full rounded border">
-          <Tabs defaultValue="emails">
-            <TabsList className="mt-2 bg-inherit">
+      <div className="mt-4 w-full rounded border">
+        <Tabs defaultValue="emails" onValueChange={setActiveTab}>
+          <TabsList className="mt-2 w-full justify-between bg-inherit">
+            <div>
               <TabsTrigger
                 value="emails"
                 className="rounded-lg data-[state=active]:bg-inherit data-[state=active]:text-inherit data-[state=active]:underline data-[state=active]:decoration-blue-500 data-[state=active]:decoration-2 data-[state=active]:shadow-none"
@@ -77,41 +103,31 @@ export default function Page() {
               >
                 Raw SQL
               </TabsTrigger>
-            </TabsList>
+            </div>
+            <div className="pr-1.5 hover:opacity-75">
+              <CopyButton copyText={getContent()} />
+            </div>
+          </TabsList>
 
-            {/* Raw SQL*/}
-            <TabsContent value="raw" className="w-full">
-              <div className="bg-gray-100 p-4">
-                <pre className="text-wrap text-sm text-gray-800">{result}</pre>
-              </div>
-            </TabsContent>
-
-            {/* Display Emails Result */}
-            <TabsContent value="emails" className="w-screen">
+          {/* Raw SQL*/}
+          <TabsContent value="raw" className="w-full">
+            <div className="bg-gray-100 p-4">
               <pre className="text-wrap text-sm text-gray-800">
-                <div className="p-4">
-                  {(() => {
-                    try {
-                      const parsedResult = JSON.parse(result);
-                      if (parsedResult?.rows?.[0]?.members) {
-                        return parsedResult.rows.map((row: any) =>
-                          JSON.parse(row.members).map(
-                            ([name, email]: [string, string]) => `${email}\n`,
-                          ),
-                        );
-                      }
-                      return "No emails found.";
-                    } catch (error) {
-                      console.error("SQL Parsing Error:", error);
-                      return "SQL error";
-                    }
-                  })()}
-                </div>
+                {getContent()}
               </pre>
-            </TabsContent>
-          </Tabs>
-        </div>
-      )}
+            </div>
+          </TabsContent>
+
+          {/* Display Emails Result */}
+          <TabsContent value="emails">
+            <div className="p-4">
+              <pre className="text-wrap text-sm text-gray-800">
+                {getContent()}
+              </pre>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
