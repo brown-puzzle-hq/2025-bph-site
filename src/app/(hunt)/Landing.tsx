@@ -50,21 +50,6 @@ export default function Landing() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleMouseEnter = () => {
-    setRegisterHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setRegisterHovered(false);
-  };
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = "/home/TheaterRegister.png"; // Preload hover image
-    const img2 = new Image();
-    img2.src = "/home/1.png"; // Preload spotlight image
-  }, []);
-
   return (
     <div className="relative w-screen overflow-hidden">
       <div className="relative h-[100vh] w-screen">
@@ -128,8 +113,8 @@ export default function Landing() {
           {/* Thin strip at 30% height for hover effect */}
           <div
             className="absolute left-0 top-[30%] z-[5] h-[5%] w-full bg-transparent"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={() => setRegisterHovered(true)}
+            onMouseLeave={() => setRegisterHovered(false)}
           >
             <Link
               href="/register"
@@ -142,18 +127,16 @@ export default function Landing() {
       {/* Div right below the image */}
       <div className="relative z-[6] flex justify-center pt-[calc((100vw-850px)/8)]">
         <div className="relative flex w-[calc(60vw+200px)] p-4 text-center">
-          <div className="absolute left-1/2 top-[-50px] -translate-x-1/2 transform">
-            <Link
-              href="/register"
-              className="rounded-md bg-main-text px-8 py-3 text-lg font-semibold text-secondary-accent transition duration-200 hover:bg-secondary-text"
-            >
-              Register!
-            </Link>
-          </div>
           <div className="w-1/3 p-2 md:p-4">
             <h1>What?</h1>
             <p>
               The third annual puzzlehunt by current Brown and RISD students.
+            </p>
+            <p>
+              You can register{" "}
+              <em className="hover:underline">
+                <Link href="/register">here!</Link>
+              </em>
             </p>
           </div>
           <div className="w-1/3 p-2 md:p-4">
