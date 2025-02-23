@@ -1,45 +1,121 @@
 "use server";
+import { redirect } from "next/navigation";
+import { Session } from "next-auth";
 import { revalidatePath } from "next/dist/server/web/spec-extension/revalidate";
 import { db } from "@/db/index";
 import {
   puzzles,
   guesses,
   hints,
+  solves,
   followUps,
   unlocks,
   teams,
 } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
+import { and, count, eq, inArray } from "drizzle-orm";
 import { auth } from "@/auth";
 import {
-  unlockPuzzleAfterSolve,
-  checkFinishHunt,
-  NUMBER_OF_GUESSES_PER_PUZZLE,
+  IN_PERSON,
+  REMOTE,
   INITIAL_PUZZLES,
+  META_PUZZLES,
+  NUMBER_OF_GUESSES_PER_PUZZLE,
+  PUZZLE_UNLOCK_MAP,
 } from "~/hunt.config";
 import { sendBotMessage } from "~/lib/utils";
 
+export type TxType = Parameters<Parameters<typeof db.transaction>[0]>[0];
 export type MessageType = "request" | "response" | "follow-up";
 
-/** Inserts a guess into the guess table */
-export async function insertGuess(puzzleId: string, guess: string) {
+export async function canViewPuzzle(puzzleId: string, session: Session | null) {
+  const currentTime = new Date();
+
+  // If the hunt has ended for everyone, anyone can view the puzzle
+  if (currentTime > REMOTE.END_TIME) return "SUCCESS";
+  // Otherwise, they must be signed-in
+  if (!session?.user?.id) return "NOT AUTHENTICATED";
+  // Admin can always view the puzzle
+  if (session.user.role == "admin") return "SUCCESS";
+
+  // If the hunt has ended for in-person teams
+  // In-person teams can view puzzles
+  if (
+    session.user.interactionMode === "in-person" &&
+    currentTime > IN_PERSON.END_TIME
+  )
+    return "SUCCESS";
+
+  // If they are a testsolver, or the hunt has started for them,
+  // then check whether they have unlocked the puzzle
+  if (
+    session.user.role === "testsolver" ||
+    currentTime >
+      (session.user.interactionMode === "in-person"
+        ? IN_PERSON.START_TIME
+        : REMOTE.START_TIME)
+  ) {
+    const isInitialPuzzle = INITIAL_PUZZLES.includes(puzzleId);
+    const isUnlocked = !!(await db.query.unlocks.findFirst({
+      columns: { id: true },
+      where: and(
+        eq(unlocks.teamId, session.user.id),
+        eq(unlocks.puzzleId, puzzleId),
+      ),
+    }));
+
+    return isInitialPuzzle || isUnlocked ? "SUCCESS" : "NOT AUTHORIZED";
+  }
+
+  // The hunt has not started yet and the user is not an admin or testsolver
+  redirect("/puzzle");
+}
+
+/** Checks whether the user can view the solution.
+ *  Does not check whether the solution actually exists.
+ */
+export async function canViewSolution(
+  puzzleId: string,
+  session: Session | null,
+) {
+  // If the hunt has ended, anyone can view solutions
+  if (new Date() > REMOTE.END_TIME) return "SUCESSS";
+  // If the hunt has not ended, users must be signed-in
+  if (!session?.user?.id) return "NOT AUTHENTICATED";
+  // Admin can always view the solution
+  if (session.user.role == "admin") return "SUCCESS";
+
+  // Everyone else needs to have solved the puzzle
+  const isSolved = !!(await db.query.guesses.findFirst({
+    where: and(
+      eq(guesses.teamId, session.user.id),
+      eq(guesses.puzzleId, puzzleId),
+      guesses.isCorrect,
+    ),
+  }));
+
+  return isSolved ? "SUCCESS" : "NOT AUTHORIZED";
+}
+
+export async function handleGuess(puzzleId: string, guess: string) {
+  // Check that the user is logged in
   const session = await auth();
   if (!session?.user?.id) {
     return { error: "Not logged in!" };
   }
+  const teamId = session.user.id;
+  const currDate = new Date();
 
+  // Check that the guess is valid
   const puzzle = await db.query.puzzles.findFirst({
     where: eq(puzzles.id, puzzleId),
     with: {
       guesses: {
-        where: eq(guesses.teamId, session.user.id),
+        where: eq(guesses.teamId, teamId),
       },
     },
   });
 
-  if (!puzzle) {
-    return { error: "Puzzle not found!" };
-  }
+  if (!puzzle) return { error: "Puzzle not found!" };
 
   if (puzzle.guesses.length >= NUMBER_OF_GUESSES_PER_PUZZLE) {
     revalidatePath(`/puzzle/${puzzleId}`);
@@ -50,85 +126,92 @@ export async function insertGuess(puzzleId: string, guess: string) {
     return { error: "Already guessed!" };
   }
 
+  // Insert the guess into the guess table
+  // If the guess is correct, handle the solve
   const correct = puzzle.answer === guess;
-
-  if (correct) {
-    const query = await db.query.hints.findFirst({
-      where: and(
-        eq(hints.puzzleId, puzzleId),
-        eq(hints.teamId, session.user.id),
-        eq(hints.status, "no_response"),
-      ),
+  await db.transaction(async (tx) => {
+    await tx.insert(guesses).values({
+      teamId,
+      puzzleId,
+      guess,
+      isCorrect: correct,
+      submitTime: currDate,
     });
-    if (query) {
-      query.response = "[REFUNDED]";
-      query.status = "refunded";
-      query.claimer = session.user.id;
-      await db.update(hints).set(query).where(eq(hints.id, query.id));
+
+    if (correct) {
+      await handleSolve(tx, teamId, puzzleId);
     }
-  }
-
-  await db.insert(guesses).values({
-    teamId: session.user.id,
-    puzzleId,
-    guess,
-    isCorrect: correct,
-    submitTime: new Date(),
   });
-
-  const user = await db.query.teams.findFirst({
-    where: eq(teams.id, session.user.id),
-  });
-
-  // TODO: replace gate-lock with final puzzle
-  const guessMessage = `${puzzleId == "gate-lock" && correct ? "🏆" : "🧩"} **Guess** by [${user?.id}](https://www.brownpuzzlehunt.com/teams/${user?.id}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${correct ? "✓" : "✕"}]`;
-  await sendBotMessage(guessMessage);
 
   revalidatePath(`/puzzle/${puzzleId}`);
 
+  // Send a message to the bot channel
+  const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${correct ? "✓" : "✕"}]`;
+  await sendBotMessage(guessMessage);
+
+  // Refund hints if the guess is correct
   if (correct) {
-    await unlockPuzzleAfterSolve(session.user.id, puzzleId);
-    await checkFinishHunt(session.user.id, puzzleId);
+    await db
+      .update(hints)
+      .set({
+        response: "[REFUNDED]",
+        status: "refunded",
+        claimer: teamId, // TODO: maybe don't make this the claimer
+      })
+      .where(
+        and(
+          eq(hints.puzzleId, puzzleId),
+          eq(hints.teamId, teamId),
+          eq(hints.status, "no_response"),
+        ),
+      );
   }
 }
 
-/** Inserts a puzzle unlock into the unlock table */
-export async function insertUnlock(teamId: string, puzzleIds: string[]) {
-  try {
-    const currDate = new Date();
+export async function handleSolve(
+  tx: TxType,
+  teamId: string,
+  puzzleId: string,
+) {
+  // Insert the solve into the solve table
+  const currDate = new Date();
+  await tx.insert(solves).values({
+    teamId,
+    puzzleId,
+    solveTime: currDate,
+  });
 
-    // Check if team has already unlocked the puzzle
-    const unlockedPuzzles = await db.query.unlocks.findMany({
-      columns: { puzzleId: true },
-      where: eq(unlocks.teamId, teamId),
-    });
-
-    const newPuzzleIds = puzzleIds.filter(
-      (puzzleId) =>
-        !unlockedPuzzles.some((unlock) => unlock.puzzleId === puzzleId) &&
-        !INITIAL_PUZZLES.some((initial) => initial === puzzleId),
-    );
-
-    // Check for empty list
-    if (newPuzzleIds.length == 0) {
-      return;
-    }
-
-    // Insert new unlocks into the unlock table
-    const newUnlocks = newPuzzleIds.map((puzzleId) => ({
+  // Unlock the next puzzles
+  const nextPuzzles = PUZZLE_UNLOCK_MAP[puzzleId];
+  if (nextPuzzles) {
+    const newUnlocks = nextPuzzles.map((puzzleId) => ({
       teamId,
       puzzleId,
       unlockTime: currDate,
     }));
+    await tx.insert(unlocks).values(newUnlocks).onConflictDoNothing();
+  }
 
-    await db.insert(unlocks).values(newUnlocks);
-    revalidatePath("/puzzle");
-  } catch (e) {
-    throw e;
+  // Check if the team has completed the six metas
+  if (META_PUZZLES.includes(puzzleId)) {
+    const query = await tx
+      .select({ count: count() })
+      .from(solves)
+      .where(
+        and(eq(solves.teamId, teamId), inArray(solves.puzzleId, META_PUZZLES)),
+      );
+
+    // They win the hunt when the finish the runaround event, not when they solve the last puzzle
+    // TODO: make this unlock the runaround, not just the finish time
+    if (query[0]?.count === META_PUZZLES.length) {
+      await tx
+        .update(teams)
+        .set({ finishTime: new Date() })
+        .where(eq(teams.id, teamId));
+    }
   }
 }
 
-/** Edits a hint */
 export async function editMessage(
   id: number,
   message: string,

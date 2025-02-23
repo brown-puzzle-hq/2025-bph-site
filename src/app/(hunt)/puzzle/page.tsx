@@ -3,7 +3,7 @@ import { IN_PERSON, INITIAL_PUZZLES, REMOTE } from "@/hunt.config";
 import Link from "next/link";
 import { db } from "@/db/index";
 import { and, eq, inArray } from "drizzle-orm";
-import { guesses, puzzles, unlocks } from "~/server/db/schema";
+import { solves, guesses, puzzles, unlocks } from "~/server/db/schema";
 import PuzzleTable from "./components/PuzzleTable";
 
 export default async function Home() {
@@ -83,12 +83,9 @@ export default async function Home() {
       })),
     ];
 
-    solvedPuzzles = await db.query.guesses.findMany({
+    solvedPuzzles = await db.query.solves.findMany({
       columns: { puzzleId: true },
-      where: and(
-        eq(guesses.teamId, session.user.id),
-        eq(guesses.isCorrect, true),
-      ),
+      where: eq(solves.teamId, session.user.id),
     });
   }
 

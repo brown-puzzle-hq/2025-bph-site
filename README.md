@@ -1,19 +1,22 @@
 ## Table of Contents
 
-1. [Postprodder guide](#postprodder-guide)
-    1. [First steps](#first-steps)
-    2. [Adding puzzles](#adding-puzzles)
-1. [Developer guide](#developer-guide)
-    1. [Overview](#overview)
-    3. [Quick Links](#quick-links)
-    4. [Features](#features)
-    1. [Copying this repository](#copying-this-repository)
-    4. [Hunt structure](#hunt-structure)
-    5. [Final Checks](#final-checks)
-  2. [Admin guide](#admin-guide)
-      1. [Navigation](#navigation)
-      2. [Hinting and Errata](#hinting-and-errata)
-      3. [Team management](#team-management)
+- [Table of Contents](#table-of-contents)
+- [Postprodder guide](#postprodder-guide)
+      - [First steps](#first-steps)
+      - [Adding puzzles](#adding-puzzles)
+- [Developer guide](#developer-guide)
+    - [Overview](#overview)
+    - [Quick Links](#quick-links)
+    - [Features](#features)
+    - [Copying this repository](#copying-this-repository)
+    - [Setting up the database](#setting-up-the-database)
+    - [Setting up the dev environment](#setting-up-the-dev-environment)
+    - [Hunt Structure](#hunt-structure)
+    - [Final Checks](#final-checks)
+- [Admin guide](#admin-guide)
+    - [Navigation](#navigation)
+    - [Hinting and Errata](#hinting-and-errata)
+    - [Team Management](#team-management)
 
 ## Postprodder guide
 
@@ -228,7 +231,8 @@ There is more information on the [GitHub docs](https://docs.github.com/en/reposi
 
 #### Hunt Structure
 
-All of the customizable features of the hunt structure is in `hunt.config.ts`. To change how puzzles are unlocked, edit `getNextPuzzleMap` in `hunt.config.ts`. To change how many hints a team gets, edit `getTotalHints`.
+Most of the customizable features of the hunt structure is in `hunt.config.ts`.
+Edit `/puzzle/actions.ts` to change how it handles guesses and solves.
 
 #### Final Checks
 
@@ -240,7 +244,7 @@ Before registration starts,
 
 Before the hunt starts,
 1. Set `NUMBER_OF_GUESSES_PER_PUZZLE`
-6. Set `INITIAL_PUZZLES`, `getNextPuzzleMap`, and `checkFinishHunt`
+6. Set `INITIAL_PUZZLES` and `PUZZLE_UNLOCK_MAP`
 7. Set `getTotalHints`
 4. Remove the development puzzles in `src/app/(hunt)/puzzle/(dev)/`.
 

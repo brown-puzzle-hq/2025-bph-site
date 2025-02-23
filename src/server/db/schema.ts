@@ -7,6 +7,7 @@ import {
   serial,
   text,
   timestamp,
+  unique,
   varchar,
 } from "drizzle-orm/pg-core";
 
@@ -102,6 +103,10 @@ export const unlocks = createTable(
   (table) => {
     return {
       team_and_puzzle_idx: index("unlocks_team_puzzle_idx").on(
+        table.teamId,
+        table.puzzleId,
+      ),
+      unique_team_and_puzzle: unique("team_and_puzzle").on(
         table.teamId,
         table.puzzleId,
       ),

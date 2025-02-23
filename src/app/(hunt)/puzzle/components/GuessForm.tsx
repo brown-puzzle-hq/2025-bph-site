@@ -14,8 +14,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-
-import { insertGuess } from "../actions";
+import { handleGuess } from "../actions";
 
 function sanitizeAnswer(answer: any) {
   return typeof answer === "string"
@@ -54,7 +53,7 @@ export default function GuessForm({
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setError(null);
-    const result = await insertGuess(puzzleId, data.guess);
+    const result = await handleGuess(puzzleId, data.guess);
     if (result && result.error) {
       setError(result.error);
     }
