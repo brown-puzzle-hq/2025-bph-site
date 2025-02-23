@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { db } from "~/server/db";
 import { eq, and } from "drizzle-orm";
-import { guesses, errata } from "~/server/db/schema";
+import { solves, guesses, errata } from "~/server/db/schema";
 import { redirect } from "next/navigation";
 import PreviousGuessTable from "./PreviousGuessTable";
 import ErratumDialog from "./ErratumDialog";
@@ -60,7 +60,13 @@ export default async function DefaultPuzzlePage({
     ),
   });
 
-  const hasCorrectGuess = previousGuesses.some((guess) => guess.isCorrect);
+  const isSolved = !!(await db.query.solves.findFirst({
+    where: and(
+      eq(solves.teamId, session.user.id),
+      eq(solves.puzzleId, puzzleId),
+    ),
+  }));
+
   const numberOfGuessesLeft =
     NUMBER_OF_GUESSES_PER_PUZZLE - previousGuesses.length;
 
@@ -74,7 +80,7 @@ export default async function DefaultPuzzlePage({
       </div>
 
       <div className="mt-4">
-        {!hasCorrectGuess && numberOfGuessesLeft > 0 && (
+        {!isSolved && numberOfGuessesLeft > 0 && (
           <div className="mt-2">
             <GuessForm
               puzzleId={puzzleId}
@@ -82,7 +88,7 @@ export default async function DefaultPuzzlePage({
             />
           </div>
         )}
-        {numberOfGuessesLeft === 0 && !hasCorrectGuess && (
+        {numberOfGuessesLeft === 0 && !isSolved && (
           <div className="mb-4 text-center font-medium text-rose-600">
             You have no guesses left. Please contact HQ for help.
           </div>
