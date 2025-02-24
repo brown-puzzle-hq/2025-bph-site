@@ -21,6 +21,11 @@ export default async function RootLayout({
       type: "link",
     },
     {
+      title: "Map",
+      href: "/map",
+      type: "link",
+    },
+    {
       title: "Puzzles",
       href: "/puzzle",
       type: "link",

@@ -22,12 +22,12 @@ export default function Map({
   const width = window.innerWidth;
   const height = window.innerHeight;
   const blockSize = 100 * scale;
-  const backgroundUrl = "map/Map-Layout.jpeg";
+  const backgroundUrl = "/map/cloud.png";
 
-  window.addEventListener("resize", () => { //not working??
-    const width: number = window.innerWidth;
-    const height: number = window.innerHeight;
-  });
+  // window.addEventListener("resize", () => { //not working??
+  //   const width: number = window.innerWidth;
+  //   const height: number = window.innerHeight;
+  // });
 
   // Initialize sprites
   const terrainSprites = useMemo(() => {
