@@ -12,7 +12,7 @@ import { extractEmails } from "~/lib/utils";
 export default function Page() {
   const [activeTab, setActiveTab] = useState("emails");
   const [query, setQuery] = useState(
-    "SELECT * FROM bph_site_team\nWHERE wants_box = true;",
+    "SELECT * FROM bph_site_team\nWHERE interaction_type = 'remote'\nAND wants_box = true;",
   );
   const [result, setResult] = useState<any>(null);
 
