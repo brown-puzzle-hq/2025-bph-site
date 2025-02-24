@@ -17,7 +17,7 @@ export const IN_PERSON = {
 };
 
 export const REMOTE = {
-  START_TIME: new Date("2024-04-19T16:00:00.000Z"),
+  START_TIME: new Date("2025-04-19T16:00:00.000Z"),
   END_TIME: new Date("2025-04-25T16:00:00.000Z"),
   WRAPUP_TIME: new Date("2025-04-26T17:00:00Z"),
 };

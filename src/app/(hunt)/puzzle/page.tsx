@@ -2,12 +2,14 @@ import { auth } from "@/auth";
 import { IN_PERSON, INITIAL_PUZZLES, REMOTE } from "@/hunt.config";
 import Link from "next/link";
 import { db } from "@/db/index";
-import { and, eq, inArray } from "drizzle-orm";
-import { solves, guesses, puzzles, unlocks } from "~/server/db/schema";
+import { eq, inArray } from "drizzle-orm";
+import { solves, puzzles, unlocks, answerTokens } from "~/server/db/schema";
 import PuzzleTable from "./components/PuzzleTable";
+import EventTable from "./components/EventTable";
 
 export default async function Home() {
   const session = await auth();
+  const currDate = new Date();
 
   var availablePuzzles: {
     unlockTime: Date | null;
@@ -21,7 +23,7 @@ export default async function Home() {
   // Not logged in
   if (!session?.user?.id) {
     // If the hunt has not ended, tell them to log in
-    if (new Date() < REMOTE.END_TIME) {
+    if (currDate < REMOTE.END_TIME) {
       return (
         <div className="mb-6 flex grow flex-col items-center px-4 pt-6">
           <h1 className="mb-2">Puzzles!</h1>
@@ -50,7 +52,7 @@ export default async function Home() {
     // If the hunt has not yet started for users or admin, display a message
     if (
       (session.user.role === "user" || session.user.role === "admin") &&
-      new Date() <
+      currDate <
         (session.user.interactionMode === "in-person"
           ? IN_PERSON.START_TIME
           : REMOTE.START_TIME)
@@ -96,6 +98,38 @@ export default async function Home() {
         availablePuzzles={availablePuzzles}
         solvedPuzzles={solvedPuzzles}
       />
+      {(async () => {
+        // Check if user should see the events
+        const canSeeEvents =
+          session?.user &&
+          session.user.interactionMode === "in-person" &&
+          currDate > IN_PERSON.START_TIME;
+
+        if (!canSeeEvents) return;
+
+        const availableEvents: {
+          id: string;
+          name: string;
+          answer: string;
+        }[] = await db.query.events.findMany();
+
+        const finishedEvents: {
+          eventId: string;
+          puzzleId: string | null;
+        }[] = await db.query.answerTokens.findMany({
+          where: eq(answerTokens.teamId, session.user.id),
+        });
+
+        return (
+          <>
+            <h1 className="mb-2 mt-4">Events!</h1>
+            <EventTable
+              availableEvents={availableEvents}
+              finishedEvents={finishedEvents}
+            />
+          </>
+        );
+      })()}
     </div>
   );
 }

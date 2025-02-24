@@ -11,6 +11,8 @@ import {
   followUps,
   unlocks,
   teams,
+  events,
+  answerTokens,
 } from "@/db/schema";
 import { and, count, eq, inArray } from "drizzle-orm";
 import { auth } from "@/auth";
@@ -248,4 +250,31 @@ export async function editMessage(
         );
       break;
   }
+}
+
+export async function insertAnswerToken(eventId: string, guess: string) {
+  // Check that the user is logged in
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { error: "Not logged in!" };
+  }
+  const teamId = session.user.id;
+  const currDate = new Date();
+
+  // Check that the token is valid
+  const event = await db.query.events.findFirst({
+    where: eq(events.id, eventId),
+  });
+  if (!event) return { error: "Event not found!" };
+  if (event.answer !== guess) return { error: "Incorrect token!" };
+
+  // Insert a token into the token table
+  await db.insert(answerTokens).values({
+    teamId,
+    eventId,
+    timestamp: currDate,
+  });
+
+  revalidatePath(`/event/${eventId}`);
+  return { error: null };
 }
