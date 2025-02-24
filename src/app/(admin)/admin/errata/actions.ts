@@ -53,7 +53,7 @@ export async function insertErratum(puzzleId: string, description: string) {
       })
     ).flatMap((team) => extractEmails(team.team.members));
   }
-  
+
   sendEmail(
     ["brownpuzzlehq@gmail.com"],
     `Erratum Issued [${puzzleName}]`,

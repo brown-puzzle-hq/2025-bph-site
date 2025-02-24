@@ -5,7 +5,9 @@ import axios from "axios";
 import { ReactNode } from "react";
 
 export function extractEmails(memberString: string): string[] {
-  return JSON.parse(memberString).map(([_, email]: [string, string]) => email).filter(Boolean);
+  return JSON.parse(memberString)
+    .map(([_, email]: [string, string]) => email)
+    .filter(Boolean);
 }
 
 export async function sendBotMessage(message: string) {
@@ -27,7 +29,12 @@ export async function sendBotMessage(message: string) {
   }
 }
 
-export async function sendEmail(to: string[], subject: string, react: ReactNode, bcc?: string[]) {
+export async function sendEmail(
+  to: string[],
+  subject: string,
+  react: ReactNode,
+  bcc?: string[],
+) {
   // To should be a comma-separated list of names and email addresses
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
