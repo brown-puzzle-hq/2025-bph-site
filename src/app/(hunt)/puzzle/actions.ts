@@ -133,43 +133,85 @@ export async function handleGuess(puzzleId: string, guess: string) {
 
   // Insert the guess into the guess table
   // If the guess is correct, handle the solve
-  const correct = puzzle.answer === guess;
-  await db.transaction(async (tx) => {
-    await tx.insert(guesses).values({
-      teamId,
-      puzzleId,
-      guess,
-      isCorrect: correct,
-      submitTime: currDate,
+  var correct = puzzle.answer === guess;
+
+  if (!correct) {
+    const event = await db.query.events.findFirst({
+      where: eq(events.answer, guess),
     });
 
-    if (correct) {
-      await handleSolve(tx, teamId, puzzleId);
-    }
-  });
-
-  revalidatePath(`/puzzle/${puzzleId}`);
-
-  // Send a message to the bot channel
-  const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${correct ? "✓" : "✕"}]`;
-  await sendBotMessage(guessMessage);
-
-  // Refund hints if the guess is correct
-  if (correct) {
-    await db
-      .update(hints)
-      .set({
-        response: "[REFUNDED]",
-        status: "refunded",
-        claimer: teamId, // TODO: maybe don't make this the claimer
-      })
-      .where(
-        and(
-          eq(hints.puzzleId, puzzleId),
-          eq(hints.teamId, teamId),
-          eq(hints.status, "no_response"),
+    if (event) {
+      // Check if the team has already submitted a token for this event
+      const answerToken = await db.query.answerTokens.findFirst({
+        where: and(
+          eq(answerTokens.teamId, teamId),
+          eq(answerTokens.eventId, event.id),
         ),
-      );
+      });
+
+      // If there is an answer token and it hasn't been used yet, update it
+      if (answerToken && !answerToken.puzzleId) {
+        correct = true;
+        await db
+          .update(answerTokens)
+          .set({ puzzleId })
+          .where(
+            and(
+              eq(answerTokens.id, answerToken.id),
+              eq(answerTokens.teamId, teamId),
+            ),
+          );
+      }
+
+      // If there is no answer token, insert a new one
+      if (!answerToken) {
+        correct = true;
+        await db.insert(answerTokens).values({
+          teamId,
+          eventId: event.id,
+          puzzleId,
+          timestamp: currDate,
+        });
+      }
+    }
+
+    await db.transaction(async (tx) => {
+      await tx.insert(guesses).values({
+        teamId,
+        puzzleId,
+        guess,
+        isCorrect: correct,
+        submitTime: currDate,
+      });
+
+      if (correct) {
+        await handleSolve(tx, teamId, puzzleId);
+      }
+    });
+
+    revalidatePath(`/puzzle/${puzzleId}`);
+
+    // Send a message to the bot channel
+    const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${correct ? "✓" : "✕"}]`;
+    await sendBotMessage(guessMessage);
+
+    // Refund hints if the guess is correct
+    if (correct) {
+      await db
+        .update(hints)
+        .set({
+          response: "[REFUNDED]",
+          status: "refunded",
+          claimer: teamId, // TODO: maybe don't make this the claimer
+        })
+        .where(
+          and(
+            eq(hints.puzzleId, puzzleId),
+            eq(hints.teamId, teamId),
+            eq(hints.status, "no_response"),
+          ),
+        );
+    }
   }
 }
 

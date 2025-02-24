@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { db } from "~/server/db";
 import { eq, and } from "drizzle-orm";
-import { solves, guesses, errata } from "~/server/db/schema";
+import { puzzles, solves, guesses, errata } from "~/server/db/schema";
 import { redirect } from "next/navigation";
 import PreviousGuessTable from "./PreviousGuessTable";
 import ErratumDialog from "./ErratumDialog";
@@ -39,6 +39,12 @@ export default async function DefaultPuzzlePage({
       </div>
     );
   }
+
+  // Puzzle answer
+  const puzzleAnswer = (await db.query.puzzles.findFirst({
+    where: eq(puzzles.id, puzzleId),
+    columns: { answer: true },
+  }))!.answer;
 
   // Get errata if user is logged in
   const errataList: {
@@ -96,7 +102,10 @@ export default async function DefaultPuzzlePage({
       </div>
 
       <div className="mb-4 flex w-full justify-center">
-        <PreviousGuessTable previousGuesses={previousGuesses} />
+        <PreviousGuessTable
+          puzzleAnswer={puzzleAnswer}
+          previousGuesses={previousGuesses}
+        />
       </div>
     </div>
   );

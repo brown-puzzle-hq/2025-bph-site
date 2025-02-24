@@ -3,13 +3,12 @@ import { guesses } from "~/server/db/schema";
 import { FormattedTime } from "~/lib/time";
 
 export default function PreviousGuessTable({
+  puzzleAnswer,
   previousGuesses,
 }: {
+  puzzleAnswer: string;
   previousGuesses: (typeof guesses.$inferSelect)[];
 }) {
-  const maxLength = Math.max(
-    ...previousGuesses.map((guess) => guess.guess.length),
-  );
   return (
     <div>
       <Table className="table-fixed md:table-auto">
@@ -19,7 +18,9 @@ export default function PreviousGuessTable({
             .map((guess) => (
               <TableRow key={guess.id} className="hover:bg-inherit">
                 <TableCell className="max-w-sm overflow-hidden text-ellipsis whitespace-nowrap sm:max-w-lg">
-                  {guess.guess}
+                  {guess.isCorrect && guess.guess !== puzzleAnswer
+                    ? `${guess.guess} -> ${puzzleAnswer}`
+                    : guess.guess}
                 </TableCell>
                 <TableCell className="w-24 text-center">
                   {guess.isCorrect ? (
