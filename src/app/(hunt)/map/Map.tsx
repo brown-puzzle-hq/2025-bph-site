@@ -22,7 +22,9 @@ export default function Map({
   const width = window.innerWidth;
   const height = window.innerHeight;
   const blockSize = 100 * scale;
-  const backgroundUrl = "/map/cloud.png";
+  // const backgroundUrl = "/map/cloud.png";
+
+  const backgroundUrl = "/map/Map-Layout-Small.jpeg";
 
   // window.addEventListener("resize", () => { //not working??
   //   const width: number = window.innerWidth;
