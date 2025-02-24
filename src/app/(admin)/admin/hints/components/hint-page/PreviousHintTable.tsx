@@ -592,7 +592,7 @@ export default function PreviousHintTable({
               hint.followUps
                 .filter(
                   (hiddenFollowUp) =>
-                    !teamSide || hiddenFollowUp.message !== "[Resolved]",
+                    !teamSide || hiddenFollowUp.message !== "[Claimed]",
                 )
                 .map((hiddenFollowUp, i, row) => (
                   <TableRow
@@ -619,14 +619,14 @@ export default function PreviousHintTable({
                         <div className="flex space-x-2">
                           {i + 1 === row.length &&
                             !teamSide &&
-                            hiddenFollowUp.message !== "[Resolved]" &&
+                            hiddenFollowUp.message !== "[Claimed]" &&
                             hiddenFollowUp.user.id === hint.team.id && (
                               <button
                                 onClick={() =>
                                   // TODO: kinda jank to use empty team members as signal to not send email
                                   handleSubmitFollowUp(
                                     hint.id,
-                                    "[Resolved]",
+                                    "[Claimed]",
                                     "",
                                   )
                                 }
@@ -663,7 +663,7 @@ export default function PreviousHintTable({
                             ))}
                           {/* If the previous hint follow-up was made by user, allow edits */}
                           {hiddenFollowUp.user.id === session?.user?.id &&
-                            hiddenFollowUp.message !== "[Resolved]" && (
+                            hiddenFollowUp.message !== "[Claimed]" && (
                               <div>
                                 {edit?.type === "follow-up" &&
                                 edit.id === hiddenFollowUp.id ? (
