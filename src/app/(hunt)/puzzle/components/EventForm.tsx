@@ -3,15 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { insertAnswerToken } from "../actions";
 
 function sanitizeAnswer(answer: any) {
@@ -56,17 +48,14 @@ export default function EventForm({ eventId }: FormProps) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex justify-center space-x-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex space-x-4">
         <FormField
           control={form.control}
           name="answer"
           render={({ field }) => (
-            <FormItem className="w-2/3">
+            <FormItem>
               <FormControl>
-                <Input
+                <input
                   {...field}
                   onChange={(e) => {
                     form.setValue(
@@ -75,20 +64,19 @@ export default function EventForm({ eventId }: FormProps) {
                     );
                     setError(null);
                   }}
-                  className="bg-secondary-bg text-secondary-accent"
+                  className="rounded-md bg-secondary-bg text-secondary-accent"
                 />
               </FormControl>
-              <FormMessage className="text-error">{error}</FormMessage>
             </FormItem>
           )}
         />
-        <Button
+        <button
           className="hover:bg-otherblue"
           type="submit"
           disabled={!form.watch("answer")}
         >
           Save
-        </Button>
+        </button>
       </form>
     </Form>
   );

@@ -111,6 +111,8 @@ export default async function Home() {
           id: string;
           name: string;
           answer: string;
+          description: string;
+          startTime: Date;
         }[] = await db.query.events.findMany();
 
         const finishedEvents: {

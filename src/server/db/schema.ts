@@ -255,9 +255,8 @@ export const events = createTable("event", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   answer: varchar("answer", { length: 255 }).notNull(),
-  // startTime: timestamp("start_time", { withTimezone: true }).notNull(),
-  // endTime: timestamp("end_time", { withTimezone: true }).notNull(),
-  // description: text("description").notNull(),
+  startTime: timestamp("start_time", { withTimezone: true }).notNull(),
+  description: text("description").notNull(),
 });
 
 export const answerTokens = createTable("answer_token", {
