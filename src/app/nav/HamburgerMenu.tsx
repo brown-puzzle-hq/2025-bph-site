@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -17,16 +16,21 @@ export type MenuItem = {
   type: "link" | "element";
 };
 
+const colorMap: Record<string, string> = {
+  hunt: "bg-nav-bg",
+  admin: "bg-white",
+};
+
 type Props = {
   leftMenuItems: MenuItem[];
   rightMenuItems: MenuItem[];
-  color: string;
+  side: "hunt" | "admin";
 };
 
-export function HamburgerMenu({ leftMenuItems, rightMenuItems, color }: Props) {
+export function HamburgerMenu({ leftMenuItems, rightMenuItems, side }: Props) {
   return (
     <nav
-      className={`fixed z-50 flex w-full items-center justify-between bg-${color} bg-opacity-30 p-[10px] backdrop-blur-md backdrop-filter md:p-4`}
+      className={`fixed z-50 flex w-full items-center justify-between ${colorMap[side]} bg-opacity-30 p-[10px] backdrop-blur-md backdrop-filter md:p-4`}
     >
       {/* Left menu items */}
       <div className="hidden md:block">
