@@ -19,8 +19,7 @@ export function PuzzleBody(): JSX.Element {
  * If there are no solutions available, return null.
  */
 export function SolutionBody(): JSX.Element | null {
-  return null;
-  // return <div className="text-center">This is an example solution.</div>;
+  return <div className="text-center">This is an example solution.</div>;
 }
 
 /**
