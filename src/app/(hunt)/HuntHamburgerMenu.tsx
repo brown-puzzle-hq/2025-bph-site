@@ -68,7 +68,7 @@ export async function HuntHamburgerMenu() {
     <HamburgerMenu
       leftMenuItems={leftMenuItems}
       rightMenuItems={rightMenuItems}
-      color="nav-bg"
+      side="hunt"
     />
   );
 }

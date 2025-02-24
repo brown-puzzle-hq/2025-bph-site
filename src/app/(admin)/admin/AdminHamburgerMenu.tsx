@@ -64,7 +64,7 @@ export default async function AdminHamburgerMenu() {
     <HamburgerMenu
       leftMenuItems={leftMenuItems}
       rightMenuItems={rightMenuItems}
-      color="white"
+      side="admin"
     />
   );
 }
