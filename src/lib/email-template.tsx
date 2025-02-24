@@ -149,7 +149,7 @@ export const ErratumEmailTemplate: React.FC<
     }}
   >
     <p style={{ marginTop: "0", color: "#333 !important" }}>
-      A new erratum for <strong>{puzzleName}</strong> has been posted.
+      An erratum for <strong>{puzzleName}</strong> has been posted.
     </p>
 
     <p style={{ color: "#333 !important" }}>
