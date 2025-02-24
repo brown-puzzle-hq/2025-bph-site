@@ -624,11 +624,7 @@ export default function PreviousHintTable({
                               <button
                                 onClick={() =>
                                   // TODO: kinda jank to use empty team members as signal to not send email
-                                  handleSubmitFollowUp(
-                                    hint.id,
-                                    "[Claimed]",
-                                    "",
-                                  )
+                                  handleSubmitFollowUp(hint.id, "[Claimed]", "")
                                 }
                                 className="text-link hover:underline"
                               >
