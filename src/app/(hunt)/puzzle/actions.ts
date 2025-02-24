@@ -13,6 +13,7 @@ import {
   teams,
   events,
   answerTokens,
+  solveTypeEnum,
 } from "@/db/schema";
 import { and, count, eq, inArray } from "drizzle-orm";
 import { auth } from "@/auth";
@@ -134,6 +135,7 @@ export async function handleGuess(puzzleId: string, guess: string) {
   // Insert the guess into the guess table
   // If the guess is correct, handle the solve
   var correct = puzzle.answer === guess;
+  var solveType: (typeof solveTypeEnum.enumValues)[number] = "guess";
 
   if (!correct) {
     const event = await db.query.events.findFirst({
@@ -152,6 +154,7 @@ export async function handleGuess(puzzleId: string, guess: string) {
       // If there is an answer token and it hasn't been used yet, update it
       if (answerToken && !answerToken.puzzleId) {
         correct = true;
+        solveType = "answer_token";
         await db
           .update(answerTokens)
           .set({ puzzleId })
@@ -166,6 +169,7 @@ export async function handleGuess(puzzleId: string, guess: string) {
       // If there is no answer token, insert a new one
       if (!answerToken) {
         correct = true;
+        solveType = "answer_token";
         await db.insert(answerTokens).values({
           teamId,
           eventId: event.id,
@@ -185,7 +189,7 @@ export async function handleGuess(puzzleId: string, guess: string) {
       });
 
       if (correct) {
-        await handleSolve(tx, teamId, puzzleId);
+        await handleSolve(tx, teamId, puzzleId, solveType);
       }
     });
 
@@ -219,6 +223,7 @@ export async function handleSolve(
   tx: TxType,
   teamId: string,
   puzzleId: string,
+  type: (typeof solveTypeEnum.enumValues)[number],
 ) {
   // Insert the solve into the solve table
   const currDate = new Date();
@@ -226,6 +231,7 @@ export async function handleSolve(
     teamId,
     puzzleId,
     solveTime: currDate,
+    type,
   });
 
   // Unlock the next puzzles
