@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowDown, ArrowUp, Skull, Trophy, Undo } from "lucide-react";
+import { ArrowDown, ArrowUp, Skull, Trophy, Undo2 } from "lucide-react";
 
 export type Item =
   | "guard_1"
@@ -301,7 +301,7 @@ export default function Game() {
               >
                 <div className="flex justify-between">
                   Moves
-                  <Undo
+                  <Undo2
                     className={
                       !moves.length || !!result
                         ? "cursor-not-allowed rounded-md opacity-50"
