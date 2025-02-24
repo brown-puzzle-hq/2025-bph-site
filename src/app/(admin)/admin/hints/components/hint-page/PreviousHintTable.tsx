@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, EyeOff } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
 
@@ -210,7 +210,7 @@ export default function PreviousHintTable({
         ),
       );
     });
-    setFollowUp(null);
+    if (teamSide || message !== "[Claimed]") setFollowUp(null);
     // TODO: is there a better option than passing a ton of arguments?
     // wondering if we should have centralized hint types, same goes for inserting/emailing normal hint responses
     // Also might be more efficient to only pass team members once instead of storing in each hint
@@ -610,16 +610,25 @@ export default function PreviousHintTable({
                             {teamSide ? "Team" : teamDisplayName}
                           </p>
                         ) : (
-                          <p className="pb-1 font-bold">
+                          <p className="flex items-center pb-1 font-bold">
                             {teamSide
                               ? "Admin"
                               : hiddenFollowUp.user.displayName}
+                            {!teamSide &&
+                              hiddenFollowUp.message === "[Claimed]" && (
+                                <div className="group relative ml-1.5 font-medium">
+                                  <EyeOff className="h-4 cursor-help" />
+                                  <span className="pointer-events-none absolute -bottom-7 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-black px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100">
+                                    <div className="absolute -top-1 left-1/2 h-0 w-0 -translate-x-1/2 border-b-4 border-l-4 border-r-4 border-transparent border-b-black" />
+                                    Visible to admins only
+                                  </span>
+                                </div>
+                              )}
                           </p>
                         )}
                         <div className="flex space-x-2">
                           {i + 1 === row.length &&
                             !teamSide &&
-                            hiddenFollowUp.message !== "[Claimed]" &&
                             hiddenFollowUp.user.id === hint.team.id && (
                               <button
                                 onClick={() =>
@@ -628,7 +637,7 @@ export default function PreviousHintTable({
                                 }
                                 className="text-link hover:underline"
                               >
-                                Ignore
+                                Claim
                               </button>
                             )}
                           {i + 1 === row.length &&
