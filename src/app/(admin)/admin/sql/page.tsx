@@ -7,6 +7,7 @@ import { EnlargedImage } from "~/components/ui/enlarged-component";
 
 import { queryDatabase } from "./actions";
 import CopyButton from "../solutions/CopyButton";
+import { extractEmails } from "~/lib/utils";
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState("emails");
@@ -35,12 +36,7 @@ export default function Page() {
         const parsedResult = JSON.parse(result);
         if (parsedResult?.rows?.[0]?.members) {
           return parsedResult.rows
-            .map((row: any) =>
-              JSON.parse(row.members)
-                .map(([_, email]: [string, string]) => email)
-                .filter(Boolean),
-            )
-            .flat()
+            .flatMap((row: any) => extractEmails(row.members))
             .join("\n");
         }
         return "No emails found.";

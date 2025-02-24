@@ -146,19 +146,19 @@ export default async function Page({
             <div>
               <p>
                 <span className="font-semibold">Puzzle unlocked </span>
-                <FormattedTime time={unlockTime} />
+                <FormattedTime time={unlockTime} />{" "}
                 (<ElapsedTime date={unlockTime} /> ago)
               </p>
               <p>
                 <span className="font-semibold">Hint requested </span>
-                <FormattedTime time={hint.requestTime} />
+                <FormattedTime time={hint.requestTime} />{" "}
                 (<ElapsedTime date={hint.requestTime} /> ago)
               </p>
               <p>
                 <span className="font-semibold">Hint claimed </span>
                 {hint.claimTime && (
                   <>
-                    <FormattedTime time={hint.claimTime} />
+                    <FormattedTime time={hint.claimTime} />{" "}
                     (<ElapsedTime date={hint.claimTime} /> ago)
                   </>
                 )}
@@ -167,7 +167,7 @@ export default async function Page({
                 <span className="font-semibold">Hint responded </span>
                 {hint.responseTime && (
                   <>
-                    <FormattedTime time={hint.responseTime} />
+                    <FormattedTime time={hint.responseTime} />{" "}
                     (<ElapsedTime date={hint.responseTime} /> ago)
                   </>
                 )}
