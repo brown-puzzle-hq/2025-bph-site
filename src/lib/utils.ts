@@ -34,7 +34,8 @@ export async function sendEmail(
   react: ReactNode,
   bcc?: string[],
 ) {
-  if (!process.env.RESEND_API_KEY) return { success: false, error: "No API key" };
+  if (!process.env.RESEND_API_KEY)
+    return { success: false, error: "No API key" };
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const response = await resend.emails.send({

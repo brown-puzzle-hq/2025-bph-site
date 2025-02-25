@@ -119,7 +119,7 @@ export function HintTable<TData, TValue>({
   if (!userId) return null;
 
   return (
-    <div className="px-4 mb-6">
+    <div className="mb-6 px-4">
       <div className="flex items-center justify-between space-x-2 pb-2">
         <Input
           placeholder="Filter hints..."
