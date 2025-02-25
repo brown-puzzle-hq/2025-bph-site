@@ -82,7 +82,7 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
     else if (status == "answered") {
       return followUps[followUps.length - 1]?.userId === teamId ? (
         <button
-          className="rounded-md border border-gray-600 text-gray-600"
+          className="rounded-md border border-yellow-600 text-yellow-600"
           onClick={() =>
             (window.location.href = `/admin/hints/${hintId}?reply=true`)
           }

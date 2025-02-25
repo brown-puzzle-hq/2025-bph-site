@@ -28,26 +28,25 @@ export function deserializeMembers(memberString: string): Member[] {
 }
 
 export async function sendBotMessage(message: string) {
-  if (process.env.DISCORD_WEBHOOK_URL) {
-    if (message.length > 2000) {
-      const chunks = message.match(/.{1,2000}/g);
-      if (chunks) {
-        for (const chunk of chunks) {
-          await axios.post(process.env.DISCORD_WEBHOOK_URL, {
-            content: chunk,
-          });
-        }
+  if (!process.env.DISCORD_WEBHOOK_URL) return;
+  if (message.length > 2000) {
+    const chunks = message.match(/.{1,2000}/g);
+    if (chunks) {
+      for (const chunk of chunks) {
+        await axios.post(process.env.DISCORD_WEBHOOK_URL, {
+          content: chunk,
+        });
       }
-    } else {
-      await axios.post(process.env.DISCORD_WEBHOOK_URL, {
-        content: message,
-      });
     }
+  } else {
+    await axios.post(process.env.DISCORD_WEBHOOK_URL, {
+      content: message,
+    });
   }
 }
 
 export async function sendEmail(to: string, subject: string, react: ReactNode) {
-  // To should be a comma-separated list of names and email addresses
+  if (!process.env.RESEND_API_KEY) return { success: false, error: "No API key" };
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const emails = deserializeMembers(to)
