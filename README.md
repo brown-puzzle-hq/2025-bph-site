@@ -37,23 +37,23 @@ This is for the postprodding team. It assumes that there is already a hunt set u
 
     ```
     Puzzle name: "Sudoku #51"
-    Slug: "sudoku51"
+    Slug: "sudoku-51"
     Answer: "IMMEDIATE"
     ```
 
 2. Update the puzzle table on Drizzle. The puzzle will not show up on the frontend unless it is in the database.
     
-    To get to Drizzle, run `pnpm run db:push` and go to `https://local.drizzle.studio/`. The `name` column is the name, the `id` column is the slug, and the `answer` column is the answer.
+    To get to Drizzle, run `pnpm run db:push` and go to `https://local.drizzle.studio/`. The `name` column is the name, the `id` column is the slug, and the `answer` column is the answer in **all caps, no spaces.**
 
     ```
     {
-        id: "sudoku51",
+        id: "sudoku-51",
         name: "Sudoku #51",
         answer: "IMMEDIATE"
     }
     ```
 
-3. Create a folder in `src/app/(hunt)/puzzle/`. The folder must be named after the puzzle slug. Copy the contents of the `src/app/(hunt)/puzzle/(dev)/example` folder there. The file structure will look something like this:
+3. Create a folder in `src/app/(hunt)/puzzle/`. The folder name must be the puzzle slug. Copy the contents of the `src/app/(hunt)/puzzle/(dev)/example` folder there. The file structure will look something like this:
 
     ```
     .
@@ -68,7 +68,7 @@ This is for the postprodding team. It assumes that there is already a hunt set u
     ├── components/
     ├── page.tsx
     ├── sequences.ts
-    └── sudoku51/
+    └── sudoku-51/
         ├── data.tsx
         ├── hint
         ├── layout.tsx
@@ -76,30 +76,39 @@ This is for the postprodding team. It assumes that there is already a hunt set u
         └── solution
     ```
 
-4. **Hard-code the puzzle id, the puzzle body, and the solution body inside of data.tsx.** 
+4. **Hard-code the puzzle id, the puzzle body, and the solution body inside of data.tsx.** You can also add copy text, partial solutions, and extra tasks.
 
     ```
-    export const PUZZLE_ID = "sudoku51";
+    export const puzzleId = "sudoku-51";
 
-    export const PUZZLE_BODY = (
+    export const puzzleBody = (
         <div>
             <p>Here is a sudoku puzzle.</p>
         </div>
     );
 
-    export const SOLUTION_BODY = (
+    export const solutionBody = (
         <div>
             <p>Here is the solution to the sudoku puzzle.</p>
         </div>
     );
+
+    export const copyText = `1\t2\t3
+    4\t5\t6
+    7\t8\t9`;
+
+    export const partialSolutions: Record<string, string> = {
+        IMMEDIATELY: "Almost there!"
+    };
+
     ```
 
-5. **For sequences**, update the `SEQUENCES` in `hunt.config.ts`. Puzzles can be on multiple sequences.
+5. **For sequences**, update the `SEQUENCES` in `hunt.config.ts`. Puzzles can be in multiple sequences. Each sequence includes an optional name, an icon, and an ordered list of puzzles. See https://lucide.dev/icons/ for icons.
 
     ```
     export const SEQUENCES = [
-      ["sudoku51", "sudoku52"],
-      ["sudoku51", "go3", "chess67"]
+        { name: "sudoku", icon: Grid3X3, puzzles: ["sudoku-51", "sudoku-52"] },
+        { name: "variety", icon: Swords, puzzles: ["sudoku-51", "go-3", "chess-67"] }
     ];
     ```
 

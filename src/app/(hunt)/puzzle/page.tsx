@@ -119,7 +119,7 @@ export default async function Home() {
           eventId: string;
           puzzleId: string | null;
         }[] = await db.query.answerTokens.findMany({
-          where: eq(answerTokens.teamId, session.user.id),
+          where: eq(answerTokens.teamId, session.user?.id!),
         });
 
         return (
