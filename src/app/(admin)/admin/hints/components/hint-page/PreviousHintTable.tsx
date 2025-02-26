@@ -675,7 +675,7 @@ export default function PreviousHintTable({
                                   <button
                                     onClick={() =>
                                       handleSubmitEdit(
-                                        hint.id,
+                                        hiddenFollowUp.id,
                                         edit.value,
                                         "follow-up",
                                       )
