@@ -13,11 +13,15 @@ import CopyButton from "./CopyButton";
 export default async function DefaultPuzzlePage({
   puzzleId,
   puzzleBody,
-  copyText = null,
+  copyText,
+  partialSolutions,
+  tasks,
 }: {
   puzzleId: string;
   puzzleBody: React.ReactNode;
-  copyText?: string | null;
+  copyText: string | null;
+  partialSolutions: Record<string, string>;
+  tasks: Record<string, React.ReactNode>;
 }) {
   // Authentication
   const session = await auth();
@@ -85,6 +89,17 @@ export default async function DefaultPuzzlePage({
         {copyText && <CopyButton copyText={copyText}></CopyButton>}
       </div>
 
+      {Object.keys(tasks).map((task) => {
+        if (previousGuesses.some((guess) => guess.guess === task)) {
+          return (
+            <div key={task}>
+              <hr className="my-4" />
+              {tasks[task]}
+            </div>
+          );
+        }
+      })}
+
       <div className="mt-4">
         {!isSolved && numberOfGuessesLeft > 0 && (
           <div className="mt-2">
@@ -105,6 +120,8 @@ export default async function DefaultPuzzlePage({
         <PreviousGuessTable
           puzzleAnswer={puzzleAnswer}
           previousGuesses={previousGuesses}
+          partialSolutions={partialSolutions}
+          tasks={tasks}
         />
       </div>
     </div>

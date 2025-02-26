@@ -4,7 +4,7 @@ import { db } from "~/server/db/index";
 import { and, eq } from "drizzle-orm";
 import { followUps, hints } from "~/server/db/schema";
 import { getNumberOfHintsRemaining } from "~/hunt.config";
-import { sendBotMessage, sendEmail } from "~/lib/utils";
+import { sendBotMessage, sendEmail, extractEmails } from "~/lib/utils";
 import {
   FollowUpEmailTemplate,
   FollowUpEmailTemplateProps,
@@ -120,7 +120,7 @@ export async function insertFollowUp({
       // So send an email
       if (members) {
         await sendEmail(
-          members,
+          extractEmails(members),
           `Follow-Up Hint [${puzzleName}]`,
           FollowUpEmailTemplate({
             teamDisplayName,
@@ -131,7 +131,7 @@ export async function insertFollowUp({
         );
       }
       // Otherwise, notify admin on Discord that there is a follow-up
-      else {
+      else if (message !== "[Claimed]") {
         const hintMessage = `🙏 **Hint** [follow-up](https://www.brownpuzzlehunt.com/admin/hints/${hintId}?reply=true) by [${teamDisplayName}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleName}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${message} <@&1310029428864057504>`;
         await sendBotMessage(hintMessage);
       }

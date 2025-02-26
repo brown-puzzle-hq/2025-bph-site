@@ -34,6 +34,8 @@ export const HintEmailTemplate: React.FC<Readonly<HintEmailTemplateProps>> = ({
         padding: "10px",
         borderLeft: "4px solid #ccc",
         background: "#f9f9f9",
+        whiteSpace: "pre-wrap",
+        wordWrap: "break-word",
       }}
     >
       {hint.request}
@@ -48,6 +50,8 @@ export const HintEmailTemplate: React.FC<Readonly<HintEmailTemplateProps>> = ({
         padding: "10px",
         borderLeft: "4px solid #4caf50",
         background: "#f1f8e9",
+        whiteSpace: "pre-wrap",
+        wordWrap: "break-word",
       }}
     >
       {response}
@@ -107,6 +111,8 @@ export const FollowUpEmailTemplate: React.FC<
         padding: "10px",
         borderLeft: "4px solid #ccc",
         background: "#f9f9f9",
+        whiteSpace: "pre-wrap",
+        wordWrap: "break-word",
       }}
     >
       {message}
@@ -129,5 +135,60 @@ export const FollowUpEmailTemplate: React.FC<
       Puzzle HQ
     </p>
     {/* TODO: alternate placing and not placing invisible character to prevent gmail from clipping email */}
+  </div>
+);
+
+export interface ErratumEmailTemplateProps {
+  puzzleId: string;
+  puzzleName: string;
+  erratum: string;
+}
+
+export const ErratumEmailTemplate: React.FC<
+  Readonly<ErratumEmailTemplateProps>
+> = ({ puzzleId, puzzleName, erratum }) => (
+  <div
+    style={{
+      fontFamily: "Arial, sans-serif",
+      fontSize: "14px",
+      color: "#333 !important",
+    }}
+  >
+    <p style={{ marginTop: "0", color: "#333 !important" }}>
+      An erratum for <strong>{puzzleName}</strong> has been posted.
+    </p>
+
+    <p style={{ color: "#333 !important" }}>
+      <strong>Erratum:</strong>
+    </p>
+    <blockquote
+      style={{
+        margin: "10px 0",
+        padding: "10px",
+        borderLeft: "4px solid #f44336",
+        background: "#ffebee",
+        whiteSpace: "pre-wrap",
+        wordWrap: "break-word",
+      }}
+    >
+      {erratum}
+    </blockquote>
+
+    <p style={{ color: "#333 !important" }}>
+      You can view it at{" "}
+      <a
+        href={`https://www.brownpuzzlehunt.com/puzzle/${puzzleId}`}
+        style={{ color: "#1a73e8", textDecoration: "none", fontWeight: "bold" }}
+      >
+        https://www.brownpuzzlehunt.com/puzzle/{puzzleId}
+      </a>
+      .
+    </p>
+
+    <p style={{ marginBottom: "0", color: "#333 !important" }}>
+      Happy hunting,
+      <br />
+      Puzzle HQ
+    </p>
   </div>
 );
