@@ -68,7 +68,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {};
 /** Calculates the total number of hints given to a team */
 export function getTotalHints(teamId: string, role: string) {
   const initialNumberOfHints =
-    role == "admin" || role == "testsolver" ? 1000000 : 1;
+    role == "admin" || role == "testsolver" ? 1e6 : 1;
   const currentTime = new Date();
   const timeDifference = currentTime.getTime() - IN_PERSON.START_TIME.getTime(); // In milliseconds
   const rate = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
