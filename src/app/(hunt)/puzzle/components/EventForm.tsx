@@ -73,7 +73,7 @@ export default function EventForm({ eventId }: FormProps) {
           )}
         />
         <button
-          className="rounded-sm px-0.5 hover:bg-footer-bg focus:outline-none disabled:opacity-0 focus-visible:bg-footer-bg"
+          className="rounded-sm px-0.5 hover:bg-footer-bg focus:outline-none focus-visible:bg-footer-bg disabled:opacity-0"
           type="submit"
           disabled={!form.watch("answer")}
         >
