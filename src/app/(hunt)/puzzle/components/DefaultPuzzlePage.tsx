@@ -100,20 +100,12 @@ export default async function DefaultPuzzlePage({
         }
       })}
 
-      <div className="mt-4">
-        {!isSolved && numberOfGuessesLeft > 0 && (
-          <div className="mt-2">
-            <GuessForm
-              puzzleId={puzzleId}
-              numberOfGuessesLeft={numberOfGuessesLeft}
-            />
-          </div>
-        )}
-        {numberOfGuessesLeft === 0 && !isSolved && (
-          <div className="mb-4 text-center font-medium text-rose-600">
-            You have no guesses left. Please contact HQ for help.
-          </div>
-        )}
+      <div className="my-4">
+        <GuessForm
+          puzzleId={puzzleId}
+          numberOfGuessesLeft={numberOfGuessesLeft}
+          isSolved={isSolved}
+        />
       </div>
 
       <div className="mb-4 flex w-full justify-center">

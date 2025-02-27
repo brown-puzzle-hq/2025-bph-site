@@ -178,44 +178,44 @@ export async function handleGuess(puzzleId: string, guess: string) {
         });
       }
     }
+  }
 
-    await db.transaction(async (tx) => {
-      await tx.insert(guesses).values({
-        teamId,
-        puzzleId,
-        guess,
-        isCorrect: correct,
-        submitTime: currDate,
-      });
-
-      if (correct) {
-        await handleSolve(tx, teamId, puzzleId, solveType);
-      }
+  await db.transaction(async (tx) => {
+    await tx.insert(guesses).values({
+      teamId,
+      puzzleId,
+      guess,
+      isCorrect: correct,
+      submitTime: currDate,
     });
 
-    revalidatePath(`/puzzle/${puzzleId}`);
-
-    // Send a message to the bot channel
-    const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${correct ? "✓" : "✕"}]`;
-    await sendBotMessage(guessMessage);
-
-    // Refund hints if the guess is correct
     if (correct) {
-      await db
-        .update(hints)
-        .set({
-          response: "[REFUNDED]",
-          status: "refunded",
-          claimer: teamId, // TODO: maybe don't make this the claimer
-        })
-        .where(
-          and(
-            eq(hints.puzzleId, puzzleId),
-            eq(hints.teamId, teamId),
-            eq(hints.status, "no_response"),
-          ),
-        );
+      await handleSolve(tx, teamId, puzzleId, solveType);
     }
+  });
+
+  revalidatePath(`/puzzle/${puzzleId}`);
+
+  // Send a message to the bot channel
+  const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${correct ? solveType === "guess" ? "✓" : "𝔼 → ✓" : "✕"}]`;
+  await sendBotMessage(guessMessage);
+
+  // Refund hints if the guess is correct
+  if (correct) {
+    await db
+      .update(hints)
+      .set({
+        response: "[REFUNDED]",
+        status: "refunded",
+        claimer: teamId, // TODO: maybe don't make this the claimer
+      })
+      .where(
+        and(
+          eq(hints.puzzleId, puzzleId),
+          eq(hints.teamId, teamId),
+          eq(hints.status, "no_response"),
+        ),
+      );
   }
 }
 
