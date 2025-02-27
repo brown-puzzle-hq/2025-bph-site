@@ -23,7 +23,7 @@
 This is for the postprodding team. It assumes that there is already a hunt set up.
 
 ##### First steps
-1. Clone this repository.
+1. Clone this repository and create a new branch.
 2. Get the `.env` and put it in the root directory.
 1. Install [pnpm](https://pnpm.io/).
 3. Run `pnpm install` to install the dependencies.

@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { insertAnswerToken } from "../actions";
-import { Check } from "lucide-react";
+import { SquareCheckBig } from "lucide-react";
 
 function sanitizeAnswer(answer: any) {
   return typeof answer === "string"
@@ -73,11 +73,11 @@ export default function EventForm({ eventId }: FormProps) {
           )}
         />
         <button
-          className="rounded-sm px-0.5 hover:bg-footer-bg focus:outline-none disabled:opacity-0"
+          className="rounded-sm px-0.5 hover:bg-footer-bg focus:outline-none disabled:opacity-0 focus-visible:bg-footer-bg"
           type="submit"
           disabled={!form.watch("answer")}
         >
-          <Check className="h-4 w-4" />
+          <SquareCheckBig className="h-4 w-4" />
         </button>
       </form>
     </Form>

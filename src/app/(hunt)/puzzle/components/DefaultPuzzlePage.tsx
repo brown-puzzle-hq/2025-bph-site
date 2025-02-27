@@ -38,8 +38,10 @@ export default async function DefaultPuzzlePage({
   if (!session?.user?.id) {
     return (
       <div className="flex w-full justify-center space-x-2 sm:w-4/5 lg:w-2/3">
-        <div className="mt-4">{puzzleBody}</div>
-        {copyText && <CopyButton copyText={copyText}></CopyButton>}
+        <div className="mt-4 flex justify-center space-x-2">
+          {puzzleBody}
+          {copyText && <CopyButton copyText={copyText}></CopyButton>}
+        </div>
       </div>
     );
   }
