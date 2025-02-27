@@ -92,7 +92,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="mb-6 flex grow flex-col items-center px-4 pt-6">
+    <div className="mx-auto mb-6 flex w-full grow flex-col items-center p-4 pt-6 sm:w-4/5 lg:w-2/3 xl:w-1/2">
       <h1 className="mb-2">Puzzles!</h1>
       <PuzzleTable
         availablePuzzles={availablePuzzles}

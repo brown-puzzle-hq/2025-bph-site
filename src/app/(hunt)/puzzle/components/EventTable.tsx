@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import EventForm from "./EventForm";
+import { PencilLine } from "lucide-react";
 
 type Event = {
   id: string;
@@ -30,8 +31,8 @@ export default function EventTable({
   finishedEvents: Token[];
 }) {
   return (
-    <div className="min-w-[40%]">
-      <Table className="justify-center overflow-hidden rounded-md">
+    <div className="w-full">
+      <Table className="mx-auto overflow-hidden rounded-md">
         <TableHeader>
           <TableRow className="hover:bg-inherit">
             <TableHead className="text-secondary-text">Event</TableHead>
@@ -47,18 +48,25 @@ export default function EventTable({
               <TableRow key={event.id} className="hover:bg-inherit">
                 <TableCell>
                   {event.name.trim() ? event.name : "\u200b"}
-                </TableCell>
-                <TableCell>
-                  <div className="pb-2">{event.description}</div>
-                  <div className="flex space-x-2">
-                    <p>Token:</p>
+                  <div className="flex items-center space-x-2">
+                    <PencilLine className="h-4 w-4" />
                     {finishedEvents.some((fe) => fe.eventId === event.id) ? (
-                      <span className="text-correct-guess">{event.answer}</span>
+                      <span
+                        className={
+                          finishedEvents.find((fe) => fe.eventId === event.id)
+                            ?.puzzleId
+                            ? "text-correct-guess line-through"
+                            : "text-correct-guess"
+                        }
+                      >
+                        {event.answer}
+                      </span>
                     ) : (
                       <EventForm eventId={event.id} />
                     )}
                   </div>
                 </TableCell>
+                <TableCell>{event.description}</TableCell>
               </TableRow>
             ))}
         </TableBody>
