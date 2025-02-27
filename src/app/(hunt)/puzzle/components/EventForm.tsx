@@ -66,14 +66,14 @@ export default function EventForm({ eventId }: FormProps) {
                   }}
                   placeholder="TOKEN"
                   autoComplete="off"
-                  className={`bg-main-bg ${error ? "text-incorrect-guess" : "text-main-text"} focus:outline-none`}
+                  className={`w-full bg-main-bg ${error ? "text-incorrect-guess" : "text-main-text"} focus:outline-none`}
                 />
               </FormControl>
             </FormItem>
           )}
         />
         <button
-          className="rounded-sm px-0.5 hover:bg-footer-bg disabled:opacity-0"
+          className="rounded-sm px-0.5 hover:bg-footer-bg focus:outline-none disabled:opacity-0"
           type="submit"
           disabled={!form.watch("answer")}
         >

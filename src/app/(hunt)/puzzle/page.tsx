@@ -101,9 +101,10 @@ export default async function Home() {
       {(async () => {
         // Check if user should see the events
         const canSeeEvents =
-          session?.user &&
-          session.user.interactionMode === "in-person" &&
-          currDate > IN_PERSON.START_TIME;
+          currDate > REMOTE.END_TIME ||
+          (session?.user &&
+            session.user.interactionMode === "in-person" &&
+            currDate > IN_PERSON.START_TIME);
 
         if (!canSeeEvents) return;
 
@@ -118,9 +119,11 @@ export default async function Home() {
         const finishedEvents: {
           eventId: string;
           puzzleId: string | null;
-        }[] = await db.query.answerTokens.findMany({
-          where: eq(answerTokens.teamId, session.user?.id!),
-        });
+        }[] = session?.user
+          ? await db.query.answerTokens.findMany({
+              where: eq(answerTokens.teamId, session.user?.id!),
+            })
+          : [];
 
         return (
           <>
@@ -128,6 +131,7 @@ export default async function Home() {
             <EventTable
               availableEvents={availableEvents}
               finishedEvents={finishedEvents}
+              inputBox={!!session?.user}
             />
           </>
         );

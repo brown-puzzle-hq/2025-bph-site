@@ -26,13 +26,16 @@ type Token = {
 export default function EventTable({
   availableEvents,
   finishedEvents,
+  inputBox,
 }: {
   availableEvents: Event[];
   finishedEvents: Token[];
+  inputBox: boolean;
 }) {
   return (
+    // TODO: On mobile ideally we combine into one column, might have to use grid instead of table though
     <div className="w-full">
-      <Table className="mx-auto overflow-hidden rounded-md">
+      <Table className="mx-auto table-fixed overflow-hidden rounded-md md:table-auto">
         <TableHeader>
           <TableRow className="hover:bg-inherit">
             <TableHead className="text-secondary-text">Event</TableHead>
@@ -46,25 +49,27 @@ export default function EventTable({
             // If neither puzzles have null times, sort by earliest unlock
             .map((event) => (
               <TableRow key={event.id} className="hover:bg-inherit">
-                <TableCell>
+                <TableCell className="md:min-w-60">
                   {event.name.trim() ? event.name : "\u200b"}
-                  <div className="flex items-center space-x-2">
-                    <PencilLine className="h-4 w-4" />
-                    {finishedEvents.some((fe) => fe.eventId === event.id) ? (
-                      <span
-                        className={
-                          finishedEvents.find((fe) => fe.eventId === event.id)
-                            ?.puzzleId
-                            ? "text-correct-guess line-through"
-                            : "text-correct-guess"
-                        }
-                      >
-                        {event.answer}
-                      </span>
-                    ) : (
-                      <EventForm eventId={event.id} />
-                    )}
-                  </div>
+                  {inputBox && (
+                    <div className="flex items-center space-x-2">
+                      <PencilLine className="h-4 w-4 min-w-4" />
+                      {finishedEvents.some((fe) => fe.eventId === event.id) ? (
+                        <span
+                          className={
+                            finishedEvents.find((fe) => fe.eventId === event.id)
+                              ?.puzzleId
+                              ? "text-correct-guess line-through"
+                              : "text-correct-guess"
+                          }
+                        >
+                          {event.answer}
+                        </span>
+                      ) : (
+                        <EventForm eventId={event.id} />
+                      )}
+                    </div>
+                  )}
                 </TableCell>
                 <TableCell>{event.description}</TableCell>
               </TableRow>
