@@ -29,7 +29,7 @@ export const columns: ColumnDef<HintWithRelations>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => (
-      <div className="flex space-x-2 items-center">
+      <div className="flex items-center space-x-2">
         <p>ID</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="ml-2 h-4 w-4" />
@@ -45,7 +45,7 @@ export const columns: ColumnDef<HintWithRelations>[] = [
   {
     accessorKey: "puzzleName",
     header: ({ column }) => (
-      <div className="flex w-32 space-x-2 items-center">
+      <div className="flex w-32 items-center space-x-2">
         <p> Puzzle</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="ml-2 h-4 w-4" />
@@ -61,7 +61,7 @@ export const columns: ColumnDef<HintWithRelations>[] = [
   {
     accessorKey: "teamDisplayName",
     header: ({ column }) => (
-      <div className="flex w-32 space-x-2 items-center">
+      <div className="flex w-32 items-center space-x-2">
         <p>Team</p>
 
         {column.getIsSorted() === "asc" ? (
@@ -78,7 +78,7 @@ export const columns: ColumnDef<HintWithRelations>[] = [
   {
     accessorKey: "request",
     header: ({ column }) => (
-      <div className="flex w-[42em] space-x-2 items-center">
+      <div className="flex w-[42em] items-center space-x-2">
         <p> Request</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="ml-2 h-4 w-4" />
@@ -96,7 +96,7 @@ export const columns: ColumnDef<HintWithRelations>[] = [
   {
     accessorKey: "requestTime",
     header: ({ column }) => (
-      <div className="flex w-24 space-x-2 items-center">
+      <div className="flex w-24 items-center space-x-2">
         <p>Time</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="ml-2 h-4 w-4" />
@@ -113,7 +113,7 @@ export const columns: ColumnDef<HintWithRelations>[] = [
   {
     accessorKey: "claimer",
     header: ({ column }) => (
-      <div className="flex w-20 space-x-2 items-center">
+      <div className="flex w-20 items-center space-x-2">
         <p>Status</p>
 
         {column.getIsSorted() === "asc" ? (
