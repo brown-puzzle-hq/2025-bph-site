@@ -116,7 +116,12 @@ export default function GuessForm({
         <Button
           className="hover:bg-otherblue"
           type="submit"
-          disabled={!form.watch("guess") || isSolved || !numberOfGuessesLeft || isPending}
+          disabled={
+            !form.watch("guess") ||
+            isSolved ||
+            !numberOfGuessesLeft ||
+            isPending
+          }
         >
           Submit
         </Button>

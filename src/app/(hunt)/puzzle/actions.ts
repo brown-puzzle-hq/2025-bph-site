@@ -197,7 +197,7 @@ export async function handleGuess(puzzleId: string, guess: string) {
   revalidatePath(`/puzzle/${puzzleId}`);
 
   // Send a message to the bot channel
-  const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${correct ? solveType === "guess" ? "✓" : "𝔼 → ✓" : "✕"}]`;
+  const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${correct ? (solveType === "guess" ? "✓" : "𝔼 → ✓") : "✕"}]`;
   await sendBotMessage(guessMessage);
 
   // Refund hints if the guess is correct
