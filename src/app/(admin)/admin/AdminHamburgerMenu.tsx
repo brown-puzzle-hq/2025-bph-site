@@ -1,4 +1,5 @@
 import { auth } from "~/server/auth/auth";
+import Link from "next/link";
 import { LogoutButton } from "~/app/nav/LogoutButton";
 import { HamburgerMenu, MenuItem } from "~/app/nav/HamburgerMenu";
 
@@ -10,16 +11,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default async function AdminHamburgerMenu() {
-  const session = await auth();
-
   const OtherMenuItems = () => {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger>+</DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>Errata</DropdownMenuItem>
-          <DropdownMenuItem>Feedback</DropdownMenuItem>
-          <DropdownMenuItem>Queries</DropdownMenuItem>
+          <Link href="/admin/errata">
+            <DropdownMenuItem>Errata</DropdownMenuItem>
+          </Link>
+          <Link href="/admin/feedback">
+            <DropdownMenuItem>Feedback</DropdownMenuItem>
+          </Link>
+          <Link href="/admin/sql">
+            <DropdownMenuItem>Queries</DropdownMenuItem>
+          </Link>
         </DropdownMenuContent>
       </DropdownMenu>
     );
