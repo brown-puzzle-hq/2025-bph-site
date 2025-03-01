@@ -11,7 +11,7 @@ export const puzzleId = "puzzle1";
  * and interactive puzzle components here.
  */
 export const puzzleBody = (
-  <div className="text-center">This is the body of the puzzle.</div>
+  <div className="max-w-3xl text-center">This is the body of the puzzle.</div>
 );
 
 /**
