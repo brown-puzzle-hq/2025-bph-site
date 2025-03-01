@@ -269,8 +269,8 @@ export default function Page() {
             <TOCSection sectionId={2} tocTitle="What are the Boxes?">
               <h2>What are the Boxes?</h2>
               <p>
-                Starting from <strong>12:00PM EST on March 8th</strong>, we will be selling Boxes to 50
-                remote teams (first come, first served).
+                Starting from <strong>12:00PM EST on March 8th</strong>, we will
+                be selling Boxes to 50 remote teams (first come, first served).
               </p>
               <p>The Boxes will each contain:</p>
               <ul>
@@ -279,12 +279,11 @@ export default function Page() {
                 <li>Some number of physical puzzles</li>
               </ul>
               <p>
-                There are (<i>vague hand-waving motions</i>) at least seven 
-                unique physical puzzles in the Box. This is most or all of the physical puzzles in the hunt.
+                There are (<i>vague hand-waving motions</i>) at least seven
+                unique physical puzzles in the Box. This is most or all of the
+                physical puzzles in the hunt.
               </p>
-              <p>
-                Here's a photo of one, packed full of Stuff:
-              </p>
+              <p>Here's a photo of one, packed full of Stuff:</p>
               <img
                 src="/box.jpg"
                 alt="A Box, approximately 9 by 6 by 2 inches in volume. It's also full of Stuff."
@@ -293,16 +292,28 @@ export default function Page() {
               />
               <h3>How can I get a Box?</h3>
               <ol>
-                <li>Register a team. When you register, indicate that you're a remote team, 
-                  and that you are interested in a box.</li>
-                <li>At <strong>12:00pm EST on March 8th</strong>, we will email the link to buy Boxes to all 
-                  registered teams who said they'd be interested in a Box.</li>
-                <li>Click on the link and buy it. Boxes are first-come, first-served.</li>
+                <li>
+                  Register a team. When you register, indicate that you're a
+                  remote team, and that you are interested in a box.
+                </li>
+                <li>
+                  At <strong>12:00pm EST on March 8th</strong>, we will email
+                  the link to buy Boxes to all registered teams who said they'd
+                  be interested in a Box.
+                </li>
+                <li>
+                  Click on the link and buy it. Boxes are first-come,
+                  first-served.
+                </li>
               </ol>
               <p>
-                <strong>We will not be publicly sharing the link to buy a Box until all registered interested 
-                teams have had an opportunity to buy one.</strong> If you're interested in getting a Box, 
-                please register a team as soon as you can.
+                <strong>
+                  We will not be publicly sharing the link to buy a Box until
+                  all registered interested teams have had an opportunity to buy
+                  one.
+                </strong>{" "}
+                If you're interested in getting a Box, please register a team as
+                soon as you can.
               </p>
               <p>
                 <strong>Please only buy one box per team.</strong>
@@ -325,7 +336,8 @@ export default function Page() {
               </p>
               <h3>How much will a Box cost?</h3>
               <p>
-                Boxes cost $19. This is priced to cover materials, tax, surcharge, and shipping.
+                Boxes cost $19. This is priced to cover materials, tax,
+                surcharge, and shipping.
               </p>
               <p>
                 If you know you might want a Box, but you don't think you can
@@ -334,8 +346,8 @@ export default function Page() {
                 solution.
               </p>
               <p>
-                We don't make any money off of the Boxes; its total cost goes into production! If you want to support
-                the hunt, consider{" "}
+                We don't make any money off of the Boxes; its total cost goes
+                into production! If you want to support the hunt, consider{" "}
                 <Link
                   href="https://bbis.advancement.brown.edu/BBPhenix/give-now?did=05732af4-d994-4d40-bcd6-fb42d07b6eab"
                   className="no-underline hover:underline"
