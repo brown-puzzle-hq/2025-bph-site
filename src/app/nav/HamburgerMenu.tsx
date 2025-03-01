@@ -24,10 +24,16 @@ const colorMap: Record<string, string> = {
 type Props = {
   leftMenuItems: MenuItem[];
   rightMenuItems: MenuItem[];
+  hambergerMenuItems: MenuItem[];
   side: "hunt" | "admin";
 };
 
-export function HamburgerMenu({ leftMenuItems, rightMenuItems, side }: Props) {
+export function HamburgerMenu({
+  leftMenuItems,
+  rightMenuItems,
+  hambergerMenuItems,
+  side,
+}: Props) {
   return (
     <nav
       className={`fixed z-50 flex w-full items-center justify-between ${colorMap[side]} bg-opacity-30 p-[10px] backdrop-blur-md backdrop-filter md:p-4`}
@@ -81,7 +87,7 @@ export function HamburgerMenu({ leftMenuItems, rightMenuItems, side }: Props) {
         </SheetTrigger>
         <SheetContent side="top" className="w-full bg-inherit">
           <nav className="flex flex-col items-center space-y-2">
-            {[...leftMenuItems, ...rightMenuItems].map((item) => (
+            {hambergerMenuItems.map((item) => (
               <React.Fragment key={item.title}>
                 <SheetTrigger asChild>
                   {item.type == "element" ? (
