@@ -89,7 +89,7 @@ export default function ErratumForm({ puzzleList, errataList }: FormProps) {
           control={form.control}
           name="puzzleId"
           render={({ field }) => (
-            <FormItem className="mb-4">
+            <FormItem className="py-4">
               <FormLabel className="flex w-[180px] flex-row justify-between">
                 <span className="text-black">Puzzle</span>
                 <FormMessage />
@@ -120,12 +120,14 @@ export default function ErratumForm({ puzzleList, errataList }: FormProps) {
             </FormItem>
           )}
         />
-        <ErratumDialog errataList={puzzleErrata} />
+        <div className="py-4">
+          <ErratumDialog errataList={puzzleErrata} />
+        </div>
         <FormField
           control={form.control}
           name="description"
           render={({ field }) => (
-            <FormItem className="mb-4">
+            <FormItem className="py-4">
               <FormLabel className="flex flex-row justify-between">
                 <span className="text-black">Description</span>
                 <FormMessage />
