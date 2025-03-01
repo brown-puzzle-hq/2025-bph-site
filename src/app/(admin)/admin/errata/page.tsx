@@ -14,7 +14,7 @@ export default async function Home() {
 
   return (
     <div className="mx-auto mb-4 w-full max-w-3xl px-4 md:mb-12">
-      <h1 className="mb-2">Errata</h1>
+      <h1 className="mb-2 text-center">Errata</h1>
       <ErratumForm puzzleList={puzzleList} errataList={errataList} />
     </div>
   );

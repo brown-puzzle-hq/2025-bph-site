@@ -9,7 +9,7 @@ export default async function Home() {
 
   return (
     <div className="container mx-auto mb-12">
-      <h1 className="text-center">Teams!</h1>
+      <h1 className="text-center">Teams</h1>
       <TeamTable columns={columns} data={data} />
     </div>
   );

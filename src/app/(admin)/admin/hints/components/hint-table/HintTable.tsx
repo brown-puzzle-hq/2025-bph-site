@@ -46,6 +46,8 @@ export function HintTable<TData, TValue>({
   ]);
   const pageSize = 100;
 
+  const [isCompact, setIsCompact] = useState(true);
+
   const table = useReactTable({
     data,
     columns,
@@ -120,6 +122,7 @@ export function HintTable<TData, TValue>({
 
   return (
     <div className="px-4">
+      {/* Controls */}
       <div className="flex items-center justify-between space-x-2 pb-2">
         <Input
           placeholder="Filter hints..."
@@ -139,12 +142,17 @@ export function HintTable<TData, TValue>({
           </Button>
         </div>
       </div>
-      <div className="flex overflow-auto rounded-md border">
+
+      {/* Table */}
+      <div className="flex overflow-auto rounded-md">
         <div className="w-full overflow-y-auto">
           <Table>
             <TableHeader className="sticky top-0 z-10 bg-white">
               {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={`header-${headerGroup.id}`}>
+                <TableRow
+                  key={`header-${headerGroup.id}`}
+                  className={`hover:underline ${isCompact && "p-0"}`}
+                >
                   {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
@@ -153,7 +161,7 @@ export function HintTable<TData, TValue>({
                           header.column.getIsSorted() === "asc",
                         )
                       }
-                      className="hover:underline"
+                      className={`hover:underline ${isCompact && "p-0 text-xs"}`}
                       role="button"
                     >
                       {header.isPlaceholder
@@ -191,10 +199,13 @@ export function HintTable<TData, TValue>({
                     }}
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="cursor-pointer"
+                    className={`cursor-pointer ${isCompact && "p-0"}`}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell
+                        key={cell.id}
+                        className={`${isCompact && "p-0 text-xs"}`}
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),
@@ -207,7 +218,7 @@ export function HintTable<TData, TValue>({
                 <TableRow>
                   <TableCell
                     colSpan={columns.length}
-                    className="h-24 text-center"
+                    className="h-18 text-center"
                   >
                     No results.
                   </TableCell>

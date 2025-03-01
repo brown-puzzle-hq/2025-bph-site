@@ -26,7 +26,7 @@ export default async function Home() {
     if (currDate < REMOTE.END_TIME) {
       return (
         <div className="mb-6 flex grow flex-col items-center px-4 pt-6">
-          <h1 className="mb-2">Puzzles!</h1>
+          <h1 className="mb-2">Puzzles</h1>
           <p>
             <Link href="/login" className="text-link hover:underline">
               Login
@@ -59,7 +59,7 @@ export default async function Home() {
     ) {
       return (
         <div className="mb-6 flex grow flex-col items-center px-4 pt-6">
-          <h1 className="mb-2">Puzzles!</h1>
+          <h1 className="mb-2">Puzzles</h1>
           <p>The hunt has not started yet.</p>
         </div>
       );
@@ -93,7 +93,7 @@ export default async function Home() {
 
   return (
     <div className="mx-auto mb-6 flex w-full grow flex-col items-center p-4 pt-6 max-w-3xl">
-      <h1 className="mb-2">Puzzles!</h1>
+      <h1 className="mb-2">Puzzles</h1>
       <PuzzleTable
         availablePuzzles={availablePuzzles}
         solvedPuzzles={solvedPuzzles}
@@ -127,7 +127,7 @@ export default async function Home() {
 
         return (
           <>
-            <h1 className="mb-2 mt-4">Events!</h1>
+            <h1 className="mb-2 mt-4">Events</h1>
             <EventTable
               availableEvents={availableEvents}
               finishedEvents={finishedEvents}
