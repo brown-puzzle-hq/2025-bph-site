@@ -9,7 +9,7 @@ export default async function Home() {
   const session = await auth();
   if (!session?.user?.id) {
     return (
-      <div className="mb-6 flex grow flex-col items-center px-4 pt-6">
+      <div className="text-center mb-12 px-4 pt-6">
         <h1 className="mb-2">Feedback</h1>
         <div>
           <Link href="/login" className="text-link hover:underline">
