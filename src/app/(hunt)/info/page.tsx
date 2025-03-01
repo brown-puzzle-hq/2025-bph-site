@@ -62,7 +62,7 @@ export default function Page() {
   const values = useTOCContextValues();
   return (
     <TOCContext.Provider value={values}>
-      <div className="flex h-full w-screen py-6">
+      <div className="flex h-full w-screen px-2 py-6">
         <TableOfContents />
         <div className="flex w-full px-4 md:w-2/3 lg:w-1/2">
           <article className="prose prose-custom w-full max-w-none">
