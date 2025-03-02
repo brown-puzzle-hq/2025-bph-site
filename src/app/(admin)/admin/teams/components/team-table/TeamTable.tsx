@@ -163,7 +163,7 @@ export function TeamTable<TData, TValue>({
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className={`${isCompact && "py-0"}`}
+                      className={isCompact ? "py-0" : undefined}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

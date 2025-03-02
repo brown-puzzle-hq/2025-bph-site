@@ -8,7 +8,8 @@ export default async function Home() {
   const data = await db.query.teams.findMany();
 
   return (
-    <div className="mx-auto mb-12">
+    // FYI container is important don't be like Alex and spend an hour debugging after removing it
+    <div className="container mx-auto mb-12">
       <h1 className="text-center">Teams</h1>
       <TeamTable columns={columns} data={data} />
     </div>

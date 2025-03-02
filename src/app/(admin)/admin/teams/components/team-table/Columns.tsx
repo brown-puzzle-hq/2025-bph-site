@@ -9,7 +9,7 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => (
-      <div className="flex min-w-[200px] items-center space-x-2">
+      <div className="flex w-[200px] items-center space-x-2">
         <p>ID</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="size-4" />
@@ -46,7 +46,7 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
   {
     accessorKey: "role",
     header: ({ column }) => (
-      <div className="flex min-w-20 items-center space-x-2">
+      <div className="flex w-20 items-center space-x-2">
         <p>Role</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="size-4" />
@@ -86,7 +86,7 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
   {
     accessorKey: "interactionMode",
     header: ({ column }) => (
-      <div className="flex min-w-20 items-center space-x-2">
+      <div className="flex w-20 items-center space-x-2">
         <p>Mode</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="size-4" />
@@ -128,7 +128,7 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
   {
     accessorKey: "createTime",
     header: ({ column }) => (
-      <div className="flex min-w-36 items-center space-x-2">
+      <div className="flex w-36 items-center space-x-2">
         <p>Create Time</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="size-4" />
@@ -147,7 +147,7 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
   {
     accessorKey: "finishTime",
     header: ({ column }) => (
-      <div className="flex min-w-36 items-center space-x-2">
+      <div className="flex w-36 items-center space-x-2">
         <p>Finish Time</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="size-4" />
