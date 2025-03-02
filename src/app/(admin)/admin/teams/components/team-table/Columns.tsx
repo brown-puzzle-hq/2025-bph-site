@@ -1,7 +1,7 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { teams } from "~/server/db/schema";
-import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { ChevronsUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { FormattedTime } from "~/lib/time";
 
 // Define the columns for the table using TanStack
@@ -9,50 +9,53 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => (
-      <div className="flex w-32 space-x-2">
+      <div className="flex min-w-44 items-center space-x-2">
         <p>ID</p>
         {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="ml-2 h-4 w-4" />
+          <ArrowUp className="size-4" />
         ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="ml-2 h-4 w-4" />
+          <ArrowDown className="size-4" />
         ) : (
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ChevronsUpDown className="size-4" />
         )}
       </div>
     ),
     cell: ({ row }) => (
-      <div className="w-32 truncate">{row.getValue("id")}</div>
+      <div className="w-44 truncate text-ellipsis">{row.getValue("id")}</div>
     ),
   },
+  // TODO: figure out how to get this column to fill available space
   {
     accessorKey: "displayName",
     header: ({ column }) => (
-      <div className="flex w-32 space-x-2">
+      <div className="w-96 flex items-center space-x-2">
         <p>Display Name</p>
         {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="ml-2 h-4 w-4" />
+          <ArrowUp className="size-4" />
         ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="ml-2 h-4 w-4" />
+          <ArrowDown className="size-4" />
         ) : (
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ChevronsUpDown className="size-4" />
         )}
       </div>
     ),
     cell: ({ row }) => (
-      <div className="w-32 truncate">{row.getValue("displayName")}</div>
+      <div className="w-96 truncate text-ellipsis">
+        {row.getValue("displayName")}
+      </div>
     ),
   },
   {
     accessorKey: "role",
     header: ({ column }) => (
-      <div className="flex w-32 space-x-2">
+      <div className="flex min-w-20 items-center space-x-2">
         <p>Role</p>
         {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="ml-2 h-4 w-4" />
+          <ArrowUp className="size-4" />
         ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="ml-2 h-4 w-4" />
+          <ArrowDown className="size-4" />
         ) : (
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ChevronsUpDown className="size-4" />
         )}
       </div>
     ),
@@ -85,14 +88,14 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
   {
     accessorKey: "interactionMode",
     header: ({ column }) => (
-      <div className="flex w-48 space-x-2">
-        <p>Interaction Mode</p>
+      <div className="flex min-w-20 items-center space-x-2">
+        <p>Mode</p>
         {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="ml-2 h-4 w-4" />
+          <ArrowUp className="size-4" />
         ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="ml-2 h-4 w-4" />
+          <ArrowDown className="size-4" />
         ) : (
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ChevronsUpDown className="size-4" />
         )}
       </div>
     ),
@@ -114,7 +117,7 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
             : "text-gray-900";
 
       return (
-        <div className="inline-block">
+        <div className="inline-block whitespace-nowrap">
           <div className={`inline-flex rounded-sm ${bgColor} px-1 py-0.5`}>
             <span className={`font-medium ${textColor}`}>
               {interactionMode}
@@ -127,47 +130,39 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
   {
     accessorKey: "createTime",
     header: ({ column }) => (
-      <div className="flex w-32 space-x-2">
+      <div className="flex min-w-36 items-center space-x-2">
         <p>Create Time</p>
         {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="ml-2 h-4 w-4" />
+          <ArrowUp className="size-4" />
         ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="ml-2 h-4 w-4" />
+          <ArrowDown className="size-4" />
         ) : (
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ChevronsUpDown className="size-4" />
         )}
       </div>
     ),
     cell: ({ row }) => {
       const time: Date = row.getValue("createTime");
-      return (
-        <div className="w-32 truncate font-medium">
-          <FormattedTime time={time} />
-        </div>
-      );
+      return <FormattedTime className="whitespace-nowrap" time={time} />;
     },
   },
   {
     accessorKey: "finishTime",
     header: ({ column }) => (
-      <div className="flex w-32 space-x-2">
+      <div className="flex min-w-36 items-center space-x-2">
         <p>Finish Time</p>
         {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="ml-2 h-4 w-4" />
+          <ArrowUp className="size-4" />
         ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="ml-2 h-4 w-4" />
+          <ArrowDown className="size-4" />
         ) : (
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ChevronsUpDown className="size-4" />
         )}
       </div>
     ),
     cell: ({ row }) => {
       const time: Date = row.getValue("finishTime");
-      return (
-        <div className="w-32 truncate font-medium">
-          <FormattedTime time={time} />
-        </div>
-      );
+      return <FormattedTime className="whitespace-nowrap" time={time} />;
     },
   },
 ];

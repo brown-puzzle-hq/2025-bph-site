@@ -9,12 +9,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Ellipsis } from "lucide-react";
 
 export default async function AdminHamburgerMenu() {
   const OtherMenuItems = () => {
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger>+</DropdownMenuTrigger>
+        <DropdownMenuTrigger className="align-middle">
+          <Ellipsis className="h-[20px] mb-0.5" />
+        </DropdownMenuTrigger>
         <DropdownMenuContent>
           <Link href="/admin/errata">
             <DropdownMenuItem>Errata</DropdownMenuItem>

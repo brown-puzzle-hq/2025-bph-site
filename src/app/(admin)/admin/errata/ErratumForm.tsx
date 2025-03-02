@@ -89,7 +89,7 @@ export default function ErratumForm({ puzzleList, errataList }: FormProps) {
           control={form.control}
           name="puzzleId"
           render={({ field }) => (
-            <FormItem className="mb-4 w-full md:w-1/2">
+            <FormItem className="mb-4 w-full max-w-96">
               <FormLabel className="flex justify-between">
                 <span className="text-black">Puzzle</span>
                 <FormMessage className="text-error" />
