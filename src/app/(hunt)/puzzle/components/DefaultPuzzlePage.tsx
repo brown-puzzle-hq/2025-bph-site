@@ -12,13 +12,17 @@ import CopyButton from "./CopyButton";
 
 export default async function DefaultPuzzlePage({
   puzzleId,
-  puzzleBody,
+  inPersonBody,
+  remoteBoxBody,
+  remoteBody,
   copyText,
   partialSolutions,
   tasks,
 }: {
   puzzleId: string;
-  puzzleBody: React.ReactNode;
+  inPersonBody: React.ReactNode;
+  remoteBoxBody: React.ReactNode;
+  remoteBody: React.ReactNode;
   copyText: string | null;
   partialSolutions: Record<string, string>;
   tasks: Record<string, React.ReactNode>;
@@ -35,11 +39,12 @@ export default async function DefaultPuzzlePage({
   }
 
   // If user is not logged in, show puzzle without errata or guesses
+  // TODO: which version should we show?
   if (!session?.user?.id) {
     return (
       <div className="mb-12 w-full px-4">
         <div className="flex items-start justify-center space-x-2">
-          <div className="w-fit">{puzzleBody}</div>
+          <div className="w-fit">{inPersonBody}</div>
           {copyText && <CopyButton copyText={copyText} />}
         </div>
 
@@ -90,6 +95,10 @@ export default async function DefaultPuzzlePage({
 
   const numberOfGuessesLeft =
     NUMBER_OF_GUESSES_PER_PUZZLE - previousGuesses.length;
+
+  // TODO: show remote box body
+  const puzzleBody =
+    session.user.interactionMode === "in-person" ? inPersonBody : remoteBody;
 
   return (
     <div className="mb-12 w-full px-4">

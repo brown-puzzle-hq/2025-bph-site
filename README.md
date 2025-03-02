@@ -76,19 +76,31 @@ This is for the postprodding team. It assumes that there is already a hunt set u
         └── solution
     ```
 
-4. **Hard-code the puzzle id, the puzzle body, and the solution body inside of data.tsx.** You can also add copy text, partial solutions, and extra tasks.
+4. **Hard-code the puzzle id, the puzzle bodies, and the solution body inside of data.tsx.** You can also add copy text, partial solutions, and extra tasks.
 
-    ```
+    ```ts
     export const puzzleId = "sudoku-51";
 
-    export const puzzleBody = (
-        <div>
-            <p>Here is a sudoku puzzle.</p>
+    export const inPersonBody = (
+        <div className="max-w-3xl text-center">
+            <p>Here is the in-person sudoku puzzle.</p>
+        </div>
+    );
+
+    export const remoteBoxBody = (
+        <div className="max-w-3xl text-center">
+            <p>Here is the remote box sudoku puzzle.</p>
+        </div>
+    );
+
+    export const remoteBody = (
+        <div className="max-w-3xl text-center">
+            <p>Here is the remote box sudoku puzzle.</p>
         </div>
     );
 
     export const solutionBody = (
-        <div>
+        <div className="max-w-3xl text-center">
             <p>Here is the solution to the sudoku puzzle.</p>
         </div>
     );
@@ -101,11 +113,18 @@ This is for the postprodding team. It assumes that there is already a hunt set u
         IMMEDIATELY: "Almost there!"
     };
 
+    export const tasks: Record<string, JSX.Element> = {
+        MEDIA: (
+            <div className="max-w-3xl text-center">
+                <p>Now make a video.</p>
+            </div>
+        )
+    };
     ```
 
 5. **For sequences**, update the `SEQUENCES` in `hunt.config.ts`. Puzzles can be in multiple sequences. Each sequence includes an optional name, an icon, and an ordered list of puzzles. See https://lucide.dev/icons/ for icons.
 
-    ```
+    ```ts
     export const SEQUENCES = [
         { name: "sudoku", icon: Grid3X3, puzzles: ["sudoku-51", "sudoku-52"] },
         { name: "variety", icon: Swords, puzzles: ["sudoku-51", "go-3", "chess-67"] }

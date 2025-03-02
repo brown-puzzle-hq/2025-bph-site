@@ -7,11 +7,17 @@
 export const puzzleId = "example";
 
 /**
- * The `puzzleBody` renders above the guess submission form. Put flavor text, images,
+ * The body renders above the guess submission form. Put flavor text, images,
  * and interactive puzzle components here.
  */
-export const puzzleBody = (
+export const inPersonBody = (
   <div className="max-w-3xl text-center">This is the body of the puzzle.</div>
+);
+
+export const remoteBoxBody = inPersonBody;
+
+export const remoteBody = (
+  <div className="max-w-3xl text-center">This is the body of the remote puzzle.</div>
 );
 
 /**
