@@ -1,7 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import {
   Filter,
   Rows2,
@@ -78,12 +77,10 @@ export function TeamTable<TData, TValue>({
         <div className="flex items-center space-x-2">
           <Filter className="size-7" />
           <input
+            name="filterTeams"
             placeholder="Filter teams..."
-            value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("id")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm border-b placeholder:text-neutral-300 focus:outline-none"
+            onChange={(event) => table.setGlobalFilter(event.target.value)}
+            className="border-b placeholder:text-neutral-300 focus:outline-none"
           />
         </div>
         <div className="flex items-center space-x-2">
@@ -110,13 +107,13 @@ export function TeamTable<TData, TValue>({
       </div>
 
       {/* Table */}
-      <div className="w-full overflow-auto">
+      <div className="overflow-y-auto rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={`header-${headerGroup.id}`}
-                className={isCompact ? "py-0" : undefined}
+                className="hover:bg-inherit"
               >
                 {headerGroup.headers.map((header) => (
                   <TableHead
@@ -127,7 +124,7 @@ export function TeamTable<TData, TValue>({
                       )
                     }
                     role="button"
-                    className={isCompact ? "py-0" : undefined}
+                    className={`hover:text-opacity-70 ${isCompact && "py-0"}`}
                   >
                     {header.isPlaceholder
                       ? null

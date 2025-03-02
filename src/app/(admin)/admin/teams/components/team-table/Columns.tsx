@@ -9,7 +9,7 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => (
-      <div className="flex min-w-44 items-center space-x-2">
+      <div className="flex min-w-[200px] items-center space-x-2">
         <p>ID</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="size-4" />
@@ -21,14 +21,14 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="w-44 truncate text-ellipsis">{row.getValue("id")}</div>
+      <div className="w-44 truncate">{row.getValue("id")}</div>
     ),
   },
-  // TODO: figure out how to get this column to fill available space
+  // TODO: figure out how to get this column to fill available space, if any
   {
     accessorKey: "displayName",
     header: ({ column }) => (
-      <div className="w-96 flex items-center space-x-2">
+      <div className="flex w-[36em] items-center space-x-2">
         <p>Display Name</p>
         {column.getIsSorted() === "asc" ? (
           <ArrowUp className="size-4" />
@@ -40,9 +40,7 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="w-96 truncate text-ellipsis">
-        {row.getValue("displayName")}
-      </div>
+      <div className="w-[36em] truncate">{row.getValue("displayName")}</div>
     ),
   },
   {
