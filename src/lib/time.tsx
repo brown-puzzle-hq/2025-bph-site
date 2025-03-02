@@ -23,14 +23,8 @@ export function formatTime(time: string | Date | null) {
   return dateTimeFormatter.format(time);
 }
 
-export function FormattedTime({
-  time,
-  className,
-}: {
-  time: string | Date | null;
-  className?: string;
-}) {
-  return <div className={className}>{formatTime(time)}</div>;
+export function FormattedTime({ time }: { time: string | Date | null }) {
+  return <>{formatTime(time)}</>;
 }
 
 function getTimeDifference(date1: Date, date2: Date) {

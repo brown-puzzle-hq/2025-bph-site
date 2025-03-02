@@ -141,7 +141,7 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
     ),
     cell: ({ row }) => {
       const time: Date = row.getValue("createTime");
-      return <FormattedTime className="whitespace-nowrap" time={time} />;
+      return <FormattedTime time={time} />;
     },
   },
   {
@@ -160,7 +160,7 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
     ),
     cell: ({ row }) => {
       const time: Date = row.getValue("finishTime");
-      return <FormattedTime className="whitespace-nowrap" time={time} />;
+      return <FormattedTime time={time} />;
     },
   },
 ];
