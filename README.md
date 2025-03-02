@@ -95,7 +95,7 @@ This is for the postprodding team. It assumes that there is already a hunt set u
 
     export const remoteBody = (
         <div className="max-w-3xl text-center">
-            <p>Here is the remote box sudoku puzzle.</p>
+            <p>Here is the remote sudoku puzzle.</p>
         </div>
     );
 
