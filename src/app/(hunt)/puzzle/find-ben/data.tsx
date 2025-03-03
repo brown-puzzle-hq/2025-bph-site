@@ -14,12 +14,16 @@ export const puzzleId = "find-ben";
  * The `puzzleBody` renders above the guess submission form. Put flavor text, images,
  * and interactive puzzle components here.
  */
-export const puzzleBody = (
+export const inPersonBody = (
   <div>
     <p className="mb-4">What kind of place is behind Ben?</p>
     <Image src={BEN} alt="" width={1280} height={721} className="mb-4" />
   </div>
 );
+
+export const remoteBoxBody = inPersonBody;
+
+export const remoteBody = inPersonBody;
 
 /**
  * The `solutionBody` renders in the solution page.
