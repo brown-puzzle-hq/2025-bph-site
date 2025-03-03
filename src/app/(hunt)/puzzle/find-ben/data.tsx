@@ -15,8 +15,8 @@ export const puzzleId = "find-ben";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
-  <div>
-    <p className="mb-4">What kind of place is behind Ben?</p>
+  <div className="max-w-3xl text-center">
+    <p className="mb-4 italic">What kind of place is behind Ben?</p>
     <Image src={BEN} alt="" width={1280} height={721} className="mb-4" />
   </div>
 );
@@ -30,7 +30,7 @@ export const remoteBody = inPersonBody;
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div>
+  <div className="max-w-3xl">
     <p className="mb-4">Isn't it obvious? Find Ben!</p>
     <p>Intended solve path is as follows:</p>
     <ol className="mb-4 ml-8 list-decimal">
