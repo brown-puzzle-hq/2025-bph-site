@@ -144,7 +144,7 @@ export function TeamTable<TData, TValue>({
                   onClick={(event) => {
                     if (
                       event.target instanceof HTMLElement &&
-                      event.target.classList.contains("claimButton")
+                      event.target.classList.contains("role-button")
                     )
                       return;
                     if (event.metaKey || event.ctrlKey) {

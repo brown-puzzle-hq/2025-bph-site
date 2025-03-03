@@ -75,10 +75,11 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
             : "text-violet-900";
 
       return (
-        <div className="inline-block">
-          <div className={`inline-flex rounded-sm ${bgColor} px-1 py-0.5`}>
-            <span className={`font-medium ${textColor}`}>{role}</span>
-          </div>
+        <div
+          // Add role-button to className to disable row redirect
+          className={`font-medium ${textColor} inline-flex rounded-sm ${bgColor} px-1 py-0.5`}
+        >
+          {role}
         </div>
       );
     },
@@ -115,12 +116,11 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
             : "text-gray-900";
 
       return (
-        <div className="inline-block whitespace-nowrap">
-          <div className={`inline-flex rounded-sm ${bgColor} px-1 py-0.5`}>
-            <span className={`font-medium ${textColor}`}>
-              {interactionMode}
-            </span>
-          </div>
+        <div
+          className={`font-medium ${textColor} inline-flex rounded-sm ${bgColor} px-1 py-0.5`}
+          onClick={() => console.log("HELLO")}
+        >
+          {interactionMode}
         </div>
       );
     },
