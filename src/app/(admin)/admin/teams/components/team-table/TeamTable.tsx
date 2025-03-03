@@ -75,7 +75,7 @@ export function TeamTable<TData, TValue>({
       {/* Controls */}
       <div className="flex items-center justify-between space-x-2 pb-2 text-neutral-500">
         <div className="flex items-center space-x-2">
-          <Filter className="size-7" />
+          <Filter className="size-5" />
           <input
             name="filterTeams"
             placeholder="Filter teams..."
@@ -89,19 +89,19 @@ export function TeamTable<TData, TValue>({
             onClick={() => setIsCompact(!isCompact)}
           >
             {isCompact ? (
-              <Rows2 className="size-7" />
+              <Rows2 className="size-5" />
             ) : (
-              <Rows4 className="size-7" />
+              <Rows4 className="size-5" />
             )}
           </button>
           <button
             className="hover:opacity-70"
             onClick={() => table.previousPage()}
           >
-            <SquareChevronLeft className="size-7" />
+            <SquareChevronLeft className="size-5" />
           </button>
           <button className="hover:opacity-70" onClick={() => table.nextPage()}>
-            <SquareChevronRight className="size-7" />
+            <SquareChevronRight className="size-5" />
           </button>
         </div>
       </div>
