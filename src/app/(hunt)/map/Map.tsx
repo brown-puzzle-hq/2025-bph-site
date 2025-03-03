@@ -1,8 +1,14 @@
 "use client";
-import "leaflet/dist/leaflet.css"
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
-import "leaflet-defaulticon-compatibility"
-import { MapContainer, Marker, TileLayer, Popup, ImageOverlay } from "react-leaflet"
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import "leaflet-defaulticon-compatibility";
+import {
+  MapContainer,
+  Marker,
+  TileLayer,
+  Popup,
+  ImageOverlay,
+} from "react-leaflet";
 import L, { LatLngBounds } from "leaflet";
 
 export default function Map() {
@@ -19,7 +25,7 @@ export default function Map() {
         maxZoom={2}
         maxBounds={bounds}
         maxBoundsViscosity={1.0}
-        crs={L.CRS.Simple}  // Tells Leaflet to use simple coordinate system
+        crs={L.CRS.Simple} // Tells Leaflet to use simple coordinate system
         scrollWheelZoom={true}
         style={{ height: "80vh", width: "90vw", background: "white" }}
       >
@@ -27,34 +33,31 @@ export default function Map() {
         {/* <ImageOverlay url={layout} bounds={bounds} /> */}
         <ImageOverlay url={buildings} bounds={bounds} />
         <Marker position={[579, 490]}>
-          <Popup>
-            sayles
-          </Popup>
+          <Popup>sayles</Popup>
         </Marker>
         <Marker position={[475, 413]}>
-          <Popup>
-            ratty
-          </Popup>
+          <Popup>ratty</Popup>
         </Marker>
-        <Marker position={[483, 160]} icon={new L.Icon({ iconUrl: "/map/cloud.png", iconSize: [40, 40], iconAnchor: [20, 40] })}>
-          <Popup>
-            keeney
-          </Popup>
+        <Marker
+          position={[483, 160]}
+          icon={
+            new L.Icon({
+              iconUrl: "/map/cloud.png",
+              iconSize: [40, 40],
+              iconAnchor: [20, 40],
+            })
+          }
+        >
+          <Popup>keeney</Popup>
         </Marker>
         <Marker position={[740, 365]}>
-          <Popup>
-            museum
-          </Popup>
+          <Popup>museum</Popup>
         </Marker>
         <Marker position={[320, 575]}>
-          <Popup>
-            bdh
-          </Popup>
+          <Popup>bdh</Popup>
         </Marker>
         <Marker position={[560, 699]}>
-          <Popup>
-            scili
-          </Popup>
+          <Popup>scili</Popup>
         </Marker>
       </MapContainer>
     </div>
