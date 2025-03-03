@@ -80,12 +80,15 @@ export function HamburgerMenu({
           <Button
             variant="ghost"
             size="icon"
-            className="flex items-center justify-center md:hidden"
+            className="flex items-center justify-center hover:bg-transparent hover:text-current md:hidden"
           >
             <Menu />
           </Button>
         </SheetTrigger>
-        <SheetContent side="top" className="w-full bg-inherit">
+        <SheetContent
+          side="top"
+          className={`w-full ${colorMap[side]} border-0 ${side == "hunt" ? "bg-opacity-30 backdrop-blur-md backdrop-filter" : ""}`}
+        >
           <nav className="flex flex-col items-center space-y-2">
             {hambergerMenuItems.map((item) => (
               <React.Fragment key={item.title}>
