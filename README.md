@@ -1,9 +1,9 @@
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [Postprodder guide](#postprodder-guide)
-      - [First steps](#first-steps)
-      - [Adding puzzles](#adding-puzzles)
+    - [First steps](#first-steps)
+    - [Adding puzzles](#adding-puzzles)
+    - [Creating puzzle and solution bodies](#creating-puzzle-and-solution-bodies)
 - [Developer guide](#developer-guide)
     - [Overview](#overview)
     - [Quick Links](#quick-links)
@@ -22,38 +22,43 @@
 
 This is for the postprodding team. It assumes that there is already a hunt set up.
 
-##### First steps
-1. Clone this repository and create a new branch.
-2. Get the `.env` and put it in the root directory.
-1. Install [pnpm](https://pnpm.io/).
-3. Run `pnpm install` to install the dependencies.
-4. Run `pnpm run dev` to start the development server.
-6. Run `pnpm run db:push` to push the schema in `src/server/db/schema.ts` to the database.
-5. Run `pnpm run db:studio` in a separate shell to open Drizzle Studio in your browser.
+#### First steps
+1. Clone this repository
+2. Get the `.env` and put it in the root directory
+1. Install [pnpm](https://pnpm.io/)
+3. Run `pnpm install` to install the dependencies
+6. Create a new branch called `your-name-postprodding`
 
-##### Adding puzzles
+Now you're all ready to start postprodding! 
 
-1. Get the puzzle name, the slug, and the answer. This is up to the puzzle-writer. The slug must be unique.
+To run the development server and see your changes live:
+1. Run `pnpm run dev`
+2. Login with `admin123` as the username and password
+3. Go to `http://localhost:3000/admin/solutions`
 
-    ```
-    Puzzle name: "Sudoku #51"
-    Slug: "sudoku-51"
-    Answer: "IMMEDIATE"
-    ```
+#### Adding puzzles
 
-2. Update the puzzle table on Drizzle. The puzzle will not show up on the frontend unless it is in the database.
+1. Add the puzzle to the database
     
-    To get to Drizzle, run `pnpm run db:push` and go to `https://local.drizzle.studio/`. The `name` column is the name, the `id` column is the slug, and the `answer` column is the answer in **all caps, no spaces.**
+    First, run `pnpm run db:studio` and go to `https://local.drizzle.studio/`. You will see a lot of different tables, but the only one you need to edit is `bph_site_puzzle`. 
 
-    ```
+    ![./docs/drizzle-studio.png](./docs/drizzle-studio.png)
+
+    The `name` column is the title of the puzzle, the `id` column is the slug (URL) for the puzzle, and the `answer` column is the answer to the puzzle in **all caps, no spaces.**
+
+    ```ts
     {
-        id: "sudoku-51",
-        name: "Sudoku #51",
-        answer: "IMMEDIATE"
+        id: "example",
+        name: "Example",
+        answer: "ANSWER"
     }
     ```
 
-3. Create a folder in `src/app/(hunt)/puzzle/`. The folder name must be the puzzle slug. Copy the contents of the `src/app/(hunt)/puzzle/(dev)/example` folder there. The file structure will look something like this:
+3. Next, we will create a web page for the puzzle. 
+
+   Copy the contents of the `src/app/(hunt)/puzzle/(dev)/example` folder to a new folder inside of `src/app/(hunt)/puzzle/`. The new folder name should be the puzzle id. 
+
+   Notice that the dev puzzles are in `src/app/(hunt)/puzzle/(dev)`, but the real hunt puzzles are in  `src/app/(hunt)/puzzle`. (Yes, we would be making another example puzzle here.)
 
     ```
     .
@@ -68,7 +73,7 @@ This is for the postprodding team. It assumes that there is already a hunt set u
     ├── components/
     ├── page.tsx
     ├── sequences.ts
-    └── sudoku-51/
+    └── example/
         ├── data.tsx
         ├── hint
         ├── layout.tsx
@@ -76,33 +81,26 @@ This is for the postprodding team. It assumes that there is already a hunt set u
         └── solution
     ```
 
-4. **Hard-code the puzzle id, the puzzle bodies, and the solution body inside of data.tsx.** You can also add copy text, partial solutions, and extra tasks.
+4. **Hard-code the puzzle id, the puzzle bodies, and the solution body inside of data.tsx.** 
+
+    You can also add copy text, partial solutions, and extra tasks. Set values to null or empty if they don't exist. 
+    More information about creating puzzle bodies [below](#creating-puzzle-and-solution-bodies). 
 
     ```ts
-    export const puzzleId = "sudoku-51";
+    export const puzzleId = "example";
 
     export const inPersonBody = (
-        <div className="max-w-3xl text-center">
-            <p>Here is the in-person sudoku puzzle.</p>
-        </div>
+        <div className="max-w-3xl text-center">This is the body of the puzzle.</div>
     );
 
-    export const remoteBoxBody = (
-        <div className="max-w-3xl text-center">
-            <p>Here is the remote box sudoku puzzle.</p>
-        </div>
-    );
+    export const remoteBoxBody = inPersonBody;
 
     export const remoteBody = (
-        <div className="max-w-3xl text-center">
-            <p>Here is the remote sudoku puzzle.</p>
-        </div>
+        <div className="max-w-3xl text-center">This is the body of the remote puzzle.</div>
     );
 
     export const solutionBody = (
-        <div className="max-w-3xl text-center">
-            <p>Here is the solution to the sudoku puzzle.</p>
-        </div>
+        <div className="max-w-3xl text-center">This is an example solution.</div>
     );
 
     export const copyText = `1\t2\t3
@@ -110,15 +108,21 @@ This is for the postprodding team. It assumes that there is already a hunt set u
     7\t8\t9`;
 
     export const partialSolutions: Record<string, string> = {
-        IMMEDIATELY: "Almost there!"
+        EXAMP: "Almost there!",
+        EXAMPL: "Learn to spell!",
     };
-
+    
     export const tasks: Record<string, JSX.Element> = {
-        MEDIA: (
+        EX: (
             <div className="max-w-3xl text-center">
-                <p>Now make a video.</p>
+            This is a task unlocked by submitting EX.
             </div>
-        )
+        ),
+        EXAM: (
+            <div className="max-w-3xl text-center">
+            This is a task unlocked by submitting EXAM.
+            </div>
+        ),
     };
     ```
 
@@ -126,9 +130,55 @@ This is for the postprodding team. It assumes that there is already a hunt set u
 
     ```ts
     export const SEQUENCES = [
-        { name: "sudoku", icon: Grid3X3, puzzles: ["sudoku-51", "sudoku-52"] },
-        { name: "variety", icon: Swords, puzzles: ["sudoku-51", "go-3", "chess-67"] }
+        { name: "examples", icon: Grid3X3, puzzles: ["example", "example-2", "example-3"] },
+        { name: "variety", icon: Swords, puzzles: ["example", "display", "test"] }
     ];
+    ```
+
+#### Creating puzzle and solution bodies
+
+1. If the original puzzle is on a **Google Doc**, try exporting it as a Markdown file. Then put that in a Markdown-to-HTML converter like this [one](https://markdowntohtml.com/).
+
+4. If you want some vertical spacing between elements, use `mb-4`.
+
+   ```html
+    <div>
+        <p className="mb-4">Solve this puzzle.</p>
+        <Image src="/puzzle/sudoku-51.png" width={500} height={500} alt="" className="mb-4"/>
+    </div>
+   ```
+
+5. If you need a space between a `p` and a `span`, use `{" "}`.
+  
+      ```html
+      <p>This puzzle is{" "}<span className="underline">difficult</span>.
+      ```
+
+
+3. If there is an **image**, use the Next.js `Image` component instead of the `img` tag. Put it somewhere in the puzzle folder and call it like this:
+
+    ```html
+    import SUDOKU_51_ANSWER from "./solution/sudoku-51-answer.png";
+    <Image src={SUDOKU_51_ANSWER} width={500} height={500} alt="" />
+    ```
+
+    Next.js documentation will tell you to put images in the `public` folder. It is important that you **don't** put puzzle images there, because anyone can access it.
+
+4. If there is a **list**, use a [Tailwind utility](https://tailwindcss.com/docs/list-style-type). Otherwise, it won't show up. Here, we're using the `list-decimal` utility.
+
+    ```html
+    <ul className="list-decimal">
+        <li>One</li>
+        <li>Two</li>
+        <li>Three</li>
+    </ul>
+    ```
+
+
+5. If you want to **hide** some text, change the background using a `span`.
+
+    ```html
+    <p>The answer is{" "}<span className="bg-main-text">ANSWER</span>.
     ```
 
 ## Developer guide
