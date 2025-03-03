@@ -22,6 +22,7 @@ import {
   MessageCircleWarning,
   ClipboardPenLine,
   UsersRound,
+  Database,
 } from "lucide-react";
 
 const huntItems = [
@@ -30,11 +31,11 @@ const huntItems = [
     href: "/",
     icon: <PartyPopper className="text-red-500" />,
   },
-  {
-    title: "Puzzles",
-    href: "/puzzle",
-    icon: <Puzzle className="text-red-500" />,
-  },
+  // {
+  //   title: "Puzzles",
+  //   href: "/puzzle",
+  //   icon: <Puzzle className="text-red-500" />,
+  // },
   {
     title: "Leaderboard",
     href: "/teams",
@@ -49,12 +50,12 @@ const huntItems = [
 
 const adminItems = [
   {
-    title: "Admin",
+    title: "Dashboard",
     href: "/admin",
     icon: <House className="text-blue-500" />,
   },
   {
-    title: "Solutions",
+    title: "Puzzles",
     href: "/admin/solutions",
     icon: <Puzzle className="text-blue-500" />,
   },
@@ -64,7 +65,7 @@ const adminItems = [
     icon: <UsersRound className="text-blue-500" />,
   },
   {
-    title: "Hinting",
+    title: "Hints",
     href: "/admin/hints",
     icon: <MessageCircleQuestion className="text-blue-500" />,
   },
@@ -77,6 +78,11 @@ const adminItems = [
     title: "Feedback",
     href: "/admin/feedback",
     icon: <ClipboardPenLine className="text-blue-500" />,
+  },
+  {
+    title: "Queries",
+    href: "/admin/sql",
+    icon: <Database className="text-blue-500" />,
   },
 ];
 
@@ -109,6 +115,7 @@ export function CommandPalette() {
         <CommandGroup heading="Hunt">
           {huntItems.map((item) => (
             <CommandItem
+              key={item.title}
               onSelect={() => {
                 router.push(item.href);
                 setOpen(false);
@@ -122,6 +129,7 @@ export function CommandPalette() {
         <CommandGroup heading="Admin">
           {adminItems.map((item) => (
             <CommandItem
+              key={item.title}
               onSelect={() => {
                 router.push(item.href);
                 setOpen(false);

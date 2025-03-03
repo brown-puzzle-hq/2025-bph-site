@@ -27,6 +27,20 @@ import { X } from "lucide-react";
 import Link from "next/link";
 import { IN_PERSON } from "~/hunt.config";
 
+export type Member = {
+  id?: number;
+  name: string | undefined;
+  email: string | undefined;
+};
+
+export function serializeMembers(members: Member[]): string {
+  return JSON.stringify(
+    members
+      .filter((person) => person.name || person.email)
+      .map((person) => [person.name, person.email]),
+  );
+}
+
 const zPhone = z.string().transform((arg, ctx) => {
   if (!arg) {
     return "";
@@ -106,22 +120,7 @@ export const registerFormSchema = z
   );
 
 type RegisterFormProps = {};
-
-type Member = {
-  id?: number;
-  name: string | undefined;
-  email: string | undefined;
-};
-
 type RegisterFormValues = z.infer<typeof registerFormSchema>;
-
-function serializeMembers(members: Member[]): string {
-  return JSON.stringify(
-    members
-      .filter((person) => person.name || person.email)
-      .map((person) => [person.name, person.email]),
-  );
-}
 
 export function RegisterForm({}: RegisterFormProps) {
   const router = useRouter();
@@ -194,10 +193,7 @@ export function RegisterForm({}: RegisterFormProps) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full p-4 md:w-2/3 lg:w-1/3"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         {/* Id/username field */}
         <FormField
           control={form.control}
@@ -307,6 +303,7 @@ export function RegisterForm({}: RegisterFormProps) {
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Name"
+                        autoComplete="off"
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             e.preventDefault();
@@ -346,10 +343,11 @@ export function RegisterForm({}: RegisterFormProps) {
                   <FormItem className="w-1/2">
                     <FormControl className="text-main-text placeholder:text-main-accent">
                       <Input
-                        className={`rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent ${form.formState.errors.members?.[index] ? "border-red-300" : ""} text-current shadow-none focus-visible:ring-transparent`}
+                        className={`rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent ${form.formState.errors.members?.[index] ? "border-red-300" : ""} text-current shadow-none`}
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Email"
+                        autoComplete="off"
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             e.preventDefault();
@@ -460,8 +458,8 @@ export function RegisterForm({}: RegisterFormProps) {
                     <Input {...field} type="number" min="0" />
                   </FormControl>
                   <FormDescription>
-                    Number of undergraduates, graduates, faculty, or alumni.
-                    Must have at least one to win.
+                    Number of current undergraduate or graduate students on
+                    campus. Must have at least one to win.
                   </FormDescription>
                 </FormItem>
               )}
@@ -501,7 +499,7 @@ export function RegisterForm({}: RegisterFormProps) {
               control={form.control}
               name="roomNeeded"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between">
+                <FormItem className="flex flex-row items-center justify-between space-x-1">
                   <div>
                     <FormLabel>Room needed</FormLabel>
                     <FormDescription>
@@ -511,6 +509,7 @@ export function RegisterForm({}: RegisterFormProps) {
                   </div>
                   <FormControl className="text-main-text">
                     <Switch
+                      className="focus-visible:ring-offset-0 data-[state=checked]:bg-violet-400 data-[state=unchecked]:bg-violet-950"
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />

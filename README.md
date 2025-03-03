@@ -1,156 +1,191 @@
-# Table of Contents
+## Table of Contents
 
-1. [Hunt Guide](#hunt-guide)
-    1. [Creating the hunt](#creating-the-hunt)
-        1. [Copying this repository](#copying-this-repository)
-        3. [Adding puzzles](#adding-puzzles)
-        4. [Hunt structure](#hunt-structure)
-        5. [Final Checks](#final-checks)
-    2. [Administering the hunt](#administering-the-hunt)
-        1. [Navigation](#navigation)
-        2. [Hinting and Errata](#hinting-and-errata)
-        3. [Team management](#team-management)
+- [Postprodder guide](#postprodder-guide)
+    - [First steps](#first-steps)
+    - [Adding puzzles](#adding-puzzles)
+    - [Creating puzzle and solution bodies](#creating-puzzle-and-solution-bodies)
+- [Developer guide](#developer-guide)
+    - [Overview](#overview)
+    - [Quick Links](#quick-links)
+    - [Features](#features)
+    - [Copying this repository](#copying-this-repository)
+    - [Setting up the database](#setting-up-the-database)
+    - [Setting up the dev environment](#setting-up-the-dev-environment)
+    - [Hunt Structure](#hunt-structure)
+    - [Final Checks](#final-checks)
+- [Admin guide](#admin-guide)
+    - [Navigation](#navigation)
+    - [Hinting and Errata](#hinting-and-errata)
+    - [Team Management](#team-management)
 
-2. [Developer's Guide](#developers-guide)
-    1. [Quick Start](#quick-start)
-    3. [Quick Links](#quick-links)
-    2. [Overview](#overview)
-    4. [Roadmap](#roadmap)
-        2. [By Puzzlethon](#by-puzzlethon)
-        3. [By Brown Puzzlehunt](#by-brown-puzzlehunt)
-    5. [Some design decisions](#some-design-decisions)
-        1. [Architecture](#architecture)
-        2. [Different ways to communicate between client and server](#different-ways-to-communicate-between-client-and-server)
-        3. [Server Components vs Client Components](#server-components-vs-client-components)
+## Postprodder guide
 
-# Hunt Guide
-## Creating the hunt
-### Copying this repository
-I recommend duplicating this repository for each hunt. 
+This is for the postprodding team. It assumes that there is already a hunt set up.
 
-1. Create a bare clone of this repostiory.
-    ```
-    git clone --bare https://github.com/qiaochloe/bph-site.git
-    ```
-2. Create a new repository on GitHub. You will get an URL for this repository.
-3. Mirror-push to the new repository.
-    ```
-    cd bph-site.git
-    git push --mirror https://github.com/Brown-Puzzle-Club/NEW_REPOSITORY.git
-    ```
-4. Remove the temporary repository.
-    ```
-    cd ..
-    rm -rf bph-site.git
-    ```
-5. Clone the new repository to your local machine.
-    ```
-    git clone https://github.com/Brown-Puzzle-Club/NEW_REPOSITORY.git
-    ```
+#### First steps
+1. Clone this repository
+2. Get the `.env` and put it in the root directory
+1. Install [pnpm](https://pnpm.io/)
+3. Run `pnpm install` to install the dependencies
+6. Create a new branch called `your-name-postprodding`
 
-6. Add the original repository as a remote branch `public`.
-    ```
-    git remote add public https://github.com/qiaochloe/bph-site.git
-    ```
+Now you're all ready to start postprodding! 
 
-7. To get changes from the original repository, run
-    ```
-    git fetch public
-    ```
+To run the development server and see your changes live:
+1. Run `pnpm run dev`
+2. Login with `admin123` as the username and password
+3. Go to `http://localhost:3000/admin/solutions`
 
-8. To merge changes from the original repository, run
-    ```
-    git merge public/main
-    ```
+#### Adding puzzles
 
-There is more information on the [GitHub docs](https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository).
-
-### Adding puzzles
-1. Get the puzzle name, the slug, and the answer. This is up to the puzzle-writer. The slug must be unique.
-
-    ```
-    Puzzle name: "Sudoku #51"
-    Slug: "sudoku51"
-    Answer: "IMMEDIATE"
-    ```
-
-2. Update the puzzle table on Drizzle.
+1. Add the puzzle to the database
     
-    To get to Drizzle, run `pnpm run db:push` and
-    go to `https://local.drizzle.studio/`. The `name` column is the name, the `id` column is the slug, and the `answer` column is the answer.
+    First, run `pnpm run db:studio` and go to `https://local.drizzle.studio/`. You will see a lot of different tables, but the only one you need to edit is `bph_site_puzzle`. 
 
-    ```
+    ![./docs/drizzle-studio.png](./docs/drizzle-studio.png)
+
+    The `name` column is the title of the puzzle, the `id` column is the slug (URL) for the puzzle, and the `answer` column is the answer to the puzzle in **all caps, no spaces.**
+
+    ```ts
     {
-        id: "sudoku51",
-        name: "Sudoku #51",
-        answer: "IMMEDIATE"
+        id: "example",
+        name: "Example",
+        answer: "ANSWER"
     }
     ```
 
-3. There are several steps to creating a puzzle page with varying levels of customizability.
-    1. After adding the puzzle to the puzzle table, you can automatically access the default look of the puzzle. This is useful for checking that the database is working correctly.
+3. Next, we will create a web page for the puzzle. 
+
+   Copy the contents of the `src/app/(hunt)/puzzle/(dev)/example` folder to a new folder inside of `src/app/(hunt)/puzzle/`. The new folder name should be the puzzle id. 
+
+   Notice that the dev puzzles are in `src/app/(hunt)/puzzle/(dev)`, but the real hunt puzzles are in  `src/app/(hunt)/puzzle`. (Yes, we would be making another example puzzle here.)
+
+    ```
+    .
+    ├── (dev)/
+    │   └── example
+    │       ├── data.tsx
+    │       ├── hint
+    │       ├── layout.tsx
+    │       ├── page.tsx
+    │       └── solution
+    ├── actions.tsx
+    ├── components/
+    ├── page.tsx
+    ├── sequences.ts
+    └── example/
+        ├── data.tsx
+        ├── hint
+        ├── layout.tsx
+        ├── page.tsx
+        └── solution
+    ```
+
+4. **Hard-code the puzzle id, the puzzle bodies, and the solution body inside of data.tsx.** 
+
+    You can also add copy text, partial solutions, and extra tasks. Set values to null or empty if they don't exist. 
+    More information about creating puzzle bodies [below](#creating-puzzle-and-solution-bodies). 
+
+    ```ts
+    export const puzzleId = "example";
+
+    export const inPersonBody = (
+        <div className="max-w-3xl text-center">This is the body of the puzzle.</div>
+    );
+
+    export const remoteBoxBody = inPersonBody;
+
+    export const remoteBody = (
+        <div className="max-w-3xl text-center">This is the body of the remote puzzle.</div>
+    );
+
+    export const solutionBody = (
+        <div className="max-w-3xl text-center">This is an example solution.</div>
+    );
+
+    export const copyText = `1\t2\t3
+    4\t5\t6
+    7\t8\t9`;
+
+    export const partialSolutions: Record<string, string> = {
+        EXAMP: "Almost there!",
+        EXAMPL: "Learn to spell!",
+    };
     
-        Eg. `https://localhost:3000/puzzle/sudoku51`
+    export const tasks: Record<string, JSX.Element> = {
+        EX: (
+            <div className="max-w-3xl text-center">
+            This is a task unlocked by submitting EX.
+            </div>
+        ),
+        EXAM: (
+            <div className="max-w-3xl text-center">
+            This is a task unlocked by submitting EXAM.
+            </div>
+        ),
+    };
+    ```
 
-    2. To customize the puzzle page, create a folder in `src/app/(hunt)/puzzle/`. The folder must be named after the puzzle slug. Copy the contents of the `src/app/(hunt)/puzzle/example` folder. **Hard-code the puzzle id, the puzzle body, and the solution body inside of data.tsx.** The puzzle, hint, and solution pages for this particular puzzle will be automatically updated. You can view them at:
+5. **For sequences**, update the `SEQUENCES` in `hunt.config.ts`. Puzzles can be in multiple sequences. Each sequence includes an optional name, an icon, and an ordered list of puzzles. See https://lucide.dev/icons/ for icons.
 
-        1. Puzzle: `https://localhost:3000/puzzle/sudoku51/`
-        2. Solution: `https://localhost:3000/puzzle/sudoku51/solution`
-        3. Hint: `https://localhost:3000/puzzle/sudoku51/hint`
+    ```ts
+    export const SEQUENCES = [
+        { name: "examples", icon: Grid3X3, puzzles: ["example", "example-2", "example-3"] },
+        { name: "variety", icon: Swords, puzzles: ["example", "display", "test"] }
+    ];
+    ```
 
-    3. To completely customize the puzzle page, throw out the default components and edit `page.tsx` directly.
+#### Creating puzzle and solution bodies
 
-### Hunt Structure
-All of the customizable features of the hunt structure is in `hunt.config.ts`. To change how puzzles are unlocked, edit `getNextPuzzleMap` in `hunt.config.ts`. To change how many hints a team gets, edit `getTotalHints`.
+1. If the original puzzle is on a **Google Doc**, try exporting it as a Markdown file. Then put that in a Markdown-to-HTML converter like this [one](https://markdowntohtml.com/).
 
-### Final Checks
-Make sure that `hint.config.ts` is correct. 
+4. If you want some vertical spacing between elements, use `mb-4`.
 
-Before registration starts,
-1. Set `REGISTRATION_START_TIME` and `REGISTRATION_END_TIME`
-2. Set `HUNT_START_TIME` and `HUNT_END_TIME`
+   ```html
+    <div>
+        <p className="mb-4">Solve this puzzle.</p>
+        <Image src="/puzzle/sudoku-51.png" width={500} height={500} alt="" className="mb-4"/>
+    </div>
+   ```
 
-Before the hunt starts,
-5. Set `NUMBER_OF_GUESSES_PER_PUZZLE`
-6. Set `INITIAL_PUZZLES`, `getNextPuzzleMap`, and `checkFinishHunt`
-7. Set `getTotalHints`
-3. Remove the dynamic puzzles in `src/app/(hunt)/puzzle/[slug]`
-4. Remove the example puzzle in `src/app/(hunt)/puzzle/example`.
+5. If you need a space between a `p` and a `span`, use `{" "}`.
+  
+      ```html
+      <p>This puzzle is{" "}<span className="underline">difficult</span>.
+      ```
 
-## Administering the Hunt
-### Navigation
-For admins, there is an `admin` section and a `hunt` section with different navbars. You can navigate using the navbar or the command palette (`Cmd-K` or `Ctrl-K`). This works reliably on Chrome, but you might need to refresh on Safari or other browsers. 
 
-### Hinting and Errata
-This can be managed in the `admin` section under `admin/hints` and `admin/errata`.
+3. If there is an **image**, use the Next.js `Image` component instead of the `img` tag. Put it somewhere in the puzzle folder and call it like this:
 
-### Team Management
-Team password resets can be made in `teams/[id]`. Please don't change them directly in the Drizzle database. It won't work correctly because passwords need to be hashed.
+    ```html
+    import SUDOKU_51_ANSWER from "./solution/sudoku-51-answer.png";
+    <Image src={SUDOKU_51_ANSWER} width={500} height={500} alt="" />
+    ```
 
-# Developers' Guide
-## Quick start
-1. Install [pnpm](https://pnpm.io/) from online or using Homebrew and clone this repo.
-2. Copy the `.env.example` file to `.env` and fill in the values. You will only need to sign up for **Vercel Postgres** and integrate it with Drizzle to develop locally. 
-3. Run `pnpm install` to install the dependencies.
-4. Run `pnpm run dev` to start the development server.
-5. Run `pnpm run db:studio` in a separate shell to open Drizzle Studio in your browser.
-6. Run `pnpm run db:push` in a separate shell to push the schema in `src/server/db/schema.ts` to the database.
+    Next.js documentation will tell you to put images in the `public` folder. It is important that you **don't** put puzzle images there, because anyone can access it.
 
-## Quick Links
-Make sure to check that you are reading documentation for Next.js with the App Router, not the Pages Router.
+4. If there is a **list**, use a [Tailwind utility](https://tailwindcss.com/docs/list-style-type). Otherwise, it won't show up. Here, we're using the `list-decimal` utility.
 
-Auth.js is formerly known as NextAuth.js. 
-Most documentation out there is still for v4, so check that you are reading documentation for v5.
+    ```html
+    <ul className="list-decimal">
+        <li>One</li>
+        <li>Two</li>
+        <li>Three</li>
+    </ul>
+    ```
 
-- [Next.js](https://nextjs.org/docs/app) with the App Router
-- [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres)
-- [Drizzle](https://orm.drizzle.team/docs/overview)
-- [Auth.js](https://authjs.dev/) v5
-- [Vercel Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)
-- [Tailwind CSS](https://tailwindcss.com/docs/installation)
-- [Shadcn](https://ui.shadcn.com/docs)
 
-## Overview
+5. If you want to **hide** some text, change the background using a `span`.
+
+    ```html
+    <p>The answer is{" "}<span className="bg-main-text">ANSWER</span>.
+    ```
+
+## Developer guide
+
+This assumes that you are setting up a new hunt from scratch.
+
+#### Overview
 This project is built using **Next.js v14** using the App Router (not the Pages Router). The frontend is in the `src/app` folder, and the backend is in the `src/server` folder.
 
 We use Vercel **Postgres** as the database and **Drizzle** as the ORM. All of the code for the database is in the `src/server/db` folder.
@@ -168,8 +203,22 @@ The setup is in the `src/server/auth` folder.
 
 Finally, on the frontend, we are using **Shadcn UI** components with the **Tailwind CSS** framework. Components are in the `src/components/ui` folder.
 
-# Roadmap
-## By Puzzlethon
+#### Quick Links
+Make sure to check that you are reading documentation for Next.js with the App Router, not the Pages Router.
+
+Auth.js is formerly known as NextAuth.js. 
+Most documentation out there is still for v4, so check that you are reading documentation for v5.
+
+- [Next.js](https://nextjs.org/docs/app) with the App Router
+- [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres)
+- [Drizzle](https://orm.drizzle.team/docs/overview)
+- [Auth.js](https://authjs.dev/) v5
+- [Vercel Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)
+- [Tailwind CSS](https://tailwindcss.com/docs/installation)
+- [Shadcn](https://ui.shadcn.com/docs)
+
+
+#### Features
 1. In terms of hunt logistics:
     1. Registration opens
     2. Registration closes
@@ -191,42 +240,101 @@ Finally, on the frontend, we are using **Shadcn UI** components with the **Tailw
     3. See all requests for hints (`src/app/admin/hints`)
     4. Give teams hints (`src/app/admin/hints`)
 
-## By Brown Puzzlehunt
-- [ ] Discord bot
-- [ ] Sync hint claiming between team members using streams
-- [ ] Sync guesses between team members using streams
+#### Copying this repository
+I recommend duplicating this repository for each hunt. If you probably want to get updates from the original repository, you can follow these steps:
 
-# Some design decisions
-## Architecture
-DNS -> Cloudflare -> Digital Ocean -> Reverse proxy -> Digital Ocean
-                                                    -> Vercel
+1. Create a bare clone of this repository.
+    ```
+    git clone --bare https://github.com/brown-puzzle-hq/bph-site.git
+    ```
+2. Create a new repository on GitHub. You will get an URL for this repository.
 
-The DNS can also do reverse proxying. We can also reduce cost by $20/month by using a static site.
+3. Mirror-push to the new repository.
+    ```
+    cd bph-site.git
+    git push --mirror https://github.com/YOUR_USERNAME/NEW_REPOSITORY.git
+    ```
+4. Remove the temporary repository.
+    ```
+    cd ..
+    rm -rf bph-site.git
+    ```
+5. Clone the new repository to your local machine.
+    ```
+    git clone https://github.com/YOUR_USERNAME/NEW_REPOSITORY.git
+    ```
 
+6. Add the original repository as a remote branch `public`.
+    ```
+    git remote add public https://github.com/brown-puzzle-hq/bph-site.git
+    ```
 
-## Different ways to communicate between client and server
-### APIs, including server actions
-Application Programming Interface (API) routes provide non-persistent, synchronous, bidirectional communication between the client and the server. It is synchronous because the client sends a request to the server, waits for a response, and closes the connection. There is latency from opening the connection. 
+7. To get changes from the original repository, run
+    ```
+    git fetch public
+    ```
 
-There are two types of API architectures: REST and RPC. RPC APIs allow clients to call remote functions in the server as if they were local functions. REST APIs allow clients to perform specific, predefined actions using HTTP verbs (GET, POST, PUT).
+8. To merge changes from the original repository, run
+    ```
+    git merge public/main
+    ```
 
-**Server actions** uses the RPC architecture. Whenever you add `use server` to a function or file, it marks it as available to the client. The client will get a URL string to that function, which they can use to send a request to the server using RPC. You never see this URL string, but that's how it works under the hood. The most significant benefit of using server actions is that you don't need to create an API route. This is good enough for our use case, which is just handling database queries and mutations.
+There is more information on the [GitHub docs](https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository).
 
-Some caveats: server actions only work in server components, so you will have to import them or pass them as props to client components if you want to add interactivity. Server actions only support POST requests, which is primarily used for data mutations. They can be used for data-fetching, but that's not the best choice. Instead, do that directly in the server component.
+#### Setting up the database
 
-Note that there might be some old code that uses the `tRPC` library. That can be safely ignored; we're not using `tRPC` because we don't need the extra features it provides.
+1. Take a look at `.env.example`. You will need to fill in the `DATABASE_URL` and `DRIZZLE_URL` fields. If you don't have a preexisting database, the easiest thing to do is to sign up for a Neon Postgres database.
 
-### Websockets
-Websockets provide persistent, asynchronous, bidirectional communication between the client and server. It is asynchronous because the client can send messages to the server at any time, and the server can send messages to the client at any time. This is useful for real-time applications like chat apps, multiplayer games, and collaborative tools.
+2. Push the schema to the database. This only needs to be done when you update the schema in `src/server/db/schema.ts`.
+    ```
+    pnpm run db:push
+    ```
 
-It's nice to have websockets to sync data between different team members. For example, if one person makes a guess, we want to update the page of everyone else on the team immediately. **But historically, websockets have been the root of all of our problems.** It probably comes down to how Django handles websockets, but we're going to try to avoid them entirely.
+3. Run Drizzle studio to look at the database.
+    ```
+    pnpm run db:studio
+    ```
 
-If we really want websockets, we need to either host it on another server, use a websocket provider, or use a real-time database. Vercel does not support websockets because it is serverless.
+#### Setting up the dev environment
 
-### Server-Side Events (SSE) or Streaming 
-Streaming is a persistent, asynchronous, unidirectional technique for sending data to the client in real-time. This is useful for real-time applications like chat apps, multiplayer games, and collaborative tools.
+1. Download all of the dependencies. This only needs to be done when you update the dependencies in `package.json`.
+    ```
+    pnpm install
+    ```
 
-This is probably the best way for us to sync guesses between different team members. More information about how Vercel handles SSEs [here](https://vercel.com/blog/an-introduction-to-streaming-on-the-web). This is not high on the priority list, but it would be nice to have.
+2. Start the development server.
+    ```
+    pnpm run dev
+    ```
 
-## Server Components vs Client Components
-Server components handle static data fetching and rendering. For example, the leaderboard page is a server component. Client components handle user interactions such as form submissions and client-side events. The guess form is a client component. Note that these can be combined together, as in the puzzle page.
+#### Hunt Structure
+
+Most of the customizable features of the hunt structure is in `hunt.config.ts`.
+Edit `/puzzle/actions.ts` to change how it handles guesses and solves.
+
+#### Final Checks
+
+Make sure that `hint.config.ts` is correct. 
+
+Before registration starts,
+1. Set `REGISTRATION_START_TIME` and `REGISTRATION_END_TIME`
+2. Set `HUNT_START_TIME` and `HUNT_END_TIME`
+
+Before the hunt starts,
+1. Set `NUMBER_OF_GUESSES_PER_PUZZLE`
+6. Set `INITIAL_PUZZLES` and `PUZZLE_UNLOCK_MAP`
+7. Set `getTotalHints`
+4. Remove the development puzzles in `src/app/(hunt)/puzzle/(dev)/`.
+
+## Admin guide
+
+This assumes that you are an admin for the hunt and will not need to make any changes to the code.
+
+#### Navigation
+For admins, there is an `admin` section and a `hunt` section with different navbars. You can navigate using the navbar or the command palette (`Cmd-K` or `Ctrl-K`). This works reliably on Chrome, but you might need to refresh on Safari or other browsers. 
+
+#### Hinting and Errata
+This can be managed in the `admin` section under `admin/hints` and `admin/errata`.
+
+#### Team Management
+Team password resets can be made in `teams/[id]`. Please don't change them directly in the Drizzle database. It won't work correctly because passwords need to be hashed.

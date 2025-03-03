@@ -1,21 +1,23 @@
 "use client";
-
-import { Button } from "@/components/ui/button";
+import { Clipboard } from "lucide-react";
 import { toast } from "~/hooks/use-toast";
 
 export default function CopyButton({ copyText }: { copyText: string }) {
   return (
-    <Button
-      className="hover: mt-3 px-1 text-3xl"
-      variant={"ghost"}
+    <button
       onClick={() => {
         navigator.clipboard.writeText(copyText);
         toast({
           title: "Puzzle copied to clipboard!",
+          description: (
+            <span className="block max-w-[calc(100vw-64px)] truncate md:max-w-[356px]">
+              {copyText}
+            </span>
+          ),
         });
       }}
     >
-      📋
-    </Button>
+      <Clipboard className="hover:opacity-75" />
+    </button>
   );
 }

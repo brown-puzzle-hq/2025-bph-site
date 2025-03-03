@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { auth } from "~/server/auth/auth";
 import { db } from "@/db/index";
-import { guesses, hints, unlocks } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
+import { followUps, guesses, hints, unlocks } from "@/db/schema";
+import { and, asc, eq } from "drizzle-orm";
 import Toast from "../components/hint-page/Toast";
 import HintStatusBox from "../components/hint-page/HintStatusBox";
 import PreviousHintTable from "../components/hint-page/PreviousHintTable";
-import PreviousGuessTable from "../components/hint-page/PreviousGuessTable";
+import PreviousGuessTable from "~/app/(hunt)/puzzle/components/PreviousGuessTable";
 import { RequestBox } from "../components/hint-page/RequestBox";
 import { ResponseBox } from "../components/hint-page/ResponseBox";
 import { FormattedTime, ElapsedTime } from "~/lib/time";
@@ -43,9 +43,16 @@ export default async function Page({
   const hint = await db.query.hints.findFirst({
     where: eq(hints.id, hintId),
     with: {
-      team: { columns: { displayName: true, id: true } },
+      team: {
+        columns: {
+          displayName: true,
+          id: true,
+          members: true,
+          interactionMode: true,
+        },
+      },
       claimer: { columns: { id: true, displayName: true } },
-      puzzle: { columns: { name: true } },
+      puzzle: { columns: { id: true, name: true, answer: true } },
     },
   });
 
@@ -69,7 +76,7 @@ export default async function Page({
         ),
       })
     )?.unlockTime ??
-    (session?.user?.interactionMode === "in-person"
+    (hint.team.interactionMode === "in-person"
       ? IN_PERSON.START_TIME
       : REMOTE.START_TIME);
 
@@ -89,15 +96,18 @@ export default async function Page({
       id: true,
       request: true,
       response: true,
+      requestTime: true,
     },
     with: {
-      team: { columns: { id: true, displayName: true } },
+      team: { columns: { id: true, displayName: true, members: true } },
       claimer: { columns: { id: true, displayName: true } },
       followUps: {
-        columns: { id: true, message: true },
+        columns: { id: true, message: true, userId: true, time: true },
         with: { user: { columns: { id: true, displayName: true } } },
+        orderBy: [asc(followUps.time)],
       },
     },
+    orderBy: [asc(hints.requestTime)],
   });
 
   return (
@@ -139,20 +149,20 @@ export default async function Page({
             <div>
               <p>
                 <span className="font-semibold">Puzzle unlocked </span>
-                <FormattedTime time={unlockTime} />
-                (<ElapsedTime date={unlockTime} /> ago)
+                <FormattedTime time={unlockTime} /> (
+                <ElapsedTime date={unlockTime} /> ago)
               </p>
               <p>
                 <span className="font-semibold">Hint requested </span>
-                <FormattedTime time={hint.requestTime} />
-                (<ElapsedTime date={hint.requestTime} /> ago)
+                <FormattedTime time={hint.requestTime} /> (
+                <ElapsedTime date={hint.requestTime} /> ago)
               </p>
               <p>
                 <span className="font-semibold">Hint claimed </span>
                 {hint.claimTime && (
                   <>
-                    <FormattedTime time={hint.claimTime} />
-                    (<ElapsedTime date={hint.claimTime} /> ago)
+                    <FormattedTime time={hint.claimTime} /> (
+                    <ElapsedTime date={hint.claimTime} /> ago)
                   </>
                 )}
               </p>
@@ -160,8 +170,8 @@ export default async function Page({
                 <span className="font-semibold">Hint responded </span>
                 {hint.responseTime && (
                   <>
-                    <FormattedTime time={hint.responseTime} />
-                    (<ElapsedTime date={hint.responseTime} /> ago)
+                    <FormattedTime time={hint.responseTime} /> (
+                    <ElapsedTime date={hint.responseTime} /> ago)
                   </>
                 )}
               </p>
@@ -172,7 +182,10 @@ export default async function Page({
             <RequestBox hint={hint} />
             {(hint.response ||
               (hint.claimer && hint.claimer.id === session.user.id)) && (
-              <ResponseBox hint={hint} />
+              <ResponseBox
+                hint={{ ...hint, followUps: [] }}
+                members={hint.team.members}
+              />
             )}
           </div>
 
@@ -182,6 +195,8 @@ export default async function Page({
                 previousHints={previousHints}
                 teamDisplayName={hint.team.displayName}
                 reply={reply ? hintId : undefined}
+                puzzleId={hint.puzzle.id}
+                puzzleName={hint.puzzle.name}
               />
             </div>
           )}
@@ -189,7 +204,12 @@ export default async function Page({
           {previousGuesses.length > 0 && (
             <div className="flex flex-col items-center space-y-2 p-4">
               <Label>Previous Guesses</Label>
-              <PreviousGuessTable previousGuesses={previousGuesses} />
+              <PreviousGuessTable
+                puzzleAnswer={hint.puzzle.answer}
+                previousGuesses={previousGuesses}
+                partialSolutions={{}} // TODO: Import from puzzle
+                tasks={{}} // TODO: Import from puzzle
+              />
             </div>
           )}
         </div>

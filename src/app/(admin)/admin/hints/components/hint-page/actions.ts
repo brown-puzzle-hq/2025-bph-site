@@ -1,11 +1,14 @@
 "use server";
-
-import { and, eq } from "drizzle-orm";
-import { getNumberOfHintsRemaining } from "~/hunt.config";
-import { sendBotMessage } from "~/lib/utils";
 import { auth } from "~/server/auth/auth";
 import { db } from "~/server/db/index";
-import { followUps, hints, teams } from "~/server/db/schema";
+import { and, eq } from "drizzle-orm";
+import { followUps, hints } from "~/server/db/schema";
+import { getNumberOfHintsRemaining } from "~/hunt.config";
+import { sendBotMessage, sendEmail, extractEmails } from "~/lib/utils";
+import {
+  FollowUpEmailTemplate,
+  FollowUpEmailTemplateProps,
+} from "~/lib/email-template";
 
 export type MessageType = "request" | "response" | "follow-up";
 
@@ -15,15 +18,14 @@ export async function insertHintRequest(puzzleId: string, hint: string) {
   if (!session?.user?.id) {
     throw new Error("Not logged in");
   }
+  const teamId = session.user.id;
+  const role = session.user.role;
 
   // Checks
-  const hasHint = (await getNumberOfHintsRemaining(session.user.id)) > 0;
+  const hasHint = (await getNumberOfHintsRemaining(teamId, role)) > 0;
   const hasUnansweredHint = (await db.query.hints.findFirst({
     columns: { id: true },
-    where: and(
-      eq(hints.teamId, session.user.id),
-      eq(hints.status, "no_response"),
-    ),
+    where: and(eq(hints.teamId, teamId), eq(hints.status, "no_response")),
   }))
     ? true
     : false;
@@ -32,7 +34,7 @@ export async function insertHintRequest(puzzleId: string, hint: string) {
     const result = await db
       .insert(hints)
       .values({
-        teamId: session.user.id,
+        teamId: teamId,
         puzzleId,
         request: hint,
         requestTime: new Date(),
@@ -40,12 +42,8 @@ export async function insertHintRequest(puzzleId: string, hint: string) {
       })
       .returning({ id: hints.id });
 
-    const user = await db.query.teams.findFirst({
-      where: eq(teams.id, session.user.id),
-    });
-
     // TODO: get specific hint ID
-    const hintMessage = `🙏 **Hint** [request](https://www.brownpuzzlehunt.com/admin/hints) by [${user?.id}](https://www.brownpuzzlehunt.com/teams/${user?.id}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${hint} <@&1310029428864057504>`;
+    const hintMessage = `🙏 **Hint** [request](https://www.brownpuzzlehunt.com/admin/hints) by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${hint} <@&1310029428864057504>`;
     await sendBotMessage(hintMessage);
 
     return result[0]?.id;
@@ -89,7 +87,19 @@ export async function editMessage(
 }
 
 /** Inserts a follow-up hint into the hint table */
-export async function insertFollowUp(hintId: number, message: string) {
+export async function insertFollowUp({
+  hintId,
+  members,
+  teamId,
+  teamDisplayName,
+  puzzleId,
+  puzzleName,
+  message,
+}: FollowUpEmailTemplateProps & {
+  hintId: number;
+  teamId?: string;
+  members: string;
+}) {
   const session = await auth();
   if (!session?.user?.id) {
     throw new Error("Not logged in");
@@ -104,7 +114,30 @@ export async function insertFollowUp(hintId: number, message: string) {
         time: new Date(),
       })
       .returning({ id: followUps.id });
-    return result[0]?.id ?? null;
+
+    if (result[0]?.id) {
+      // If there are members, then this is a follow-up by a team
+      // So send an email
+      if (members) {
+        await sendEmail(
+          extractEmails(members),
+          `Follow-Up Hint [${puzzleName}]`,
+          FollowUpEmailTemplate({
+            teamDisplayName,
+            puzzleId,
+            puzzleName,
+            message,
+          }),
+        );
+      }
+      // Otherwise, notify admin on Discord that there is a follow-up
+      else if (message !== "[Claimed]") {
+        const hintMessage = `🙏 **Hint** [follow-up](https://www.brownpuzzlehunt.com/admin/hints/${hintId}?reply=true) by [${teamDisplayName}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleName}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${message} <@&1310029428864057504>`;
+        await sendBotMessage(hintMessage);
+      }
+      return result[0].id;
+    }
+    return null;
   } catch (_) {
     return null;
   }
