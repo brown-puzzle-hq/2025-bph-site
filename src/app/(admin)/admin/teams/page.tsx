@@ -10,7 +10,7 @@ export default async function Home() {
   return (
     // FYI container is important don't be like Alex and spend an hour debugging after removing it
     <div className="container mb-4 md:mb-12">
-      <h1 className="mb-2 text-center w-screen">Teams</h1>
+      <h1 className="mb-2 w-screen text-center">Teams</h1>
       <TeamTable columns={columns} data={data} />
     </div>
   );

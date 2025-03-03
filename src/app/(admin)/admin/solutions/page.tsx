@@ -83,7 +83,9 @@ export default async function Home() {
             <TableRow className="hover:bg-inherit">
               <TableHead className="w-1/3 min-w-56">Name</TableHead>
               <TableHead className="w-1/3">Answer</TableHead>
-              <TableHead className="w-1/3 whitespace-nowrap">Next Unlock</TableHead>
+              <TableHead className="w-1/3 whitespace-nowrap">
+                Next Unlock
+              </TableHead>
               <TableHead className="w-fit">Puzzle</TableHead>
               <TableHead className="w-fit">Solution</TableHead>
               <TableHead className="w-fit">Statistics</TableHead>
