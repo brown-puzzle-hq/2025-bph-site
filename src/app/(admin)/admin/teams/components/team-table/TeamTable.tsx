@@ -71,7 +71,7 @@ export function TeamTable<TData, TValue>({
   });
 
   return (
-    <div className="px-4">
+    <div className="w-screen px-4 xl:px-12">
       {/* Controls */}
       <div className="flex items-center justify-between space-x-2 pb-2 text-neutral-500">
         <div className="flex items-center space-x-2">
@@ -80,7 +80,8 @@ export function TeamTable<TData, TValue>({
             name="filterTeams"
             placeholder="Filter teams..."
             onChange={(event) => table.setGlobalFilter(event.target.value)}
-            className="border-b placeholder:text-neutral-300 focus:outline-none"
+            className="border-b text-sm placeholder:text-neutral-300 focus:outline-none"
+            autoComplete="off"
           />
         </div>
         <div className="flex items-center space-x-2">

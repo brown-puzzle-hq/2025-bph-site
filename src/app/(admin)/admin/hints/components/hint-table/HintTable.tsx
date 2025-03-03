@@ -134,7 +134,8 @@ export function HintTable<TData, TValue>({
             name="filterHints"
             placeholder="Filter hints..."
             onChange={(event) => table.setGlobalFilter(event.target.value)}
-            className="border-b placeholder:text-neutral-300 focus:outline-none"
+            className="border-b text-sm placeholder:text-neutral-300 focus:outline-none"
+            autoComplete="off"
           />
         </div>
         <div className="flex items-center space-x-2">

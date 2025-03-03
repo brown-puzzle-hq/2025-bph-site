@@ -1,7 +1,7 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { teams } from "~/server/db/schema";
-import { ChevronsUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { ChevronsUpDown, ArrowUp, ArrowDown, Check, X } from "lucide-react";
 import { FormattedTime } from "~/lib/time";
 
 // Define the columns for the table using TanStack
@@ -122,6 +122,32 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
         >
           {interactionMode}
         </div>
+      );
+    },
+  },
+  {
+    accessorKey: "hasBox",
+    header: ({ column }) => (
+      <div className="flex w-fit items-center space-x-2">
+        <p>Box</p>
+        {column.getIsSorted() === "asc" ? (
+          <ArrowUp className="size-4" />
+        ) : column.getIsSorted() === "desc" ? (
+          <ArrowDown className="size-4" />
+        ) : (
+          <ChevronsUpDown className="size-4" />
+        )}
+      </div>
+    ),
+    cell: ({ row }) => {
+      return (
+        <p className="flex justify-center text-neutral-500">
+          {row.getValue("hasBox") ? (
+            <Check className="size-5" />
+          ) : (
+            <X className="size-5" />
+          )}
+        </p>
       );
     },
   },
