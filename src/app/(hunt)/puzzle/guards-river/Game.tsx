@@ -292,7 +292,7 @@ export default function Game() {
     <div className="flex space-x-4">
       {/* Moves */}
       <ScrollArea className="h-[520] min-w-[11rem] rounded-md p-4">
-        <Table className="w-[225px]">
+        <Table className="w-44">
           <TableHeader>
             <TableRow className="hover:bg-inherit">
               <TableHead

@@ -9,52 +9,66 @@ import Game from "./Game";
 export const puzzleId = "guards-river";
 
 /**
- * The `PuzzleBody` renders above the guess submission form. Put flavor text, images,
+ * The body renders above the guess submission form. Put flavor text, images,
  * and interactive puzzle components here.
  */
-export function PuzzleBody(): JSX.Element {
-  return (
-    <div>
-      <p className="italic">
-        You are traveling with two guards, two doors, and a cabbage. You arrive
-        at a river and find a boat. The boat can hold you and two other
-        entities, and it cannot cross the river without you.
-      </p>
-      <br />
-      <p className="italic">
-        There is a wolf guard and a goat guard. The guards are
-        indistinguishable. There are two doors: one will let you through to
-        [Drama], and the other will end your puzzlehunt journey. The doors are
-        also indistinguishable. If you leave the wolf guard with the correct
-        door unattended, the wolf will eat it. If you leave the goat guard with
-        the incorrect door, the goat will eat it as well. If you leave the wolf
-        guard with the goat guard, the wolf will eat the goat. If you leave the
-        goat guard with the cabbage, the goat guard will eat the cabbage. If you
-        bring the cabbage on the boat, the cabbage will eat the boat, and you
-        will drown (no one can swim) 💀.
-      </p>
-      <br />
-      <p>How can you ensure you go through the correct door?</p>
-      <br />
-      <Game />
-    </div>
-  );
-}
+export const inPersonBody = (
+  <div className="max-w-7xl text-center">
+    <p className="mx-auto max-w-3xl italic">
+      You are traveling with two guards, two doors, and a cabbage. You arrive at
+      a river and find a boat. The boat can hold you and two other entities, and
+      it cannot cross the river without you.
+    </p>
+    <br />
+    <p className="mx-auto max-w-3xl">
+      There is a wolf guard and a goat guard. The guards are indistinguishable.
+      There are two doors: one will let you through to [Drama], and the other
+      will end your puzzlehunt journey. The doors are also indistinguishable. If
+      you leave the wolf guard with the correct door unattended, the wolf will
+      eat it. If you leave the goat guard with the incorrect door, the goat will
+      eat it as well. If you leave the wolf guard with the goat guard, the wolf
+      will eat the goat. If you leave the goat guard with the cabbage, the goat
+      guard will eat the cabbage. If you bring the cabbage on the boat, the
+      cabbage will eat the boat, and you will drown (no one can swim) 💀.
+    </p>
+    <br />
+    <p className="mx-auto max-w-3xl">
+      How can you ensure you go through the correct door?
+    </p>
+    <br />
+    <Game />
+  </div>
+);
+
+export const remoteBoxBody = inPersonBody;
+
+export const remoteBody = inPersonBody;
 
 /**
- * The `SolutionBody` renders in the solution page.
- * If there are no solutions available, return null.
+ * The `solutionBody` renders in the solution page.
+ * If there are no solutions available, set it null.
  */
-export function SolutionBody(): JSX.Element | null {
-  return null;
-  // return <div className="text-center">This is an example solution.</div>;
-}
+export const solutionBody = null;
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
  * that can be copied to the clipboard. Set this to `null` to remove the copy button.
  */
-export const copyText = null;
+export const copyText = `You are traveling with two guards, two doors, and a cabbage. You arrive at
+a river and find a boat. The boat can hold you and two other entities, and
+it cannot cross the river without you.
+
+There is a wolf guard and a goat guard. The guards are indistinguishable.
+There are two doors: one will let you through to [Drama], and the other
+will end your puzzlehunt journey. The doors are also indistinguishable. If
+you leave the wolf guard with the correct door unattended, the wolf will
+eat it. If you leave the goat guard with the incorrect door, the goat will
+eat it as well. If you leave the wolf guard with the goat guard, the wolf
+will eat the goat. If you leave the goat guard with the cabbage, the goat
+guard will eat the cabbage. If you bring the cabbage on the boat, the
+cabbage will eat the boat, and you will drown (no one can swim) 💀.
+
+How can you ensure you go through the correct door?`;
 
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.
