@@ -23,6 +23,7 @@ import {
   ClipboardPenLine,
   UsersRound,
   Database,
+  Map,
 } from "lucide-react";
 
 const huntItems = [
@@ -36,6 +37,11 @@ const huntItems = [
   //   href: "/puzzle",
   //   icon: <Puzzle className="text-red-500" />,
   // },
+  {
+    title: "Map",
+    href: "/map",
+    icon: <Map className="text-red-500" />,
+  },
   {
     title: "Leaderboard",
     href: "/teams",

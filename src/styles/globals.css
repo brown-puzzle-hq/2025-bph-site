@@ -6,17 +6,7 @@
   :root {
     --radius: 0.5rem;
   }
-
   h1 {
-    @apply text-2xl font-bold;
-    /* Adjust these values as needed */
+    @apply text-2xl font-bold; /* Adjust these values as needed */
   }
-}
-
-.fullscreen-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
 }

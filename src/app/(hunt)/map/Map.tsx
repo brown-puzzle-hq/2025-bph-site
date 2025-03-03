@@ -1,4 +1,5 @@
 "use client";
+
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
@@ -17,49 +18,48 @@ export default function Map() {
   const layout = "/map/Map-Layout.png";
   const buildings = "map/Map-Buildings.png";
   return (
-    <div className="fullscreen-container">
-      <MapContainer
-        center={[500, 500]}
-        zoom={0}
-        minZoom={-1}
-        maxZoom={2}
-        maxBounds={bounds}
-        maxBoundsViscosity={1.0}
-        crs={L.CRS.Simple} // Tells Leaflet to use simple coordinate system
-        scrollWheelZoom={true}
-        style={{ height: "80vh", width: "90vw", background: "white" }}
+    <MapContainer
+      center={[500, 500]}
+      zoom={2}
+      minZoom={1.25}
+      maxZoom={3.5}
+      maxBounds={bounds}
+      maxBoundsViscosity={1.0}
+      crs={L.CRS.Simple} // Tells Leaflet to use simple coordinate system
+      scrollWheelZoom={false}
+      style={{ background: "white", zIndex: 10 }}
+      className="h-[calc(100vh-56px-32px)] w-screen focus:outline-none"
+    >
+      <ImageOverlay url={colorlayout} bounds={bounds} />
+      {/* <ImageOverlay url={layout} bounds={bounds} /> */}
+      <ImageOverlay url={buildings} bounds={bounds} />
+      <Marker position={[579, 490]}>
+        <Popup>sayles</Popup>
+      </Marker>
+      <Marker position={[475, 413]}>
+        <Popup>ratty</Popup>
+      </Marker>
+      <Marker
+        position={[483, 160]}
+        icon={
+          new L.Icon({
+            iconUrl: "/map/cloud.png",
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+          })
+        }
       >
-        <ImageOverlay url={colorlayout} bounds={bounds} />
-        {/* <ImageOverlay url={layout} bounds={bounds} /> */}
-        <ImageOverlay url={buildings} bounds={bounds} />
-        <Marker position={[579, 490]}>
-          <Popup>sayles</Popup>
-        </Marker>
-        <Marker position={[475, 413]}>
-          <Popup>ratty</Popup>
-        </Marker>
-        <Marker
-          position={[483, 160]}
-          icon={
-            new L.Icon({
-              iconUrl: "/map/cloud.png",
-              iconSize: [40, 40],
-              iconAnchor: [20, 40],
-            })
-          }
-        >
-          <Popup>keeney</Popup>
-        </Marker>
-        <Marker position={[740, 365]}>
-          <Popup>museum</Popup>
-        </Marker>
-        <Marker position={[320, 575]}>
-          <Popup>bdh</Popup>
-        </Marker>
-        <Marker position={[560, 699]}>
-          <Popup>scili</Popup>
-        </Marker>
-      </MapContainer>
-    </div>
+        <Popup>keeney</Popup>
+      </Marker>
+      <Marker position={[740, 365]}>
+        <Popup>museum</Popup>
+      </Marker>
+      <Marker position={[320, 575]}>
+        <Popup>bdh</Popup>
+      </Marker>
+      <Marker position={[560, 699]}>
+        <Popup>scili</Popup>
+      </Marker>
+    </MapContainer>
   );
 }
