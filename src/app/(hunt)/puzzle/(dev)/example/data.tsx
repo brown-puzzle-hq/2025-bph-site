@@ -17,7 +17,9 @@ export const inPersonBody = (
 export const remoteBoxBody = inPersonBody;
 
 export const remoteBody = (
-  <div className="max-w-3xl text-center">This is the body of the remote puzzle.</div>
+  <div className="max-w-3xl text-center">
+    This is the body of the remote puzzle.
+  </div>
 );
 
 /**

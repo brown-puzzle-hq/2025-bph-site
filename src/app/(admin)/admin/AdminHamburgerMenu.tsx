@@ -16,7 +16,7 @@ export default async function AdminHamburgerMenu() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger className="align-middle">
-          <Ellipsis className="h-[20px] mb-0.5" />
+          <Ellipsis className="mb-0.5 h-[20px]" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <Link href="/admin/errata">
