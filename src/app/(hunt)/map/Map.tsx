@@ -36,7 +36,7 @@ export default function Map() {
             ratty
           </Popup>
         </Marker>
-        <Marker position={[483, 160]}>
+        <Marker position={[483, 160]} icon={new L.Icon({ iconUrl: "/map/cloud.png", iconSize: [40, 40], iconAnchor: [20, 40] })}>
           <Popup>
             keeney
           </Popup>
