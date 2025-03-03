@@ -27,7 +27,29 @@ import { updateTeam } from "../actions";
 import { roleEnum, interactionModeEnum } from "~/server/db/schema";
 import { X } from "lucide-react";
 import { IN_PERSON } from "~/hunt.config";
-import { serializeMembers, deserializeMembers, Member } from "~/lib/utils";
+
+export type Member = {
+  id?: number;
+  name: string | undefined;
+  email: string | undefined;
+};
+
+export function serializeMembers(members: Member[]): string {
+  return JSON.stringify(
+    members
+      .filter((person) => person.name || person.email)
+      .map((person) => [person.name, person.email]),
+  );
+}
+
+export function deserializeMembers(memberString: string): Member[] {
+  if (!memberString) return [];
+  return JSON.parse(memberString).map(([name, email]: [string, string]) => ({
+    id: undefined,
+    name,
+    email,
+  }));
+}
 
 const zPhone = z.string().transform((arg, ctx) => {
   if (!arg) {
@@ -74,6 +96,12 @@ export const profileFormSchema = z
     solvingLocation: z.string().max(255, { message: "Max 255 characters" }),
     wantsBox: z.boolean().optional(),
     role: z.enum(roleEnum.enumValues),
+    password: z
+      .string()
+      .min(8, { message: "Min 8 characters" })
+      .max(50, { message: "Max 50 characters" })
+      .or(z.literal("")),
+    confirmPassword: z.string().or(z.literal("")),
   })
   .refine(
     (data) =>
@@ -90,7 +118,11 @@ export const profileFormSchema = z
       message: "Required",
       path: ["phoneNumber"],
     },
-  );
+  )
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"],
+  });
 
 type TeamInfoFormProps = {
   id: string;
@@ -146,6 +178,8 @@ export function ProfileForm({
       phoneNumber,
       roomNeeded,
       solvingLocation,
+      password: "",
+      confirmPassword: "",
       wantsBox: wantsBox ?? undefined,
     },
     mode: "onChange",
@@ -179,6 +213,7 @@ export function ProfileForm({
       roomNeeded: data.roomNeeded,
       solvingLocation: data.solvingLocation,
       wantsBox: data.wantsBox,
+      password: data.password,
     });
 
     if (result.error) {
@@ -202,7 +237,11 @@ export function ProfileForm({
     form.reset({
       ...data,
       phoneNumber: formatPhoneNumber(data.phoneNumber),
+      password: "",
+      confirmPassword: "",
     });
+    document.activeElement instanceof HTMLElement &&
+      document.activeElement.blur();
     router.refresh(); // Ideally we remove this but seems like still necessary in some cases
   };
 
@@ -220,7 +259,8 @@ export function ProfileForm({
         case "phoneNumber":
           return (
             currentValues["interactionMode"] === "in-person" &&
-            currentValues[key] == ""
+            currentValues[key] !=
+              (form.formState.defaultValues as ProfileFormValues)[key]
           );
         default:
           return (
@@ -239,7 +279,11 @@ export function ProfileForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full p-4 sm:w-2/3 lg:w-1/2 xl:w-1/3"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+          }
+        }}
       >
         {/* Display name field */}
         <FormField
@@ -602,49 +646,95 @@ export function ProfileForm({
           </div>
         )}
 
-        {/* Role field  */}
-        {session?.user?.role === "admin" && (
-          <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormItem className="mb-8 space-y-2">
-                <FormLabel>Team permissions</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    className="flex flex-col space-y-1"
-                  >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <RadioGroupItem value="user" />
-                      <FormLabel className="font-normal">User</FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <RadioGroupItem value="admin" />
-                      <FormLabel className="font-normal">Admin</FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <RadioGroupItem value="testsolver" />
-                      <FormLabel className="font-normal">Testsolver</FormLabel>
-                    </FormItem>
-                  </RadioGroup>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        )}
+        {/* Team permissions */}
+        <div className="mb-8 space-y-8">
+          {session?.user?.role === "admin" && (
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem className="mb-8 space-y-3">
+                  <FormLabel className="text-main-header">
+                    Team permissions
+                  </FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      {[
+                        { value: "user", label: "User" },
+                        { value: "admin", label: "Admin" },
+                        { value: "testsolver", label: "Testsolver" },
+                      ].map(({ value, label }) => (
+                        <FormItem
+                          key={value}
+                          className="flex items-center space-x-3 space-y-0"
+                        >
+                          <RadioGroupItem value={value} />
+                          <FormLabel className="font-normal">{label}</FormLabel>
+                        </FormItem>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          )}
 
+          {/* Password fields */}
+          {(session?.user?.role === "admin" || session?.user?.id === id) && (
+            <div className="space-y-6">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex flex-row justify-between">
+                      <span className="text-main-header">New password</span>
+                      <FormMessage className="text-error" />
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} type="password" />
+                    </FormControl>
+                    <FormDescription>
+                      Leave blank to keep the current password.
+                    </FormDescription>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex flex-row justify-between">
+                      <span className="text-main-header">Confirm password</span>
+                      <FormMessage className="text-error" />
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} type="password" />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
+        </div>
         <div
-          className={`fixed bottom-3 left-1/2 z-10 flex w-full min-w-[450px] -translate-x-1/2 transform transition-transform duration-300 md:w-2/3 lg:w-1/3 ${
+          className={`fixed bottom-3 left-1/2 z-10 flex w-full max-w-xl -translate-x-1/2 transform px-4 transition-transform duration-300 ${
             isDirty() ? "translate-y-0" : "translate-y-[5rem]"
           }`}
         >
-          <Alert className="w-full bg-slate-100 p-2 shadow-lg">
+          <Alert className="w-full border-footer-bg bg-slate-300 p-2 shadow-lg">
             <div className="flex items-center justify-between">
               <AlertDescription className="flex items-center space-x-2">
                 <AlertCircle className="h-4 w-4" />
-                <span>Careful — you have unsaved changes!</span>
+                <span className="hidden sm:block">
+                  Careful — you have unsaved changes!
+                </span>
+                <span className="sm:hidden">Unsaved changes!</span>
               </AlertDescription>
               <div className="flex space-x-2">
                 <Button variant="outline" onClick={() => form.reset()}>
@@ -659,7 +749,8 @@ export function ProfileForm({
                       .some((member: Member) => member?.email) ||
                     (form.watch("interactionMode") === "remote" &&
                       form.watch("wantsBox") !== true &&
-                      form.watch("wantsBox") !== false)
+                      form.watch("wantsBox") !== false) ||
+                    form.watch("password") !== form.watch("confirmPassword")
                   }
                 >
                   Save

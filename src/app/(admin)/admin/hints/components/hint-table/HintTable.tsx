@@ -2,9 +2,13 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
+import {
+  Filter,
+  Rows2,
+  Rows4,
+  SquareChevronLeft,
+  SquareChevronRight,
+} from "lucide-react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -44,7 +48,9 @@ export function HintTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([
     { id: "claimer", desc: true },
   ]);
-  const pageSize = 10;
+  const pageSize = 100;
+
+  const [isCompact, setIsCompact] = useState(true);
 
   const table = useReactTable({
     data,
@@ -79,82 +85,38 @@ export function HintTable<TData, TValue>({
         const statusB: string = rowB.getValue("status");
         const followUpsA: FollowUpHint[] | null = rowA.getValue("followUps");
         const followUpsB: FollowUpHint[] | null = rowB.getValue("followUps");
-        const hasFollowUpA =
-          followUpsA &&
-          followUpsA[followUpsA.length - 1]?.userId === rowA.getValue("teamId");
-        const hasFollowUpB =
-          followUpsB &&
-          followUpsB[followUpsB.length - 1]?.userId === rowB.getValue("teamId");
         const dateA: Date = new Date(rowA.getValue("requestTime"));
         const dateB: Date = new Date(rowB.getValue("requestTime"));
-        const FIFO = dateA <= dateB ? 1 : -1;
 
-        // Unclaimed hints are only below the user's claimed and unanswered hints
-        // Follow up hints are treated the same as unanswered hints
-        if (claimerA === null) {
-          if (claimerB === null) return FIFO;
-          if (
-            claimerB.id === userId &&
-            (statusB === "no_response" || hasFollowUpB)
-          )
-            return -1;
-          return 1;
-        }
-        if (claimerB === null) {
-          if (
-            claimerA.id === userId &&
-            (statusA === "no_response" || hasFollowUpA)
-          )
-            return 1;
-          return -1;
-        }
+        const hasFollowUpA = !!(
+          followUpsA &&
+          followUpsA[followUpsA.length - 1]?.userId === rowA.getValue("teamId")
+        );
+        const hasFollowUpB = !!(
+          followUpsB &&
+          followUpsB[followUpsB.length - 1]?.userId === rowB.getValue("teamId")
+        );
 
-        // The user's claimed follow up hints are only below completely unanswered hints
-        if (hasFollowUpA && claimerA.id === userId && statusA !== "refunded") {
-          if (hasFollowUpB && claimerB.id === userId && statusB !== "refunded")
-            return FIFO;
-          return claimerB.id === userId && statusB === "no_response" ? -1 : 1;
-        }
-        if (hasFollowUpB && claimerB.id === userId && statusB !== "refunded") {
-          return claimerA.id === userId && statusA === "no_response" ? 1 : -1;
-        }
+        const getPriority = (
+          claimerId: string | undefined,
+          status: string,
+          hasFollowUp: boolean,
+        ): number => {
+          if (claimerId === userId && status === "no_response") return 0; // Unanswered for current user
+          if (claimerId === userId && hasFollowUp) return 1; // Follow-up for current user
+          if (!claimerId) return 2; // Unclaimed
+          if (hasFollowUp) return 3; // Follow-up for another user
+          if (status === "no_response") return 4; // Unanswered for another user
+          if (claimerId !== userId && status === "answered") return 5; // Answered by another user
+          if (claimerId !== userId) return 6; // Refunded by another user
+          if (status === "refunded") return 7; // Refunded by current user
+          return 8; // Answered by current user
+        };
 
-        // Refundable hints are at the very bottom
-        if (statusA === "answered") {
-          if (claimerA.id === userId)
-            return statusB === "answered" && claimerB.id === userId ? FIFO : -1;
-          else if (statusB === "answered")
-            return claimerB.id === userId ? 1 : FIFO;
-        }
-        if (statusB === "answered") {
-          if (claimerB.id === userId) return 1;
-        }
+        const priorityA = getPriority(claimerA?.id, statusA, hasFollowUpA);
+        const priorityB = getPriority(claimerB?.id, statusB, hasFollowUpB);
 
-        // Refunded hints are right above them
-        if (statusA === "refunded") {
-          return statusB === "refunded" ? FIFO : -1;
-        }
-        if (statusB === "refunded") return 1;
-
-        // Answered hints are sorted by who answered them
-        if (statusA === "answered") {
-          if (statusB === "answered") {
-            if (claimerA.id === userId)
-              return claimerB.id === userId ? FIFO : 1;
-            return claimerB.id === userId ? -1 : FIFO;
-          }
-          return -1;
-        }
-        if (statusB === "answered") {
-          return 1;
-        }
-
-        // Remaining hints have no response, show user's claimed hints first
-        if (claimerA.id === userId) {
-          return claimerB.id === userId ? FIFO : 1;
-        } else {
-          return claimerB.id === userId ? -1 : FIFO;
-        }
+        return priorityB - priorityA || dateA.getTime() - dateB.getTime();
       },
     },
     pageCount: Math.ceil(data.length / pageSize),
@@ -164,102 +126,122 @@ export function HintTable<TData, TValue>({
 
   return (
     <div className="px-4">
-      <div className="flex items-center justify-between space-x-2 pb-2">
-        <Input
-          placeholder="Filter hints..."
-          onChange={(event) => table.setGlobalFilter(event.target.value)}
-          className="max-w-sm"
-        />
+      {/* Controls */}
+      <div className="flex items-center justify-between space-x-2 pb-2 text-neutral-500">
         <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
+          <Filter className="size-7" />
+          <input
+            name="filterHints"
+            placeholder="Filter hints..."
+            onChange={(event) => table.setGlobalFilter(event.target.value)}
+            className="border-b placeholder:text-neutral-300 focus:outline-none"
+          />
+        </div>
+        <div className="flex items-center space-x-2">
+          <button
+            className="hover:opacity-70"
+            onClick={() => setIsCompact(!isCompact)}
+          >
+            {isCompact ? (
+              <Rows2 className="size-7" />
+            ) : (
+              <Rows4 className="size-7" />
+            )}
+          </button>
+          <button
+            className="hover:opacity-70"
             onClick={() => table.previousPage()}
           >
-            Previous
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()}>
-            Next
-          </Button>
+            <SquareChevronLeft className="size-7" />
+          </button>
+          <button className="hover:opacity-70" onClick={() => table.nextPage()}>
+            <SquareChevronRight className="size-7" />
+          </button>
         </div>
       </div>
-      <div className="flex overflow-auto rounded-md border">
-        <div className="w-full overflow-y-auto">
-          <Table>
-            <TableHeader className="sticky top-0 z-10 bg-white">
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={`header-${headerGroup.id}`}>
-                  {headerGroup.headers.map((header) => (
-                    <TableHead
-                      key={header.id}
-                      onClick={() =>
-                        header.column.toggleSorting(
-                          header.column.getIsSorted() === "asc",
-                        )
-                      }
-                      className="hover:underline"
-                      role="button"
+
+      {/* Table */}
+      <div className="overflow-y-auto rounded-md">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow
+                key={`header-${headerGroup.id}`}
+                className="hover:bg-inherit"
+              >
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    onClick={() =>
+                      header.column.toggleSorting(
+                        header.column.getIsSorted() === "asc",
+                      )
+                    }
+                    className={`hover:text-opacity-70 ${isCompact && "py-0"}`}
+                    role="button"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  onClick={(event) => {
+                    if (
+                      event.target instanceof HTMLElement &&
+                      event.target.classList.contains("hint-button")
+                    )
+                      return;
+                    if (event.metaKey || event.ctrlKey) {
+                      // Open in new tab
+                      window.open(
+                        `/admin/hints/${row.getValue("id")}`,
+                        "_blank",
+                      );
+                    } else {
+                      // Move to hint page
+                      router.push(`/admin/hints/${row.getValue("id")}`);
+                      router.refresh();
+                    }
+                  }}
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className={`cursor-pointer ${isCompact && "py-0"}`}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={isCompact ? "py-0" : undefined}
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
                   ))}
                 </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    onClick={(event) => {
-                      if (
-                        event.target instanceof HTMLElement &&
-                        event.target.classList.contains("hint-button")
-                      )
-                        return;
-                      if (event.metaKey || event.ctrlKey) {
-                        // Open in new tab
-                        window.open(
-                          `/admin/hints/${row.getValue("id")}`,
-                          "_blank",
-                        );
-                      } else {
-                        // Move to hint page
-                        router.push(`/admin/hints/${row.getValue("id")}`);
-                        router.refresh();
-                      }
-                    }}
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                    className="cursor-pointer"
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="pointer-events-none h-16 text-center font-medium text-neutral-500"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

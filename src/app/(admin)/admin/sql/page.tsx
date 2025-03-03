@@ -7,11 +7,12 @@ import { EnlargedImage } from "~/components/ui/enlarged-component";
 
 import { queryDatabase } from "./actions";
 import CopyButton from "../solutions/CopyButton";
+import { extractEmails } from "~/lib/utils";
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState("emails");
   const [query, setQuery] = useState(
-    "SELECT * FROM bph_site_team\nWHERE wants_box = true;",
+    "SELECT * FROM bph_site_team\nWHERE interaction_type = 'remote'\nAND wants_box = true;",
   );
   const [result, setResult] = useState<any>(null);
 
@@ -35,12 +36,7 @@ export default function Page() {
         const parsedResult = JSON.parse(result);
         if (parsedResult?.rows?.[0]?.members) {
           return parsedResult.rows
-            .map((row: any) =>
-              JSON.parse(row.members)
-                .map(([_, email]: [string, string]) => email)
-                .filter(Boolean),
-            )
-            .flat()
+            .flatMap((row: any) => extractEmails(row.members))
             .join("\n");
         }
         return "No emails found.";
@@ -51,7 +47,7 @@ export default function Page() {
   };
 
   return (
-    <div className="mx-auto w-full px-4 pb-6 md:w-2/3 lg:w-1/2">
+    <div className="mx-auto mb-4 w-full max-w-3xl px-4 md:mb-12">
       <h1 className="text-2xl font-bold">SQL Query Executor</h1>
       <p className="mb-4 text-gray-600">
         Enter an SQL query below to execute it against the database.
@@ -71,6 +67,7 @@ export default function Page() {
       {/* SQL Query Input Box */}
       <pre>
         <AutosizeTextarea
+          name="query"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="w-full rounded border bg-gray-50 p-2 text-gray-800"

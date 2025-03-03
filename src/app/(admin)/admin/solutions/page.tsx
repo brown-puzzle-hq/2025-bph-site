@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { getNextUnlocks } from "~/hunt.config";
+import { PUZZLE_UNLOCK_MAP } from "~/hunt.config";
 import { eq } from "drizzle-orm";
 import { puzzles } from "~/server/db/schema";
 import { ChartColumn, KeyRound, Puzzle } from "lucide-react";
@@ -24,7 +24,7 @@ export default async function Home() {
   const allPuzzlesWithEverything = await Promise.all(
     allPuzzles.map(async (puzzle) => {
       const nextUnlocks = await Promise.all(
-        getNextUnlocks(puzzle.id).map(async (nextUnlock) => ({
+        (PUZZLE_UNLOCK_MAP[puzzle.id] || []).map(async (nextUnlock) => ({
           id: nextUnlock,
           name:
             (
@@ -36,7 +36,7 @@ export default async function Home() {
         })),
       );
 
-      var puzzleBody;
+      var inPersonBody;
       var solutionBody;
       var copyText;
 
@@ -45,8 +45,8 @@ export default async function Home() {
         const module = await import(
           `../../../(hunt)/puzzle/${puzzle.id}/data.tsx`
         );
-        puzzleBody = !!module.PuzzleBody();
-        solutionBody = !!module.SolutionBody();
+        inPersonBody = !!module.inPersonBody;
+        solutionBody = !!module.solutionBody;
         copyText = module.copyText;
       } catch (e) {
         try {
@@ -54,12 +54,12 @@ export default async function Home() {
           const module = await import(
             `../../../(hunt)/puzzle/(dev)/${puzzle.id}/data.tsx`
           );
-          puzzleBody = !!module.PuzzleBody();
-          solutionBody = !!module.SolutionBody();
+          inPersonBody = !!module.inPersonBody;
+          solutionBody = !!module.solutionBody;
           copyText = module.copyText;
         } catch (e) {
-          puzzleBody = false;
-          solutionBody = false;
+          inPersonBody = null;
+          solutionBody = null;
           copyText = null;
         }
       }
@@ -67,7 +67,7 @@ export default async function Home() {
       return {
         ...puzzle,
         nextUnlocks: nextUnlocks,
-        puzzleBody: puzzleBody,
+        inPersonBody: inPersonBody,
         solutionBody: solutionBody,
         copyText: copyText,
       };
@@ -76,7 +76,7 @@ export default async function Home() {
 
   return (
     <div className="flex grow flex-col items-center px-4">
-      <h1 className="mb-2">Solutions!</h1>
+      <h1 className="mb-2">Puzzles</h1>
       <div className="min-w-[60%]">
         <Table className="justify-center">
           <TableHeader>
@@ -127,7 +127,7 @@ export default async function Home() {
                     ))}
                   </TableCell>
                   <TableCell className="justify-center">
-                    {puzzle.puzzleBody && (
+                    {puzzle.inPersonBody && (
                       <div className="flex justify-center">
                         <Link href={`/puzzle/${puzzle.id}`}>
                           <Puzzle className="text-red-500 hover:opacity-75" />

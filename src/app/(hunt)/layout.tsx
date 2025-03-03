@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 import Link from "next/link";
 import { Toaster } from "@/components/ui/toaster";
 import { HuntHamburgerMenu } from "./HuntHamburgerMenu";
+import { HuntTopNavSpacer } from "../nav/HuntTopNavSpacer";
 
 export default async function RootLayout({
   children,
@@ -14,13 +15,13 @@ export default async function RootLayout({
       </div>
 
       {/* Navbar spacer */}
-      <div className="min-h-[56px]" />
+      <HuntTopNavSpacer />
 
       <main className="min-h-[calc(100vh-56px-32px)]">{children}</main>
       <Toaster />
 
       <footer className="bg-footer-bg py-2 text-center text-xs">
-        <p>
+        <p className="hidden sm:block">
           Having a good time? Want support more puzzlehunts like this in the
           future? Consider{" "}
           <Link
@@ -37,6 +38,23 @@ export default async function RootLayout({
             puzzle club
           </Link>{" "}
           or checking out our{" "}
+          <Link
+            href="https://brownpuzzle.club/archive/"
+            className="text-link hover:underline"
+          >
+            archive
+          </Link>
+          !
+        </p>
+        <p className="sm:hidden">
+          Having fun? Consider{" "}
+          <Link
+            href="https://bbis.advancement.brown.edu/BBPhenix/give-now?did=05732af4-d994-4d40-bcd6-fb42d07b6eab"
+            className="text-link hover:underline"
+          >
+            donating
+          </Link>{" "}
+          or viewing our{" "}
           <Link
             href="https://brownpuzzle.club/archive/"
             className="text-link hover:underline"

@@ -3,7 +3,7 @@ import { db } from "~/server/db";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { puzzles } from "~/server/db/schema";
-import { canViewSolution } from "~/hunt.config";
+import { canViewSolution } from "../actions";
 
 export default async function DefaultSolutionPage({
   puzzleId,
@@ -23,18 +23,22 @@ export default async function DefaultSolutionPage({
   // Check if user can view solution
   const session = await auth();
   switch (await canViewSolution(puzzleId, session)) {
-    case "SUCCESS":
+    case "success":
       break;
-    case "NOT AUTHENTICATED":
+    case "not_authenticated":
       redirect("/login");
-    case "NOT AUTHORIZED":
+    case "not_authorized":
       redirect("/puzzle");
   }
 
   // Check if there is solution
   if (!solutionBody) {
-    return <div>There are currently no solutions for this puzzle.</div>;
+    return (
+      <div className="mb-12 w-fit px-4">
+        There are currently no solutions for this puzzle.
+      </div>
+    );
   }
 
-  return <div className="mt-4 w-2/3 min-w-36">{solutionBody}</div>;
+  return <div className="mb-12 w-fit px-4">{solutionBody}</div>;
 }

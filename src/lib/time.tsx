@@ -11,7 +11,7 @@ type Time = {
 export function formatTime(time: string | Date | null) {
   const dateTimeFormatter = new Intl.DateTimeFormat("en-US", {
     dateStyle: "short",
-    timeStyle: "medium",
+    timeStyle: "short",
   });
 
   if (!time) {
@@ -24,7 +24,7 @@ export function formatTime(time: string | Date | null) {
 }
 
 export function FormattedTime({ time }: { time: string | Date | null }) {
-  return <>{formatTime(time)} </>;
+  return <>{formatTime(time)}</>;
 }
 
 function getTimeDifference(date1: Date, date2: Date) {

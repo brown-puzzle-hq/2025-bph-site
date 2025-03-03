@@ -3,17 +3,16 @@ import { guesses } from "~/server/db/schema";
 import { FormattedTime } from "~/lib/time";
 
 export default function PreviousGuessTable({
+  puzzleAnswer,
   previousGuesses,
   partialSolutions,
   tasks,
 }: {
+  puzzleAnswer: string;
   previousGuesses: (typeof guesses.$inferSelect)[];
   partialSolutions: Record<string, string>;
   tasks: Record<string, React.ReactNode>;
 }) {
-  const maxLength = Math.max(
-    ...previousGuesses.map((guess) => guess.guess.length),
-  );
   return (
     <div>
       <Table className="table-fixed md:table-auto">
@@ -23,7 +22,9 @@ export default function PreviousGuessTable({
             .map((guess) => (
               <TableRow key={guess.id} className="hover:bg-inherit">
                 <TableCell className="max-w-sm overflow-hidden text-ellipsis whitespace-nowrap sm:max-w-lg">
-                  {guess.guess}
+                  {guess.isCorrect && guess.guess !== puzzleAnswer
+                    ? `${guess.guess} -> ${puzzleAnswer}`
+                    : guess.guess}
                 </TableCell>
                 <TableCell className="w-24 text-center">
                   {guess.isCorrect ? (
@@ -33,7 +34,7 @@ export default function PreviousGuessTable({
                       <p className="font-medium text-partial-guess hover:cursor-help">
                         PARTIAL
                       </p>
-                      <span className="pointer-events-none absolute -bottom-7 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-tooltip-bg px-2 py-1 text-xs font-medium text-main-text opacity-0 transition-opacity group-hover:opacity-100">
+                      <span className="pointer-events-none absolute -bottom-7 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-tooltip-bg px-2 py-1 text-xs font-medium text-main-text opacity-0 group-hover:opacity-100">
                         <div className="absolute -top-1 left-1/2 h-0 w-0 -translate-x-1/2 border-b-4 border-l-4 border-r-4 border-transparent border-b-tooltip-bg" />
                         {partialSolutions[guess.guess]}
                       </span>

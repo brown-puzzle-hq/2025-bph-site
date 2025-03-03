@@ -1,56 +1,64 @@
 ## Table of Contents
 
-1. [Postprodder guide](#postprodder-guide)
-    1. [First steps](#first-steps)
-    2. [Adding puzzles](#adding-puzzles)
-1. [Developer guide](#developer-guide)
-    1. [Overview](#overview)
-    3. [Quick Links](#quick-links)
-    4. [Features](#features)
-    1. [Copying this repository](#copying-this-repository)
-    4. [Hunt structure](#hunt-structure)
-    5. [Final Checks](#final-checks)
-  2. [Admin guide](#admin-guide)
-      1. [Navigation](#navigation)
-      2. [Hinting and Errata](#hinting-and-errata)
-      3. [Team management](#team-management)
+- [Postprodder guide](#postprodder-guide)
+    - [First steps](#first-steps)
+    - [Adding puzzles](#adding-puzzles)
+    - [Creating puzzle and solution bodies](#creating-puzzle-and-solution-bodies)
+- [Developer guide](#developer-guide)
+    - [Overview](#overview)
+    - [Quick Links](#quick-links)
+    - [Features](#features)
+    - [Copying this repository](#copying-this-repository)
+    - [Setting up the database](#setting-up-the-database)
+    - [Setting up the dev environment](#setting-up-the-dev-environment)
+    - [Hunt Structure](#hunt-structure)
+    - [Final Checks](#final-checks)
+- [Admin guide](#admin-guide)
+    - [Navigation](#navigation)
+    - [Hinting and Errata](#hinting-and-errata)
+    - [Team Management](#team-management)
 
 ## Postprodder guide
 
 This is for the postprodding team. It assumes that there is already a hunt set up.
 
-##### First steps
-1. Clone this repository.
-2. Get the `.env` and put it in the root directory.
-1. Install [pnpm](https://pnpm.io/).
-3. Run `pnpm install` to install the dependencies.
-4. Run `pnpm run dev` to start the development server.
-6. Run `pnpm run db:push` to push the schema in `src/server/db/schema.ts` to the database.
-5. Run `pnpm run db:studio` in a separate shell to open Drizzle Studio in your browser.
+#### First steps
+1. Clone this repository
+2. Get the `.env` and put it in the root directory
+1. Install [pnpm](https://pnpm.io/)
+3. Run `pnpm install` to install the dependencies
+6. Create a new branch called `your-name-postprodding`
 
-##### Adding puzzles
+Now you're all ready to start postprodding! 
 
-1. Get the puzzle name, the slug, and the answer. This is up to the puzzle-writer. The slug must be unique.
+To run the development server and see your changes live:
+1. Run `pnpm run dev`
+2. Login with `admin123` as the username and password
+3. Go to `http://localhost:3000/admin/solutions`
 
-    ```
-    Puzzle name: "Sudoku #51"
-    Slug: "sudoku51"
-    Answer: "IMMEDIATE"
-    ```
+#### Adding puzzles
 
-2. Update the puzzle table on Drizzle. The puzzle will not show up on the frontend unless it is in the database.
+1. Add the puzzle to the database
     
-    To get to Drizzle, run `pnpm run db:push` and go to `https://local.drizzle.studio/`. The `name` column is the name, the `id` column is the slug, and the `answer` column is the answer.
+    First, run `pnpm run db:studio` and go to `https://local.drizzle.studio/`. You will see a lot of different tables, but the only one you need to edit is `bph_site_puzzle`. 
 
-    ```
+    ![./docs/drizzle-studio.png](./docs/drizzle-studio.png)
+
+    The `name` column is the title of the puzzle, the `id` column is the slug (URL) for the puzzle, and the `answer` column is the answer to the puzzle in **all caps, no spaces.**
+
+    ```ts
     {
-        id: "sudoku51",
-        name: "Sudoku #51",
-        answer: "IMMEDIATE"
+        id: "example",
+        name: "Example",
+        answer: "ANSWER"
     }
     ```
 
-3. Create a folder in `src/app/(hunt)/puzzle/`. The folder must be named after the puzzle slug. Copy the contents of the `src/app/(hunt)/puzzle/(dev)/example` folder there. The file structure will look something like this:
+3. Next, we will create a web page for the puzzle. 
+
+   Copy the contents of the `src/app/(hunt)/puzzle/(dev)/example` folder to a new folder inside of `src/app/(hunt)/puzzle/`. The new folder name should be the puzzle id. 
+
+   Notice that the dev puzzles are in `src/app/(hunt)/puzzle/(dev)`, but the real hunt puzzles are in  `src/app/(hunt)/puzzle`. (Yes, we would be making another example puzzle here.)
 
     ```
     .
@@ -65,7 +73,7 @@ This is for the postprodding team. It assumes that there is already a hunt set u
     ├── components/
     ├── page.tsx
     ├── sequences.ts
-    └── sudoku51/
+    └── example/
         ├── data.tsx
         ├── hint
         ├── layout.tsx
@@ -73,31 +81,104 @@ This is for the postprodding team. It assumes that there is already a hunt set u
         └── solution
     ```
 
-4. **Hard-code the puzzle id, the puzzle body, and the solution body inside of data.tsx.** 
+4. **Hard-code the puzzle id, the puzzle bodies, and the solution body inside of data.tsx.** 
 
-    ```
-    export const PUZZLE_ID = "sudoku51";
+    You can also add copy text, partial solutions, and extra tasks. Set values to null or empty if they don't exist. 
+    More information about creating puzzle bodies [below](#creating-puzzle-and-solution-bodies). 
 
-    export const PUZZLE_BODY = (
-        <div>
-            <p>Here is a sudoku puzzle.</p>
-        </div>
+    ```ts
+    export const puzzleId = "example";
+
+    export const inPersonBody = (
+        <div className="max-w-3xl text-center">This is the body of the puzzle.</div>
     );
 
-    export const SOLUTION_BODY = (
-        <div>
-            <p>Here is the solution to the sudoku puzzle.</p>
-        </div>
+    export const remoteBoxBody = inPersonBody;
+
+    export const remoteBody = (
+        <div className="max-w-3xl text-center">This is the body of the remote puzzle.</div>
     );
+
+    export const solutionBody = (
+        <div className="max-w-3xl text-center">This is an example solution.</div>
+    );
+
+    export const copyText = `1\t2\t3
+    4\t5\t6
+    7\t8\t9`;
+
+    export const partialSolutions: Record<string, string> = {
+        EXAMP: "Almost there!",
+        EXAMPL: "Learn to spell!",
+    };
+    
+    export const tasks: Record<string, JSX.Element> = {
+        EX: (
+            <div className="max-w-3xl text-center">
+            This is a task unlocked by submitting EX.
+            </div>
+        ),
+        EXAM: (
+            <div className="max-w-3xl text-center">
+            This is a task unlocked by submitting EXAM.
+            </div>
+        ),
+    };
     ```
 
-5. **For sequences**, update the `SEQUENCES` in `hunt.config.ts`. Puzzles can be on multiple sequences.
+5. **For sequences**, update the `SEQUENCES` in `hunt.config.ts`. Puzzles can be in multiple sequences. Each sequence includes an optional name, an icon, and an ordered list of puzzles. See https://lucide.dev/icons/ for icons.
 
-    ```
+    ```ts
     export const SEQUENCES = [
-      ["sudoku51", "sudoku52"],
-      ["sudoku51", "go3", "chess67"]
+        { name: "examples", icon: Grid3X3, puzzles: ["example", "example-2", "example-3"] },
+        { name: "variety", icon: Swords, puzzles: ["example", "display", "test"] }
     ];
+    ```
+
+#### Creating puzzle and solution bodies
+
+1. If the original puzzle is on a **Google Doc**, try exporting it as a Markdown file. Then put that in a Markdown-to-HTML converter like this [one](https://markdowntohtml.com/).
+
+4. If you want some vertical spacing between elements, use `mb-4`.
+
+   ```html
+    <div>
+        <p className="mb-4">Solve this puzzle.</p>
+        <Image src="/puzzle/sudoku-51.png" width={500} height={500} alt="" className="mb-4"/>
+    </div>
+   ```
+
+5. If you need a space between a `p` and a `span`, use `{" "}`.
+  
+      ```html
+      <p>This puzzle is{" "}<span className="underline">difficult</span>.
+      ```
+
+
+3. If there is an **image**, use the Next.js `Image` component instead of the `img` tag. Put it somewhere in the puzzle folder and call it like this:
+
+    ```html
+    import SUDOKU_51_ANSWER from "./solution/sudoku-51-answer.png";
+    <Image src={SUDOKU_51_ANSWER} width={500} height={500} alt="" />
+    ```
+
+    Next.js documentation will tell you to put images in the `public` folder. It is important that you **don't** put puzzle images there, because anyone can access it.
+
+4. If there is a **list**, use a [Tailwind utility](https://tailwindcss.com/docs/list-style-type). Otherwise, it won't show up. Here, we're using the `list-decimal` utility.
+
+    ```html
+    <ul className="list-decimal">
+        <li>One</li>
+        <li>Two</li>
+        <li>Three</li>
+    </ul>
+    ```
+
+
+5. If you want to **hide** some text, change the background using a `span`.
+
+    ```html
+    <p>The answer is{" "}<span className="bg-main-text">ANSWER</span>.
     ```
 
 ## Developer guide
@@ -228,7 +309,8 @@ There is more information on the [GitHub docs](https://docs.github.com/en/reposi
 
 #### Hunt Structure
 
-All of the customizable features of the hunt structure is in `hunt.config.ts`. To change how puzzles are unlocked, edit `getNextPuzzleMap` in `hunt.config.ts`. To change how many hints a team gets, edit `getTotalHints`.
+Most of the customizable features of the hunt structure is in `hunt.config.ts`.
+Edit `/puzzle/actions.ts` to change how it handles guesses and solves.
 
 #### Final Checks
 
@@ -240,7 +322,7 @@ Before registration starts,
 
 Before the hunt starts,
 1. Set `NUMBER_OF_GUESSES_PER_PUZZLE`
-6. Set `INITIAL_PUZZLES`, `getNextPuzzleMap`, and `checkFinishHunt`
+6. Set `INITIAL_PUZZLES` and `PUZZLE_UNLOCK_MAP`
 7. Set `getTotalHints`
 4. Remove the development puzzles in `src/app/(hunt)/puzzle/(dev)/`.
 

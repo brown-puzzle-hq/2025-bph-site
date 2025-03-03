@@ -9,11 +9,11 @@ export default function ErratumDialog({
 }) {
   if (errataList.length > 0) {
     return (
-      <Alert className="mb-6 mt-2 bg-main-bg text-main-text">
+      <Alert className="mb-6 mt-2 bg-inherit text-inherit">
         {errataList.map((e, index) => (
           <AlertDescription key={e.id} className="overflow-hidden break-words">
             {index != 0 && <br />}
-            <p className="whitespace-normal">
+            <p className="whitespace-pre-wrap">
               <strong>
                 Erratum <FormattedTime time={e.timestamp} />
               </strong>

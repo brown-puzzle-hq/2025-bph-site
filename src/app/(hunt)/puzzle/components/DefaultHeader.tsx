@@ -4,7 +4,8 @@ import { db } from "~/server/db";
 import { puzzles } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
-import { canViewPuzzle, canViewSolution, SEQUENCES } from "~/hunt.config";
+import { canViewPuzzle, canViewSolution } from "../actions";
+import { SEQUENCES } from "~/hunt.config";
 import { Triangle } from "lucide-react";
 
 export default async function DefaultHeader({
@@ -27,7 +28,7 @@ export default async function DefaultHeader({
           await Promise.all(
             seq.puzzles.map(async (puzzleId) => [
               puzzleId,
-              (await canViewPuzzle(puzzleId, session)) === "SUCCESS",
+              (await canViewPuzzle(puzzleId, session)) === "success",
             ]),
           ),
         ),
@@ -60,7 +61,7 @@ export default async function DefaultHeader({
                   {puzzId === puzzleId ? (
                     <Triangle className="pointer-events-none absolute -bottom-5 left-1/2 z-0 w-2 -translate-x-1/2 fill-current" />
                   ) : (
-                    <span className="pointer-events-none absolute -bottom-7 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-tooltip-bg px-2 py-1 text-xs font-medium text-main-text opacity-0 transition-opacity group-hover:opacity-100">
+                    <span className="pointer-events-none absolute -bottom-7 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-tooltip-bg px-2 py-1 text-xs font-medium text-main-text opacity-0 group-hover:opacity-100">
                       {puzzId}
                     </span>
                   )}
@@ -89,7 +90,7 @@ export default async function DefaultHeader({
             Hint
           </Link>
           {hasSolution &&
-            (await canViewSolution(puzzleId, session)) === "SUCCESS" && (
+            (await canViewSolution(puzzleId, session)) === "success" && (
               <>
                 <span className="text-gray-500">|</span>
                 <Link
