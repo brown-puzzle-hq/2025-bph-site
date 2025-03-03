@@ -1,98 +1,62 @@
 "use client";
-import "@pixi/events";
-import { Stage, Container, Sprite } from "@pixi/react";
-import { useMemo } from "react";
-import { PuzzleBlock, PuzzleSection } from "./types";
+import "leaflet/dist/leaflet.css"
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
+import "leaflet-defaulticon-compatibility"
+import { MapContainer, Marker, TileLayer, Popup, ImageOverlay } from "react-leaflet"
+import L, { LatLngBounds } from "leaflet";
 
-export default function Map({
-  puzzleIcons,
-  puzzleBlocks,
-  puzzleSections,
-}: {
-  puzzleIcons: PuzzleBlock[];
-  puzzleBlocks: PuzzleBlock[];
-  puzzleSections: PuzzleSection[];
-}) {
-  console.log("puzzleBlocks");
-  console.log(puzzleBlocks);
-  console.log("puzzleSections");
-  console.log(puzzleSections);
-
-  const scale = window.innerWidth / 1000;
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  const blockSize = 100 * scale;
-  // const backgroundUrl = "/map/cloud.png";
-
-  const backgroundUrl = "/map/Map-Layout-Small.jpeg";
-
-  // window.addEventListener("resize", () => { //not working??
-  //   const width: number = window.innerWidth;
-  //   const height: number = window.innerHeight;
-  // });
-
-  // Initialize sprites
-  const terrainSprites = useMemo(() => {
-    const puzzleBlockSprites = puzzleBlocks.map(({ i, j, url, puzzleId }) => (
-      <Sprite
-        key={`${i}-${j}-block`}
-        image={url}
-        x={j * blockSize}
-        y={i * blockSize}
-        scale={scale}
-        eventMode="dynamic"
-      />
-    ));
-
-    const puzzleSectionSprites = puzzleSections.map(({ i, j, url }) => (
-      <Sprite
-        key={`${i}-${j}-section`}
-        image={url}
-        x={j * blockSize}
-        y={i * blockSize}
-        scale={scale}
-        eventMode="dynamic"
-      />
-    ));
-    return [...puzzleBlockSprites, ...puzzleSectionSprites];
-  }, [puzzleBlocks, puzzleSections]);
-
-  const iconSprites = useMemo(() => {
-    const puzzleIconSprites = puzzleIcons.map(({ i, j, url, puzzleId }) => (
-      <Sprite
-        key={`${i}-${j}-icon`}
-        image={url}
-        x={j * blockSize}
-        y={i * blockSize}
-        scale={scale}
-        eventMode="dynamic"
-        pointerdown={() => onClick(`/puzzle/${puzzleId}`)} // Handle click event
-        pointerover={(event) => onHover(event.currentTarget)} // Handle hover event
-        pointerout={(event) => onHoverOut(event.currentTarget)}
-      />
-    ));
-    return puzzleIconSprites;
-  }, [puzzleIcons]);
-
-  const onClick = (link: string) => {
-    window.open(link, "_blank");
-  };
-
-  const onHover = (sprite: any) => {
-    sprite.tint = 0xe72264; // Change the tint color on hover
-    // sprite.scale.set(1.2); // Scale up the sprite on hover
-  };
-
-  const onHoverOut = (sprite: any) => {
-    sprite.tint = 0xffffff; // Reset tint color
-    // sprite.scale.set(1); // Reset scale
-  };
-
+export default function Map() {
+  const bounds = new LatLngBounds([0, 0], [1000, 1000]);
+  const colorlayout = "/map/Map-Layout-by-Section.png";
+  const layout = "/map/Map-Layout.png";
+  const buildings = "map/Map-Buildings.png";
   return (
-    <Stage width={width} height={height} className="rounded-md border-8 border-slate-800">
-      <Sprite image={backgroundUrl}></Sprite>
-      <Container>{terrainSprites}</Container>
-      <Container>{iconSprites}</Container>
-    </Stage>
+    <div className="fullscreen-container">
+      <MapContainer
+        center={[500, 500]}
+        zoom={0}
+        minZoom={-1}
+        maxZoom={2}
+        maxBounds={bounds}
+        maxBoundsViscosity={1.0}
+        crs={L.CRS.Simple}  // Tells Leaflet to use simple coordinate system
+        scrollWheelZoom={true}
+        style={{ height: "80vh", width: "90vw", background: "white" }}
+      >
+        <ImageOverlay url={colorlayout} bounds={bounds} />
+        {/* <ImageOverlay url={layout} bounds={bounds} /> */}
+        <ImageOverlay url={buildings} bounds={bounds} />
+        <Marker position={[579, 490]}>
+          <Popup>
+            sayles
+          </Popup>
+        </Marker>
+        <Marker position={[475, 413]}>
+          <Popup>
+            ratty
+          </Popup>
+        </Marker>
+        <Marker position={[483, 160]}>
+          <Popup>
+            keeney
+          </Popup>
+        </Marker>
+        <Marker position={[740, 365]}>
+          <Popup>
+            museum
+          </Popup>
+        </Marker>
+        <Marker position={[320, 575]}>
+          <Popup>
+            bdh
+          </Popup>
+        </Marker>
+        <Marker position={[560, 699]}>
+          <Popup>
+            scili
+          </Popup>
+        </Marker>
+      </MapContainer>
+    </div>
   );
 }
