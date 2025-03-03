@@ -1,7 +1,12 @@
 import { db } from "./server/db";
 import { hints } from "./server/db/schema";
 import { and, count, eq, ne } from "drizzle-orm";
-import { LucideIcon, ScrollText, ShieldCheck } from "lucide-react";
+import {
+  type LucideIcon,
+  ScrollText,
+  ShieldCheck,
+  TreePine,
+} from "lucide-react";
 
 /** REGISTRATION AND HUNT START */
 export const REGISTRATION_START_TIME = new Date("2024-11-17T17:00:00.000Z");
@@ -34,6 +39,7 @@ type Sequence = {
 export const SEQUENCES: Sequence[] = [
   { name: "A", icon: ScrollText, puzzles: ["seq1", "seq2"] },
   { name: "B", icon: ShieldCheck, puzzles: ["seq1", "seq3"] },
+  { icon: TreePine, puzzles: ["secret-ingredient"] },
 ];
 
 /** GUESSES */
