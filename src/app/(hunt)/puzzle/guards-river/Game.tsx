@@ -30,6 +30,7 @@ const SCALE = 0.75;
 const WIDTH = 1200;
 const HEIGHT = 800;
 const HEAVEN: Coordinates = { x: WIDTH / 2, y: HEIGHT * 10 };
+const BOATCAPACITY = 2;
 
 function clean(round: string[]) {
   if (round.length) {
@@ -46,16 +47,20 @@ function clean(round: string[]) {
 }
 
 export default function Game() {
-  const boatCapacity = 2;
   const [inBoat, setInBoat] = useState<Item[]>([]);
   const [moves, setMoves] = useState<Item[][]>([]);
+  const [deaths, setDeaths] = useState<Item[][]>([]);
   const [result, setResult] = useState<string>("");
   const [cursor, setCursor] = useState<"default" | "pointer" | "not-allowed">(
     "pointer",
   );
 
-  // TODO: a lot of these coordinates can probably be defined relative to each other
-  // i.e. to get from onleftboat to onrightboat, just define an offset?
+  const [wolfGuard, setWolfGuard] = useState<
+    "guard_1" | "guard_2" | "uncollapsed"
+  >("uncollapsed");
+  const [correctDoor, setCorrectDoor] = useState<
+    "door_1" | "door_2" | "uncollapsed"
+  >("uncollapsed");
 
   const onLeftCoordinates: Record<Item, Coordinates> = {
     guard_1: { x: 50, y: 500 },
@@ -142,7 +147,7 @@ export default function Game() {
     } // If they are off the boat but on the same shore, get on the boat
     else if (
       locations[key] === locations["boat"] &&
-      inBoat.length < boatCapacity
+      inBoat.length < BOATCAPACITY
     ) {
       setCursor("default");
       sprite.tint = 0xffffff;
@@ -160,11 +165,12 @@ export default function Game() {
 
     // Set the moved items in the boat
     setMoves((prevMoves) => [...prevMoves, inBoat]);
+    const sourceSide = locations["boat"];
 
     // Change the location of boat and the moved items
     setLocations((prevLocations) => {
       // Get the new boat and player locations
-      const newBoatLocation = locations["boat"] === "left" ? "right" : "left";
+      const newBoatLocation = sourceSide === "left" ? "right" : "left";
       const newPlayerLocation = newBoatLocation;
 
       // If they are on the boat, change their location
@@ -186,6 +192,116 @@ export default function Game() {
 
     // Set moved items in boat to none
     setInBoat([]);
+
+    // Set deaths
+    var newDeaths: Item[] = [];
+    var newWolfGuard = wolfGuard;
+    var newCorrectDoor = correctDoor;
+    if (
+      newWolfGuard === "uncollapsed"
+        ? locations["guard_1"] === sourceSide ||
+          locations["guard_2"] === sourceSide
+        : locations[newWolfGuard as Item] === sourceSide
+    ) {
+      if (
+        locations["guard_1"] === sourceSide &&
+        locations["guard_2"] === sourceSide
+      ) {
+        if (newWolfGuard === "uncollapsed") {
+          newWolfGuard = "guard_1";
+          newDeaths.push("guard_2");
+        }
+      }
+      if (
+        newCorrectDoor === "uncollapsed"
+          ? locations["door_1"] === sourceSide ||
+            locations["door_2"] === sourceSide
+          : locations[newCorrectDoor as Item] === sourceSide
+      ) {
+        if (newWolfGuard === "uncollapsed") {
+          newWolfGuard =
+            locations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
+        }
+        if (newCorrectDoor === "uncollapsed") {
+          newCorrectDoor =
+            locations["door_1"] === sourceSide ? "door_1" : "door_2";
+        }
+        newDeaths.push(newCorrectDoor as Item);
+      }
+    }
+    if (
+      newWolfGuard === "uncollapsed" &&
+      (locations["guard_1"] === sourceSide ||
+        locations["guard_2"] === sourceSide) &&
+      locations[newCorrectDoor === "door_1" ? "door_2" : "door_1"] ===
+        sourceSide
+    ) {
+      newWolfGuard =
+        locations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
+    }
+    if (
+      locations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
+      sourceSide
+    ) {
+      if (
+        locations["door_1"] === sourceSide &&
+        locations["door_2"] === sourceSide
+      ) {
+        newCorrectDoor = "door_1";
+        newDeaths.push("door_2");
+      } else if (locations["door_1"] === sourceSide) {
+        if (newCorrectDoor === "door_2") {
+          newDeaths.push("door_1");
+        }
+        if (newCorrectDoor === "uncollapsed") {
+          newCorrectDoor = "door_1";
+        }
+      } else if (locations["door_2"] === sourceSide) {
+        if (newCorrectDoor === "door_1") {
+          newDeaths.push("door_2");
+        }
+        if (newCorrectDoor === "uncollapsed") {
+          newCorrectDoor = "door_2";
+        }
+      }
+    }
+    if (locations["cabbage"] === sourceSide) {
+      if (
+        locations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
+        sourceSide
+      ) {
+        newDeaths.push("cabbage");
+      }
+      if (
+        newWolfGuard === "uncollapsed" &&
+        (locations["guard_1"] === sourceSide ||
+          locations["guard_2"] === sourceSide)
+      ) {
+        newWolfGuard = Math.random() < 0.5 ? "guard_1" : "guard_2";
+        if (
+          locations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
+          sourceSide
+        ) {
+          newDeaths.push("cabbage");
+        }
+      }
+    }
+    setWolfGuard(newWolfGuard);
+    setCorrectDoor(newCorrectDoor);
+
+    // Kill the items
+    setDeaths((prevDeaths) => [...prevDeaths, newDeaths]);
+    setLocations(
+      (prevLocations) =>
+        Object.fromEntries(
+          Object.entries(prevLocations).map(([key, value]) => {
+            if (newDeaths.includes(key as Item)) {
+              return [key, "dead"];
+            }
+            return [key, value];
+          }),
+        ) as Record<Item, Location>,
+    );
   };
 
   const onHover = (sprite: any, key: Item) => {
@@ -197,7 +313,7 @@ export default function Game() {
     if (
       key === "boat" ||
       inBoat.includes(key) ||
-      (locations[key] === locations["boat"] && inBoat.length < boatCapacity)
+      (locations[key] === locations["boat"] && inBoat.length < BOATCAPACITY)
     ) {
       setCursor("pointer");
       sprite.tint = 0xcbd5e1;
@@ -214,6 +330,7 @@ export default function Game() {
   const handleRestart = () => {
     setInBoat([]);
     setMoves([]);
+    setDeaths([]);
     setResult("");
     setLocations(startLocation);
   };
@@ -225,6 +342,7 @@ export default function Game() {
 
     if (moves.length > 0) {
       const lastMove = moves.pop()!;
+      const lastDeaths = deaths.pop()!;
       setInBoat([]);
 
       // Change the location of boat and the moved items
@@ -238,6 +356,9 @@ export default function Game() {
           Object.entries(prevLocations).map(([key, value]) => {
             if (lastMove.includes(key as Item)) {
               return [key, value === "left" ? "right" : "left"];
+            }
+            if (lastDeaths.includes(key as Item)) {
+              return [key, newBoatLocation];
             }
             return [key, value];
           }),
@@ -258,60 +379,60 @@ export default function Game() {
   };
 
   return (
-    <div className="flex space-x-4">
-      {/* Moves */}
-      <ScrollArea className="h-[600px] min-w-[11rem] rounded-md bg-footer-bg p-4">
-        <Table className="w-44">
-          <TableHeader>
-            <TableRow className="hover:bg-inherit">
-              <TableHead
-                className="text-lg font-bold text-main-text"
-                colSpan={2}
-              >
-                <div className="flex justify-between text-main-header">
-                  Moves
-                  <Undo2
-                    className={
-                      !moves.length || !!result
-                        ? "cursor-not-allowed rounded-md opacity-50"
-                        : "cursor-pointer rounded-md hover:opacity-75"
-                    }
-                    onClick={undo}
-                  />
-                </div>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {moves.map((round, index) => (
-              <TableRow className="hover:bg-inherit" key={index}>
-                <TableCell className="w-0 font-bold">
-                  {index % 2 ? (
-                    <ArrowDown className="h-4" />
-                  ) : (
-                    <ArrowUp className="h-4" />
-                  )}
-                </TableCell>
-                <TableCell className="font-bold">{clean(round)}</TableCell>
+    <div>
+      <div className="flex space-x-4">
+        {/* Moves */}
+        <ScrollArea className="h-[600px] min-w-[11rem] rounded-md bg-footer-bg p-4">
+          <Table className="w-44">
+            <TableHeader>
+              <TableRow className="hover:bg-inherit">
+                <TableHead
+                  className="text-lg font-bold text-main-text"
+                  colSpan={2}
+                >
+                  <div className="flex justify-between text-main-header">
+                    Moves
+                    <Undo2
+                      className={
+                        !moves.length || !!result
+                          ? "cursor-not-allowed rounded-md opacity-50"
+                          : "cursor-pointer rounded-md hover:opacity-75"
+                      }
+                      onClick={undo}
+                    />
+                  </div>
+                </TableHead>
               </TableRow>
-            ))}
-            {result && (
-              <TableRow>
-                <TableCell className="font-bold">
-                  {result === "Winning" ? (
-                    <Trophy className="h-4" />
-                  ) : (
-                    <Skull className="h-4" />
-                  )}
-                </TableCell>
-                <TableCell className="font-bold">{result}</TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </ScrollArea>
-      {/* Game */}
-      <div>
+            </TableHeader>
+            <TableBody>
+              {moves.map((round, index) => (
+                <TableRow className="hover:bg-inherit" key={index}>
+                  <TableCell className="w-0 font-bold">
+                    {index % 2 ? (
+                      <ArrowDown className="h-4" />
+                    ) : (
+                      <ArrowUp className="h-4" />
+                    )}
+                  </TableCell>
+                  <TableCell className="font-bold">{clean(round)}</TableCell>
+                </TableRow>
+              ))}
+              {result && (
+                <TableRow>
+                  <TableCell className="font-bold">
+                    {result === "Winning" ? (
+                      <Trophy className="h-4" />
+                    ) : (
+                      <Skull className="h-4" />
+                    )}
+                  </TableCell>
+                  <TableCell className="font-bold">{result}</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </ScrollArea>
+        {/* Game */}
         <Stage
           width={WIDTH * SCALE}
           height={HEIGHT * SCALE}
@@ -393,23 +514,74 @@ export default function Game() {
             hitArea={new Rectangle(20, 50, 260, 80)}
           />
         </Stage>
-        <div className="flex space-x-4 py-4">
-          <Button
-            className="font-bold"
-            disabled={!moves.length || !!result}
-            onClick={handleSubmission}
-          >
-            Enter Door
-          </Button>
-          <Button
-            className="font-bold text-secondary-accent"
-            disabled={!moves.length}
-            variant="outline"
-            onClick={handleRestart}
-          >
-            Restart
-          </Button>
-        </div>
+        {/* Deaths */}
+        <ScrollArea className="h-[600px] min-w-[11rem] rounded-md bg-footer-bg p-4">
+          <Table className="w-44">
+            <TableHeader>
+              <TableRow className="hover:bg-inherit">
+                <TableHead
+                  className="text-lg font-bold text-main-text"
+                  colSpan={2}
+                >
+                  <div className="flex justify-between text-main-header">
+                    Deaths
+                    <Undo2
+                      className={
+                        !deaths.length || !!result
+                          ? "cursor-not-allowed rounded-md opacity-50"
+                          : "cursor-pointer rounded-md hover:opacity-75"
+                      }
+                      onClick={undo}
+                    />
+                  </div>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {deaths.map((round, index) => (
+                <TableRow className="hover:bg-inherit" key={index}>
+                  <TableCell className="w-0 font-bold">
+                    {index % 2 ? (
+                      <ArrowDown className="h-4" />
+                    ) : (
+                      <ArrowUp className="h-4" />
+                    )}
+                  </TableCell>
+                  <TableCell className="font-bold">{clean(round)}</TableCell>
+                </TableRow>
+              ))}
+              {result && (
+                <TableRow>
+                  <TableCell className="font-bold">
+                    {result === "Winning" ? (
+                      <Trophy className="h-4" />
+                    ) : (
+                      <Skull className="h-4" />
+                    )}
+                  </TableCell>
+                  <TableCell className="font-bold">{result}</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </ScrollArea>
+      </div>
+      <div className="flex justify-center space-x-4 py-4">
+        <Button
+          className="font-bold"
+          disabled={!moves.length || !!result}
+          onClick={handleSubmission}
+        >
+          Enter Door
+        </Button>
+        <Button
+          className="font-bold text-secondary-accent"
+          disabled={!moves.length}
+          variant="outline"
+          onClick={handleRestart}
+        >
+          Restart
+        </Button>
       </div>
     </div>
   );

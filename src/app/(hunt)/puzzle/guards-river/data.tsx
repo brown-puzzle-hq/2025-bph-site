@@ -13,7 +13,7 @@ export const puzzleId = "guards-river";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
-  <div className="max-w-7xl text-center">
+  <div className="max-w-8xl text-center">
     <p className="mx-auto max-w-3xl italic">
       You are traveling with two guards, two doors, and a cabbage. You arrive at
       a river and find a boat. The boat can hold you and two other entities, and
