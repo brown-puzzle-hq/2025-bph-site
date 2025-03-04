@@ -410,14 +410,17 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
 
   const handleSubmission = async () => {
     if (
-      correctDoor === "uncollapsed" ||
-      locations[correctDoor] !== locations["player"]
+      correctDoor !== "uncollapsed" &&
+      locations[correctDoor] === locations["player"] &&
+      (await checkMoves(moves, isSolved))
     ) {
+      setResult("Winning");
+    } else {
+      setLocations((prevLocations) => {
+        return { ...prevLocations, player: "dead" };
+      });
       setResult("Losing");
-      return;
     }
-    const success = await checkMoves(moves, isSolved);
-    setResult(success ? "Winning" : "Losing");
   };
 
   return (
@@ -603,7 +606,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
               {result === "Losing" && (
                 <TableRow>
                   <TableCell className="w-0 font-bold">
-                    <Skull className="h-4" />
+                    <DoorOpen className="h-4" />
                   </TableCell>
                   <TableCell className="font-bold">You</TableCell>
                 </TableRow>
