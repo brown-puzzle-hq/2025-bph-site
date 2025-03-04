@@ -387,10 +387,10 @@ export default function Game() {
             <TableHeader>
               <TableRow className="hover:bg-inherit">
                 <TableHead
-                  className="text-lg font-bold text-main-text"
+                  className="text-lg font-bold text-main-header"
                   colSpan={2}
                 >
-                  <div className="flex justify-between text-main-header">
+                  <div className="flex justify-between">
                     Moves
                     <Undo2
                       className={
@@ -520,20 +520,10 @@ export default function Game() {
             <TableHeader>
               <TableRow className="hover:bg-inherit">
                 <TableHead
-                  className="text-lg font-bold text-main-text"
+                  className="text-lg font-bold text-main-header"
                   colSpan={2}
                 >
-                  <div className="flex justify-between text-main-header">
-                    Deaths
-                    <Undo2
-                      className={
-                        !deaths.length || !!result
-                          ? "cursor-not-allowed rounded-md opacity-50"
-                          : "cursor-pointer rounded-md hover:opacity-75"
-                      }
-                      onClick={undo}
-                    />
-                  </div>
+                  Deaths
                 </TableHead>
               </TableRow>
             </TableHeader>
