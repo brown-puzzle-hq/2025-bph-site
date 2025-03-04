@@ -23,12 +23,13 @@ export type Item =
   | "cabbage"
   | "boat"
   | "player";
-export type Location = "left" | "right";
+export type Location = "left" | "right" | "dead";
 export type Coordinates = { x: number; y: number };
-export type Position = {
-  location: Location;
-  coordinates: Coordinates;
-};
+
+const SCALE = 0.75;
+const WIDTH = 1200;
+const HEIGHT = 800;
+const HEAVEN: Coordinates = { x: WIDTH / 2, y: HEIGHT * 10 };
 
 function clean(round: string[]) {
   if (round.length) {
@@ -45,11 +46,6 @@ function clean(round: string[]) {
 }
 
 export default function Game() {
-  const scale = 0.75;
-  // TODO: set sizing
-  const width = 1200;
-  const height = 800;
-
   const boatCapacity = 2;
   const [inBoat, setInBoat] = useState<Item[]>([]);
   const [moves, setMoves] = useState<Item[][]>([]);
@@ -86,53 +82,50 @@ export default function Game() {
     guard_2: { x: 875, y: 200 },
     door_1: { x: 975, y: 175 },
     door_2: { x: 1075, y: 200 },
-    cabbage: { x: 1175, y: 300 },
+    cabbage: { x: 1125, y: 375 },
     boat: { x: 650, y: 450 },
     player: { x: 850, y: 375 },
   };
 
-  const onRightBoatCoordinates: Record<Item, Coordinates> = {
-    guard_1: { x: 725, y: 400 },
-    guard_2: { x: 725, y: 400 },
-    door_1: { x: 725, y: 400 },
-    door_2: { x: 725, y: 400 },
-    cabbage: { x: 725, y: 500 },
-    boat: { x: 0, y: 0 }, // This is not used
-    player: { x: 0, y: 0 }, // This is not used
+  const onRightBoatOffset: Coordinates = { x: 400, y: -125 };
+
+  const startLocation: Record<Item, Location> = {
+    guard_1: "left",
+    guard_2: "left",
+    door_1: "left",
+    door_2: "left",
+    cabbage: "left",
+    boat: "left",
+    player: "left",
   };
 
-  const startPosition: Record<Item, Position> = {
-    guard_1: { location: "left", coordinates: onLeftCoordinates["guard_1"] },
-    guard_2: { location: "left", coordinates: onLeftCoordinates["guard_2"] },
-    door_1: { location: "left", coordinates: onLeftCoordinates["door_1"] },
-    door_2: { location: "left", coordinates: onLeftCoordinates["door_2"] },
-    cabbage: { location: "left", coordinates: onLeftCoordinates["cabbage"] },
-    boat: { location: "left", coordinates: onLeftCoordinates["boat"] },
-    player: { location: "left", coordinates: onLeftCoordinates["player"] },
-  };
+  const [locations, setLocations] =
+    useState<Record<Item, Location>>(startLocation);
 
-  const [positions, setPositions] =
-    useState<Record<Item, Position>>(startPosition);
-
-  const getPosition = (key: Item) => {
+  const getCoordinates = (key: Item) => {
     // If it is in the boat, set to same location as boat
     if (inBoat.includes(key)) {
-      if (positions["boat"]!.location === "left") {
+      if (locations["boat"] === "left") {
         return {
           x: onLeftBoatCoordinates[key].x + 100 * inBoat.indexOf(key),
           y: onLeftBoatCoordinates[key].y,
         };
       } else {
         return {
-          x: onRightBoatCoordinates[key].x + 100 * inBoat.indexOf(key),
-          y: onRightBoatCoordinates[key].y,
+          x:
+            onLeftBoatCoordinates[key].x +
+            onRightBoatOffset.x +
+            100 * inBoat.indexOf(key),
+          y: onLeftBoatCoordinates[key].y + onRightBoatOffset.y,
         };
       }
     } // Otherwise, set to the current location
-    else if (positions[key]!.location === "left") {
+    else if (locations[key] === "left") {
       return onLeftCoordinates[key];
-    } else {
+    } else if (locations[key] === "right") {
       return onRightCoordinates[key];
+    } else {
+      return HEAVEN;
     }
   };
 
@@ -141,9 +134,6 @@ export default function Game() {
       return;
     }
 
-    const itemPosition = positions[key]!;
-    const boatPosition = positions["boat"]!;
-
     // If they are on the boat, get off the other shore
     if (inBoat.includes(key)) {
       setCursor("default");
@@ -151,7 +141,7 @@ export default function Game() {
       setInBoat((items) => items.filter((item) => item !== key));
     } // If they are off the boat but on the same shore, get on the boat
     else if (
-      itemPosition.location === boatPosition.location &&
+      locations[key] === locations["boat"] &&
       inBoat.length < boatCapacity
     ) {
       setCursor("default");
@@ -171,35 +161,26 @@ export default function Game() {
     // Set the moved items in the boat
     setMoves((prevMoves) => [...prevMoves, inBoat]);
 
-    // Change the position of boat and the moved items
-    setPositions((prevPositions) => {
-      // Get the new boat position
-      const newBoatPosition: Position =
-        positions["boat"]!.location === "left"
-          ? { location: "right", coordinates: onRightCoordinates["boat"] }
-          : { location: "left", coordinates: onLeftCoordinates["boat"] };
-
-      // Get the new player position
-      const newPlayerPosition: Position =
-        positions["player"]!.location === "left"
-          ? { location: "right", coordinates: onRightCoordinates["player"] }
-          : { location: "left", coordinates: onLeftCoordinates["player"] };
+    // Change the location of boat and the moved items
+    setLocations((prevLocations) => {
+      // Get the new boat and player locations
+      const newBoatLocation = locations["boat"] === "left" ? "right" : "left";
+      const newPlayerLocation = newBoatLocation;
 
       // If they are on the boat, change their location
-      const newPositions = Object.fromEntries(
-        Object.entries(prevPositions).map(([key, value]) => {
+      const newLocations = Object.fromEntries(
+        Object.entries(prevLocations).map(([key, value]) => {
           if (inBoat.includes(key as Item)) {
-            const newLocation = value.location === "left" ? "right" : "left";
-            return [key as Item, { ...value, location: newLocation }];
+            return [key, value === "left" ? "right" : "left"];
           }
-          return [key as Item, value];
+          return [key, value];
         }),
-      ) as Record<Item, Position>;
+      ) as Record<Item, Location>;
 
       return {
-        ...newPositions,
-        boat: newBoatPosition,
-        player: newPlayerPosition,
+        ...newLocations,
+        boat: newBoatLocation,
+        player: newPlayerLocation,
       };
     });
 
@@ -213,14 +194,10 @@ export default function Game() {
       return;
     }
 
-    const itemPosition = positions[key]!;
-    const boatPosition = positions["boat"]!;
-
     if (
       key === "boat" ||
       inBoat.includes(key) ||
-      (itemPosition.location === boatPosition.location &&
-        inBoat.length < boatCapacity)
+      (locations[key] === locations["boat"] && inBoat.length < boatCapacity)
     ) {
       setCursor("pointer");
       sprite.tint = 0xcbd5e1;
@@ -238,7 +215,7 @@ export default function Game() {
     setInBoat([]);
     setMoves([]);
     setResult("");
-    setPositions(startPosition);
+    setLocations(startLocation);
   };
 
   const undo = () => {
@@ -250,34 +227,26 @@ export default function Game() {
       const lastMove = moves.pop()!;
       setInBoat([]);
 
-      // Change the position of boat and the moved items
-      setPositions((prevPositions) => {
-        // Get the new boat location
-        const newBoatPosition: Position =
-          positions["boat"]!.location === "left"
-            ? { location: "right", coordinates: onRightCoordinates["boat"] }
-            : { location: "left", coordinates: onLeftCoordinates["boat"] };
-
-        const newPlayerPosition: Position =
-          positions["player"]!.location === "left"
-            ? { location: "right", coordinates: onRightCoordinates["player"] }
-            : { location: "left", coordinates: onLeftCoordinates["player"] };
+      // Change the location of boat and the moved items
+      setLocations((prevLocations) => {
+        // Get the new boat and player locations
+        const newBoatLocation = locations["boat"] === "left" ? "right" : "left";
+        const newPlayerLocation = newBoatLocation;
 
         // If they are on the boat, change their location
-        const newPositions = Object.fromEntries(
-          Object.entries(prevPositions).map(([key, value]) => {
+        const newLocations = Object.fromEntries(
+          Object.entries(prevLocations).map(([key, value]) => {
             if (lastMove.includes(key as Item)) {
-              const newLocation = value.location === "left" ? "right" : "left";
-              return [key as Item, { ...value, location: newLocation }];
+              return [key, value === "left" ? "right" : "left"];
             }
-            return [key as Item, value];
+            return [key, value];
           }),
-        ) as Record<Item, Position>;
+        ) as Record<Item, Location>;
 
         return {
-          ...newPositions,
-          boat: newBoatPosition,
-          player: newPlayerPosition,
+          ...newLocations,
+          boat: newBoatLocation,
+          player: newPlayerLocation,
         };
       });
     }
@@ -291,7 +260,7 @@ export default function Game() {
   return (
     <div className="flex space-x-4">
       {/* Moves */}
-      <ScrollArea className="h-[520] min-w-[11rem] rounded-md p-4">
+      <ScrollArea className="h-[600px] min-w-[11rem] rounded-md bg-footer-bg p-4">
         <Table className="w-44">
           <TableHeader>
             <TableRow className="hover:bg-inherit">
@@ -299,7 +268,7 @@ export default function Game() {
                 className="text-lg font-bold text-main-text"
                 colSpan={2}
               >
-                <div className="flex justify-between">
+                <div className="flex justify-between text-main-header">
                   Moves
                   <Undo2
                     className={
@@ -344,18 +313,18 @@ export default function Game() {
       {/* Game */}
       <div>
         <Stage
-          width={width * scale}
-          height={height * scale}
-          className="rounded-md border-8"
+          width={WIDTH * SCALE}
+          height={HEIGHT * SCALE}
+          className="rounded-md border-8 border-footer-bg"
           style={{ cursor }}
         >
-          <Sprite image={"river.png"} scale={2 * scale} />
+          <Sprite image={"river.png"} scale={2 * SCALE} />
           <Sprite
             image={"player.png"}
             eventMode="static"
-            x={getPosition("player").x * scale}
-            y={getPosition("player").y * scale}
-            scale={0.22 * scale}
+            x={getCoordinates("player").x * SCALE}
+            y={getCoordinates("player").y * SCALE}
+            scale={0.22 * SCALE}
           />
           <Sprite
             image={"guard.png"}
@@ -364,9 +333,9 @@ export default function Game() {
             pointerover={(event) => onHover(event.currentTarget, "guard_1")}
             pointerout={(event) => onHoverOut(event.currentTarget)}
             key="guard_1"
-            x={getPosition("guard_1").x * scale}
-            y={getPosition("guard_1").y * scale}
-            scale={0.15 * scale}
+            x={getCoordinates("guard_1").x * SCALE}
+            y={getCoordinates("guard_1").y * SCALE}
+            scale={0.15 * SCALE}
           />
           <Sprite
             image={"guard.png"}
@@ -375,9 +344,9 @@ export default function Game() {
             pointerover={(event) => onHover(event.currentTarget, "guard_2")}
             pointerout={(event) => onHoverOut(event.currentTarget)}
             key="guard_2"
-            x={getPosition("guard_2").x * scale}
-            y={getPosition("guard_2").y * scale}
-            scale={0.15 * scale}
+            x={getCoordinates("guard_2").x * SCALE}
+            y={getCoordinates("guard_2").y * SCALE}
+            scale={0.15 * SCALE}
           />
           <Sprite
             image={"cabbage.png"}
@@ -386,9 +355,9 @@ export default function Game() {
             pointerover={(event) => onHover(event.currentTarget, "cabbage")}
             pointerout={(event) => onHoverOut(event.currentTarget)}
             key="cabbage"
-            x={getPosition("cabbage").x * scale}
-            y={getPosition("cabbage").y * scale}
-            scale={0.15 * scale}
+            x={getCoordinates("cabbage").x * SCALE}
+            y={getCoordinates("cabbage").y * SCALE}
+            scale={0.15 * SCALE}
           />
           <Sprite
             image={"door.png"}
@@ -397,9 +366,9 @@ export default function Game() {
             pointerover={(event) => onHover(event.currentTarget, "door_1")}
             pointerout={(event) => onHoverOut(event.currentTarget)}
             key="door_1"
-            x={getPosition("door_1").x * scale}
-            y={getPosition("door_1").y * scale}
-            scale={0.4 * scale}
+            x={getCoordinates("door_1").x * SCALE}
+            y={getCoordinates("door_1").y * SCALE}
+            scale={0.4 * SCALE}
           />
           <Sprite
             image={"door.png"}
@@ -408,9 +377,9 @@ export default function Game() {
             pointerover={(event) => onHover(event.currentTarget, "door_2")}
             pointerout={(event) => onHoverOut(event.currentTarget)}
             key="door_2"
-            x={getPosition("door_2").x * scale}
-            y={getPosition("door_2").y * scale}
-            scale={0.4 * scale}
+            x={getCoordinates("door_2").x * SCALE}
+            y={getCoordinates("door_2").y * SCALE}
+            scale={0.4 * SCALE}
           />
           <Sprite
             image={"boat.png"}
@@ -418,9 +387,9 @@ export default function Game() {
             pointerdown={(event) => onClickBoat(event.currentTarget)}
             pointerover={(event) => onHover(event.currentTarget, "boat")}
             pointerout={(event) => onHoverOut(event.currentTarget)}
-            x={getPosition("boat").x * scale}
-            y={getPosition("boat").y * scale}
-            scale={1.5 * scale}
+            x={getCoordinates("boat").x * SCALE}
+            y={getCoordinates("boat").y * SCALE}
+            scale={1.5 * SCALE}
             hitArea={new Rectangle(20, 50, 260, 80)}
           />
         </Stage>
