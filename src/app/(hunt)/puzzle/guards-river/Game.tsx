@@ -16,12 +16,15 @@ import {
 import {
   ArrowLeft,
   ArrowRight,
+  DoorOpen,
   PanelLeft,
   PanelRight,
   Skull,
   Trophy,
   Undo2,
+  Waves,
 } from "lucide-react";
+import { checkMoves } from "./actions";
 
 export type Item =
   | "guard_1"
@@ -32,7 +35,7 @@ export type Item =
   | "boat"
   | "player";
 export type Location = "left" | "right" | "dead";
-export type Coordinates = { x: number; y: number };
+type Coordinates = { x: number; y: number };
 
 const SCALE = 0.75;
 const WIDTH = 1200;
@@ -54,7 +57,7 @@ function clean(round: string[]) {
   }
 }
 
-export default function Game() {
+export default function Game({ isSolved }: { isSolved: boolean }) {
   const [inBoat, setInBoat] = useState<Item[]>([]);
   const [moves, setMoves] = useState<Item[][]>([]);
   const [deaths, setDeaths] = useState<Item[][]>([]);
@@ -183,7 +186,7 @@ export default function Game() {
         };
       });
       setDeaths((prevDeaths) => [...prevDeaths, [...inBoat, "boat"]]);
-      setResult("Losing");
+      setResult("Cabbage");
       setInBoat([]);
       return;
     }
@@ -223,7 +226,7 @@ export default function Game() {
       newWolfGuard === "uncollapsed"
         ? newLocations["guard_1"] === sourceSide ||
           newLocations["guard_2"] === sourceSide
-        : newLocations[newWolfGuard as Item] === sourceSide
+        : newLocations[newWolfGuard] === sourceSide
     ) {
       if (
         newLocations["guard_1"] === sourceSide &&
@@ -238,7 +241,7 @@ export default function Game() {
         newCorrectDoor === "uncollapsed"
           ? newLocations["door_1"] === sourceSide ||
             newLocations["door_2"] === sourceSide
-          : newLocations[newCorrectDoor as Item] === sourceSide
+          : newLocations[newCorrectDoor] === sourceSide
       ) {
         if (newWolfGuard === "uncollapsed") {
           newWolfGuard =
@@ -248,7 +251,7 @@ export default function Game() {
           newCorrectDoor =
             newLocations["door_1"] === sourceSide ? "door_1" : "door_2";
         }
-        newDeaths.push(newCorrectDoor as Item);
+        newDeaths.push(newCorrectDoor);
       }
     }
     if (
@@ -383,6 +386,19 @@ export default function Game() {
           }),
         ) as Record<Item, Location>;
 
+        if (
+          newLocations["door_1"] !== "dead" &&
+          newLocations["door_2"] !== "dead"
+        ) {
+          setCorrectDoor("uncollapsed");
+        }
+        if (
+          newLocations["guard_1"] !== "dead" &&
+          newLocations["guard_2"] !== "dead"
+        ) {
+          setWolfGuard("uncollapsed");
+        }
+
         return {
           ...newLocations,
           boat: newBoatLocation,
@@ -393,12 +409,15 @@ export default function Game() {
   };
 
   const handleSubmission = async () => {
-    if (correctDoor === "uncollapsed") {
+    if (
+      correctDoor === "uncollapsed" ||
+      locations[correctDoor] !== locations["player"]
+    ) {
       setResult("Losing");
-    } else {
-      // TODO: use server action to verify moves, submit correct answer to puzzle, and set result
-      setResult("Winning");
+      return;
     }
+    const success = await checkMoves(moves, isSolved);
+    setResult(success ? "Winning" : "Losing");
   };
 
   return (
@@ -440,6 +459,14 @@ export default function Game() {
                   <TableCell className="font-bold">{clean(round)}</TableCell>
                 </TableRow>
               ))}
+              {(result === "Winning" || result === "Losing") && (
+                <TableRow className="hover:bg-inherit">
+                  <TableCell className="w-0 font-bold">
+                    <DoorOpen className="h-4" />
+                  </TableCell>
+                  <TableCell className="font-bold">You</TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </ScrollArea>
@@ -577,6 +604,14 @@ export default function Game() {
                 <TableRow>
                   <TableCell className="w-0 font-bold">
                     <Skull className="h-4" />
+                  </TableCell>
+                  <TableCell className="font-bold">You</TableCell>
+                </TableRow>
+              )}
+              {result === "Cabbage" && (
+                <TableRow className="hover:bg-inherit">
+                  <TableCell className="w-0 font-bold">
+                    <Waves className="h-4" />
                   </TableCell>
                   <TableCell className="font-bold">You</TableCell>
                 </TableRow>
