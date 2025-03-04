@@ -54,21 +54,7 @@ export const solutionBody = null;
  * The `copyText` should provide a convenient text representation of the puzzle
  * that can be copied to the clipboard. Set this to `null` to remove the copy button.
  */
-export const copyText = `You are traveling with two guards, two doors, and a cabbage. You arrive at
-a river and find a boat. The boat can hold you and two other entities, and
-it cannot cross the river without you.
-
-There is a wolf guard and a goat guard. The guards are indistinguishable.
-There are two doors: one will let you through to [Drama], and the other
-will end your puzzlehunt journey. The doors are also indistinguishable. If
-you leave the wolf guard with the correct door unattended, the wolf will
-eat it. If you leave the goat guard with the incorrect door, the goat will
-eat it as well. If you leave the wolf guard with the goat guard, the wolf
-will eat the goat. If you leave the goat guard with the cabbage, the goat
-guard will eat the cabbage. If you bring the cabbage on the boat, the
-cabbage will eat the boat, and you will drown (no one can swim) 💀.
-
-How can you ensure you go through the correct door?`;
+export const copyText = null;
 
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.

@@ -13,7 +13,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowDown, ArrowUp, Skull, Trophy, Undo2 } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  PanelLeft,
+  PanelRight,
+  Skull,
+  Trophy,
+  Undo2,
+} from "lucide-react";
 
 export type Item =
   | "guard_1"
@@ -135,10 +143,6 @@ export default function Game() {
   };
 
   const onClickItem = (sprite: any, key: Item) => {
-    if (result) {
-      return;
-    }
-
     // If they are on the boat, get off the other shore
     if (inBoat.includes(key)) {
       setCursor("default");
@@ -156,39 +160,57 @@ export default function Game() {
   };
 
   const onClickBoat = (sprite: any) => {
-    if (result) {
-      return;
-    }
-
     setCursor("default");
     sprite.tint = 0xffffff;
 
     // Set the moved items in the boat
     setMoves((prevMoves) => [...prevMoves, inBoat]);
+
+    if (inBoat.includes("cabbage")) {
+      setLocations((prevLocations) => {
+        const newLocations = Object.fromEntries(
+          Object.entries(prevLocations).map(([key, value]) => {
+            if (inBoat.includes(key as Item)) {
+              return [key, "dead"];
+            }
+            return [key, value];
+          }),
+        ) as Record<Item, Location>;
+        return {
+          ...newLocations,
+          boat: "dead",
+          player: "dead",
+        };
+      });
+      setDeaths((prevDeaths) => [...prevDeaths, [...inBoat, "boat"]]);
+      setResult("Losing");
+      setInBoat([]);
+      return;
+    }
+
     const sourceSide = locations["boat"];
 
     // Change the location of boat and the moved items
-    setLocations((prevLocations) => {
-      // Get the new boat and player locations
-      const newBoatLocation = sourceSide === "left" ? "right" : "left";
-      const newPlayerLocation = newBoatLocation;
+    var newLocations: Record<Item, Location>;
+    // Get the new boat and player locations
+    const newBoatLocation = sourceSide === "left" ? "right" : "left";
+    const newPlayerLocation = newBoatLocation;
 
-      // If they are on the boat, change their location
-      const newLocations = Object.fromEntries(
-        Object.entries(prevLocations).map(([key, value]) => {
-          if (inBoat.includes(key as Item)) {
-            return [key, value === "left" ? "right" : "left"];
-          }
-          return [key, value];
-        }),
-      ) as Record<Item, Location>;
+    // If they are on the boat, change their location
+    newLocations = Object.fromEntries(
+      Object.entries(locations).map(([key, value]) => {
+        if (inBoat.includes(key as Item)) {
+          return [key, value === "left" ? "right" : "left"];
+        }
+        return [key, value];
+      }),
+    ) as Record<Item, Location>;
 
-      return {
-        ...newLocations,
-        boat: newBoatLocation,
-        player: newPlayerLocation,
-      };
-    });
+    newLocations = {
+      ...newLocations,
+      boat: newBoatLocation,
+      player: newPlayerLocation,
+    };
 
     // Set moved items in boat to none
     setInBoat([]);
@@ -199,13 +221,13 @@ export default function Game() {
     var newCorrectDoor = correctDoor;
     if (
       newWolfGuard === "uncollapsed"
-        ? locations["guard_1"] === sourceSide ||
-          locations["guard_2"] === sourceSide
-        : locations[newWolfGuard as Item] === sourceSide
+        ? newLocations["guard_1"] === sourceSide ||
+          newLocations["guard_2"] === sourceSide
+        : newLocations[newWolfGuard as Item] === sourceSide
     ) {
       if (
-        locations["guard_1"] === sourceSide &&
-        locations["guard_2"] === sourceSide
+        newLocations["guard_1"] === sourceSide &&
+        newLocations["guard_2"] === sourceSide
       ) {
         if (newWolfGuard === "uncollapsed") {
           newWolfGuard = "guard_1";
@@ -214,49 +236,49 @@ export default function Game() {
       }
       if (
         newCorrectDoor === "uncollapsed"
-          ? locations["door_1"] === sourceSide ||
-            locations["door_2"] === sourceSide
-          : locations[newCorrectDoor as Item] === sourceSide
+          ? newLocations["door_1"] === sourceSide ||
+            newLocations["door_2"] === sourceSide
+          : newLocations[newCorrectDoor as Item] === sourceSide
       ) {
         if (newWolfGuard === "uncollapsed") {
           newWolfGuard =
-            locations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
+            newLocations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
         }
         if (newCorrectDoor === "uncollapsed") {
           newCorrectDoor =
-            locations["door_1"] === sourceSide ? "door_1" : "door_2";
+            newLocations["door_1"] === sourceSide ? "door_1" : "door_2";
         }
         newDeaths.push(newCorrectDoor as Item);
       }
     }
     if (
       newWolfGuard === "uncollapsed" &&
-      (locations["guard_1"] === sourceSide ||
-        locations["guard_2"] === sourceSide) &&
-      locations[newCorrectDoor === "door_1" ? "door_2" : "door_1"] ===
+      (newLocations["guard_1"] === sourceSide ||
+        newLocations["guard_2"] === sourceSide) &&
+      newLocations[newCorrectDoor === "door_1" ? "door_2" : "door_1"] ===
         sourceSide
     ) {
       newWolfGuard =
-        locations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
+        newLocations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
     }
     if (
-      locations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
+      newLocations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
       sourceSide
     ) {
       if (
-        locations["door_1"] === sourceSide &&
-        locations["door_2"] === sourceSide
+        newLocations["door_1"] === sourceSide &&
+        newLocations["door_2"] === sourceSide
       ) {
         newCorrectDoor = "door_1";
         newDeaths.push("door_2");
-      } else if (locations["door_1"] === sourceSide) {
+      } else if (newLocations["door_1"] === sourceSide) {
         if (newCorrectDoor === "door_2") {
           newDeaths.push("door_1");
         }
         if (newCorrectDoor === "uncollapsed") {
           newCorrectDoor = "door_1";
         }
-      } else if (locations["door_2"] === sourceSide) {
+      } else if (newLocations["door_2"] === sourceSide) {
         if (newCorrectDoor === "door_1") {
           newDeaths.push("door_2");
         }
@@ -265,21 +287,22 @@ export default function Game() {
         }
       }
     }
-    if (locations["cabbage"] === sourceSide) {
+    if (newLocations["cabbage"] === sourceSide) {
       if (
-        locations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
-        sourceSide
+        newWolfGuard !== "uncollapsed" &&
+        newLocations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
+          sourceSide
       ) {
         newDeaths.push("cabbage");
       }
       if (
         newWolfGuard === "uncollapsed" &&
-        (locations["guard_1"] === sourceSide ||
-          locations["guard_2"] === sourceSide)
+        (newLocations["guard_1"] === sourceSide ||
+          newLocations["guard_2"] === sourceSide)
       ) {
         newWolfGuard = Math.random() < 0.5 ? "guard_1" : "guard_2";
         if (
-          locations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
+          newLocations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
           sourceSide
         ) {
           newDeaths.push("cabbage");
@@ -292,24 +315,18 @@ export default function Game() {
     // Kill the items
     setDeaths((prevDeaths) => [...prevDeaths, newDeaths]);
     setLocations(
-      (prevLocations) =>
-        Object.fromEntries(
-          Object.entries(prevLocations).map(([key, value]) => {
-            if (newDeaths.includes(key as Item)) {
-              return [key, "dead"];
-            }
-            return [key, value];
-          }),
-        ) as Record<Item, Location>,
+      Object.fromEntries(
+        Object.entries(newLocations).map(([key, value]) => {
+          if (newDeaths.includes(key as Item)) {
+            return [key, "dead"];
+          }
+          return [key, value];
+        }),
+      ) as Record<Item, Location>,
     );
   };
 
   const onHover = (sprite: any, key: Item) => {
-    if (result) {
-      setCursor("not-allowed");
-      return;
-    }
-
     if (
       key === "boat" ||
       inBoat.includes(key) ||
@@ -332,6 +349,8 @@ export default function Game() {
     setMoves([]);
     setDeaths([]);
     setResult("");
+    setWolfGuard("uncollapsed");
+    setCorrectDoor("uncollapsed");
     setLocations(startLocation);
   };
 
@@ -374,8 +393,12 @@ export default function Game() {
   };
 
   const handleSubmission = async () => {
-    // TODO: use server action to verify moves, submit correct answer to puzzle, and set result
-    setResult("Winning");
+    if (correctDoor === "uncollapsed") {
+      setResult("Losing");
+    } else {
+      // TODO: use server action to verify moves, submit correct answer to puzzle, and set result
+      setResult("Winning");
+    }
   };
 
   return (
@@ -409,111 +432,121 @@ export default function Game() {
                 <TableRow className="hover:bg-inherit" key={index}>
                   <TableCell className="w-0 font-bold">
                     {index % 2 ? (
-                      <ArrowDown className="h-4" />
+                      <ArrowLeft className="h-4" />
                     ) : (
-                      <ArrowUp className="h-4" />
+                      <ArrowRight className="h-4" />
                     )}
                   </TableCell>
                   <TableCell className="font-bold">{clean(round)}</TableCell>
                 </TableRow>
               ))}
-              {result && (
-                <TableRow>
-                  <TableCell className="font-bold">
-                    {result === "Winning" ? (
-                      <Trophy className="h-4" />
-                    ) : (
-                      <Skull className="h-4" />
-                    )}
-                  </TableCell>
-                  <TableCell className="font-bold">{result}</TableCell>
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </ScrollArea>
-        {/* Game */}
-        <Stage
-          width={WIDTH * SCALE}
-          height={HEIGHT * SCALE}
-          className="rounded-md border-8 border-footer-bg"
-          style={{ cursor }}
-        >
-          <Sprite image={"river.png"} scale={2 * SCALE} />
-          <Sprite
-            image={"player.png"}
-            eventMode="static"
-            x={getCoordinates("player").x * SCALE}
-            y={getCoordinates("player").y * SCALE}
-            scale={0.22 * SCALE}
-          />
-          <Sprite
-            image={"guard.png"}
-            eventMode="dynamic"
-            pointerdown={(event) => onClickItem(event.currentTarget, "guard_1")}
-            pointerover={(event) => onHover(event.currentTarget, "guard_1")}
-            pointerout={(event) => onHoverOut(event.currentTarget)}
-            key="guard_1"
-            x={getCoordinates("guard_1").x * SCALE}
-            y={getCoordinates("guard_1").y * SCALE}
-            scale={0.15 * SCALE}
-          />
-          <Sprite
-            image={"guard.png"}
-            eventMode="dynamic"
-            pointerdown={(event) => onClickItem(event.currentTarget, "guard_2")}
-            pointerover={(event) => onHover(event.currentTarget, "guard_2")}
-            pointerout={(event) => onHoverOut(event.currentTarget)}
-            key="guard_2"
-            x={getCoordinates("guard_2").x * SCALE}
-            y={getCoordinates("guard_2").y * SCALE}
-            scale={0.15 * SCALE}
-          />
-          <Sprite
-            image={"cabbage.png"}
-            eventMode="dynamic"
-            pointerdown={(event) => onClickItem(event.currentTarget, "cabbage")}
-            pointerover={(event) => onHover(event.currentTarget, "cabbage")}
-            pointerout={(event) => onHoverOut(event.currentTarget)}
-            key="cabbage"
-            x={getCoordinates("cabbage").x * SCALE}
-            y={getCoordinates("cabbage").y * SCALE}
-            scale={0.15 * SCALE}
-          />
-          <Sprite
-            image={"door.png"}
-            eventMode="dynamic"
-            pointerdown={(event) => onClickItem(event.currentTarget, "door_1")}
-            pointerover={(event) => onHover(event.currentTarget, "door_1")}
-            pointerout={(event) => onHoverOut(event.currentTarget)}
-            key="door_1"
-            x={getCoordinates("door_1").x * SCALE}
-            y={getCoordinates("door_1").y * SCALE}
-            scale={0.4 * SCALE}
-          />
-          <Sprite
-            image={"door.png"}
-            eventMode="dynamic"
-            pointerdown={(event) => onClickItem(event.currentTarget, "door_2")}
-            pointerover={(event) => onHover(event.currentTarget, "door_2")}
-            pointerout={(event) => onHoverOut(event.currentTarget)}
-            key="door_2"
-            x={getCoordinates("door_2").x * SCALE}
-            y={getCoordinates("door_2").y * SCALE}
-            scale={0.4 * SCALE}
-          />
-          <Sprite
-            image={"boat.png"}
-            eventMode="static"
-            pointerdown={(event) => onClickBoat(event.currentTarget)}
-            pointerover={(event) => onHover(event.currentTarget, "boat")}
-            pointerout={(event) => onHoverOut(event.currentTarget)}
-            x={getCoordinates("boat").x * SCALE}
-            y={getCoordinates("boat").y * SCALE}
-            scale={1.5 * SCALE}
-            hitArea={new Rectangle(20, 50, 260, 80)}
-          />
-        </Stage>
+        <div className="relative">
+          {/* Game */}
+          <Stage
+            width={WIDTH * SCALE}
+            height={HEIGHT * SCALE}
+            className="rounded-md border-8 border-footer-bg"
+            style={{ cursor }}
+          >
+            <Sprite image={"river.png"} scale={2 * SCALE} />
+            <Sprite
+              image={"player.png"}
+              eventMode="static"
+              x={getCoordinates("player").x * SCALE}
+              y={getCoordinates("player").y * SCALE}
+              scale={0.22 * SCALE}
+            />
+            <Sprite
+              image={"guard.png"}
+              eventMode="dynamic"
+              pointerdown={(event) =>
+                onClickItem(event.currentTarget, "guard_1")
+              }
+              pointerover={(event) => onHover(event.currentTarget, "guard_1")}
+              pointerout={(event) => onHoverOut(event.currentTarget)}
+              key="guard_1"
+              x={getCoordinates("guard_1").x * SCALE}
+              y={getCoordinates("guard_1").y * SCALE}
+              scale={0.15 * SCALE}
+            />
+            <Sprite
+              image={"guard.png"}
+              eventMode="dynamic"
+              pointerdown={(event) =>
+                onClickItem(event.currentTarget, "guard_2")
+              }
+              pointerover={(event) => onHover(event.currentTarget, "guard_2")}
+              pointerout={(event) => onHoverOut(event.currentTarget)}
+              key="guard_2"
+              x={getCoordinates("guard_2").x * SCALE}
+              y={getCoordinates("guard_2").y * SCALE}
+              scale={0.15 * SCALE}
+            />
+            <Sprite
+              image={"cabbage.png"}
+              eventMode="dynamic"
+              pointerdown={(event) =>
+                onClickItem(event.currentTarget, "cabbage")
+              }
+              pointerover={(event) => onHover(event.currentTarget, "cabbage")}
+              pointerout={(event) => onHoverOut(event.currentTarget)}
+              key="cabbage"
+              x={getCoordinates("cabbage").x * SCALE}
+              y={getCoordinates("cabbage").y * SCALE}
+              scale={0.15 * SCALE}
+            />
+            <Sprite
+              image={"door.png"}
+              eventMode="dynamic"
+              pointerdown={(event) =>
+                onClickItem(event.currentTarget, "door_1")
+              }
+              pointerover={(event) => onHover(event.currentTarget, "door_1")}
+              pointerout={(event) => onHoverOut(event.currentTarget)}
+              key="door_1"
+              x={getCoordinates("door_1").x * SCALE}
+              y={getCoordinates("door_1").y * SCALE}
+              scale={0.4 * SCALE}
+            />
+            <Sprite
+              image={"door.png"}
+              eventMode="dynamic"
+              pointerdown={(event) =>
+                onClickItem(event.currentTarget, "door_2")
+              }
+              pointerover={(event) => onHover(event.currentTarget, "door_2")}
+              pointerout={(event) => onHoverOut(event.currentTarget)}
+              key="door_2"
+              x={getCoordinates("door_2").x * SCALE}
+              y={getCoordinates("door_2").y * SCALE}
+              scale={0.4 * SCALE}
+            />
+            <Sprite
+              image={"boat.png"}
+              eventMode="static"
+              pointerdown={(event) => onClickBoat(event.currentTarget)}
+              pointerover={(event) => onHover(event.currentTarget, "boat")}
+              pointerout={(event) => onHoverOut(event.currentTarget)}
+              x={getCoordinates("boat").x * SCALE}
+              y={getCoordinates("boat").y * SCALE}
+              scale={1.5 * SCALE}
+              hitArea={new Rectangle(20, 50, 260, 80)}
+            />
+          </Stage>
+          {/* Result overlay */}
+          {result && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              {result === "Winning" ? (
+                <Trophy className="h-1/2 w-1/2" />
+              ) : (
+                <Skull className="h-1/2 w-1/2" />
+              )}
+            </div>
+          )}
+        </div>
         {/* Deaths */}
         <ScrollArea className="h-[600px] min-w-[11rem] rounded-md bg-footer-bg p-4">
           <Table className="w-44">
@@ -532,24 +565,20 @@ export default function Game() {
                 <TableRow className="hover:bg-inherit" key={index}>
                   <TableCell className="w-0 font-bold">
                     {index % 2 ? (
-                      <ArrowDown className="h-4" />
+                      <PanelRight className="h-4" />
                     ) : (
-                      <ArrowUp className="h-4" />
+                      <PanelLeft className="h-4" />
                     )}
                   </TableCell>
                   <TableCell className="font-bold">{clean(round)}</TableCell>
                 </TableRow>
               ))}
-              {result && (
+              {result === "Losing" && (
                 <TableRow>
-                  <TableCell className="font-bold">
-                    {result === "Winning" ? (
-                      <Trophy className="h-4" />
-                    ) : (
-                      <Skull className="h-4" />
-                    )}
+                  <TableCell className="w-0 font-bold">
+                    <Skull className="h-4" />
                   </TableCell>
-                  <TableCell className="font-bold">{result}</TableCell>
+                  <TableCell className="font-bold">You</TableCell>
                 </TableRow>
               )}
             </TableBody>
@@ -558,15 +587,19 @@ export default function Game() {
       </div>
       <div className="flex justify-center space-x-4 py-4">
         <Button
-          className="font-bold"
-          disabled={!moves.length || !!result}
+          className="font-semibold"
+          disabled={
+            !!result ||
+            (locations["door_1"] !== locations["player"] &&
+              locations["door_2"] !== locations["player"])
+          }
           onClick={handleSubmission}
         >
           Enter Door
         </Button>
         <Button
-          className="font-bold text-secondary-accent"
-          disabled={!moves.length}
+          className="font-semibold text-secondary-accent"
+          disabled={!moves.length && !result && inBoat.length === 0}
           variant="outline"
           onClick={handleRestart}
         >
