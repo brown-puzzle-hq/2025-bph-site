@@ -234,8 +234,8 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
       ) {
         if (newWolfGuard === "uncollapsed") {
           newWolfGuard = "guard_1";
-          newDeaths.push("guard_2");
         }
+        newDeaths.push(newWolfGuard === "guard_1" ? "guard_2" : "guard_1")
       }
       if (
         newCorrectDoor === "uncollapsed"
