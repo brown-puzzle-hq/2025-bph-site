@@ -129,12 +129,9 @@ export async function checkMovesSeeded(moves: Item[][], rand_collapse: Boolean) 
     }
   });
 
-  if (
+  return (
     correctDoor !== "uncollapsed" &&
     locations[correctDoor as Item] === locations["player"] &&
     winning
-  ) {
-    return true;
-  }
-  return false;
+  );
 }
