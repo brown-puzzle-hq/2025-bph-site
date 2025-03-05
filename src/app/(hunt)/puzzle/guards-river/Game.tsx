@@ -232,9 +232,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
         newLocations["guard_1"] === sourceSide &&
         newLocations["guard_2"] === sourceSide
       ) {
-        if (newWolfGuard === "uncollapsed") {
-          newWolfGuard = "guard_1";
-        }
+        if (newWolfGuard === "uncollapsed") newWolfGuard = "guard_1";
         newDeaths.push(newWolfGuard === "guard_1" ? "guard_2" : "guard_1")
       }
       if (
