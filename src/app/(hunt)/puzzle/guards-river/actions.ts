@@ -5,14 +5,20 @@ import { handleGuess } from "../actions";
 import { puzzleId } from "./data";
 
 export async function checkMoves(moves: Item[][], isSolved: boolean) {
-  if (await checkMovesSeeded(moves, true) || await checkMovesSeeded(moves, false)) {
+  if (
+    (await checkMovesSeeded(moves, true)) ||
+    (await checkMovesSeeded(moves, false))
+  ) {
     if (!isSolved) handleGuess(puzzleId, "KELPIEMUTT");
     return true;
   }
   return false;
 }
 
-export async function checkMovesSeeded(moves: Item[][], rand_collapse: Boolean) {
+export async function checkMovesSeeded(
+  moves: Item[][],
+  rand_collapse: Boolean,
+) {
   var locations: Record<Item, Location> = {
     guard_1: "left",
     guard_2: "left",
