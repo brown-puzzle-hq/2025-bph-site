@@ -5,6 +5,14 @@ import { handleGuess } from "../actions";
 import { puzzleId } from "./data";
 
 export async function checkMoves(moves: Item[][], isSolved: boolean) {
+  if (await checkMovesSeeded(moves, true) || await checkMovesSeeded(moves, false)) {
+    if (!isSolved) handleGuess(puzzleId, "KELPIEMUTT");
+    return true;
+  }
+  return false;
+}
+
+export async function checkMovesSeeded(moves: Item[][], rand_collapse: Boolean) {
   var locations: Record<Item, Location> = {
     guard_1: "left",
     guard_2: "left",
@@ -110,7 +118,7 @@ export async function checkMoves(moves: Item[][], isSolved: boolean) {
         (locations["guard_1"] === sourceSide ||
           locations["guard_2"] === sourceSide)
       ) {
-        wolfGuard = Math.random() < 0.5 ? "guard_1" : "guard_2";
+        wolfGuard = rand_collapse ? "guard_1" : "guard_2";
         if (
           locations[wolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
           sourceSide
@@ -126,7 +134,6 @@ export async function checkMoves(moves: Item[][], isSolved: boolean) {
     locations[correctDoor as Item] === locations["player"] &&
     winning
   ) {
-    if (!isSolved) handleGuess(puzzleId, "KELPIEMUTT");
     return true;
   }
   return false;
