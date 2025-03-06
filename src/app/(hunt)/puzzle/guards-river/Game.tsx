@@ -297,6 +297,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
         }
         if (newCorrectDoor === "uncollapsed") {
           newCorrectDoor = "door_2";
+          newCollapses.push(newCorrectDoor);
         }
       }
     }
