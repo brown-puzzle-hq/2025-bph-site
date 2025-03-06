@@ -356,7 +356,13 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
   };
 
   const undo = () => {
-    if (result) {
+    if (result === "Cabbage") {
+      setResult("");
+    } else if (result) {
+      setResult("");
+      setLocations((prevLocations) => {
+        return { ...prevLocations, player: prevLocations["boat"] };
+      });
       return;
     }
 
@@ -435,14 +441,13 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
                 >
                   <div className="flex justify-between">
                     Moves
-                    <Undo2
-                      className={
-                        !moves.length || !!result
-                          ? "cursor-not-allowed rounded-md opacity-50"
-                          : "cursor-pointer rounded-md hover:opacity-75"
-                      }
+                    <button
                       onClick={undo}
-                    />
+                      className="cursor-pointer rounded-md hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-50"
+                      disabled={!moves.length && !result}
+                    >
+                      <Undo2 />
+                    </button>
                   </div>
                 </TableHead>
               </TableRow>
