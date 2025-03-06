@@ -429,9 +429,9 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
 
   return (
     <div>
-      <div className="flex space-x-4">
+      <div className="flex max-w-[calc(100vw-32px)] overflow-auto">
         {/* Moves */}
-        <ScrollArea className="h-[600px] min-w-[11rem] rounded-md bg-footer-bg p-4">
+        <ScrollArea className="mr-4 hidden h-[600px] min-w-[13rem] rounded-md bg-footer-bg p-4 lg:block">
           <Table className="w-44">
             <TableHeader>
               <TableRow className="hover:bg-inherit">
@@ -581,7 +581,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
           )}
         </div>
         {/* Deaths */}
-        <ScrollArea className="h-[600px] min-w-[11rem] rounded-md bg-footer-bg p-4">
+        <ScrollArea className="ml-4 hidden h-[600px] min-w-[13rem] rounded-md bg-footer-bg p-4 lg:block">
           <Table className="w-44">
             <TableHeader>
               <TableRow className="hover:bg-inherit">

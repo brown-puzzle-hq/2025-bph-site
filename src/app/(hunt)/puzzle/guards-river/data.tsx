@@ -14,7 +14,7 @@ export const puzzleId = "guards-river";
  */
 export function inPersonBody(isSolved: boolean) {
   return (
-    <div className="max-w-8xl text-center">
+    <div className="text-center">
       <p className="mx-auto max-w-3xl italic">
         You are traveling with two guards, two doors, and a cabbage. You arrive
         at a river and find a boat. The boat can hold you and two other
