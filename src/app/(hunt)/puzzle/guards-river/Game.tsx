@@ -61,6 +61,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
   const [inBoat, setInBoat] = useState<Item[]>([]);
   const [moves, setMoves] = useState<Item[][]>([]);
   const [deaths, setDeaths] = useState<Item[][]>([]);
+  const [collapses, setCollapses] = useState<Item[][]>([]);
   const [result, setResult] = useState<string>("");
   const [cursor, setCursor] = useState<"default" | "pointer" | "not-allowed">(
     "pointer",
@@ -220,6 +221,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
 
     // Set deaths
     var newDeaths: Item[] = [];
+    var newCollapses: Item[] = [];
     var newWolfGuard = wolfGuard;
     var newCorrectDoor = correctDoor;
     if (
@@ -232,7 +234,10 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
         newLocations["guard_1"] === sourceSide &&
         newLocations["guard_2"] === sourceSide
       ) {
-        if (newWolfGuard === "uncollapsed") newWolfGuard = "guard_1";
+        if (newWolfGuard === "uncollapsed") {
+          newWolfGuard = "guard_1";
+          newCollapses.push(newWolfGuard);
+        }
         newDeaths.push(newWolfGuard === "guard_1" ? "guard_2" : "guard_1");
       }
       if (
@@ -244,10 +249,12 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
         if (newWolfGuard === "uncollapsed") {
           newWolfGuard =
             newLocations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
+          newCollapses.push(newWolfGuard);
         }
         if (newCorrectDoor === "uncollapsed") {
           newCorrectDoor =
             newLocations["door_1"] === sourceSide ? "door_1" : "door_2";
+            newCollapses.push(newCorrectDoor);
         }
         newDeaths.push(newCorrectDoor);
       }
@@ -261,6 +268,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
     ) {
       newWolfGuard =
         newLocations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
+      newCollapses.push(newWolfGuard);
     }
     if (
       newLocations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
@@ -271,6 +279,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
         newLocations["door_2"] === sourceSide
       ) {
         newCorrectDoor = "door_1";
+        newCollapses.push(newCorrectDoor);
         newDeaths.push("door_2");
       } else if (newLocations["door_1"] === sourceSide) {
         if (newCorrectDoor === "door_2") {
@@ -278,6 +287,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
         }
         if (newCorrectDoor === "uncollapsed") {
           newCorrectDoor = "door_1";
+          newCollapses.push(newCorrectDoor);
         }
       } else if (newLocations["door_2"] === sourceSide) {
         if (newCorrectDoor === "door_1") {
@@ -302,6 +312,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
           newLocations["guard_2"] === sourceSide)
       ) {
         newWolfGuard = Math.random() < 0.5 ? "guard_1" : "guard_2";
+        newCollapses.push(newWolfGuard);
         if (
           newLocations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
           sourceSide
@@ -315,6 +326,8 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
 
     // Kill the items
     setDeaths((prevDeaths) => [...prevDeaths, newDeaths]);
+    setCollapses((prevCollapses) => [...prevCollapses, newCollapses]);
+
     setLocations(
       Object.fromEntries(
         Object.entries(newLocations).map(([key, value]) => {
@@ -369,6 +382,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
     if (moves.length > 0) {
       const lastMove = moves.pop()!;
       const lastDeaths = deaths.pop()!;
+      const lastCollapses = collapses.pop()!;
       setInBoat([]);
 
       // Change the location of boat and the moved items
@@ -391,16 +405,16 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
         ) as Record<Item, Location>;
 
         if (
-          newLocations["door_1"] !== "dead" &&
-          newLocations["door_2"] !== "dead"
-        ) {
-          setCorrectDoor("uncollapsed");
-        }
-        if (
-          newLocations["guard_1"] !== "dead" &&
-          newLocations["guard_2"] !== "dead"
+          lastCollapses.includes("guard_1" as Item) ||
+          lastCollapses.includes("guard_2" as Item)
         ) {
           setWolfGuard("uncollapsed");
+        }
+        if (
+          lastCollapses.includes("door_1" as Item) ||
+          lastCollapses.includes("door_2" as Item)
+        ) {
+          setCorrectDoor("uncollapsed");
         }
 
         return {
