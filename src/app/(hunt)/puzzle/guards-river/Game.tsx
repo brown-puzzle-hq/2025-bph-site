@@ -254,7 +254,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
         if (newCorrectDoor === "uncollapsed") {
           newCorrectDoor =
             newLocations["door_1"] === sourceSide ? "door_1" : "door_2";
-            newCollapses.push(newCorrectDoor);
+          newCollapses.push(newCorrectDoor);
         }
         newDeaths.push(newCorrectDoor);
       }
