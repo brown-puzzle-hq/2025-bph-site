@@ -55,19 +55,19 @@ export default async function DefaultHeader({
             {seq.puzzles.map((puzzId) =>
               unlocked[puzzId] ? (
                 <div className="group relative">
-                  <Link href={`/puzzle/${puzzId}`}>
-                    <seq.icon />
+                  <Link className="text-2xl" href={`/puzzle/${puzzId}`}>
+                    {seq.icon}
                   </Link>
                   {puzzId === puzzleId ? (
-                    <Triangle className="pointer-events-none absolute -bottom-5 left-1/2 z-0 w-2 -translate-x-1/2 fill-current" />
+                    <Triangle className="pointer-events-none absolute -bottom-4 left-1/2 z-0 w-2 -translate-x-1/2 fill-current" />
                   ) : (
-                    <span className="pointer-events-none absolute -bottom-7 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-tooltip-bg px-2 py-1 text-xs font-medium text-main-text opacity-0 group-hover:opacity-100">
+                    <span className="pointer-events-none absolute -bottom-6 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-tooltip-bg px-2 py-1 text-xs font-medium text-main-text opacity-0 group-hover:opacity-100">
                       {puzzId}
                     </span>
                   )}
                 </div>
               ) : (
-                <seq.icon className="text-gray-500" />
+                <p className="text-2xl opacity-50">{seq.icon}</p>
               ),
             )}
           </div>
