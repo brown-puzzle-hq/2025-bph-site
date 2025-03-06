@@ -267,7 +267,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
       newLocations[newCorrectDoor === "door_1" ? "door_2" : "door_1"] ===
         sourceSide
     ) {
-      console.log("WARNING: HIT IMPOSSIBLE BLOCK")
+      console.log("WARNING: HIT IMPOSSIBLE BLOCK");
       // newWolfGuard =
       //   newLocations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
       // newCollapses.push(newWolfGuard);
