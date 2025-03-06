@@ -263,12 +263,14 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
       newWolfGuard === "uncollapsed" &&
       (newLocations["guard_1"] === sourceSide ||
         newLocations["guard_2"] === sourceSide) &&
+      // newCorrectDoor !== "uncollapsed" &&
       newLocations[newCorrectDoor === "door_1" ? "door_2" : "door_1"] ===
         sourceSide
     ) {
-      newWolfGuard =
-        newLocations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
-      newCollapses.push(newWolfGuard);
+      console.log("WARNING: HIT IMPOSSIBLE BLOCK")
+      // newWolfGuard =
+      //   newLocations["guard_1"] === sourceSide ? "guard_1" : "guard_2";
+      // newCollapses.push(newWolfGuard);
     }
     if (
       newLocations[newWolfGuard === "guard_1" ? "guard_2" : "guard_1"] ===
