@@ -48,8 +48,8 @@ export default async function DefaultHeader({
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex space-x-2 px-4">
+    <div className="flex flex-col items-center px-4">
+      <div className="flex space-x-2">
         {sequences.map((seq) => (
           <div className="flex space-x-2">
             {seq.puzzles.map((puzzId) =>
