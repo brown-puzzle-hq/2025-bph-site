@@ -12,11 +12,7 @@ export const puzzleId = "one-guard-screen";
  * The body renders above the guess submission form. Put flavor text, images,
  * and interactive puzzle components here.
  */
-export const inPersonBody = (
-  <div className="flex justify-center">
-    <Game />
-  </div>
-);
+export const inPersonBody = <Game />;
 
 export const remoteBoxBody = inPersonBody;
 
