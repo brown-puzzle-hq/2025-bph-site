@@ -75,7 +75,7 @@ export default function Game() {
           </Stage>
         </div>
       </div>
-      <div className="flex space-x-4 items-center">
+      <div className="flex items-center space-x-4">
         <button
           onClick={() => setRunning(!running)}
           className="hover:opacity-85"
@@ -94,7 +94,10 @@ export default function Game() {
           step={1}
           onValueChange={(value) => setRate(value[0]!)}
         />
-        <p className="text-xl w-9 font-mono">{rate}<span className="text-lg">x</span></p>
+        <p className="w-9 font-mono text-xl">
+          {rate}
+          <span className="text-lg">x</span>
+        </p>
       </div>
     </div>
   );
