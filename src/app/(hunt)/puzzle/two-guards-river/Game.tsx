@@ -26,13 +26,12 @@ import {
 } from "lucide-react";
 import { checkMoves } from "./actions";
 import Image from "next/image";
-import RIVER from "./river.png"
-import PLAYER from "./player.png"
-import GUARD from "./guard.png"
-import CABBAGE from "./cabbage.png"
-import DOOR from "./door.png"
-import BOAT from "./boat.png"
-
+import RIVER from "./river.png";
+import PLAYER from "./player.png";
+import GUARD from "./guard.png";
+import CABBAGE from "./cabbage.png";
+import DOOR from "./door.png";
+import BOAT from "./boat.png";
 
 export type Item =
   | "guard_1"
