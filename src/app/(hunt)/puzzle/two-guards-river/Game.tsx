@@ -25,6 +25,14 @@ import {
   Waves,
 } from "lucide-react";
 import { checkMoves } from "./actions";
+import Image from "next/image";
+import RIVER from "./river.png"
+import PLAYER from "./player.png"
+import GUARD from "./guard.png"
+import CABBAGE from "./cabbage.png"
+import DOOR from "./door.png"
+import BOAT from "./boat.png"
+
 
 export type Item =
   | "guard_1"
@@ -488,16 +496,16 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
             className="rounded-md border-8 border-footer-bg"
             style={{ cursor }}
           >
-            <Sprite image={"river.png"} scale={2 * SCALE} />
+            <Sprite image={RIVER.src} scale={2 * SCALE} />
             <Sprite
-              image={"player.png"}
+              image={PLAYER.src}
               eventMode="static"
               x={getCoordinates("player").x * SCALE}
               y={getCoordinates("player").y * SCALE}
               scale={0.22 * SCALE}
             />
             <Sprite
-              image={"guard.png"}
+              image={GUARD.src}
               eventMode="dynamic"
               pointerdown={(event) =>
                 onClickItem(event.currentTarget, "guard_1")
@@ -510,7 +518,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
               scale={0.15 * SCALE}
             />
             <Sprite
-              image={"guard.png"}
+              image={GUARD.src}
               eventMode="dynamic"
               pointerdown={(event) =>
                 onClickItem(event.currentTarget, "guard_2")
@@ -523,7 +531,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
               scale={0.15 * SCALE}
             />
             <Sprite
-              image={"cabbage.png"}
+              image={CABBAGE.src}
               eventMode="dynamic"
               pointerdown={(event) =>
                 onClickItem(event.currentTarget, "cabbage")
@@ -536,7 +544,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
               scale={0.15 * SCALE}
             />
             <Sprite
-              image={"door.png"}
+              image={DOOR.src}
               eventMode="dynamic"
               pointerdown={(event) =>
                 onClickItem(event.currentTarget, "door_1")
@@ -549,7 +557,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
               scale={0.4 * SCALE}
             />
             <Sprite
-              image={"door.png"}
+              image={DOOR.src}
               eventMode="dynamic"
               pointerdown={(event) =>
                 onClickItem(event.currentTarget, "door_2")
@@ -562,7 +570,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
               scale={0.4 * SCALE}
             />
             <Sprite
-              image={"boat.png"}
+              image={BOAT.src}
               eventMode="static"
               pointerdown={(event) => onClickBoat(event.currentTarget)}
               pointerover={(event) => onHover(event.currentTarget, "boat")}
