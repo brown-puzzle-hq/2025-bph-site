@@ -22,7 +22,7 @@ export const puzzleId = "watching-between-the-lines";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
-  <div className="max-w-3xl text-center flex items-center flex-col space-y-4">
+  <div className="flex max-w-3xl flex-col items-center space-y-4 text-center">
     <p className="space-y-4 text-lg font-medium">
       <span className="font-bold">F</span>or{" "}
       <span className="font-bold">T</span>he{" "}
