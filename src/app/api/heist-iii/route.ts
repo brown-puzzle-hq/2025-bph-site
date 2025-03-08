@@ -7,7 +7,7 @@ import { canViewPuzzle } from "~/app/(hunt)/puzzle/actions";
 export async function GET() {
   // Authentication
   const session = await auth();
-  const viewStatus = await canViewPuzzle("heist-ii", session);
+  const viewStatus = await canViewPuzzle("heist-iii", session);
   if (viewStatus !== "success") {
     return new NextResponse(null, { status: 404 });
   }
@@ -18,8 +18,8 @@ export async function GET() {
     "app",
     "(hunt)",
     "puzzle",
-    "heist-ii",
-    "heist-ii.html",
+    "heist-iii",
+    "heist-iii.html",
   );
 
   try {
@@ -32,7 +32,7 @@ export async function GET() {
     return new NextResponse(fileContent, {
       headers: {
         "Content-Type": "text/html",
-        "Content-Disposition": "inline; filename=heist-ii.html",
+        "Content-Disposition": "inline; filename=heist-iii.html",
       },
     });
   } catch (error) {
