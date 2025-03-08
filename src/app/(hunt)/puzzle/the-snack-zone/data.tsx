@@ -23,53 +23,134 @@ export const puzzleId = "the-snack-zone";
  */
 export const inPersonBody = (
   <div className="max-w-3xl text-center">
-    <div className="flex justify-center mb-10">
-      <video className="w-full h-64 sm:h-80 lg:h-96">
+    <div className="mb-10 flex justify-center">
+      <video className="h-64 w-full sm:h-80 lg:h-96">
         <source src="" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
 
     <div className="border-[2px] border-black bg-gray-500 px-8 py-12">
-      <div className="grid grid-cols-3 gap-[2px] p-[2px] bg-black shadow-lg">
-        <div className="bg-white text-white text-center">
-          <Image src={SNACK_I} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+      <div className="grid grid-cols-3 gap-[2px] bg-black p-[2px] shadow-lg">
+        <div className="bg-white text-center text-white">
+          <Image
+            src={SNACK_I}
+            alt=""
+            width={1280}
+            height={721}
+            className="mb-4"
+            draggable="false"
+          />
         </div>
-        <div className="bg-white text-white text-center">
-          <Image src={SNACK_D} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+        <div className="bg-white text-center text-white">
+          <Image
+            src={SNACK_D}
+            alt=""
+            width={1280}
+            height={721}
+            className="mb-4"
+            draggable="false"
+          />
         </div>
-        <div className="bg-white text-white text-center">
-          <Image src={SNACK_G} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+        <div className="bg-white text-center text-white">
+          <Image
+            src={SNACK_G}
+            alt=""
+            width={1280}
+            height={721}
+            className="mb-4"
+            draggable="false"
+          />
         </div>
-        <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[I]: NZ$5.02</div>
-        <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[D]: NZ$5.03</div>
-        <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[G]: NZ$5.04</div>
+        <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+          [I]: NZ$5.02
+        </div>
+        <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+          [D]: NZ$5.03
+        </div>
+        <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+          [G]: NZ$5.04
+        </div>
 
-        <div className="bg-white text-white text-center">
-          <Image src={SNACK_F} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+        <div className="bg-white text-center text-white">
+          <Image
+            src={SNACK_F}
+            alt=""
+            width={1280}
+            height={721}
+            className="mb-4"
+            draggable="false"
+          />
         </div>
-        <div className="bg-white text-white text-center">
-          <Image src={SNACK_E} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+        <div className="bg-white text-center text-white">
+          <Image
+            src={SNACK_E}
+            alt=""
+            width={1280}
+            height={721}
+            className="mb-4"
+            draggable="false"
+          />
         </div>
-        <div className="bg-white text-white text-center">
-          <Image src={SNACK_C} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+        <div className="bg-white text-center text-white">
+          <Image
+            src={SNACK_C}
+            alt=""
+            width={1280}
+            height={721}
+            className="mb-4"
+            draggable="false"
+          />
         </div>
-        <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[F]: NZ$5.05</div>
-        <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[E]: NZ$5.08</div>
-        <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[C]: €7.03</div>
+        <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+          [F]: NZ$5.05
+        </div>
+        <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+          [E]: NZ$5.08
+        </div>
+        <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+          [C]: €7.03
+        </div>
 
-        <div className="bg-white text-white text-center">
-          <Image src={SNACK_B} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+        <div className="bg-white text-center text-white">
+          <Image
+            src={SNACK_B}
+            alt=""
+            width={1280}
+            height={721}
+            className="mb-4"
+            draggable="false"
+          />
         </div>
-        <div className="bg-white text-white text-center">
-          <Image src={SNACK_A} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+        <div className="bg-white text-center text-white">
+          <Image
+            src={SNACK_A}
+            alt=""
+            width={1280}
+            height={721}
+            className="mb-4"
+            draggable="false"
+          />
         </div>
-        <div className="bg-white text-white text-center">
-          <Image src={SNACK_H} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+        <div className="bg-white text-center text-white">
+          <Image
+            src={SNACK_H}
+            alt=""
+            width={1280}
+            height={721}
+            className="mb-4"
+            draggable="false"
+          />
         </div>
-        <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[B]: AU$10.02</div>
-        <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[A]: AU$10.04</div>
-        <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[H]: ¥12.07</div>
+        <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+          [B]: AU$10.02
+        </div>
+        <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+          [A]: AU$10.04
+        </div>
+        <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+          [H]: ¥12.07
+        </div>
       </div>
     </div>
   </div>
@@ -80,50 +161,134 @@ export const remoteBoxBody = inPersonBody;
 export const remoteBody = (
   <div className="max-w-3xl text-center">
     <div className="max-w-3xl text-center">
-      <div className="flex justify-center mb-10">
-        <iframe className="w-full h-64 sm:h-80 lg:h-96" src="https://drive.google.com/file/d/1VTwQuOE-T1f5Cprc4bwacRfd3e3j3fzL/view?usp=sharing"></iframe>
+      <div className="mb-10 flex justify-center">
+        <iframe
+          className="h-64 w-full sm:h-80 lg:h-96"
+          src="https://drive.google.com/file/d/1VTwQuOE-T1f5Cprc4bwacRfd3e3j3fzL/view?usp=sharing"
+        ></iframe>
       </div>
 
       <div className="border-[2px] border-black bg-gray-500 px-8 py-12">
-        <div className="grid grid-cols-3 gap-[2px] p-[2px] bg-black shadow-lg">
-          <div className="bg-white text-white text-center">
-            <Image src={SNACK_I} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+        <div className="grid grid-cols-3 gap-[2px] bg-black p-[2px] shadow-lg">
+          <div className="bg-white text-center text-white">
+            <Image
+              src={SNACK_I}
+              alt=""
+              width={1280}
+              height={721}
+              className="mb-4"
+              draggable="false"
+            />
           </div>
-          <div className="bg-white text-white text-center">
-            <Image src={SNACK_D} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+          <div className="bg-white text-center text-white">
+            <Image
+              src={SNACK_D}
+              alt=""
+              width={1280}
+              height={721}
+              className="mb-4"
+              draggable="false"
+            />
           </div>
-          <div className="bg-white text-white text-center">
-            <Image src={SNACK_G} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+          <div className="bg-white text-center text-white">
+            <Image
+              src={SNACK_G}
+              alt=""
+              width={1280}
+              height={721}
+              className="mb-4"
+              draggable="false"
+            />
           </div>
-          <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[I]: NZ$5.02</div>
-          <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[D]: NZ$5.03</div>
-          <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[G]: NZ$5.04</div>
+          <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+            [I]: NZ$5.02
+          </div>
+          <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+            [D]: NZ$5.03
+          </div>
+          <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+            [G]: NZ$5.04
+          </div>
 
-          <div className="bg-white text-white text-center">
-            <Image src={SNACK_F} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+          <div className="bg-white text-center text-white">
+            <Image
+              src={SNACK_F}
+              alt=""
+              width={1280}
+              height={721}
+              className="mb-4"
+              draggable="false"
+            />
           </div>
-          <div className="bg-white text-white text-center">
-            <Image src={SNACK_E} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+          <div className="bg-white text-center text-white">
+            <Image
+              src={SNACK_E}
+              alt=""
+              width={1280}
+              height={721}
+              className="mb-4"
+              draggable="false"
+            />
           </div>
-          <div className="bg-white text-white text-center">
-            <Image src={SNACK_C} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+          <div className="bg-white text-center text-white">
+            <Image
+              src={SNACK_C}
+              alt=""
+              width={1280}
+              height={721}
+              className="mb-4"
+              draggable="false"
+            />
           </div>
-          <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[F]: NZ$5.05</div>
-          <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[E]: NZ$5.08</div>
-          <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[C]: €7.03</div>
+          <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+            [F]: NZ$5.05
+          </div>
+          <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+            [E]: NZ$5.08
+          </div>
+          <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+            [C]: €7.03
+          </div>
 
-          <div className="bg-white text-white text-center">
-            <Image src={SNACK_B} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+          <div className="bg-white text-center text-white">
+            <Image
+              src={SNACK_B}
+              alt=""
+              width={1280}
+              height={721}
+              className="mb-4"
+              draggable="false"
+            />
           </div>
-          <div className="bg-white text-white text-center">
-            <Image src={SNACK_A} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+          <div className="bg-white text-center text-white">
+            <Image
+              src={SNACK_A}
+              alt=""
+              width={1280}
+              height={721}
+              className="mb-4"
+              draggable="false"
+            />
           </div>
-          <div className="bg-white text-white text-center">
-            <Image src={SNACK_H} alt="" width={1280} height={721} className="mb-4" draggable="false" />
+          <div className="bg-white text-center text-white">
+            <Image
+              src={SNACK_H}
+              alt=""
+              width={1280}
+              height={721}
+              className="mb-4"
+              draggable="false"
+            />
           </div>
-          <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[B]: AU$10.02</div>
-          <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[A]: AU$10.04</div>
-          <div className="bg-black text-white text-center p-3 font-['Courier_New','Courier',monospace] font-bold text-2xl">[H]: ¥12.07</div>
+          <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+            [B]: AU$10.02
+          </div>
+          <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+            [A]: AU$10.04
+          </div>
+          <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
+            [H]: ¥12.07
+          </div>
         </div>
       </div>
     </div>
@@ -136,11 +301,43 @@ export const remoteBody = (
  */
 export const solutionBody = (
   <div className="max-w-3xl text-center">
-    <p className="text-left mb-4">This puzzle is a reference to a recurring segment on Jet Lag: The Game known as <a className="text-blue-400 underline" href="https://jetlag.fandom.com/wiki/The_Snack_Zone" target="_blank">The Snack Zone</a>. This segment occurs when a player / combo of players (usually Ben and Adam) sample a local snack and offer their review. It is generally accompanied by a cute little theme song and graphic which I’d kinda like to splice into the video but that might be too obvious.</p>
-    <p className="text-left mb-4">At this point, solvers should know who Ben Doyle is and understand what Jet Lag is. Between the video and the puzzle title, they should find the term ‘the snack zone’ suspicious and look it up to figure out what exactly that term means. </p>
-    <p className="text-left mb-4">After briefly looking into the Snack Zone and perhaps perusing the wiki, it should become clear that the snacks in the vending machine have all made appearances on episodes of the snack zone. This is further confirmed by the ‘prices’, which contain currencies of the country where the episode was filmed as well as the season and episode of the segment represented as dollars and cents respectively. Prices are given chronologically. </p>
-    <p className="text-left mb-4">This should help to ID the snacks, but solvers may also need to watch the clips of specific snacks to confirm packaging matches. Some packaging is easier to find than others online, but the wiki should get most of the way there and internet sleuthing can ID the rest. Taking the letters indicated with an ‘O’ and ordering A-I produces a final answer of SAUVIGNON.</p>
-    <table className="min-w-full table-auto border-collapse mb-4">
+    <p className="mb-4 text-left">
+      This puzzle is a reference to a recurring segment on Jet Lag: The Game
+      known as{" "}
+      <a
+        className="text-blue-400 underline"
+        href="https://jetlag.fandom.com/wiki/The_Snack_Zone"
+        target="_blank"
+      >
+        The Snack Zone
+      </a>
+      . This segment occurs when a player / combo of players (usually Ben and
+      Adam) sample a local snack and offer their review. It is generally
+      accompanied by a cute little theme song and graphic which I’d kinda like
+      to splice into the video but that might be too obvious.
+    </p>
+    <p className="mb-4 text-left">
+      At this point, solvers should know who Ben Doyle is and understand what
+      Jet Lag is. Between the video and the puzzle title, they should find the
+      term ‘the snack zone’ suspicious and look it up to figure out what exactly
+      that term means.{" "}
+    </p>
+    <p className="mb-4 text-left">
+      After briefly looking into the Snack Zone and perhaps perusing the wiki,
+      it should become clear that the snacks in the vending machine have all
+      made appearances on episodes of the snack zone. This is further confirmed
+      by the ‘prices’, which contain currencies of the country where the episode
+      was filmed as well as the season and episode of the segment represented as
+      dollars and cents respectively. Prices are given chronologically.{" "}
+    </p>
+    <p className="mb-4 text-left">
+      This should help to ID the snacks, but solvers may also need to watch the
+      clips of specific snacks to confirm packaging matches. Some packaging is
+      easier to find than others online, but the wiki should get most of the way
+      there and internet sleuthing can ID the rest. Taking the letters indicated
+      with an ‘O’ and ordering A-I produces a final answer of SAUVIGNON.
+    </p>
+    <table className="mb-4 min-w-full table-auto border-collapse">
       <thead>
         <tr>
           <th className="text-left">Letter</th>
@@ -216,7 +413,12 @@ export const solutionBody = (
         </tr>
       </tbody>
     </table>
-    <p>** Small inelegance that may or may not be an issue: Rashuns are listed as the first snack on the wiki, but the show hasn’t officially been named ‘The Snack Zone’ yet and the intro doesn’t play. Probably only diehards will care about this but just a note.</p>
+    <p>
+      ** Small inelegance that may or may not be an issue: Rashuns are listed as
+      the first snack on the wiki, but the show hasn’t officially been named
+      ‘The Snack Zone’ yet and the intro doesn’t play. Probably only diehards
+      will care about this but just a note.
+    </p>
   </div>
 );
 
@@ -241,12 +443,6 @@ export const partialSolutions: Record<string, string> = {
  * more content will be added to the puzzle body. Keys must be in all caps, no spaces.
  */
 export const tasks: Record<string, JSX.Element> = {
-  EX: (
-    <div className="max-w-3xl text-center">
-    </div>
-  ),
-  EXAM: (
-    <div className="max-w-3xl text-center">
-    </div>
-  ),
+  EX: <div className="max-w-3xl text-center"></div>,
+  EXAM: <div className="max-w-3xl text-center"></div>,
 };
