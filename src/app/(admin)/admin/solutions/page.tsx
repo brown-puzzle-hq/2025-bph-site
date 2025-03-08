@@ -36,7 +36,7 @@ export default async function Home() {
         })),
       );
 
-      var puzzleBody;
+      var inPersonBody;
       var solutionBody;
       var copyText;
 
@@ -45,7 +45,7 @@ export default async function Home() {
         const module = await import(
           `../../../(hunt)/puzzle/${puzzle.id}/data.tsx`
         );
-        puzzleBody = !!module.puzzleBody;
+        inPersonBody = !!module.inPersonBody;
         solutionBody = !!module.solutionBody;
         copyText = module.copyText;
       } catch (e) {
@@ -54,11 +54,11 @@ export default async function Home() {
           const module = await import(
             `../../../(hunt)/puzzle/(dev)/${puzzle.id}/data.tsx`
           );
-          puzzleBody = !!module.puzzleBody;
+          inPersonBody = !!module.inPersonBody;
           solutionBody = !!module.solutionBody;
           copyText = module.copyText;
         } catch (e) {
-          puzzleBody = null;
+          inPersonBody = null;
           solutionBody = null;
           copyText = null;
         }
@@ -67,7 +67,7 @@ export default async function Home() {
       return {
         ...puzzle,
         nextUnlocks: nextUnlocks,
-        puzzleBody: puzzleBody,
+        inPersonBody: inPersonBody,
         solutionBody: solutionBody,
         copyText: copyText,
       };
@@ -75,19 +75,21 @@ export default async function Home() {
   );
 
   return (
-    <div className="flex grow flex-col items-center px-4">
-      <h1 className="mb-2">Solutions!</h1>
-      <div className="min-w-[60%]">
-        <Table className="justify-center">
+    <div className="container mx-auto mb-12">
+      <h1 className="mb-2 text-center">Puzzles</h1>
+      <div className="overflow-y-auto rounded-md px-4">
+        <Table>
           <TableHeader>
             <TableRow className="hover:bg-inherit">
-              <TableHead className="w-1/3">Name</TableHead>
+              <TableHead className="w-1/3 min-w-56">Name</TableHead>
               <TableHead className="w-1/3">Answer</TableHead>
-              <TableHead className="w-1/3">Next Unlock</TableHead>
-              <TableHead className="w-4">Puzzle</TableHead>
-              <TableHead className="w-4">Solution</TableHead>
-              <TableHead className="w-4">Statistics</TableHead>
-              <TableHead className="w-4">Copy</TableHead>
+              <TableHead className="w-1/3 whitespace-nowrap">
+                Next Unlock
+              </TableHead>
+              <TableHead className="w-fit">Puzzle</TableHead>
+              <TableHead className="w-fit">Solution</TableHead>
+              <TableHead className="w-fit">Statistics</TableHead>
+              <TableHead className="w-fit">Copy</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -127,7 +129,7 @@ export default async function Home() {
                     ))}
                   </TableCell>
                   <TableCell className="justify-center">
-                    {puzzle.puzzleBody && (
+                    {puzzle.inPersonBody && (
                       <div className="flex justify-center">
                         <Link href={`/puzzle/${puzzle.id}`}>
                           <Puzzle className="text-red-500 hover:opacity-75" />
