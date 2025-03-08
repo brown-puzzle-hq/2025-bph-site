@@ -124,22 +124,14 @@ export const solutionBody = (
       The other word in each pair is deduced from the course title on Courses @
       Brown. For example, EDUC 0610 is “Brown v. Board of Education and the
       History of School Desegregation.” Since "hoard" is in the book title, the
-      The other word in each pair is deduced from the course title on Courses @
-      Brown. For example, EDUC 0610 is “Brown v. Board of Education and the
-      History of School Desegregation.” Since "hoard" is in the book title, the
       matching word must be "Board."
     </p>
     <p>
       Now we have some letters that are in the book words but not in the class
       titles, and some letters that are in the class titles and not in the book
       words. Use the letters that are in the class titles, not the book words.
-      Now we have some letters that are in the book words but not in the class
-      titles, and some letters that are in the class titles and not in the book
-      words. Use the letters that are in the class titles, not the book words.
     </p>
     <p className="text-lg font-semibold">
-      These letters spell out <span className="text-blue-300">BANNER</span>, the
-      answer to the puzzle.
       These letters spell out <span className="text-main-accent">BANNER</span>,
       the answer to the puzzle.
     </p>
