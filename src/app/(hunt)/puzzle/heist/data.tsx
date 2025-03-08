@@ -12,7 +12,7 @@ export const puzzleId = "heist";
  */
 
 export const inPersonBody = (
-  <iframe src="/api/heist" width="750" height="600" />
+  <iframe src="/api/puzzle/heist" width="750" height="600" />
 );
 
 export const remoteBoxBody = inPersonBody;

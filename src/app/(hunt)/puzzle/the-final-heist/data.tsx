@@ -4,7 +4,7 @@
  * Feel free to make this creative, because the route to the puzzle will be
  * example.com/puzzle/puzzleId.
  */
-export const puzzleId = "heist-iii";
+export const puzzleId = "the-final-heist";
 
 /**
  * The `puzzleBody` renders above the guess submission form. Put flavor text, images,
@@ -12,7 +12,7 @@ export const puzzleId = "heist-iii";
  */
 
 export const inPersonBody = (
-  <iframe src="/api/puzzle/heist-iii" width="750" height="600" />
+  <iframe src="/api/puzzle/the-final-heist" width="750" height="600" />
 );
 
 export const remoteBoxBody = inPersonBody;
