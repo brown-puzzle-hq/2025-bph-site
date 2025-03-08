@@ -5,9 +5,11 @@ import { NextResponse } from "next/server";
 import { canViewPuzzle } from "~/app/(hunt)/puzzle/actions";
 
 export async function GET() {
+  const puzzleId = "the-final-heist";
+
   // Authentication
   const session = await auth();
-  const viewStatus = await canViewPuzzle("the-final-heist", session);
+  const viewStatus = await canViewPuzzle(puzzleId, session);
   if (viewStatus !== "success") {
     return new NextResponse(null, { status: 404 });
   }
@@ -18,8 +20,8 @@ export async function GET() {
     "app",
     "(hunt)",
     "puzzle",
-    "the-final-heist",
-    "the-final-heist.html",
+    puzzleId,
+    `${puzzleId}.html`,
   );
 
   try {
@@ -32,7 +34,7 @@ export async function GET() {
     return new NextResponse(fileContent, {
       headers: {
         "Content-Type": "text/html",
-        "Content-Disposition": "inline; filename=the-final-heist.html",
+        "Content-Disposition": `inline; filename=${puzzleId}.html`,
       },
     });
   } catch (error) {

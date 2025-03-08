@@ -6,8 +6,9 @@ import { canViewPuzzle } from "~/app/(hunt)/puzzle/actions";
 
 export async function GET(req: any) {
   // Authentication
+  const puzzleId = "find-ben";
   const session = await auth();
-  const viewStatus = await canViewPuzzle("heist", session);
+  const viewStatus = await canViewPuzzle(puzzleId, session);
   if (viewStatus !== "success") {
     return new NextResponse(null, { status: 404 });
   }
@@ -18,9 +19,9 @@ export async function GET(req: any) {
     "app",
     "(hunt)",
     "puzzle",
-    "find-ben",
+    puzzleId,
     "media",
-    "find-ben.mp4",
+    `${puzzleId}.mp4`,
   );
 
   try {
