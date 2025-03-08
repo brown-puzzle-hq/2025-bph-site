@@ -6,7 +6,23 @@ import { CirclePause, CirclePlay } from "lucide-react";
 
 const WIDTH = 900;
 const HEIGHT = 600;
+const RADIUS = 15;
+const ANSWER = "ABCDEFGHIJKLMNOP";
+
 const TTL = 100;
+const SPEED = 2;
+const DESTX = (WIDTH * 3) / 4;
+const MULT = (DESTX - WIDTH / 4) / (WIDTH / 4 + RADIUS);
+
+function randomIndex(): number {
+  let u = 1 - Math.random();
+  let v = Math.random();
+  let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v); // Standard Normal (0,1)
+
+  let num = 7.5 + z * 3;
+
+  return Math.max(0, Math.min(15, Math.round(num)));
+}
 
 const EventComponent = ({
   running,
@@ -22,6 +38,7 @@ const EventComponent = ({
       y: number;
       dx: number;
       dy: number;
+      destY: number;
       letter: string;
       ttl: number;
     }[]
@@ -32,14 +49,14 @@ const EventComponent = ({
   const drawWall = useCallback((g: any) => {
     g.clear();
     g.beginFill(0x000000);
-    g.drawRect(-25, 0, 50, HEIGHT);
+    g.drawRect(-HEIGHT / 32, 0, HEIGHT / 16, HEIGHT);
     g.endFill();
   }, []);
 
   const drawDoor = useCallback((g: any) => {
     g.clear();
     g.beginFill(0x5a3a1a);
-    g.drawRect(-25, -25, 50, 50);
+    g.drawRect(-HEIGHT / 32, -HEIGHT / 32, HEIGHT / 16, HEIGHT / 16);
     g.endFill();
   }, []);
 
@@ -50,17 +67,29 @@ const EventComponent = ({
     elapsedTime.current += (delta / 60) * rate;
 
     if (elapsedTime.current >= 10) {
-      console.log("New guard spawned!");
       elapsedTime.current = 0;
+      const index =
+        window.innerWidth > 960
+          ? Math.random() < 0.5
+            ? 5
+            : 10
+          : randomIndex();
+      const destY = (HEIGHT * index) / 16 + HEIGHT / 32;
+      const doorY = index < 8 ? HEIGHT / 3 : (HEIGHT * 2) / 3;
+      const startY = doorY + (doorY - destY) / MULT;
+      const dx =
+        (SPEED * (DESTX + RADIUS)) /
+        Math.sqrt(Math.pow(destY - startY, 2) + Math.pow(DESTX + RADIUS, 2));
       setGuards((prev) => [
         ...prev,
         {
           id: guardId.current++,
-          x: -20,
-          y: Math.random() < 0.5 ? HEIGHT / 3 : (HEIGHT * 2) / 3,
-          dx: 2,
-          dy: 0,
-          letter: "G",
+          x: -RADIUS,
+          y: startY,
+          dx: dx,
+          dy: ((destY - startY) * dx) / (DESTX + RADIUS),
+          destY: destY,
+          letter: ANSWER.at(index)!,
           ttl: TTL,
         },
       ]);
@@ -70,10 +99,10 @@ const EventComponent = ({
     setGuards((prev) =>
       prev
         .map((guard) => {
-          if (guard.x < (WIDTH * 3) / 4) {
+          if (guard.x < DESTX) {
             return { ...guard, x: guard.x + guard.dx, y: guard.y + guard.dy };
           } else {
-            return { ...guard, x: (WIDTH * 3) / 4, ttl: guard.ttl - 1 };
+            return { ...guard, x: DESTX, y: guard.destY, ttl: guard.ttl - 1 };
           }
         })
         .filter((guard) => guard.ttl > 0),
@@ -83,7 +112,7 @@ const EventComponent = ({
   return (
     <Container>
       <Graphics draw={drawWall} x={WIDTH / 4} y={0} />
-      <Graphics draw={drawWall} x={(WIDTH * 3) / 4} y={0} />
+      <Graphics draw={drawWall} x={DESTX} y={0} />
       <Graphics draw={drawDoor} x={WIDTH / 4} y={HEIGHT / 3} />
       <Graphics draw={drawDoor} x={WIDTH / 4} y={(HEIGHT * 2) / 3} />
       {guards.map((guard) => (
@@ -93,10 +122,8 @@ const EventComponent = ({
             draw={(g) => {
               g.clear();
               g.beginFill(guard.ttl == TTL ? 0xcce0ff : 0xffff00);
-              g.drawCircle(0, 0, 20);
+              g.drawCircle(0, 0, RADIUS);
               g.endFill();
-              g.lineStyle(2, 0x000000);
-              g.drawCircle(0, 0, 20);
             }}
             alpha={guard.ttl / TTL}
           />
