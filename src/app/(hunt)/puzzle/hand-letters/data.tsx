@@ -51,9 +51,12 @@ export const solutionBody = (
  * The `copyText` should provide a convenient text representation of the puzzle
  * that can be copied to the clipboard. Set this to `null` to remove the copy button.
  */
-export const copyText = `1\t2\t3
-4\t5\t6
-7\t8\t9`;
+export const copyText = `Providence\tPonta Delgata
+Hanoi\tRome
+Tehran\tTokyo
+New Delhi\tDhaka\tLondon
+Helsinki
+Adelaide\tBrisbane\tVladivostok`;
 
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.
