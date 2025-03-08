@@ -221,7 +221,7 @@ export const remoteBody = (
       </div>
     </div>
 
-    <div className="mt-8 flex grid grid-cols-3 justify-items-center gap-4">
+    <div className="mt-8 grid grid-cols-3 justify-items-center gap-4">
       <Image src={boom_and_bust} alt="Boom and Bust" width={250} height={500} />
       <Image src={boompile} alt="Boompile" width={250} height={500} />
       <Image
