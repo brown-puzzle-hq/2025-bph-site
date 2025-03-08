@@ -142,7 +142,14 @@ export const INITIAL_PUZZLES: string[] = [
 ];
 
 /** List of meta puzzles. Solving all of the metas unlocks the runaround. */
-export const META_PUZZLES: string[] = [];
+export const META_PUZZLES: string[] = [
+  "drop-the",
+  "aha-erlebnis",
+  "balloon-animals",
+  "boring-plot",
+  "six-degrees",
+  "cutting-room-floor",
+];
 
 /** Adjacency list for puzzles */
 export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
@@ -346,15 +353,6 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   "placeholder-i": ["constellation", "secret-ingredient", "cutting-room-floor"],
   "placeholder-ii": ["eye-to-eye", "fridge-magnets", "cutting-room-floor"],
 };
-
-// For developers
-// export const INITIAL_PUZZLES: string[] = ["example", "seq1"];
-// export const META_PUZZLES = ["meta"];
-// export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
-//   example: ["puzzle1", "puzzle2"],
-//   puzzle1: ["puzzle2", "hello"],
-//   seq1: ["seq2"],
-// };
 
 /* HINTING SYSTEM
  * Teams currently get a hint request every three hours since the start of the hunt.
