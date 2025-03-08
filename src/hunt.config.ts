@@ -1,7 +1,6 @@
 import { db } from "./server/db";
 import { hints } from "./server/db/schema";
 import { and, count, eq, ne } from "drizzle-orm";
-import { LucideIcon, ScrollText, ShieldCheck } from "lucide-react";
 
 /** REGISTRATION AND HUNT START */
 export const REGISTRATION_START_TIME = new Date("2024-11-17T17:00:00.000Z");
@@ -24,7 +23,7 @@ export const REMOTE = {
 
 type Sequence = {
   name?: string;
-  icon: LucideIcon;
+  icon: string;
   puzzles: string[];
 };
 
@@ -32,8 +31,93 @@ type Sequence = {
  * will be displayed earlier. Puzzles that occur earlier in the list will
  * be displayed earlier. */
 export const SEQUENCES: Sequence[] = [
-  { name: "A", icon: ScrollText, puzzles: ["seq1", "seq2"] },
-  { name: "B", icon: ShieldCheck, puzzles: ["seq1", "seq3"] },
+  {
+    name: "Eyes",
+    icon: "👁️",
+    puzzles: [
+      "eye-of-the-storm",
+      "genetic-counseling",
+      "eye-to-eye",
+      "plagiarism",
+      "one-guard-screen",
+      "eye-spy",
+    ],
+  },
+  {
+    name: "Word Bank",
+    icon: "🧩",
+    puzzles: [
+      "study-abroad",
+      "youve-got-this-covered",
+      "fridge-magnets",
+      "fractal-shanty",
+    ],
+  },
+  {
+    name: "Guards",
+    icon: "💂",
+    puzzles: [
+      "the-guard-and-the-door",
+      "two-guards-river",
+      "m-guards-n-doors-and-k-choices",
+      "two-guards-two-doors",
+      "ten-guards-ten-doors",
+      "one-guard-screen",
+    ],
+  },
+  {
+    name: "Chain",
+    icon: "⛓️",
+    puzzles: [
+      // INCOMPLETE
+      "chain-letters",
+    ],
+  },
+  {
+    name: "CD",
+    icon: "💿",
+    puzzles: [
+      "the-compact-disc",
+      "imagine",
+      "youve-got-this-covered",
+      "lost-category",
+    ],
+  },
+  {
+    name: "Ben Doyle Squad",
+    icon: "✈️",
+    puzzles: [
+      "color-transfer",
+      "find-ben",
+      "bluenos-puzzle-box",
+      "the-snack-zone",
+    ],
+  },
+  {
+    name: "Heist",
+    icon: "🏦",
+    puzzles: ["heist", "heist-ii", "heist-iii", "the-final-heist"],
+  },
+  {
+    name: "Tree",
+    icon: "🌲",
+    puzzles: ["secret-ingredient", "opening-sequences", "whats-my-ride"],
+  },
+  {
+    name: "Star",
+    icon: "⭐",
+    puzzles: ["walk-of-fame", "whats-my-ride"],
+  },
+  {
+    name: "Cards",
+    icon: "🃏",
+    puzzles: [
+      "a-fistful-of-cards",
+      "a-fistful-of-cards-ii",
+      "a-fistful-of-cards-iii",
+      "a-fistful-of-cards-iv",
+    ],
+  },
 ];
 
 /** GUESSES */
