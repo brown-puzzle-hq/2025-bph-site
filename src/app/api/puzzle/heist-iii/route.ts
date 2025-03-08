@@ -36,7 +36,6 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error("Error loading file.");
-    return new NextResponse("Error");
+    return new NextResponse("Error loading file.");
   }
 }
