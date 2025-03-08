@@ -22,15 +22,53 @@ export const puzzleId = "hand-letters";
 
 export const inPersonBody = (
   <div className="max-w-3xl text-center">
-  <p className="mb-4 italic">I'm on this really exciting movie shoot, but I've become so crazed that
-  whenever I look at the clocks, I think they're trying to give me a message!
-  I just wish I knew where I am heading next...</p>
-  <Image src={HL_1} alt="" width={666*SCALE} height={454*SCALE} className="mb-5"/>
-  <Image src={HL_2} alt="" width={484*SCALE} height={366*SCALE} className="mb-5"/>
-  <Image src={HL_3} alt="" width={580*SCALE} height={388*SCALE} className="mb-5"/>
-  <Image src={HL_4} alt="" width={660*SCALE} height={524*SCALE} className="mb-5"/>
-  <Image src={HL_5} alt="" width={534*SCALE} height={258*SCALE} className="mb-5"/>
-  <Image src={HL_6} alt="" width={580*SCALE} height={692*SCALE} className="mb-5"/>
+    <p className="mb-4 italic">
+      I'm on this really exciting movie shoot, but I've become so crazed that
+      whenever I look at the clocks, I think they're trying to give me a
+      message! I just wish I knew where I am heading next...
+    </p>
+    <Image
+      src={HL_1}
+      alt=""
+      width={666 * SCALE}
+      height={454 * SCALE}
+      className="mb-5"
+    />
+    <Image
+      src={HL_2}
+      alt=""
+      width={484 * SCALE}
+      height={366 * SCALE}
+      className="mb-5"
+    />
+    <Image
+      src={HL_3}
+      alt=""
+      width={580 * SCALE}
+      height={388 * SCALE}
+      className="mb-5"
+    />
+    <Image
+      src={HL_4}
+      alt=""
+      width={660 * SCALE}
+      height={524 * SCALE}
+      className="mb-5"
+    />
+    <Image
+      src={HL_5}
+      alt=""
+      width={534 * SCALE}
+      height={258 * SCALE}
+      className="mb-5"
+    />
+    <Image
+      src={HL_6}
+      alt=""
+      width={580 * SCALE}
+      height={692 * SCALE}
+      className="mb-5"
+    />
   </div>
 );
 
