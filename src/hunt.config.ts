@@ -31,8 +31,105 @@ type Sequence = {
  * will be displayed earlier. Puzzles that occur earlier in the list will
  * be displayed earlier. */
 export const SEQUENCES: Sequence[] = [
-  { name: "A", icon: "📜", puzzles: ["seq1", "seq2"] },
-  { name: "B", icon: "🛡️", puzzles: ["seq1", "seq3"] },
+  {
+    name: "eye",
+    icon: "👁️",
+    puzzles: [
+      "eye-of-the-storm",
+      "genetic-counseling",
+      "eye-to-eye",
+      "plagiarism",
+      "one-guard-screen",
+      "eye-spy",
+    ],
+  },
+  {
+    name: "jigsaw",
+    icon: "🧩",
+    puzzles: [
+      "study-abroad",
+      "youve-got-this-covered",
+      "fridge-magnets",
+      "fractal-shanty",
+    ],
+  },
+  {
+    name: "guards",
+    icon: "💂",
+    puzzles: [
+      "the-guard-and-the-door",
+      "two-guards-river",
+      "m-guards-n-doors-and-k-choices",
+      "two-guards-two-doors",
+      "ten-guards-ten-doors",
+      "one-guard-screen",
+    ],
+  },
+  {
+    name: "guards",
+    icon: "💂",
+    puzzles: [
+      "the-guard-and-the-door",
+      "two-guards-river",
+      "m-guards-n-doors-and-k-choices",
+      "two-guards-two-doors",
+      "ten-guards-ten-doors",
+      "one-guard-screen",
+    ],
+  },
+  {
+    name: "chain",
+    icon: "⛓️",
+    puzzles: [
+      // INCOMPLETE
+      "chain-letters",
+    ],
+  },
+  {
+    name: "cd",
+    icon: "💿",
+    puzzles: [
+      "the-compact-disc",
+      "imagine",
+      "youve-got-this-covered",
+      "lost-category",
+    ],
+  },
+  {
+    name: "plane",
+    icon: "✈️",
+    puzzles: [
+      "color-transfer",
+      "find-ben",
+      "bluenos-puzzle-box",
+      "the-snack-zone",
+    ],
+  },
+  {
+    name: "heist",
+    icon: "🏦",
+    puzzles: ["heist", "heist-ii", "heist-iii", "the-final-heist"],
+  },
+  {
+    name: "tree",
+    icon: "🌲",
+    puzzles: ["secret-ingredient", "opening-sequences", "whats-my-ride"],
+  },
+  {
+    name: "star",
+    icon: "⭐",
+    puzzles: ["walk-of-fame", "whats-my-ride"],
+  },
+  {
+    name: "cards",
+    icon: "🃏",
+    puzzles: [
+      "a-fistful-of-cards",
+      "a-fistful-of-cards-ii",
+      "a-fistful-of-cards-iii",
+      "a-fistful-of-cards-iv",
+    ],
+  },
 ];
 
 /** GUESSES */
