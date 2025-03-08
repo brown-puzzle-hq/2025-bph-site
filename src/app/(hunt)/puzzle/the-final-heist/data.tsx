@@ -12,6 +12,10 @@ export const puzzleId = "the-final-heist";
  */
 
 export const inPersonBody = (
+  <div>
+  <div className="mb-4 max-w-3xl">
+      This is a sequence metapuzzle. It uses feeders from the 🏦 sequence.
+    </div>
   <div className="max-w-3xl text-center">
     <p className="italic">You've made it to the final vault, but there's a problem: somebody's turned out the lights! fortunately, we've done some reconnaissance on your behalf. The security code for this vault is BLIND, and the room layout is as follows:</p>
       <p><br></br>⬛⬛⬛⬛⬛
@@ -19,6 +23,7 @@ export const inPersonBody = (
       <br></br>⬛⬜⬛⬜⬛
       <br></br>⬛⬛⬛⬛⬛</p>
     <iframe src="/api/puzzle/the-final-heist" width="750" height="600" /></div>
+    </div>
 );
 
 export const remoteBoxBody = inPersonBody;

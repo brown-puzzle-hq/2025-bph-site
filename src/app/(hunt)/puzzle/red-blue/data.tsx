@@ -11,6 +11,10 @@ export const puzzleId = "red-blue";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
+  <div>
+  <div className="mb-4 max-w-3xl">
+      This is a sequence metapuzzle. It uses feeders from the ⛓️ sequence.
+    </div>
   <div className="flex max-w-3xl flex-col items-center space-y-4 text-center">
     <i className="p-4">
       Hey, isn't blue kinda negative? I think red better fits my positive
@@ -27,6 +31,7 @@ export const inPersonBody = (
         ></div>
       ))}
     </div>
+  </div>
   </div>
 );
 
