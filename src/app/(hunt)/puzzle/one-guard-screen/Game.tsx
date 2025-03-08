@@ -11,8 +11,11 @@ const ANSWER = "ABCDEFGHIJKLMNOP";
 
 const TTL = 100;
 const SPEED = 2;
+const DOORX = WIDTH / 4;
 const DESTX = (WIDTH * 3) / 4;
-const MULT = (DESTX - WIDTH / 4) / (WIDTH / 4 + RADIUS);
+const DX0 =
+  (SPEED * DOORX) / Math.sqrt(Math.pow(DOORX, 2) + Math.pow(HEIGHT / 6, 2));
+const DY0 = (DX0 * (HEIGHT / 6)) / (DOORX + RADIUS);
 
 function randomIndex(): number {
   let u = 1 - Math.random();
@@ -40,6 +43,7 @@ const EventComponent = ({
       dy: number;
       destY: number;
       letter: string;
+      door: boolean;
       ttl: number;
     }[]
   >([]);
@@ -75,21 +79,17 @@ const EventComponent = ({
             : 10
           : randomIndex();
       const destY = (HEIGHT * index) / 16 + HEIGHT / 32;
-      const doorY = index < 8 ? HEIGHT / 3 : (HEIGHT * 2) / 3;
-      const startY = doorY + (doorY - destY) / MULT;
-      const dx =
-        (SPEED * (DESTX + RADIUS)) /
-        Math.sqrt(Math.pow(destY - startY, 2) + Math.pow(DESTX + RADIUS, 2));
       setGuards((prev) => [
         ...prev,
         {
           id: guardId.current++,
           x: -RADIUS,
-          y: startY,
-          dx: dx,
-          dy: ((destY - startY) * dx) / (DESTX + RADIUS),
+          y: HEIGHT / 2,
+          dx: DX0,
+          dy: index < 8 ? -DY0 : DY0,
           destY: destY,
           letter: ANSWER.at(index)!,
+          door: false,
           ttl: TTL,
         },
       ]);
@@ -99,6 +99,17 @@ const EventComponent = ({
     setGuards((prev) =>
       prev
         .map((guard) => {
+          if (!guard.door && guard.x > DOORX) {
+            // Recompute dx, dy
+            guard.dx =
+              (SPEED * (DESTX - guard.x)) /
+              Math.sqrt(
+                Math.pow(DESTX - guard.x, 2) +
+                  Math.pow(guard.destY - guard.y, 2),
+              );
+            guard.dy = (guard.dx * (guard.destY - guard.y)) / (DESTX - guard.x);
+            guard.door = true;
+          }
           if (guard.x < DESTX) {
             return { ...guard, x: guard.x + guard.dx, y: guard.y + guard.dy };
           } else {
@@ -111,10 +122,10 @@ const EventComponent = ({
 
   return (
     <Container>
-      <Graphics draw={drawWall} x={WIDTH / 4} y={0} />
+      <Graphics draw={drawWall} x={DOORX} y={0} />
       <Graphics draw={drawWall} x={DESTX} y={0} />
-      <Graphics draw={drawDoor} x={WIDTH / 4} y={HEIGHT / 3} />
-      <Graphics draw={drawDoor} x={WIDTH / 4} y={(HEIGHT * 2) / 3} />
+      <Graphics draw={drawDoor} x={DOORX} y={HEIGHT / 3} />
+      <Graphics draw={drawDoor} x={DOORX} y={(HEIGHT * 2) / 3} />
       {guards.map((guard) => (
         <Container x={guard.x} y={guard.y}>
           <Graphics
