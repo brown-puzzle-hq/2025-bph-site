@@ -1,6 +1,5 @@
 import Image from "next/image";
-import WMR from "./WMR_Puzzle_Body.jpg";
-import SOLUTION from "./WMR_Solution.jpg";
+import SECRET_INGREDIENT from "./puzzle.png";
 
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
@@ -8,7 +7,7 @@ import SOLUTION from "./WMR_Solution.jpg";
  * Feel free to make this creative, because the route to the puzzle will be
  * example.com/puzzle/puzzleId.
  */
-export const puzzleId = "whats-my-ride";
+export const puzzleId = "secret-ingredient";
 
 /**
  * The body renders above the guess submission form. Put flavor text, images,
@@ -16,13 +15,7 @@ export const puzzleId = "whats-my-ride";
  */
 export const inPersonBody = (
   <div className="max-w-3xl text-center">
-    <Image
-      src={WMR}
-      width={500}
-      height={500}
-      alt="family tree (puzzle body) image"
-    />
-    <p className="text-lg">3️⃣</p>
+    <Image alt="" src={SECRET_INGREDIENT}></Image>
   </div>
 );
 
@@ -35,25 +28,25 @@ export const remoteBody = inPersonBody;
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center">
-    <p className="mb-4">
-      This puzzle is a family tree based on Greek myth. Specifically, Apollo’s
-      family tree. The solvers need to ID that this is 1) a family tree, 2)
-      about Greek myth, 3) that Apollo is the ? in the middle, and 4) the 3
-      emoji at the bottom and the title should direct them to answer{" "}
-      <span className="text-main-accent">SUN</span>. If they are guessing
-      SUNCHARIOT or CHARIOT instead, just clue them to check the emoji at the
-      bottom of the page. Attached is a rough version of the family tree with
-      all the names written in instead of the emojis to help if they seem to be
-      hung up on one or another.
-    </p>
-    <Image
-      src={SOLUTION}
-      width={500}
-      height={500}
-      alt="solution image"
-      className="mx-auto"
-    />
+  <div className="max-w-3xl text-center space-y-4">
+    <div>
+      This puzzle is about the mobile game Little Alchemy (the first one, NOT
+      Little Alchemy 2). That game is about combining elements to create new
+      elements. You start with Earth, Air, Water, and Fire, and create from
+      there by combining two elements at a time.{" "}
+    </div>
+    <div>
+      For this puzzle, you follow along with the combinations laid out in the
+      tree. Each junction is an element created by combining the two above it,
+      leading back to the four basic elements. The blue boxes are labelled with
+      the names of other puzzles, and for those you “plug in” the answer to
+      those puzzles (bird for opening sequences and sun for whats my ride).
+    </div>
+    <div>
+      Once you complete the trees, you should get at the blue boxes at the
+      bottom “egg” and “plant.” Concatenating those words gives EGGPLANT, the
+      puzzle&apos;s answer.
+    </div>
   </div>
 );
 
@@ -68,10 +61,7 @@ export const copyText = null;
  * Each key is a partial solution, and the value is the prompt to be displayed. Keys must
  * be in all caps, no spaces.
  */
-export const partialSolutions: Record<string, string> = {
-  CHARIOT: "Check the bottom!",
-  SUNCHARIOT: "Check the bottom!",
-};
+export const partialSolutions: Record<string, string> = {};
 
 /**
  * The `tasks` object is used for multi-part puzzles. When a certain answer is submitted,
