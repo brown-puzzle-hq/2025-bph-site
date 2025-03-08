@@ -1,9 +1,18 @@
 import path from "path";
 import fs from "fs";
 import { NextResponse } from "next/server";
+import { auth } from "~/server/auth/auth";
+import { canViewPuzzle } from "~/app/(hunt)/puzzle/actions";
 
 export async function GET() {
   const puzzleId = "genetic-counseling";
+
+  // Authentication
+  const session = await auth();
+  const viewStatus = await canViewPuzzle(puzzleId, session);
+  if (viewStatus !== "success") {
+    return new NextResponse(null, { status: 404 });
+  }
 
   // Get the file path from the public directory
   const filePath = path.join(
