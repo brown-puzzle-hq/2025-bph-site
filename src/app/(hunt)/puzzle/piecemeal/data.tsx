@@ -107,7 +107,7 @@ const puzzleClues = [
 ];
 
 export const inPersonBody = (
-  <div className="px-36 py-4">
+  <div className="max-w-3xl py-4">
     <p className="pb-8">
       Rivers are three letters long and may flow horizontally, vertically, or
       diagonally. Letters on a river are alphabetical in reading order, first
