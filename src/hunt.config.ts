@@ -120,6 +120,11 @@ export const SEQUENCES: Sequence[] = [
       "a-fistful-of-cards-iv",
     ],
   },
+  {
+    name: "Time",
+    icon: "⏰",
+    puzzles: ["filming-schedule", "youve-got-this-covered", "hand-letters"], // Need placeholder
+  },
 ];
 
 /** GUESSES */
