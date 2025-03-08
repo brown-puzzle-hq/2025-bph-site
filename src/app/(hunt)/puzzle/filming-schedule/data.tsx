@@ -22,7 +22,7 @@ export const inPersonBody = (
         <ol className="ml-5 list-inside list-disc">
           <li>
             “The Halfblood’s _____” by Devin Hanson{" "}
-            <span className="text-gray-500">[5]</span>
+            <span className="text-gray-400">[5]</span>
           </li>
         </ol>
       </li>
@@ -31,7 +31,7 @@ export const inPersonBody = (
         <ol className="ml-5 list-inside list-disc">
           <li>
             “____” by Ali Hazelwood (now titled “Deep End”){" "}
-            <span className="text-gray-500">[4]</span>
+            <span className="text-gray-400">[4]</span>
           </li>
         </ol>
       </li>
@@ -39,7 +39,7 @@ export const inPersonBody = (
         <span className="font-semibold">RELS 1325C</span>
         <ol className="ml-5 list-inside list-disc">
           <li>
-            “The Aeneid” by ______ <span className="text-gray-500">[6]</span>
+            “The Aeneid” by ______ <span className="text-gray-400">[6]</span>
           </li>
         </ol>
       </li>
@@ -48,7 +48,7 @@ export const inPersonBody = (
         <ol className="ml-5 list-inside list-disc">
           <li>
             “_____ in the Hills” by Elizabeth West{" "}
-            <span className="text-gray-500">[5]</span>
+            <span className="text-gray-400">[5]</span>
           </li>
         </ol>
       </li>
@@ -56,7 +56,7 @@ export const inPersonBody = (
         <span className="font-semibold">PHP 1650</span>
         <ol className="ml-5 list-inside list-disc">
           <li>
-            “The ____” by A.E. Ellis <span className="text-gray-500">[4]</span>
+            “The ____” by A.E. Ellis <span className="text-gray-400">[4]</span>
           </li>
         </ol>
       </li>
@@ -65,7 +65,7 @@ export const inPersonBody = (
         <ol className="ml-5 list-inside list-disc">
           <li>
             “In the Name of ______ Citizens: The Trials of Frank de Groot” by
-            Brian Wright <span className="text-gray-500">[6]</span>
+            Brian Wright <span className="text-gray-400">[6]</span>
           </li>
         </ol>
       </li>
@@ -75,68 +75,7 @@ export const inPersonBody = (
 
 export const remoteBoxBody = inPersonBody;
 
-export const remoteBody = (
-  <div className="mx-auto max-w-3xl space-y-4 text-center">
-    <p className="text-lg font-medium">
-      It’s really hard to register and coordinate my Brown University courses
-      with this filming schedule.
-    </p>
-    <ol className="list-inside list-decimal space-y-3 text-left">
-      <li>
-        <span className="font-semibold">EDUC 0610</span>
-        <ol className="ml-5 list-inside list-disc">
-          <li>
-            “The Halfblood’s _____” by Devin Hanson{" "}
-            <span className="text-gray-500">[5]</span>
-          </li>
-        </ol>
-      </li>
-      <li>
-        <span className="font-semibold">IAPA 1502</span>
-        <ol className="ml-5 list-inside list-disc">
-          <li>
-            “____” by Ali Hazelwood (now titled “Deep End”){" "}
-            <span className="text-gray-500">[4]</span>
-          </li>
-        </ol>
-      </li>
-      <li>
-        <span className="font-semibold">RELS 1325C</span>
-        <ol className="ml-5 list-inside list-disc">
-          <li>
-            “The Aeneid” by ______ <span className="text-gray-500">[6]</span>
-          </li>
-        </ol>
-      </li>
-      <li>
-        <span className="font-semibold">LITR 1153C</span>
-        <ol className="ml-5 list-inside list-disc">
-          <li>
-            “_____ in the Hills” by Elizabeth West{" "}
-            <span className="text-gray-500">[5]</span>
-          </li>
-        </ol>
-      </li>
-      <li>
-        <span className="font-semibold">PHP 1650</span>
-        <ol className="ml-5 list-inside list-disc">
-          <li>
-            “The ____” by A.E. Ellis <span className="text-gray-500">[4]</span>
-          </li>
-        </ol>
-      </li>
-      <li>
-        <span className="font-semibold">APMA 2610</span>
-        <ol className="ml-5 list-inside list-disc">
-          <li>
-            “In the Name of ______ Citizens: The Trials of Frank de Groot” by
-            Brian Wright <span className="text-gray-500">[6]</span>
-          </li>
-        </ol>
-      </li>
-    </ol>
-  </div>
-);
+export const remoteBody = inPersonBody;
 
 /**
  * The `solutionBody` renders in the solution page.
@@ -193,8 +132,8 @@ export const solutionBody = (
       words. Use the letters that are in the class titles, not the book words.
     </p>
     <p className="text-lg font-semibold">
-      These letters spell out <span className="text-blue-300">BANNER</span>, the
-      answer to the puzzle.
+      These letters spell out <span className="text-main-accent">BANNER</span>,
+      the answer to the puzzle.
     </p>
   </div>
 );
