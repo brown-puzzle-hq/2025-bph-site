@@ -12,8 +12,19 @@ export const puzzleId = "six-degrees";
  */
 export const inPersonBody = (
   <div>
-    <div className="max-w-3xl text-center mb-4"><b>This is a metapuzzle. It uses feeders from the{" "}<span className="underline">REALITY</span> round.</b></div>
-    <div className="max-w-3xl mb-4"><i>Your documentary is in trouble... your subjects are all paid actors! The release date is approaching. How can you fix your movie and save your leads' bacon?</i></div>
+    <div className="mb-4 max-w-3xl text-center">
+      <b>
+        This is a metapuzzle. It uses feeders from the{" "}
+        <span className="underline">REALITY</span> round.
+      </b>
+    </div>
+    <div className="mb-4 max-w-3xl">
+      <i>
+        Your documentary is in trouble... your subjects are all paid actors! The
+        release date is approaching. How can you fix your movie and save your
+        leads' bacon?
+      </i>
+    </div>
   </div>
 );
 
@@ -26,7 +37,9 @@ export const remoteBody = inPersonBody;
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center">This solution does not exist yet hehe oops.</div>
+  <div className="max-w-3xl text-center">
+    This solution does not exist yet hehe oops.
+  </div>
 );
 
 /**

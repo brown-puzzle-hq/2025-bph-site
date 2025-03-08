@@ -1,6 +1,5 @@
-import Image from "next/image"
-import eye from "./eye.png"
-
+import Image from "next/image";
+import eye from "./eye.png";
 
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
@@ -16,33 +15,90 @@ export const puzzleId = "eye-to-eye";
  */
 export const inPersonBody = (
   <div>
-
-    <div className="max-w-3xl mb-4">This is a sequence metapuzzle. It uses feeders from the 👁️ sequence.
+    <div className="mb-4 max-w-3xl">
+      This is a sequence metapuzzle. It uses feeders from the 👁️ sequence.
     </div>
-    <hr className="border-t border-white mb-6 my-6" />
-    <div className="max-w-3xl mb-4"><i>Only one of my eyes ever work... What do I need to fix my eyesight?</i></div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="mb-4 max-w-3xl">
+      <i>Only one of my eyes ever work... What do I need to fix my eyesight?</i>
+    </div>
 
-    <div className="grid grid-cols-9 w-fit gap-0 border-2 border-white overflow-x-auto mx-auto">
-    {[
-      "T", "", "", "", "👁️", "", "", "", "⬜",
-      "", "", "", "", "", "👁️", "", "⬜", "⬜",
-      "", "", "", "", "👁️", "", "", "", "⬜",
-      "", "", "", "", "", "👁️", "", "", "⬜",
-      "⬜", "", "", "", "👁️", "", "", "", "",
-      "⬜", "", "", "", "", "👁️", "", "", "⬜",
-      "⬜", "", "", "", "👁️", "", "", "⬜", "⬜",
-    ].map((cell, index) => (
-      <div
-        key={index}
-        className={`w-10 h-10 flex items-center justify-center text-lg font-bold border border-white ${
-          cell === "⬜" ? "bg-white" : "bg-transparent"
-        }`}
-      >
-        {cell !== "⬜" && cell}
-      </div>
-    ))}
-  </div>
-
+    <div className="mx-auto grid w-fit grid-cols-9 gap-0 overflow-x-auto border-2 border-white">
+      {[
+        "T",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "",
+        "⬜",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "⬜",
+        "⬜",
+        "",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "",
+        "⬜",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "⬜",
+        "⬜",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "",
+        "",
+        "⬜",
+        "",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "⬜",
+        "⬜",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "⬜",
+        "⬜",
+      ].map((cell, index) => (
+        <div
+          key={index}
+          className={`flex h-10 w-10 items-center justify-center border border-white text-lg font-bold ${
+            cell === "⬜" ? "bg-white" : "bg-transparent"
+          }`}
+        >
+          {cell !== "⬜" && cell}
+        </div>
+      ))}
+    </div>
   </div>
 );
 
@@ -57,7 +113,9 @@ export const remoteBody = inPersonBody;
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center">This solution does not exist yet. Go nag Arnav + Thomas.</div>
+  <div className="max-w-3xl text-center">
+    This solution does not exist yet. Go nag Arnav + Thomas.
+  </div>
 );
 
 /**

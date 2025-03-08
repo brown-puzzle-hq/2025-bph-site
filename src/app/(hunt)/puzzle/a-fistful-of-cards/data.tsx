@@ -1,18 +1,17 @@
 import Image from "next/image";
 import horse from "./horse.png";
-import boom_and_bust from "./boom_and_bust.png"
-import boompile from "./boompile.png"
-import granted_dynamite from "./granted_dynamite.png"
-import holster_tavern from "./holster_tavern.png"
-import ingenious_engineering from "./ingenious_engineering.png"
-import booklet1 from "./booklet_1.png"
-import booklet2 from "./booklet_2.png"
-import booklet3 from "./booklet_3.png"
-import booklet4 from "./booklet_4.png"
-import discard from "./playmat discard.png"
-import stash from "./playmat stash.png"
-import town from "./playmat town.png"
-
+import boom_and_bust from "./boom_and_bust.png";
+import boompile from "./boompile.png";
+import granted_dynamite from "./granted_dynamite.png";
+import holster_tavern from "./holster_tavern.png";
+import ingenious_engineering from "./ingenious_engineering.png";
+import booklet1 from "./booklet_1.png";
+import booklet2 from "./booklet_2.png";
+import booklet3 from "./booklet_3.png";
+import booklet4 from "./booklet_4.png";
+import discard from "./playmat discard.png";
+import stash from "./playmat stash.png";
+import town from "./playmat town.png";
 
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
@@ -28,48 +27,33 @@ export const puzzleId = "a-fistful-of-cards";
  */
 export const inPersonBody = (
   <div>
-    <div className="max-w-3xl text-center mb-6"><i>This is a physical puzzle! You should have received it at kickoff. Please visit HQ in Friedman 208 if you believe you are missing these supplies.</i></div>
-    <hr className="border-t border-white mb-6 my-6" />
-    <div className="max-w-3xl text-center mb-6"><span className="underline"><b>Round 1</b></span>: Deal 14 damage.</div>
-    <div className="max-w-3xl mb-3"><span className="underline"><b>Legal cards</b></span>: The{" "}
+    <div className="mb-6 max-w-3xl text-center">
+      <i>
+        This is a physical puzzle! You should have received it at kickoff.
+        Please visit HQ in Friedman 208 if you believe you are missing these
+        supplies.
+      </i>
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="mb-6 max-w-3xl text-center">
+      <span className="underline">
+        <b>Round 1</b>
+      </span>
+      : Deal 14 damage.
+    </div>
+    <div className="mb-3 max-w-3xl">
+      <span className="underline">
+        <b>Legal cards</b>
+      </span>
+      : The{" "}
       <Image
         src={horse}
         alt="horse"
-        width={30}  
-        height={30} 
+        width={30}
+        height={30}
         className="inline-block align-text-bottom"
       />{" "}
       set.
-
-</div>
-
-    <ul className="list-disc pl-6">
-      <li>Boom and Bust</li>
-      <li>Boompile</li>
-      <li>Granted Dynamite</li>
-      <li>Holster Tavern</li>
-      <li>Ingenious Engineering</li>
-    </ul>
-  
-
-  </div>
-);
-
-export const remoteBoxBody = (
-  <div>
-    <div className="max-w-3xl text-center"><i>This is a physical puzzle! You should have received it in your Box. Contact brownpuzzlehq@gmail.com with any questions about your Box or its materials.</i></div>
-    <hr className="border-t border-white mb-6 my-6" />
-    <div className="max-w-3xl text-center mb-6"><span className="underline"><b>Round 1</b></span>: Deal 14 damage.</div>
-    <div className="max-w-3xl mb-3"><span className="underline"><b>Legal cards</b></span>: The{" "}
-      <Image
-        src={horse}
-        alt="hat"
-        width={30}  
-        height={30} 
-        className="inline-block align-text-bottom"
-      />{" "}
-      set.
-
     </div>
 
     <ul className="list-disc pl-6">
@@ -79,38 +63,77 @@ export const remoteBoxBody = (
       <li>Holster Tavern</li>
       <li>Ingenious Engineering</li>
     </ul>
-
   </div>
-  );
+);
 
-export const remoteBody = (<div>
-  <div className="w-full mb-6 text-center"><span className="underline"><b>Round 1</b></span>: Deal 14 damage.</div>
-  <hr className="border-t border-white mb-6 my-6" />
-  <div className="w-full mb-6 text-center"><span className="underline"><b>Legal cards</b></span>: The{" "}
-    <Image
-      src={horse}
-      alt="hat"
-      width={30}  
-      height={30} 
-      className="inline-block align-text-bottom"
-    />{" "}
-    set.
+export const remoteBoxBody = (
+  <div>
+    <div className="max-w-3xl text-center">
+      <i>
+        This is a physical puzzle! You should have received it in your Box.
+        Contact brownpuzzlehq@gmail.com with any questions about your Box or its
+        materials.
+      </i>
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="mb-6 max-w-3xl text-center">
+      <span className="underline">
+        <b>Round 1</b>
+      </span>
+      : Deal 14 damage.
+    </div>
+    <div className="mb-3 max-w-3xl">
+      <span className="underline">
+        <b>Legal cards</b>
+      </span>
+      : The{" "}
+      <Image
+        src={horse}
+        alt="hat"
+        width={30}
+        height={30}
+        className="inline-block align-text-bottom"
+      />{" "}
+      set.
+    </div>
 
+    <ul className="list-disc pl-6">
+      <li>Boom and Bust</li>
+      <li>Boompile</li>
+      <li>Granted Dynamite</li>
+      <li>Holster Tavern</li>
+      <li>Ingenious Engineering</li>
+    </ul>
   </div>
+);
 
-  <div className="grid grid-cols-3 gap-4 justify-items-center mt-5">
+export const remoteBody = (
+  <div>
+    <div className="mb-6 w-full text-center">
+      <span className="underline">
+        <b>Round 1</b>
+      </span>
+      : Deal 14 damage.
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="mb-6 w-full text-center">
+      <span className="underline">
+        <b>Legal cards</b>
+      </span>
+      : The{" "}
       <Image
-        src={boom_and_bust}
-        alt="Boom and Bust"
-        width={250}
-        height={500}
-      />
-      <Image
-        src={boompile}
-        alt="Boompile"
-        width={250}
-        height={500}
-      />
+        src={horse}
+        alt="hat"
+        width={30}
+        height={30}
+        className="inline-block align-text-bottom"
+      />{" "}
+      set.
+    </div>
+
+    <div className="mt-5 grid grid-cols-3 justify-items-center gap-4">
+      <Image src={boom_and_bust} alt="Boom and Bust" width={250} height={500} />
+      <Image src={boompile} alt="Boompile" width={250} height={500} />
       <Image
         src={granted_dynamite}
         alt="Granted Dynamite"
@@ -118,7 +141,7 @@ export const remoteBody = (<div>
         height={500}
       />
     </div>
-  <div className="grid grid-cols-2 gap-x-8 justify-items-center mt-5 w-max mx-auto">
+    <div className="mx-auto mt-5 grid w-max grid-cols-2 justify-items-center gap-x-8">
       <Image
         src={holster_tavern}
         alt="Holster Tavern"
@@ -128,68 +151,40 @@ export const remoteBody = (<div>
       <Image
         src={ingenious_engineering}
         alt="Ingenious Engineering"
-        width={250} 
-        height={500} 
+        width={250}
+        height={500}
       />
     </div>
 
-  <hr className="border-t border-white mb-6 my-6" />
+    <hr className="my-6 mb-6 border-t border-white" />
 
-  <div className="w-full mb-6 text-center"><span className="underline"><b>Instructions</b></span></div>
-
-  <div className="flex justify-center mt-8 gap-4">
-      <Image
-        src={booklet1}
-        alt="Booklet #1"
-        width={200}
-        height={400}
-      />
-      <Image
-        src={booklet2}
-        alt="Booklet #2"
-        width={200}
-        height={400}
-      />
-      <Image
-        src={booklet3}
-        alt="Booklet #3"
-        width={200}
-        height={400}
-      />
-      <Image
-        src={booklet4}
-        alt="Booklet #4"
-        width={200}
-        height={400}
-      />
+    <div className="mb-6 w-full text-center">
+      <span className="underline">
+        <b>Instructions</b>
+      </span>
     </div>
 
-  <hr className="border-t border-white mb-6 my-6" />
+    <div className="mt-8 flex justify-center gap-4">
+      <Image src={booklet1} alt="Booklet #1" width={200} height={400} />
+      <Image src={booklet2} alt="Booklet #2" width={200} height={400} />
+      <Image src={booklet3} alt="Booklet #3" width={200} height={400} />
+      <Image src={booklet4} alt="Booklet #4" width={200} height={400} />
+    </div>
 
-  <div className="w-full mb-6 text-center"><span className="underline"><b>Playmats</b></span></div>
+    <hr className="my-6 mb-6 border-t border-white" />
 
-  <div className="flex flex-col items-center justify-between h-full gap-4">
-      <Image
-        src={stash}
-        alt="The Stash"
-        width={700}
-        height={1000}
-      />
-      <Image
-        src={town}
-        alt="The Town"
-        width={700}
-        height={1000}
-      />
-      <Image
-        src={discard}
-        alt="Discard Pile"
-        width={700}
-        height={1000}
-      />
-      </div>
+    <div className="mb-6 w-full text-center">
+      <span className="underline">
+        <b>Playmats</b>
+      </span>
+    </div>
 
-</div>
+    <div className="flex h-full flex-col items-center justify-between gap-4">
+      <Image src={stash} alt="The Stash" width={700} height={1000} />
+      <Image src={town} alt="The Town" width={700} height={1000} />
+      <Image src={discard} alt="Discard Pile" width={700} height={1000} />
+    </div>
+  </div>
 );
 
 /**
@@ -197,7 +192,9 @@ export const remoteBody = (<div>
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center">This puzzle does not have a solution. Go nag Jeremy. </div>
+  <div className="max-w-3xl text-center">
+    This puzzle does not have a solution. Go nag Jeremy.{" "}
+  </div>
 );
 
 /**
@@ -205,7 +202,7 @@ export const solutionBody = (
  * that can be copied to the clipboard. Set this to `null` to remove the copy button.
  */
 export const copyText = `null`; // come back later
- 
+
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.
  * Each key is a partial solution, and the value is the prompt to be displayed. Keys must

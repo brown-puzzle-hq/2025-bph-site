@@ -1,5 +1,5 @@
-import Head from 'next/head'
-import Link from 'next/link'
+import Head from "next/head";
+import Link from "next/link";
 
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
@@ -15,29 +15,53 @@ export const puzzleId = "imagine";
  */
 export const inPersonBody = (
   <div>
-    <div className="max-w-3xl text-center mb-6">This is a physical puzzle! If your team has not already picked up a CD, please visit HQ in Friedman 208.</div>
-    <hr className="border-t border-white mb-6 my-6" />
-    <div className="max-w-3xl text-center"><i>The only inspiring thing here is how the internet came together to say "no."</i></div>
+    <div className="mb-6 max-w-3xl text-center">
+      This is a physical puzzle! If your team has not already picked up a CD,
+      please visit HQ in Friedman 208.
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="max-w-3xl text-center">
+      <i>
+        The only inspiring thing here is how the internet came together to say
+        "no."
+      </i>
+    </div>
   </div>
 );
 
 export const remoteBoxBody = (
   <div>
-    <div className="max-w-3xl text-center"><i>This is a physical puzzle! You should have received it in your Box. Contact brownpuzzlehq@gmail.com with any questions about your Box or its materials.</i></div>
-    <hr className="border-t border-white mb-6 my-6" />
-    <div className="max-w-3xl text-center"><i>The only inspiring thing here is how the internet came together to say "no."</i></div>
+    <div className="max-w-3xl text-center">
+      <i>
+        This is a physical puzzle! You should have received it in your Box.
+        Contact brownpuzzlehq@gmail.com with any questions about your Box or its
+        materials.
+      </i>
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="max-w-3xl text-center">
+      <i>
+        The only inspiring thing here is how the internet came together to say
+        "no."
+      </i>
+    </div>
   </div>
-
 );
 
 export const remoteBody = (
   <div>
-    <div className="max-w-3xl text-center"><i>The only inspiring thing here is how the internet came together to say "no."</i></div>
-    <div className="max-w-3xl mt-8 text-center">
-    <Link href="https://drive.google.com/file/d/1FqNlv4SPrGrmKTHUj0PpTBOUCIMO-Ynq/view?usp=sharing"><span className="underline">[audio]</span></Link>
+    <div className="max-w-3xl text-center">
+      <i>
+        The only inspiring thing here is how the internet came together to say
+        "no."
+      </i>
+    </div>
+    <div className="mt-8 max-w-3xl text-center">
+      <Link href="https://drive.google.com/file/d/1FqNlv4SPrGrmKTHUj0PpTBOUCIMO-Ynq/view?usp=sharing">
+        <span className="underline">[audio]</span>
+      </Link>
     </div>
     {/* i do not know how to embed audio and cannot figure it out so this can be fixed later */}
-
   </div>
 );
 /**
@@ -45,36 +69,61 @@ export const remoteBody = (
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl"> 
-    <div className="text-center mb-5">Answer:{" "}<span className="bg-main-tex hover:bg-inherit">INDIANA JONES AND THE LAST CRUSADE</span>.</div>
-    <div className="max-w-3xl mb-4">This puzzle is a reference to{" "} 
-    <Link href="https://www.youtube.com/watch?v=omEDLKS5pbY"><span className="underline">this pandemic celebrity cringe video</span></Link>
-    {" "}from 2020. It was a well-intentioned video that came off as very tone-deaf, so it went pretty viral. 
+  <div className="max-w-3xl">
+    <div className="mb-5 text-center">
+      Answer:{" "}
+      <span className="bg-main-tex hover:bg-inherit">
+        INDIANA JONES AND THE LAST CRUSADE
+      </span>
+      .
+    </div>
+    <div className="mb-4 max-w-3xl">
+      This puzzle is a reference to{" "}
+      <Link href="https://www.youtube.com/watch?v=omEDLKS5pbY">
+        <span className="underline">this pandemic celebrity cringe video</span>
+      </Link>{" "}
+      from 2020. It was a well-intentioned video that came off as very
+      tone-deaf, so it went pretty viral.
     </div>
 
     <div>
-      The realization of what this puzzle is about can be prompted by many things, such as:
-
-      <ul className="list-disc max-w-3xl pl-6">
-      <li>Title of the puzzle</li>
-      <li>Variety of voices throughout the clips</li>
-      <li>The flavor is the top comment on the original video</li>
-      <li>Any search along the lines of 'imagine singing video' will produce clear results to either the original video or its Wikipedia page.</li>
-    </ul>
+      The realization of what this puzzle is about can be prompted by many
+      things, such as:
+      <ul className="max-w-3xl list-disc pl-6">
+        <li>Title of the puzzle</li>
+        <li>Variety of voices throughout the clips</li>
+        <li>The flavor is the top comment on the original video</li>
+        <li>
+          Any search along the lines of 'imagine singing video' will produce
+          clear results to either the original video or its Wikipedia page.
+        </li>
+      </ul>
     </div>
-  
-    <div className="mt-4 mb-4">
-      After realizing the premise of the video, solvers should be able to match each clip to its singer. Each clip is followed by a spliced together number also composed of clips from the original video. By adding these numbers together, solvers can extract an index with which to get a single letter from each name. 
+
+    <div className="mb-4 mt-4">
+      After realizing the premise of the video, solvers should be able to match
+      each clip to its singer. Each clip is followed by a spliced together
+      number also composed of clips from the original video. By adding these
+      numbers together, solvers can extract an index with which to get a single
+      letter from each name.
     </div>
 
-    <div className="overflow-x-auto p-4 mx-auto w-fit">
+    <div className="mx-auto w-fit overflow-x-auto p-4">
       <table className="border border-white">
         <tbody>
           <tr>
-            <td className="border border-white p-2"><b>Lyric</b></td>
-            <td className="border border-white p-2"><b>Celebrity</b></td>
-            <td className="border border-white p-2"><b>Index</b></td>
-            <td className="border border-white p-2"><b>Extract</b></td>
+            <td className="border border-white p-2">
+              <b>Lyric</b>
+            </td>
+            <td className="border border-white p-2">
+              <b>Celebrity</b>
+            </td>
+            <td className="border border-white p-2">
+              <b>Index</b>
+            </td>
+            <td className="border border-white p-2">
+              <b>Extract</b>
+            </td>
           </tr>
           <tr>
             <td className="border border-white p-2">Living for today</td>
@@ -95,19 +144,25 @@ export const solutionBody = (
             <td className="border border-white p-2">O</td>
           </tr>
           <tr>
-            <td className="border border-white p-2">No need for greed and hunger</td>
+            <td className="border border-white p-2">
+              No need for greed and hunger
+            </td>
             <td className="border border-white p-2">Will Ferrell</td>
             <td className="border border-white p-2">3</td>
             <td className="border border-white p-2">L</td>
           </tr>
           <tr>
-            <td className="border border-white p-2">I hope someday you will join us</td>
+            <td className="border border-white p-2">
+              I hope someday you will join us
+            </td>
             <td className="border border-white p-2">Leslie Odom Jr.</td>
             <td className="border border-white p-2">7</td>
             <td className="border border-white p-2">O</td>
           </tr>
           <tr>
-            <td className="border border-white p-2">Imagine there's no heaven</td>
+            <td className="border border-white p-2">
+              Imagine there's no heaven
+            </td>
             <td className="border border-white p-2">Gal Gadot</td>
             <td className="border border-white p-2">4</td>
             <td className="border border-white p-2">G</td>
@@ -125,7 +180,9 @@ export const solutionBody = (
             <td className="border border-white p-2">Z</td>
           </tr>
           <tr>
-            <td className="border border-white p-2">Imagine there's no countries</td>
+            <td className="border border-white p-2">
+              Imagine there's no countries
+            </td>
             <td className="border border-white p-2">Eddie Benjamin</td>
             <td className="border border-white p-2">5</td>
             <td className="border border-white p-2">E</td>
@@ -134,9 +191,18 @@ export const solutionBody = (
       </table>
     </div>
 
-    <div className="max-w-3xl mb-5">This extraction spells out the intermediate answer,{" "}<span className="bg-main-text hover:bg-inherit">APOLOGIZE</span>.</div>
-    <div className="max-w-3xl mb-5">From there, this is a judge puzzle! Emailed submissions meeting the stated criteria will be given the answer,{" "}<span className="bg-main-text hover:bg-inherit">INDIANA JONES AND THE LAST CRUSADE</span>.</div>
-
+    <div className="mb-5 max-w-3xl">
+      This extraction spells out the intermediate answer,{" "}
+      <span className="bg-main-text hover:bg-inherit">APOLOGIZE</span>.
+    </div>
+    <div className="mb-5 max-w-3xl">
+      From there, this is a judge puzzle! Emailed submissions meeting the stated
+      criteria will be given the answer,{" "}
+      <span className="bg-main-text hover:bg-inherit">
+        INDIANA JONES AND THE LAST CRUSADE
+      </span>
+      .
+    </div>
   </div>
 );
 
@@ -160,10 +226,12 @@ export const partialSolutions: Record<string, string> = {};
 export const tasks: Record<string, JSX.Element> = {
   APOLOGIZE: (
     <div>
-      <div className="max-w-3xl text-center mb-6">
-        Oh...that thing you did was actually kind of insensitive...Make an apology video and send it to brownpuzzlehq@gmail.com. Your apology should include at least 4 of the following:
+      <div className="mb-6 max-w-3xl text-center">
+        Oh...that thing you did was actually kind of insensitive...Make an
+        apology video and send it to brownpuzzlehq@gmail.com. Your apology
+        should include at least 4 of the following:
       </div>
-      <ul className="list-disc max-w-3xl pl-6">
+      <ul className="max-w-3xl list-disc pl-6">
         <li>Blow your nose loudly for 5 continuous seconds</li>
         <li>Include every letter of the alphabet in your script</li>
         <li>Shed a definitely not fake tear</li>
@@ -173,6 +241,5 @@ export const tasks: Record<string, JSX.Element> = {
         <li>Use at least 5 different synonyms for the word ‘sorry’ </li>
       </ul>
     </div>
-
   ),
 };

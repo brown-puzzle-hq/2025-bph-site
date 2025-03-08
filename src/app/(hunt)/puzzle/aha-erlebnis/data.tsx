@@ -12,108 +12,148 @@ export const puzzleId = "aha-erlebnis";
  */
 export const inPersonBody = (
   <div>
-    <div className="max-w-3xl text-center mb-4"><b>This is a metapuzzle. It uses feeders from the{" "}<span className="underline">DRAMA</span> round.</b></div>
-    <div className="max-w-3xl mb-4"><i>The emotions of the characters just aren't connecting with audiences. How can you make this German film more accessible?</i></div>
-  
-      <div className="flex flex-col space-y-4 text-white p-6">
+    <div className="mb-4 max-w-3xl text-center">
+      <b>
+        This is a metapuzzle. It uses feeders from the{" "}
+        <span className="underline">DRAMA</span> round.
+      </b>
+    </div>
+    <div className="mb-4 max-w-3xl">
+      <i>
+        The emotions of the characters just aren't connecting with audiences.
+        How can you make this German film more accessible?
+      </i>
+    </div>
+
+    <div className="flex flex-col space-y-4 p-6 text-white">
       <div>
         <div className="font-bold">Attraction:</div>
-        <div className="flex gap-4 mt-8">
+        <div className="mt-8 flex gap-4">
           {[
-            "", "", "1", "", "", "", "", "", "", "", "", "2", "", "", "", ""
+            "",
+            "",
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "2",
+            "",
+            "",
+            "",
+            "",
           ].map((value, index) => (
             <div key={index} className="flex flex-col items-center">
-              <div className="w-6 border-b-2 border-white h-6"></div>
-              <div className="text-center w-6">{value}</div>
+              <div className="h-6 w-6 border-b-2 border-white"></div>
+              <div className="w-6 text-center">{value}</div>
             </div>
           ))}
         </div>
       </div>
-      </div>
+    </div>
 
-      <div className="flex flex-col space-y-4 text-white p-6">
+    <div className="flex flex-col space-y-4 p-6 text-white">
       <div>
         <div className="font-bold">Tiredness:</div>
-        <div className="flex gap-4 mt-8">
+        <div className="mt-8 flex gap-4">
           {[
-            "3", "", "4", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
+            "3",
+            "",
+            "4",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
           ].map((value, index) => (
             <div key={index} className="flex flex-col items-center">
-              <div className="w-6 border-b-2 border-white h-6"></div>
-              <div className="text-center w-6">{value}</div>
+              <div className="h-6 w-6 border-b-2 border-white"></div>
+              <div className="w-6 text-center">{value}</div>
             </div>
           ))}
         </div>
       </div>
-      </div>
+    </div>
 
-      <div className="flex flex-col space-y-4 text-white p-6">
+    <div className="flex flex-col space-y-4 p-6 text-white">
       <div>
         <div className="font-bold">Pain:</div>
-        <div className="flex gap-4 mt-8">
-          {[
-            "", "", "6", "", "", "", "5", "", "", "", ""
-          ].map((value, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <div className="w-6 border-b-2 border-white h-6"></div>
-              <div className="text-center w-6">{value}</div>
-            </div>
-          ))}
+        <div className="mt-8 flex gap-4">
+          {["", "", "6", "", "", "", "5", "", "", "", ""].map(
+            (value, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <div className="h-6 w-6 border-b-2 border-white"></div>
+                <div className="w-6 text-center">{value}</div>
+              </div>
+            ),
+          )}
         </div>
       </div>
-      </div>
+    </div>
 
-      <div className="flex flex-col space-y-4 text-white p-6">
+    <div className="flex flex-col space-y-4 p-6 text-white">
       <div>
         <div className="font-bold">Panic:</div>
-        <div className="flex gap-4 mt-8">
-          {[
-            "", "9", "", "", "", "", "", "", "", "", "7", "", "", "", ""
-          ].map((value, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <div className="w-6 border-b-2 border-white h-6"></div>
-              <div className="text-center w-6">{value}</div>
-            </div>
-          ))}
+        <div className="mt-8 flex gap-4">
+          {["", "9", "", "", "", "", "", "", "", "", "7", "", "", "", ""].map(
+            (value, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <div className="h-6 w-6 border-b-2 border-white"></div>
+                <div className="w-6 text-center">{value}</div>
+              </div>
+            ),
+          )}
         </div>
       </div>
-      </div>
+    </div>
 
-      <div className="flex flex-col space-y-4 text-white p-6">
+    <div className="flex flex-col space-y-4 p-6 text-white">
       <div>
         <div className="font-bold">Emptiness:</div>
-        <div className="flex gap-4 mt-8">
-          {[
-            "", "10", "", "", "", "", "", "", "", "", "8", ""
-          ].map((value, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <div className="w-6 border-b-2 border-white h-6"></div>
-              <div className="text-center w-6">{value}</div>
-            </div>
-          ))}
+        <div className="mt-8 flex gap-4">
+          {["", "10", "", "", "", "", "", "", "", "", "8", ""].map(
+            (value, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <div className="h-6 w-6 border-b-2 border-white"></div>
+                <div className="w-6 text-center">{value}</div>
+              </div>
+            ),
+          )}
         </div>
       </div>
-      </div>
+    </div>
 
-      <div className="flex flex-col space-y-4 text-white p-6">
+    <div className="flex flex-col space-y-4 p-6 text-white">
       <div>
         <div className="font-bold">Happiness:</div>
-        <div className="flex gap-4 mt-8">
-          {[
-            "", "", "", "", "", "", "", "11", "", "", "", "", ""
-          ].map((value, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <div className="w-6 border-b-2 border-white h-6"></div>
-              <div className="text-center w-6">{value}</div>
-            </div>
-          ))}
+        <div className="mt-8 flex gap-4">
+          {["", "", "", "", "", "", "", "11", "", "", "", "", ""].map(
+            (value, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <div className="h-6 w-6 border-b-2 border-white"></div>
+                <div className="w-6 text-center">{value}</div>
+              </div>
+            ),
+          )}
         </div>
       </div>
-      </div>
-
+    </div>
   </div>
-  
-  );
+);
 
 export const remoteBoxBody = inPersonBody;
 
@@ -124,7 +164,9 @@ export const remoteBody = inPersonBody;
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center">This puzzle does not have a solution. Go nag Arnav. </div>
+  <div className="max-w-3xl text-center">
+    This puzzle does not have a solution. Go nag Arnav.{" "}
+  </div>
 );
 
 /**

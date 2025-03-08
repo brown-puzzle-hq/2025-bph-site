@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from "next/image";
 
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
@@ -13,42 +13,46 @@ export const puzzleId = "walk-of-fame";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
-  <div className="max-w-3xl text-center">This is a physical puzzle! You should have received it at kickoff. Please visit HQ in Friedman 208 if you believe you are missing these supplies.</div>
+  <div className="max-w-3xl text-center">
+    This is a physical puzzle! You should have received it at kickoff. Please
+    visit HQ in Friedman 208 if you believe you are missing these supplies.
+  </div>
 );
 
 export const remoteBoxBody = (
-  <div className="max-w-3xl text-center">This is a physical puzzle! You should have received it in your Box. Contact brownpuzzlehq@gmail.com with any questions about your Box or its materials.</div>
+  <div className="max-w-3xl text-center">
+    This is a physical puzzle! You should have received it in your Box. Contact
+    brownpuzzlehq@gmail.com with any questions about your Box or its materials.
+  </div>
 );
 
-import WOF1 from "./Walk of Fame (1).png"; 
-import WOF2 from "./Walk of Fame (2).png"; 
-import WOF3 from "./Walk of Fame (3).png"; 
-import WOF4 from "./Walk of Fame (4).png"; 
-import WOF5 from "./Walk of Fame (5).png"; 
+import WOF1 from "./Walk of Fame (1).png";
+import WOF2 from "./Walk of Fame (2).png";
+import WOF3 from "./Walk of Fame (3).png";
+import WOF4 from "./Walk of Fame (4).png";
+import WOF5 from "./Walk of Fame (5).png";
 
 export const remoteBody = (
   <div>
-    <div className = "mb-4">
+    <div className="mb-4">
       <Image src={WOF1} width={500} height={500} alt="" />
     </div>
 
-    <div className = "mb-4">
+    <div className="mb-4">
       <Image src={WOF2} width={500} height={500} alt="" />
     </div>
 
-    <div className = "mb-4">  
+    <div className="mb-4">
       <Image src={WOF3} width={500} height={500} alt="" />
     </div>
 
-    <div className = "mb-4">
-      <Image src={WOF4} width=
-      {500} height={500} alt="" />
+    <div className="mb-4">
+      <Image src={WOF4} width={500} height={500} alt="" />
     </div>
 
-    <div className = "mb-4">
+    <div className="mb-4">
       <Image src={WOF5} width={500} height={500} alt="" />
     </div>
-
   </div>
 );
 
@@ -57,7 +61,9 @@ export const remoteBody = (
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center">This solution does not exist yet. Go nag Thomas.</div>
+  <div className="max-w-3xl text-center">
+    This solution does not exist yet. Go nag Thomas.
+  </div>
 );
 
 /**

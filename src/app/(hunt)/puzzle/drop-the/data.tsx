@@ -13,56 +13,85 @@ export const puzzleId = "drop-the";
 
 export const inPersonBody = (
   <div className="flex flex-col items-center">
-  <div className="max-w-3xl text-center mb-4"><b>This is a metapuzzle. It uses feeders from the{" "}<span className="underline">ACTION</span> round.</b></div>
-  <div className="max-w-3xl mb-4"><i>You're trying to adapt these characters -- better known by other names -- into your movie, but people are butting heads. What do they need?</i></div>
+    <div className="mb-4 max-w-3xl text-center">
+      <b>
+        This is a metapuzzle. It uses feeders from the{" "}
+        <span className="underline">ACTION</span> round.
+      </b>
+    </div>
+    <div className="mb-4 max-w-3xl">
+      <i>
+        You're trying to adapt these characters -- better known by other names
+        -- into your movie, but people are butting heads. What do they need?
+      </i>
+    </div>
 
-  <div className="grid grid-cols-8 gap-1 justify-center mt-4">
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center">4</div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center">5</div>
-    </div>     
-  <div className="grid grid-cols-7 gap-1 justify-center mt-4">
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center">10</div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center">6</div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      </div>  
-  <div className="grid grid-cols-6 gap-1 justify-center mt-4">
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center">7</div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center">8</div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      </div>  
-  <div className="grid grid-cols-5 gap-1 justify-center mt-4">
-      <div className="w-10 h-10 border border-white flex items-center justify-center">3</div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center">9</div>
-      </div>  
-  <div className="grid grid-cols-4 gap-1 justify-center mt-4">
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center">2</div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      </div>  
-  <div className="grid grid-cols-3 gap-1 justify-center mt-4">
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center">1</div>
-      <div className="w-10 h-10 border border-white flex items-center justify-center"></div>
-    </div>  
-
-</div>
+    <div className="mt-4 grid grid-cols-8 justify-center gap-1">
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white">
+        4
+      </div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white">
+        5
+      </div>
+    </div>
+    <div className="mt-4 grid grid-cols-7 justify-center gap-1">
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white">
+        10
+      </div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white">
+        6
+      </div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+    </div>
+    <div className="mt-4 grid grid-cols-6 justify-center gap-1">
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white">
+        7
+      </div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white">
+        8
+      </div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+    </div>
+    <div className="mt-4 grid grid-cols-5 justify-center gap-1">
+      <div className="flex h-10 w-10 items-center justify-center border border-white">
+        3
+      </div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white">
+        9
+      </div>
+    </div>
+    <div className="mt-4 grid grid-cols-4 justify-center gap-1">
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white">
+        2
+      </div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+    </div>
+    <div className="mt-4 grid grid-cols-3 justify-center gap-1">
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white">
+        1
+      </div>
+      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+    </div>
+  </div>
 );
 
 export const remoteBoxBody = inPersonBody;
@@ -74,7 +103,10 @@ export const remoteBody = inPersonBody;
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center"> This solution does not exist yet. Nag the triplets. </div>
+  <div className="max-w-3xl text-center">
+    {" "}
+    This solution does not exist yet. Nag the triplets.{" "}
+  </div>
 );
 
 /**

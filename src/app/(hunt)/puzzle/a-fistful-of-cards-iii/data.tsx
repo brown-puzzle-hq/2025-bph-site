@@ -1,20 +1,19 @@
 import Image from "next/image";
 import lasso from "./lasso.png";
-import flood_of_cash from "./flood_of_cash.png"
-import gathering_dynamite from "./gathering_dynamite.png"
-import glory_and_gold from "./glory_and_gold.png"
-import moral_hazard from "./moral_hazard.png"
-import raze from "./raze.png"
-import recycling_waste from "./recycling_waste.png"
-import resell from "./resell.png"
-import booklet1 from "./booklet_1.png"
-import booklet2 from "./booklet_2.png"
-import booklet3 from "./booklet_3.png"
-import booklet4 from "./booklet_4.png"
-import discard from "./playmat discard.png"
-import stash from "./playmat stash.png"
-import town from "./playmat town.png"
-
+import flood_of_cash from "./flood_of_cash.png";
+import gathering_dynamite from "./gathering_dynamite.png";
+import glory_and_gold from "./glory_and_gold.png";
+import moral_hazard from "./moral_hazard.png";
+import raze from "./raze.png";
+import recycling_waste from "./recycling_waste.png";
+import resell from "./resell.png";
+import booklet1 from "./booklet_1.png";
+import booklet2 from "./booklet_2.png";
+import booklet3 from "./booklet_3.png";
+import booklet4 from "./booklet_4.png";
+import discard from "./playmat discard.png";
+import stash from "./playmat stash.png";
+import town from "./playmat town.png";
 
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
@@ -30,50 +29,33 @@ export const puzzleId = "a-fistful-of-cards-iii";
  */
 export const inPersonBody = (
   <div>
-    <div className="max-w-3xl text-center mb-6"><i>This is a physical puzzle! You should have received it at kickoff. Please visit HQ in Friedman 208 if you believe you are missing these supplies.</i></div>
-    <hr className="border-t border-white mb-6 my-6" />
-    <div className="max-w-3xl text-center mb-6"><span className="underline"><b>Round 3</b></span>: Deal 36 damage.</div>
-    <div className="max-w-3xl mb-3"><span className="underline"><b>Legal cards</b></span>: The{" "}
+    <div className="mb-6 max-w-3xl text-center">
+      <i>
+        This is a physical puzzle! You should have received it at kickoff.
+        Please visit HQ in Friedman 208 if you believe you are missing these
+        supplies.
+      </i>
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="mb-6 max-w-3xl text-center">
+      <span className="underline">
+        <b>Round 3</b>
+      </span>
+      : Deal 36 damage.
+    </div>
+    <div className="mb-3 max-w-3xl">
+      <span className="underline">
+        <b>Legal cards</b>
+      </span>
+      : The{" "}
       <Image
         src={lasso}
         alt="lasso"
-        width={30}  
-        height={30} 
+        width={30}
+        height={30}
         className="inline-block align-text-bottom"
       />{" "}
       set.
-
-</div>
-
-    <ul className="list-disc pl-6">
-      <li>Flood of Cash</li>
-      <li>Gathering Dynamite</li>
-      <li>Glory and Gold</li>
-      <li>Moral Hazard</li>
-      <li>Raze</li>
-      <li>Recycling Waste</li>
-      <li>Resell</li>
-    </ul>
-  
-
-  </div>
-);
-
-export const remoteBoxBody = (
-  <div>
-    <div className="max-w-3xl text-center"><i>This is a physical puzzle! You should have received it in your Box. Contact brownpuzzlehq@gmail.com with any questions about your Box or its materials.</i></div>
-    <hr className="border-t border-white mb-6 my-6" />
-    <div className="max-w-3xl text-center mb-6"><span className="underline"><b>Round 3</b></span>: Deal 36 damage.</div>
-    <div className="max-w-3xl mb-3"><span className="underline"><b>Legal cards</b></span>: The{" "}
-      <Image
-        src={lasso}
-        alt="lasso"
-        width={30}  
-        height={30} 
-        className="inline-block align-text-bottom"
-      />{" "}
-      set.
-
     </div>
 
     <ul className="list-disc pl-6">
@@ -85,32 +67,78 @@ export const remoteBoxBody = (
       <li>Recycling Waste</li>
       <li>Resell</li>
     </ul>
-
   </div>
-  );
+);
 
-export const remoteBody = (<div>
-  <div className="w-full mb-6 text-center"><span className="underline"><b>Round 3</b></span>: Deal 36 damage.</div>
-  <hr className="border-t border-white mb-6 my-6" />
-  <div className="w-full mb-6 text-center"><span className="underline"><b>Legal cards</b></span>: The{" "}
-    <Image
-      src={lasso}
-      alt="lasso"
-      width={30}  
-      height={30} 
-      className="inline-block align-text-bottom"
-    />{" "}
-    set.
-
-  </div>
-
-  <div className="grid grid-cols-4 gap-4 justify-items-center">
+export const remoteBoxBody = (
+  <div>
+    <div className="max-w-3xl text-center">
+      <i>
+        This is a physical puzzle! You should have received it in your Box.
+        Contact brownpuzzlehq@gmail.com with any questions about your Box or its
+        materials.
+      </i>
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="mb-6 max-w-3xl text-center">
+      <span className="underline">
+        <b>Round 3</b>
+      </span>
+      : Deal 36 damage.
+    </div>
+    <div className="mb-3 max-w-3xl">
+      <span className="underline">
+        <b>Legal cards</b>
+      </span>
+      : The{" "}
       <Image
-        src={flood_of_cash}
-        alt="Flood of Cash"
-        width={200}
-        height={450}
-      />
+        src={lasso}
+        alt="lasso"
+        width={30}
+        height={30}
+        className="inline-block align-text-bottom"
+      />{" "}
+      set.
+    </div>
+
+    <ul className="list-disc pl-6">
+      <li>Flood of Cash</li>
+      <li>Gathering Dynamite</li>
+      <li>Glory and Gold</li>
+      <li>Moral Hazard</li>
+      <li>Raze</li>
+      <li>Recycling Waste</li>
+      <li>Resell</li>
+    </ul>
+  </div>
+);
+
+export const remoteBody = (
+  <div>
+    <div className="mb-6 w-full text-center">
+      <span className="underline">
+        <b>Round 3</b>
+      </span>
+      : Deal 36 damage.
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="mb-6 w-full text-center">
+      <span className="underline">
+        <b>Legal cards</b>
+      </span>
+      : The{" "}
+      <Image
+        src={lasso}
+        alt="lasso"
+        width={30}
+        height={30}
+        className="inline-block align-text-bottom"
+      />{" "}
+      set.
+    </div>
+
+    <div className="grid grid-cols-4 justify-items-center gap-4">
+      <Image src={flood_of_cash} alt="Flood of Cash" width={200} height={450} />
       <Image
         src={gathering_dynamite}
         alt="Gathering Dynamite"
@@ -123,91 +151,48 @@ export const remoteBody = (<div>
         width={200}
         height={450}
       />
-      <Image
-        src={moral_hazard}
-        alt="Moral Hazard"
-        width={200}
-        height={450}
-      />
+      <Image src={moral_hazard} alt="Moral Hazard" width={200} height={450} />
     </div>
-    <div className="grid grid-cols-3 gap-4 justify-items-center mt-5 w-max mx-auto">
-      <Image
-        src={raze}
-        alt="Raze"
-        width={200} 
-        height={450} 
-      />
+    <div className="mx-auto mt-5 grid w-max grid-cols-3 justify-items-center gap-4">
+      <Image src={raze} alt="Raze" width={200} height={450} />
       <Image
         src={recycling_waste}
         alt="Recycling Waste"
-        width={200} 
-        height={450} 
+        width={200}
+        height={450}
       />
-      <Image
-        src={resell}
-        alt="Resell"
-        width={200} 
-        height={450} 
-      />
+      <Image src={resell} alt="Resell" width={200} height={450} />
     </div>
 
-  <hr className="border-t border-white mb-6 my-6" />
+    <hr className="my-6 mb-6 border-t border-white" />
 
-  <div className="w-full mb-6 text-center"><span className="underline"><b>Instructions</b></span></div>
-
-  <div className="flex justify-center mt-8 gap-4">
-      <Image
-        src={booklet1}
-        alt="Booklet #1"
-        width={200}
-        height={400}
-      />
-      <Image
-        src={booklet2}
-        alt="Booklet #2"
-        width={200}
-        height={400}
-      />
-      <Image
-        src={booklet3}
-        alt="Booklet #3"
-        width={200}
-        height={400}
-      />
-      <Image
-        src={booklet4}
-        alt="Booklet #4"
-        width={200}
-        height={400}
-      />
+    <div className="mb-6 w-full text-center">
+      <span className="underline">
+        <b>Instructions</b>
+      </span>
     </div>
 
-  <hr className="border-t border-white mb-6 my-6" />
+    <div className="mt-8 flex justify-center gap-4">
+      <Image src={booklet1} alt="Booklet #1" width={200} height={400} />
+      <Image src={booklet2} alt="Booklet #2" width={200} height={400} />
+      <Image src={booklet3} alt="Booklet #3" width={200} height={400} />
+      <Image src={booklet4} alt="Booklet #4" width={200} height={400} />
+    </div>
 
-  <div className="w-full mb-6 text-center"><span className="underline"><b>Playmats</b></span></div>
+    <hr className="my-6 mb-6 border-t border-white" />
 
-  <div className="flex flex-col items-center justify-between h-full gap-4">
-      <Image
-        src={stash}
-        alt="The Stash"
-        width={700}
-        height={1000}
-      />
-      <Image
-        src={town}
-        alt="The Town"
-        width={700}
-        height={1000}
-      />
-      <Image
-        src={discard}
-        alt="Discard Pile"
-        width={700}
-        height={1000}
-      />
-      </div>
+    <div className="mb-6 w-full text-center">
+      <span className="underline">
+        <b>Playmats</b>
+      </span>
+    </div>
 
-</div>
+    <div className="flex h-full flex-col items-center justify-between gap-4">
+      <Image src={stash} alt="The Stash" width={700} height={1000} />
+      <Image src={town} alt="The Town" width={700} height={1000} />
+      <Image src={discard} alt="Discard Pile" width={700} height={1000} />
+    </div>
+  </div>
 );
 
 /**
@@ -215,7 +200,9 @@ export const remoteBody = (<div>
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center">This puzzle does not have a solution. Go nag Jeremy. </div>
+  <div className="max-w-3xl text-center">
+    This puzzle does not have a solution. Go nag Jeremy.{" "}
+  </div>
 );
 
 /**
@@ -223,7 +210,7 @@ export const solutionBody = (
  * that can be copied to the clipboard. Set this to `null` to remove the copy button.
  */
 export const copyText = `null`; // come back later
- 
+
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.
  * Each key is a partial solution, and the value is the prompt to be displayed. Keys must
