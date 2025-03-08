@@ -132,8 +132,8 @@ export const solutionBody = (
       words. Use the letters that are in the class titles, not the book words.
     </p>
     <p className="text-lg font-semibold">
-      These letters spell out <span className="text-main-accent">BANNER</span>, the
-      answer to the puzzle.
+      These letters spell out <span className="text-main-accent">BANNER</span>,
+      the answer to the puzzle.
     </p>
   </div>
 );
