@@ -33,6 +33,7 @@ type Sequence = {
 export const SEQUENCES: Sequence[] = [
   { name: "A", icon: "📜", puzzles: ["seq1", "seq2"] },
   { name: "B", icon: "🛡️", puzzles: ["seq1", "seq3"] },
+  { name: "A Fistful of Cards", icon: "🃏", puzzles: ["a-fistful-of-cards", "a-fistful-of-cards-ii", "a-fistful-of-cards-iii", "a-fistful-of-cards-iv"]}
 ];
 
 /** GUESSES */
