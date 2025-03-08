@@ -46,7 +46,7 @@ export const remoteBody = (
  */
 export const solutionBody = (
   <div className="max-w-3xl"> 
-    <div className="text-center mb-5">Answer:{" "}<span className="bg-main-text">INDIANA JONES AND THE LAST CRUSADE</span>.</div>
+    <div className="text-center mb-5">Answer:{" "}<span className="bg-main-tex hover:bg-inherit">INDIANA JONES AND THE LAST CRUSADE</span>.</div>
     <div className="max-w-3xl mb-4">This puzzle is a reference to{" "} 
     <Link href="https://www.youtube.com/watch?v=omEDLKS5pbY"><span className="underline">this pandemic celebrity cringe video</span></Link>
     {" "}from 2020. It was a well-intentioned video that came off as very tone-deaf, so it went pretty viral. 
@@ -134,8 +134,8 @@ export const solutionBody = (
       </table>
     </div>
 
-    <div className="max-w-3xl mb-5">This extraction spells out the intermediate answer,{" "}<span className="bg-main-text">APOLOGIZE</span>.</div>
-    <div className="max-w-3xl mb-5">From there, this is a judge puzzle! Emailed submissions meeting the stated criteria will be given the answer,{" "}<span className="bg-main-text">INDIANA JONES AND THE LAST CRUSADE</span>.</div>
+    <div className="max-w-3xl mb-5">This extraction spells out the intermediate answer,{" "}<span className="bg-main-text hover:bg-inherit">APOLOGIZE</span>.</div>
+    <div className="max-w-3xl mb-5">From there, this is a judge puzzle! Emailed submissions meeting the stated criteria will be given the answer,{" "}<span className="bg-main-text hover:bg-inherit">INDIANA JONES AND THE LAST CRUSADE</span>.</div>
 
   </div>
 );

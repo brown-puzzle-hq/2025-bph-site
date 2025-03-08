@@ -324,7 +324,7 @@ export const remoteBody = inPersonBody;
  */
 export const solutionBody = (
   <div className="max-w-3xl">
-    <div className="text-center">Answer:{" "}<span className="bg-main-text">STERNS</span>.</div>
+    <div className="text-center">Answer:{" "}<span className="bg-main-text hover:bg-inherit">STERNS</span>.</div>
 
     <div className="mb-6">This contains 6 mini puzzles. Each one is a riff on the classic &ldquo;2 Guards, 2 Doors&rdquo; riddle. One letter is extracted from each mini-puzzle, and when they are compiled in order, they yield the answer. One small quirk in this puzzle (that is mentioned in detail below) is that you need to solve the mini-puzzles slightly out of order, as you need information from the third mini-puzzle in the second one.</div>
 
