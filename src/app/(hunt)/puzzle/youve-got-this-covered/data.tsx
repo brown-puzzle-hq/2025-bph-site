@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from "next/link";
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
  * It should be equal to the name of the folder this file is currently under.
@@ -13,23 +13,34 @@ export const puzzleId = "youve-got-this-covered";
  */
 export const inPersonBody = (
   <div>
-    <div className="max-w-3xl text-center mb-6">This is a physical puzzle! If your team has not already picked up a CD, please visit HQ in Friedman 208.</div>
-    <hr className="border-t border-white mb-6 my-6" />
+    <div className="mb-6 max-w-3xl text-center">
+      This is a physical puzzle! If your team has not already picked up a CD,
+      please visit HQ in Friedman 208.
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
   </div>
 );
 
-export const remoteBoxBody = (<div>
-  <div className="max-w-3xl text-center"><i>This is a physical puzzle! You should have received it in your Box. Contact brownpuzzlehq@gmail.com with any questions about your Box or its materials.</i></div>
-  <hr className="border-t border-white mb-6 my-6" />
-</div>
-
+export const remoteBoxBody = (
+  <div>
+    <div className="max-w-3xl text-center">
+      <i>
+        This is a physical puzzle! You should have received it in your Box.
+        Contact brownpuzzlehq@gmail.com with any questions about your Box or its
+        materials.
+      </i>
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+  </div>
 );
 
 export const remoteBody = (
   <div>
-    <div className="max-w-3xl mt-8 text-center">
-      <Link href="https://drive.google.com/file/d/149vQ1n_JK39qX7UsFA0SsRLI5vzFO0iH/view?usp=sharing"><span className="underline">[audio]</span></Link>
-      </div>
+    <div className="mt-8 max-w-3xl text-center">
+      <Link href="https://drive.google.com/file/d/149vQ1n_JK39qX7UsFA0SsRLI5vzFO0iH/view?usp=sharing">
+        <span className="underline">[audio]</span>
+      </Link>
+    </div>
     {/* i do not know how to embed audio and cannot figure it out so this can be fixed later */}
   </div>
 );
@@ -39,14 +50,16 @@ export const remoteBody = (
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center">This solution is sorta written but like...fill this in later :)</div>
+  <div className="max-w-3xl text-center">
+    This solution is sorta written but like...fill this in later :)
+  </div>
 );
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
  * that can be copied to the clipboard. Set this to `null` to remove the copy button.
  */
-export const copyText = null
+export const copyText = null;
 
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.

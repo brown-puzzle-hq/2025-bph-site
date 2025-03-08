@@ -28,7 +28,7 @@ export const remoteBody = inPersonBody;
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center space-y-4">
+  <div className="max-w-3xl space-y-4 text-center">
     <div>
       This puzzle is about the mobile game Little Alchemy (the first one, NOT
       Little Alchemy 2). That game is about combining elements to create new

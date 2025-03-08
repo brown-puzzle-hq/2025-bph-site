@@ -12,12 +12,23 @@ export const puzzleId = "cutting-room-floor";
  */
 export const inPersonBody = (
   <div>
-    <div className="max-w-3xl text-center mb-4"><b>This is a metapuzzle. It uses feeders from the{" "}<span className="underline">CEREBRAL</span> round.</b></div>
-    <hr className="border-t border-white mb-6 my-6" />
-    <div className="max-w-3xl mb-6"><i>The movie is almost done… but there seem to be several different ways to arrange the scenes.</i></div>
-    <div className="max-w-3xl text-center"><i>How should you assemble the movie?</i></div>
+    <div className="mb-4 max-w-3xl text-center">
+      <b>
+        This is a metapuzzle. It uses feeders from the{" "}
+        <span className="underline">CEREBRAL</span> round.
+      </b>
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="mb-6 max-w-3xl">
+      <i>
+        The movie is almost done… but there seem to be several different ways to
+        arrange the scenes.
+      </i>
+    </div>
+    <div className="max-w-3xl text-center">
+      <i>How should you assemble the movie?</i>
+    </div>
   </div>
-
 );
 
 export const remoteBoxBody = inPersonBody;
@@ -29,14 +40,16 @@ export const remoteBody = inPersonBody;
  * If there are no solutions available, set it null.
  */
 export const solutionBody = (
-  <div className="max-w-3xl text-center">This solution does not exist yet. Go nag Aren.</div>
+  <div className="max-w-3xl text-center">
+    This solution does not exist yet. Go nag Aren.
+  </div>
 );
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
  * that can be copied to the clipboard. Set this to `null` to remove the copy button.
  */
-export const copyText = null
+export const copyText = null;
 
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.

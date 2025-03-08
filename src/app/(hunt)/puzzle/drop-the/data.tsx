@@ -113,7 +113,7 @@ export const solutionBody = (
  * The `copyText` should provide a convenient text representation of the puzzle
  * that can be copied to the clipboard. Set this to `null` to remove the copy button.
  */
-export const copyText = null // TO DO LATER tbh not dealing with this rn
+export const copyText = null; // TO DO LATER tbh not dealing with this rn
 
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.
