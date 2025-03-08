@@ -139,9 +139,9 @@ export const solutionBody = (
     </p>
     <p className="text-lg font-semibold">
       These letters spell out <span className="text-blue-300">BANNER</span>, the
-      answer to the puzzle.
-      These letters spell out <span className="text-main-accent">BANNER</span>,
-      the answer to the puzzle.
+      answer to the puzzle. These letters spell out{" "}
+      <span className="text-main-accent">BANNER</span>, the answer to the
+      puzzle.
     </p>
   </div>
 );
