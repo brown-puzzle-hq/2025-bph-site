@@ -25,12 +25,6 @@ export const inPersonBody = (
         "no."
       </i>
     </div>
-    <div className="flex justify-center pb-4">
-      <audio controls>
-        <source src="/api/puzzle/imagine" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-    </div>
   </div>
 );
 
@@ -49,12 +43,6 @@ export const remoteBoxBody = (
         The only inspiring thing here is how the internet came together to say
         "no."
       </i>
-    </div>
-    <div className="flex justify-center pb-4">
-      <audio controls>
-        <source src="/api/puzzle/imagine" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
     </div>
   </div>
 );
