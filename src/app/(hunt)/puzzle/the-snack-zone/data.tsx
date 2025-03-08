@@ -1,13 +1,13 @@
 import Image from "next/image";
-import SNACK_I from "./snackI.jpg";
-import SNACK_D from "./snackD.jpg";
-import SNACK_G from "./snackG.jpg";
-import SNACK_F from "./snackF.jpg";
-import SNACK_E from "./snackE.jpg";
-import SNACK_C from "./snackC.jpg";
-import SNACK_B from "./snackB.jpg";
-import SNACK_A from "./snackA.jpg";
-import SNACK_H from "./snackH.jpg";
+import SNACK_I from "./media/snackI.jpg";
+import SNACK_D from "./media/snackD.jpg";
+import SNACK_G from "./media/snackG.jpg";
+import SNACK_F from "./media/snackF.jpg";
+import SNACK_E from "./media/snackE.jpg";
+import SNACK_C from "./media/snackC.jpg";
+import SNACK_B from "./media/snackB.jpg";
+import SNACK_A from "./media/snackA.jpg";
+import SNACK_H from "./media/snackH.jpg";
 
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
@@ -22,10 +22,10 @@ export const puzzleId = "the-snack-zone";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
-  <div className="max-w-3xl text-center">
+  <div className="max-w-xl text-center">
     <div className="mb-10 flex justify-center">
-      <video className="h-64 w-full sm:h-80 lg:h-96">
-        <source src="" type="video/mp4" />
+      <video width="1280" height="721" controls>
+        <source src="/api/puzzle/the-snack-zone" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
