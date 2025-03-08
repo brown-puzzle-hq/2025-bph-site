@@ -32,7 +32,7 @@ type Sequence = {
  * be displayed earlier. */
 export const SEQUENCES: Sequence[] = [
   {
-    name: "eye",
+    name: "Eyes",
     icon: "👁️",
     puzzles: [
       "eye-of-the-storm",
@@ -44,7 +44,7 @@ export const SEQUENCES: Sequence[] = [
     ],
   },
   {
-    name: "jigsaw",
+    name: "Word Bank",
     icon: "🧩",
     puzzles: [
       "study-abroad",
@@ -54,7 +54,7 @@ export const SEQUENCES: Sequence[] = [
     ],
   },
   {
-    name: "guards",
+    name: "Guards",
     icon: "💂",
     puzzles: [
       "the-guard-and-the-door",
@@ -78,7 +78,7 @@ export const SEQUENCES: Sequence[] = [
     ],
   },
   {
-    name: "chain",
+    name: "Chain",
     icon: "⛓️",
     puzzles: [
       // INCOMPLETE
@@ -86,7 +86,7 @@ export const SEQUENCES: Sequence[] = [
     ],
   },
   {
-    name: "cd",
+    name: "CD",
     icon: "💿",
     puzzles: [
       "the-compact-disc",
@@ -96,7 +96,7 @@ export const SEQUENCES: Sequence[] = [
     ],
   },
   {
-    name: "plane",
+    name: "Ben Doyle Squad",
     icon: "✈️",
     puzzles: [
       "color-transfer",
@@ -106,22 +106,22 @@ export const SEQUENCES: Sequence[] = [
     ],
   },
   {
-    name: "heist",
+    name: "Heist",
     icon: "🏦",
     puzzles: ["heist", "heist-ii", "heist-iii", "the-final-heist"],
   },
   {
-    name: "tree",
+    name: "Tree",
     icon: "🌲",
     puzzles: ["secret-ingredient", "opening-sequences", "whats-my-ride"],
   },
   {
-    name: "star",
+    name: "Star",
     icon: "⭐",
     puzzles: ["walk-of-fame", "whats-my-ride"],
   },
   {
-    name: "cards",
+    name: "Cards",
     icon: "🃏",
     puzzles: [
       "a-fistful-of-cards",
