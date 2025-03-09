@@ -167,7 +167,7 @@ export default function Game() {
 
   return (
     <div className="flex flex-col items-center space-y-4">
-      <div className="w-screen overflow-auto">
+      <div className="w-screen overflow-auto no-scrollbar">
         {/* TODO: should the scroll behavior be more subtle and kick in later? */}
         <div className="flex justify-center" style={{ width: width }}>
           <Stage
