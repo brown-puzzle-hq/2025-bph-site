@@ -8,9 +8,10 @@ import {
   Marker,
   TileLayer,
   Popup,
-  ImageOverlay,
+  ImageOverlay
 } from "react-leaflet";
 import L, { LatLngBounds } from "leaflet";
+
 
 export default function Map() {
   const bounds = new LatLngBounds([0, 0], [1000, 1000]);
@@ -22,11 +23,20 @@ export default function Map() {
       center={[500, 500]}
       zoom={2}
       minZoom={1.25}
+      // minZoom={-4}
       maxZoom={3.5}
       maxBounds={bounds}
       maxBoundsViscosity={1.0}
-      crs={L.CRS.Simple} // Tells Leaflet to use simple coordinate system
-      scrollWheelZoom={false}
+      crs={L.CRS.Simple}
+      scrollWheelZoom={true}
+      zoomAnimation={true}
+      zoomDelta={1}
+      zoomSnap={0.25}
+      preferCanvas={true}
+      inertia={true}
+      inertiaDeceleration={10000} // Tune deceleration (higher = slower stop)
+      inertiaMaxSpeed={Infinity}
+      markerZoomAnimation={true}
       style={{ background: "white", zIndex: 10 }}
       className="h-[calc(100vh-56px-32px)] w-screen focus:outline-none"
     >
@@ -41,13 +51,13 @@ export default function Map() {
       </Marker>
       <Marker
         position={[483, 160]}
-        icon={
-          new L.Icon({
-            iconUrl: "/map/cloud.png",
-            iconSize: [40, 40],
-            iconAnchor: [20, 40],
-          })
-        }
+      // icon={
+      //   new L.Icon({
+      //     iconUrl: "/map/cloud.png",
+      //     iconSize: [40, 40],
+      //     iconAnchor: [20, 40],
+      //   })
+      // }
       >
         <Popup>keeney</Popup>
       </Marker>
