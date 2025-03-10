@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { PUZZLE_UNLOCK_MAP, ROUNDS } from "~/hunt.config";
+import { PUZZLE_UNLOCK_MAP, ROUNDS, META_PUZZLES } from "~/hunt.config";
 import { eq } from "drizzle-orm";
 import { puzzles } from "~/server/db/schema";
 import { ChartColumn, KeyRound, Puzzle } from "lucide-react";
@@ -97,12 +97,19 @@ export default async function Home() {
               <TableBody>
                 {allPuzzlesWithEverything
                   .filter((puzzle) => round.puzzles.includes(puzzle.id))
-                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .sort((a, b) => // Prioritize metas over feeders in list
+                                    (META_PUZZLES.includes(a.id) ?
+                                      META_PUZZLES.includes(b.id) ?
+                                        a.name.localeCompare(b.name) : -1
+                                      : META_PUZZLES.includes(b.id) ?
+                                        1 : a.name.localeCompare(b.name)))
                   .map((puzzle) => (
                     <TableRow key={puzzle.id} className="hover:bg-inherit">
                       <TableCell>
                         <a
-                          className="text-blue-500 hover:underline"
+                          className={META_PUZZLES.includes(puzzle.id) ? 
+                            "text-blue-500 hover:underline font-bold" : 
+                            "text-blue-500 hover:underline"}
                           href={`/puzzle/${puzzle.id}`}
                         >
                           {puzzle.name.trim() ? puzzle.name : `[${puzzle.id}]`}

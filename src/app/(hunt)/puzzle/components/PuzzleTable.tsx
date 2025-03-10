@@ -45,10 +45,11 @@ export default function PuzzleTable({
               {availablePuzzles
                 .filter((puzzle) => round.puzzles.includes(puzzle.id))
                 .sort((a, b) =>
-                  (META_PUZZLES.includes(a.id)?
-                    META_PUZZLES.includes(b.id)?
+                  // Prioritize metas over feeders in list
+                  (META_PUZZLES.includes(a.id) ?
+                    META_PUZZLES.includes(b.id) ?
                       a.name.localeCompare(b.name) : -1
-                    : META_PUZZLES.includes(b.id)?
+                    : META_PUZZLES.includes(b.id) ?
                       1 : a.name.localeCompare(b.name)))
                 .map((puzzle) => (
                   <TableRow
@@ -63,7 +64,7 @@ export default function PuzzleTable({
                     className="hover:cursor-pointer hover:bg-footer-bg"
                     key={puzzle.id}
                   >
-                    <TableCell className={META_PUZZLES.includes(puzzle.id)? "font-bold" : ""}>
+                    <TableCell className={META_PUZZLES.includes(puzzle.id) ? "font-bold" : ""}>
                       {puzzle.name.trim() ? puzzle.name : "\u200b"}
                     </TableCell>
                     <TableCell>
