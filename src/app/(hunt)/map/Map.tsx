@@ -3,73 +3,61 @@
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
-import {
-  MapContainer,
-  Marker,
-  TileLayer,
-  Popup,
-  ImageOverlay
-} from "react-leaflet";
+import { MapContainer, Marker, Tooltip, ImageOverlay } from "react-leaflet";
 import L, { LatLngBounds } from "leaflet";
 
+const markers: { name: string; id: string; position: L.LatLngExpression }[] = [
+  {
+    name: "Example",
+    id: "example",
+    position: [579, 490],
+  },
+  {
+    name: "Example",
+    id: "example",
+    position: [475, 413],
+  },
+];
 
 export default function Map() {
   const bounds = new LatLngBounds([0, 0], [1000, 1000]);
   const colorlayout = "/map/Map-Layout-by-Section.png";
-  const layout = "/map/Map-Layout.png";
   const buildings = "map/Map-Buildings.png";
   return (
     <MapContainer
       center={[500, 500]}
       zoom={2}
       minZoom={1.25}
-      // minZoom={-4}
       maxZoom={3.5}
       maxBounds={bounds}
-      maxBoundsViscosity={1.0}
       crs={L.CRS.Simple}
-      scrollWheelZoom={true}
-      zoomAnimation={true}
-      zoomDelta={1}
-      zoomSnap={0.25}
       preferCanvas={true}
-      inertia={true}
-      inertiaDeceleration={10000} // Tune deceleration (higher = slower stop)
-      inertiaMaxSpeed={Infinity}
+      scrollWheelZoom={false}
       markerZoomAnimation={true}
       style={{ background: "white", zIndex: 10 }}
       className="h-[calc(100vh-56px-32px)] w-screen focus:outline-none"
     >
       <ImageOverlay url={colorlayout} bounds={bounds} />
-      {/* <ImageOverlay url={layout} bounds={bounds} /> */}
       <ImageOverlay url={buildings} bounds={bounds} />
-      <Marker position={[579, 490]}>
-        <Popup>sayles</Popup>
-      </Marker>
-      <Marker position={[475, 413]}>
-        <Popup>ratty</Popup>
-      </Marker>
-      <Marker
-        position={[483, 160]}
-      // icon={
-      //   new L.Icon({
-      //     iconUrl: "/map/cloud.png",
-      //     iconSize: [40, 40],
-      //     iconAnchor: [20, 40],
-      //   })
-      // }
-      >
-        <Popup>keeney</Popup>
-      </Marker>
-      <Marker position={[740, 365]}>
-        <Popup>museum</Popup>
-      </Marker>
-      <Marker position={[320, 575]}>
-        <Popup>bdh</Popup>
-      </Marker>
-      <Marker position={[560, 699]}>
-        <Popup>scili</Popup>
-      </Marker>
+      {markers.map((marker, index) => (
+        <Marker
+          title=""
+          key={index}
+          position={marker.position}
+          icon={
+            new L.Icon({
+              iconUrl: `map/sprites/${marker.id}.png`,
+              iconSize: [40, 40],
+              iconAnchor: [20, 40],
+            })
+          }
+          eventHandlers={{
+            click: () => window.open(`puzzle/${marker.id}`, "_blank"),
+          }}
+        >
+          <Tooltip direction="bottom">{marker.name}</Tooltip>
+        </Marker>
+      ))}
     </MapContainer>
   );
 }
