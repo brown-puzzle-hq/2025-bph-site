@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
@@ -8,6 +9,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { usePathname } from "next/navigation";
 
 export type MenuItem = {
   title: string;
@@ -34,6 +36,7 @@ export function HamburgerMenu({
   hambergerMenuItems,
   side,
 }: Props) {
+  const pathName = usePathname();
   return (
     <nav
       className={`fixed z-50 flex w-full items-center justify-between ${colorMap[side]} bg-opacity-30 p-[10px] backdrop-blur-md backdrop-filter md:p-4`}
@@ -45,12 +48,24 @@ export function HamburgerMenu({
             {leftMenuItems.map((item) => (
               <NavigationMenuItem key={item.title}>
                 {item.type == "element" ? (
-                  item.element!
+                  <div
+                    className={`cursor-pointer px-0.5 py-0.5 outline-1 ${
+                      pathName === item.href
+                        ? `rounded-md outline ${pathName.includes("admin") ? "bg-sky-100" : "bg-[#86183D]"}`
+                        : `hover:rounded-md hover:outline ${pathName.includes("admin") ? "hover:bg-amber-300" : "hover:bg-[#C3654C]"}`
+                    }`}
+                  >
+                    {item.element!}
+                  </div>
                 ) : (
                   <Link
                     href={item.href!}
-                    className="hover:underline"
                     prefetch={false}
+                    className={`cursor-pointer px-1 py-1 outline-1 ${
+                      pathName === item.href
+                        ? `rounded-md outline ${pathName.includes("admin") ? "bg-sky-100" : "bg-[#86183D]"}`
+                        : `hover:rounded-md hover:outline ${pathName.includes("admin") ? "hover:bg-amber-300" : "hover:bg-[#C3654C]"}`
+                    }`}
                   >
                     {item.title}
                   </Link>
@@ -60,6 +75,7 @@ export function HamburgerMenu({
           </NavigationMenuList>
         </NavigationMenu>
       </div>
+
       {/* Right menu items */}
       <div className="hidden md:block">
         <NavigationMenu>
@@ -67,11 +83,23 @@ export function HamburgerMenu({
             {rightMenuItems.map((item) => (
               <NavigationMenuItem key={item.title}>
                 {item.type == "element" ? (
-                  item.element!
+                  <div
+                    className={`cursor-pointer px-0.5 py-0.5 outline-1 ${
+                      pathName === item.href
+                        ? `rounded-md outline ${pathName.includes("admin") ? "bg-sky-100" : "bg-[#86183D]"}`
+                        : `hover:rounded-md hover:outline ${pathName.includes("admin") ? "hover:bg-amber-300" : "hover:bg-[#C3654C]"}`
+                    }`}
+                  >
+                    {item.element!}
+                  </div>
                 ) : (
                   <Link
                     href={item.href!}
-                    className="hover:underline"
+                    className={`cursor-pointer px-1 py-1 outline-1 ${
+                      pathName === item.href
+                        ? `rounded-md outline ${pathName.includes("admin") ? "bg-sky-100" : "bg-[#86183D]"}`
+                        : `hover:rounded-md hover:outline ${pathName.includes("admin") ? "hover:bg-amber-300" : "hover:bg-[#C3654C]"}`
+                    }`}
                     prefetch={false}
                   >
                     {item.title}
@@ -82,6 +110,7 @@ export function HamburgerMenu({
           </NavigationMenuList>
         </NavigationMenu>
       </div>
+
       {/* Hamburger */}
       <Sheet>
         <SheetTrigger asChild>
