@@ -26,11 +26,13 @@ export default function PuzzleListPage({
   hasEventInputBox,
 }: PuzzleListPageProps) {
   const [activeTab, setActiveTab] = useState("map");
+
+  // Will crash on mobile if not memoized
   const memoizedMap = useMemo(
     () => (
       <Map availablePuzzles={availablePuzzles} solvedPuzzles={solvedPuzzles} />
     ),
-    [],
+    [availablePuzzles, solvedPuzzles],
   );
 
   return (
