@@ -23,7 +23,6 @@ import {
   ClipboardPenLine,
   UsersRound,
   Database,
-  Map,
 } from "lucide-react";
 
 const huntItems = [
