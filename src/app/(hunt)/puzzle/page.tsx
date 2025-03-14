@@ -6,6 +6,7 @@ import { eq, inArray } from "drizzle-orm";
 import { solves, puzzles, unlocks, answerTokens } from "~/server/db/schema";
 import PuzzleTable from "./components/PuzzleTable";
 import EventTable from "./components/EventTable";
+import { Round, ROUNDS } from "@/hunt.config";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import dynamic from "next/dynamic";
 import { MapIcon, Table } from "lucide-react";
@@ -96,6 +97,13 @@ export default async function Home() {
     });
   }
 
+  const availableRounds: Round[] = ROUNDS.map((round) => ({
+    name: round.name,
+    puzzles: round.puzzles.filter((puzzle) =>
+      availablePuzzles.some((ap) => ap.id === puzzle),
+    ),
+  })).filter((round) => round.puzzles.length > 0);
+
   return (
     <Tabs defaultValue="map">
       <TabsList className="fixed z-20 right-0 m-2 space-x-1 py-5 bg-footer-bg text-[#6c518e]">
@@ -122,6 +130,7 @@ export default async function Home() {
         <div className="mx-auto mb-6 flex w-full max-w-3xl grow flex-col items-center p-4 pt-6">
           <h1 className="mb-2">Puzzles</h1>
           <PuzzleTable
+            availableRounds={availableRounds}
             availablePuzzles={availablePuzzles}
             solvedPuzzles={solvedPuzzles}
           />

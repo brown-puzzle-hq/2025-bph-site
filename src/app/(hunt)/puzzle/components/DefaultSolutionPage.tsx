@@ -12,13 +12,12 @@ export default async function DefaultSolutionPage({
   puzzleId: string;
   solutionBody: React.ReactNode;
 }) {
-  // Check if the puzzle exists
+  // Check if solution and puzzle exist
+  if (!solutionBody) redirect("/puzzle");
   const puzzle = await db.query.puzzles.findFirst({
     where: eq(puzzles.id, puzzleId),
   })!;
-  if (!puzzle) {
-    redirect("/puzzle");
-  }
+  if (!puzzle) redirect("/puzzle");
 
   // Check if user can view solution
   const session = await auth();
@@ -33,8 +32,12 @@ export default async function DefaultSolutionPage({
 
   // Check if there is solution
   if (!solutionBody) {
-    return <div>There are currently no solutions for this puzzle.</div>;
+    return (
+      <div className="mb-12 w-fit px-4">
+        There are currently no solutions for this puzzle.
+      </div>
+    );
   }
 
-  return <div className="w-fit">{solutionBody}</div>;
+  return <div className="mb-12 w-fit px-4">{solutionBody}</div>;
 }

@@ -1,7 +1,6 @@
 import { db } from "./server/db";
 import { hints } from "./server/db/schema";
 import { and, count, eq, ne } from "drizzle-orm";
-import { LucideIcon, ScrollText, ShieldCheck } from "lucide-react";
 
 /** REGISTRATION AND HUNT START */
 export const REGISTRATION_START_TIME = new Date("2024-11-17T17:00:00.000Z");
@@ -24,7 +23,7 @@ export const REMOTE = {
 
 type Sequence = {
   name?: string;
-  icon: LucideIcon;
+  icon: string;
   puzzles: string[];
 };
 
@@ -32,8 +31,100 @@ type Sequence = {
  * will be displayed earlier. Puzzles that occur earlier in the list will
  * be displayed earlier. */
 export const SEQUENCES: Sequence[] = [
-  { name: "A", icon: ScrollText, puzzles: ["seq1", "seq2"] },
-  { name: "B", icon: ShieldCheck, puzzles: ["seq1", "seq3"] },
+  {
+    name: "Eyes",
+    icon: "👁️",
+    puzzles: [
+      "plagiarism",
+      "eye-of-the-storm",
+      "genetic-counseling",
+      "eye-spy",
+      "one-guard-screen",
+      "eye-to-eye",
+    ],
+  },
+  {
+    name: "Word Bank",
+    icon: "🧩",
+    puzzles: [
+      "youve-got-this-covered",
+      "fractal-shanty",
+      "study-abroad",
+      "fridge-magnets",
+    ],
+  },
+  {
+    name: "Guards",
+    icon: "💂",
+    puzzles: [
+      "two-guards-two-doors",
+      "ten-guards-ten-doors",
+      "two-guards-river",
+      "m-guards-n-doors-and-k-choices",
+      "one-guard-screen",
+      "the-guard-and-the-door",
+    ],
+  },
+  {
+    name: "Chain",
+    icon: "⛓️",
+    puzzles: ["beads", "chain-letters", "red-blue"],
+  },
+  {
+    name: "CD",
+    icon: "💿",
+    puzzles: [
+      "lost-category",
+      "youve-got-this-covered",
+      "imagine",
+      "the-compact-disc",
+    ],
+  },
+  {
+    name: "Ben Doyle Squad",
+    icon: "✈️",
+    puzzles: [
+      "find-ben",
+      "the-snack-zone",
+      "bluenos-puzzle-box",
+      "color-transfer",
+    ],
+  },
+  {
+    name: "Heist",
+    icon: "🏦",
+    puzzles: ["heist", "heist-ii", "heist-iii", "the-final-heist"],
+  },
+  {
+    name: "Tree",
+    icon: "🌲",
+    puzzles: ["whats-my-ride", "opening-sequences", "secret-ingredient"],
+  },
+  {
+    name: "Star",
+    icon: "⭐",
+    puzzles: [
+      "walk-of-fame",
+      "galileo-was-wrong",
+      "whats-my-ride",
+      "constellation",
+    ],
+  },
+  {
+    name: "Cards",
+    icon: "🃏",
+    puzzles: [
+      "a-fistful-of-cards",
+      "a-fistful-of-cards-ii",
+      "a-fistful-of-cards-iii",
+      "a-fistful-of-cards-iv",
+    ],
+  },
+  {
+    name: "Time",
+    icon: "⏰",
+    puzzles: ["filming-schedule", "youve-got-this-covered", "hand-letters"], // Need placeholder
+  },
 ];
 
 /** GUESSES */
@@ -45,20 +136,318 @@ export const NUMBER_OF_GUESSES_PER_PUZZLE = 20;
  */
 
 /** Puzzles available at the beginning of the hunt that will never need to be unlocked by the team. */
-export const INITIAL_PUZZLES: string[] = [];
-/** List of meta puzzles. Solving all of the metas unlocks the runaround. */
-export const META_PUZZLES: string[] = [];
-/** Adjacency list for puzzles */
-export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {};
+export const INITIAL_PUZZLES: string[] = [
+  "walk-of-fame",
+  "two-guards-two-doors",
+];
 
-// For developers
-// export const INITIAL_PUZZLES: string[] = ["example", "seq1"];
-// export const META_PUZZLES = ["meta"];
-// export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
-//   example: ["puzzle1", "puzzle2"],
-//   puzzle1: ["puzzle2", "hello"],
-//   seq1: ["seq2"],
-// };
+/** List of meta puzzles. Solving all of the metas unlocks the runaround. */
+export const META_PUZZLES: string[] = [
+  "drop-the",
+  "aha-erlebnis",
+  "balloon-animals",
+  "boring-plot",
+  "six-degrees",
+  "cutting-room-floor",
+];
+
+/** Adjacency list for puzzles */
+export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
+  // ACTION
+  "walk-of-fame": ["find-ben", "a-fistful-of-cards"],
+  "two-guards-two-doors": ["find-ben", "heist"],
+  "find-ben": ["filming-schedule"], // walk-of-fame, two-guards-two-doors
+  "a-fistful-of-cards": ["ten-guards-ten-doors", "drop-the", "filming-schedule"], // walk-of-fame
+  "filming-schedule": [
+    "find-ben",
+    "a-fistful-of-cards",
+    "heist",
+    "ten-guards-ten-doors",
+    "drop-the",
+    "two-guards-river",
+  ],
+  heist: ["filming-schedule", "drop-the", "two-guards-river"], // two-guards-two-doors
+
+  // ACTION -> DRAMA
+  "ten-guards-ten-doors": [
+    "a-fistful-of-cards",
+    "filming-schedule",
+    "a-fistful-of-cards-ii",
+    "beads",
+    "lost-category",
+  ],
+  "a-fistful-of-cards-ii": ["heist-ii"], // ten-guards-ten-doors
+  beads: ["heist-ii", "youve-got-this-covered"], // ten-guards-ten-doors
+  "lost-category": ["youve-got-this-covered"], // ten-guards-ten-doors
+  "heist-ii": [
+    "a-fistful-of-cards-ii",
+    "beads",
+    "aha-erlebnis",
+    "m-guards-n-doors-and-k-choices",
+    "youve-got-this-covered",
+  ],
+  "youve-got-this-covered": [
+    "heist-ii",
+    "beads",
+    "lost-category",
+    "aha-erlebnis",
+    "m-guards-n-doors-and-k-choices",
+  ],
+  "aha-erlebnis": ["heist-ii", "youve-got-this-covered"],
+
+  // ACTION -> COMEDY
+  "two-guards-river": [
+    "filming-schedule",
+    "heist",
+    "peanuts",
+    "plagiarism",
+    "watching-between-the-lines",
+  ],
+  peanuts: ["galileo-was-wrong"], // two-guards-river
+  plagiarism: ["galileo-was-wrong", "fractal-shanty"], // two-guards-river
+  "watching-between-the-lines": ["fractal-shanty"], // two-guards-river
+  "galileo-was-wrong": [
+    "peanuts",
+    "plagiarism",
+    "fractal-shanty",
+    "one-guard-screen",
+    "balloon-animals",
+  ],
+  "fractal-shanty": [
+    "watching-between-the-lines",
+    "plagiarism",
+    "galileo-was-wrong",
+    "one-guard-screen",
+    "balloon-animals",
+  ],
+  "balloon-animals": ["galileo-was-wrong", "fractal-shanty"],
+
+  // DRAMA -> DIGGING
+  "m-guards-n-doors-and-k-choices": [
+    "heist-ii",
+    "youve-got-this-covered",
+    "bluenos-puzzle-box",
+    "narcissism",
+    "financial-crimes-3",
+  ],
+  "bluenos-puzzle-box": ["eye-spy", "whats-my-ride", "boring-plot"], // m-guards-n-doors-and-k-choices
+  narcissism: ["whats-my-ride", "boring-plot", "piecemeal"], // m-guards-n-doors-and-k-choices
+  "financial-crimes-3": ["boring-plot", "piecemeal", "genetic-counseling"], // m-guards-n-doors-and-k-choices
+  "boring-plot": ["bluenos-puzzle-box", "narcissism", "financial-crimes-3"],
+  "whats-my-ride": [
+    "bluenos-puzzle-box",
+    "narcissism",
+    "eye-spy",
+    "identify-the-piece",
+  ],
+  piecemeal: [
+    "narcissism",
+    "financial-crimes-3",
+    "genetic-counseling",
+    "identify-the-piece",
+  ],
+  "eye-spy": ["bluenos-puzzle-box", "whats-my-ride", "imagine"],
+  "identify-the-piece": [
+    "whats-my-ride",
+    "piecemeal",
+    "imagine",
+    "once-upon-a-quote",
+  ],
+  "genetic-counseling": [
+    "piecemeal",
+    "financial-crimes-3",
+    "once-upon-a-quote",
+    "the-snack-zone",
+  ],
+  imagine: [
+    "eye-spy",
+    "identify-the-piece",
+    "once-upon-a-quote",
+    "the-guard-and-the-door",
+  ],
+  "once-upon-a-quote": [
+    "identify-the-piece",
+    "imagine",
+    "genetic-counseling",
+    "the-snack-zone",
+    "the-guard-and-the-door",
+  ],
+  "the-snack-zone": [
+    "genetic-counseling",
+    "once-upon-a-quote",
+    "the-guard-and-the-door",
+  ],
+
+  // REALITY -> COMEDY
+  "one-guard-screen": [
+    "galileo-was-wrong",
+    "fractal-shanty",
+    "opening-sequences",
+    "chain-letters",
+  ],
+  "opening-sequences": ["a-fistful-of-cards-iii", "hand-letters"],
+  "chain-letters": ["hand-letters", "heist-iii"],
+  "a-fistful-of-cards-iii": ["the-guard-and-the-door", "study-abroad"], // opening-sequences
+  "hand-letters": ["study-abroad", "are-you-sure"], // opening-sequences, chain-letters,
+  "heist-iii": ["are-you-sure", "six-degrees"], // chain-letters
+  "study-abroad": [
+    "a-fistful-of-cards-iii",
+    "hand-letters",
+    "are-you-sure",
+    "the-guard-and-the-door",
+  ],
+  "are-you-sure": ["study-abroad", "hand-letters", "heist-iii", "six-degrees"],
+
+  "the-guard-and-the-door": [
+    // digging
+    "imagine",
+    "once-upon-a-quote",
+    "the-snack-zone",
+    // reality
+    "study-abroad",
+    "a-fistful-of-cards-iii",
+    // cerebral
+    "red-blue",
+    "a-fistful-of-cards-iv",
+    "the-final-heist",
+    "the-compact-disc",
+  ],
+
+  // CEREBRAL
+  "red-blue": ["constellation", "secret-ingredient"], // the-guard-and-the-door
+  "a-fistful-of-cards-iv": ["constellation", "color-transfer"], // the-guard-and-the-door
+  "the-final-heist": ["color-transfer", "eye-to-eye"], // the-guard-and-the-door
+  "the-compact-disc": ["fridge-magnets", "eye-to-eye"], // the-guard-and-the-door
+  constellation: [
+    "red-blue",
+    "a-fistful-of-cards-iv",
+    "secret-ingredient",
+    "placeholder-i",
+  ], // PLACEHOLDER I is blueberry
+  "color-transfer": [
+    "a-fistful-of-cards-iv",
+    "the-final-heist",
+    "secret-ingredient",
+    "fridge-magnets",
+  ],
+  "eye-to-eye": [
+    "the-final-heist",
+    "the-compact-disc",
+    "fridge-magnets",
+    "placeholder-ii",
+  ], // PLACEHOLDER II is blueberry
+  "secret-ingredient": [
+    "red-blue",
+    "constellation",
+    "color-transfer",
+    "placeholder-i",
+    "cutting-room-floor",
+  ],
+  "fridge-magnets": [
+    "color-transfer",
+    "the-compact-disc",
+    "eye-to-eye",
+    "placeholder-ii",
+    "cutting-room-floor",
+  ],
+  "placeholder-i": ["constellation", "secret-ingredient", "cutting-room-floor"],
+  "placeholder-ii": ["eye-to-eye", "fridge-magnets", "cutting-room-floor"],
+};
+
+export type Round = {
+  name: string;
+  puzzles: string[];
+};
+
+export const ROUNDS: Round[] = [
+  {
+    name: "Action",
+    puzzles: [
+      "drop-the",
+      "filming-schedule",
+      "heist",
+      "find-ben",
+      "walk-of-fame",
+      "a-fistful-of-cards",
+      "two-guards-two-doors",
+    ],
+  },
+  {
+    name: "Drama",
+    puzzles: [
+      "aha-erlebnis",
+      "beads",
+      "ten-guards-ten-doors",
+      "a-fistful-of-cards-ii",
+      "lost-category",
+      "youve-got-this-covered",
+      "heist-ii",
+    ],
+  },
+  {
+    name: "Comedy",
+    puzzles: [
+      "balloon-animals",
+      "two-guards-river",
+      "galileo-was-wrong",
+      "fractal-shanty",
+      "watching-between-the-lines",
+      "peanuts",
+      "plagiarism",
+    ],
+  },
+  {
+    name: "Digging",
+    puzzles: [
+      "boring-plot",
+      "identify-the-piece",
+      "once-upon-a-quote",
+      "imagine",
+      "narcissism",
+      "genetic-counseling",
+      "financial-crimes-3",
+      "m-guards-n-doors-and-k-choices",
+      "the-snack-zone",
+      "whats-my-ride",
+      "eye-spy",
+      "piecemeal",
+      "eye-of-the-storm",
+      "bluenos-puzzle-box",
+    ],
+  },
+  {
+    name: "Reality",
+    puzzles: [
+      "six-degrees",
+      "opening-sequences",
+      "are-you-sure",
+      "chain-letters",
+      "hand-letters",
+      "one-guard-screen",
+      "study-abroad",
+      "a-fistful-of-cards-iii",
+      "heist-iii",
+    ],
+  },
+  {
+    name: "Cerebral",
+    puzzles: [
+      "cutting-room-floor",
+      "color-transfer",
+      "the-guard-and-the-door",
+      "a-fistful-of-cards-iv",
+      "placeholder-i",
+      "eye-to-eye",
+      "fridge-magnets",
+      "red-blue",
+      "secret-ingredient",
+      "placeholder-ii",
+      "constellation",
+      "the-compact-disc",
+      "the-final-heist",
+    ],
+  },
+];
 
 /* HINTING SYSTEM
  * Teams currently get a hint request every three hours since the start of the hunt.
