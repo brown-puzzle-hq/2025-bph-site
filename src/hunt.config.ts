@@ -157,7 +157,11 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   "walk-of-fame": ["find-ben", "a-fistful-of-cards"],
   "two-guards-two-doors": ["find-ben", "heist"],
   "find-ben": ["filming-schedule"], // walk-of-fame, two-guards-two-doors
-  "a-fistful-of-cards": ["ten-guards-ten-doors", "drop-the", "filming-schedule"], // walk-of-fame
+  "a-fistful-of-cards": [
+    "ten-guards-ten-doors",
+    "drop-the",
+    "filming-schedule",
+  ], // walk-of-fame
   "filming-schedule": [
     "find-ben",
     "a-fistful-of-cards",
@@ -166,6 +170,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "drop-the",
     "two-guards-river",
   ],
+  "drop-the": [],
   heist: ["filming-schedule", "drop-the", "two-guards-river"], // two-guards-two-doors
 
   // ACTION -> DRAMA
@@ -297,6 +302,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "the-guard-and-the-door",
   ],
   "are-you-sure": ["study-abroad", "hand-letters", "heist-iii", "six-degrees"],
+  "six-degrees": [],
 
   "the-guard-and-the-door": [
     // digging
@@ -352,6 +358,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   ],
   "placeholder-i": ["constellation", "secret-ingredient", "cutting-room-floor"],
   "placeholder-ii": ["eye-to-eye", "fridge-magnets", "cutting-room-floor"],
+  "cutting-room-floor": [],
 };
 
 export type Round = {
