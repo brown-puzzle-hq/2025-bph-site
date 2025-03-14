@@ -30,9 +30,11 @@ function randomIndex(): number {
 const EventComponent = ({
   running,
   rate,
+  scatter,
 }: {
   running: boolean;
   rate: number;
+  scatter: boolean;
 }) => {
   const [guards, setGuards] = useState<
     {
@@ -72,12 +74,7 @@ const EventComponent = ({
 
     if (elapsedTime.current >= 3) {
       elapsedTime.current = 0;
-      const index =
-        window.innerWidth > 960
-          ? Math.random() < 0.5
-            ? 5
-            : 10
-          : randomIndex();
+      const index = scatter ? randomIndex() : Math.random() < 0.5 ? 5 : 10;
       const destY = (HEIGHT * index) / 16 + HEIGHT / 32;
       setGuards((prev) => [
         ...prev,
@@ -149,20 +146,17 @@ export default function Game() {
   const [width, setWidth] = useState<number | null>(null);
   const [running, setRunning] = useState<boolean>(true);
   const [rate, setRate] = useState<number>(1);
-  const [scrollPosition, setScrollPosition] = useState({
-    scrollTop: 0,
-    scrollLeft: 0,
-  });
-  const scrollDemoRef = useRef(null);
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     setWidth(window.screen.width);
   }, []);
 
   const handleScroll = () => {
-    if (scrollDemoRef.current) {
-      const { scrollTop, scrollLeft } = scrollDemoRef.current;
-      setScrollPosition({ scrollTop, scrollLeft });
+    if (scrollRef.current) {
+      const { scrollLeft } = scrollRef.current;
+      setScrollPosition(scrollLeft);
     }
   };
 
@@ -181,7 +175,7 @@ export default function Game() {
     <div className="flex flex-col items-center space-y-4">
       <div
         id="scrollDemo"
-        ref={scrollDemoRef}
+        ref={scrollRef}
         className="no-scrollbar w-screen overflow-auto"
         onScroll={handleScroll}
       >
@@ -193,7 +187,11 @@ export default function Game() {
             className="rounded-md border-8 border-footer-bg"
             options={{ backgroundColor: 0xffffff }}
           >
-            <EventComponent running={running} rate={rate} />
+            <EventComponent
+              running={running}
+              rate={rate}
+              scatter={scrollPosition >= width / 2 + WIDTH / 4 - HEIGHT / 16}
+            />
           </Stage>
         </div>
       </div>
@@ -220,6 +218,12 @@ export default function Game() {
         <p className="w-9 font-mono text-xl">
           {rate}
           <span className="text-lg">x</span>
+        </p>
+        {/* TODO: remove this */}
+        <p>
+          {scrollPosition >= width / 2 + WIDTH / 4 - HEIGHT / 16
+            ? "TRUE"
+            : "FALSE"}
         </p>
       </div>
     </div>
