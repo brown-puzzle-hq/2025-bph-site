@@ -22,7 +22,7 @@ function randomIndex(): number {
   let v = Math.random();
   let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v); // Standard Normal (0,1)
 
-  let num = 7.5 + z * 3;
+  let num = 7.5 + z * 2.5;
 
   return Math.max(0, Math.min(15, Math.round(num)));
 }
@@ -70,7 +70,7 @@ const EventComponent = ({
 
     elapsedTime.current += (delta / 60) * rate;
 
-    if (elapsedTime.current >= 10) {
+    if (elapsedTime.current >= 3) {
       elapsedTime.current = 0;
       const index =
         window.innerWidth > 960
@@ -149,10 +149,22 @@ export default function Game() {
   const [width, setWidth] = useState<number | null>(null);
   const [running, setRunning] = useState<boolean>(true);
   const [rate, setRate] = useState<number>(1);
+  const [scrollPosition, setScrollPosition] = useState({
+    scrollTop: 0,
+    scrollLeft: 0,
+  });
+  const scrollDemoRef = useRef(null);
 
   useEffect(() => {
     setWidth(window.screen.width);
   }, []);
+
+  const handleScroll = () => {
+    if (scrollDemoRef.current) {
+      const { scrollTop, scrollLeft } = scrollDemoRef.current;
+      setScrollPosition({ scrollTop, scrollLeft });
+    }
+  };
 
   if (width === null) return null;
 
@@ -167,7 +179,12 @@ export default function Game() {
 
   return (
     <div className="flex flex-col items-center space-y-4">
-      <div className="w-screen overflow-auto no-scrollbar">
+      <div
+        id="scrollDemo"
+        ref={scrollDemoRef}
+        className="no-scrollbar w-screen overflow-auto"
+        onScroll={handleScroll}
+      >
         {/* TODO: should the scroll behavior be more subtle and kick in later? */}
         <div className="flex justify-center" style={{ width: width }}>
           <Stage
