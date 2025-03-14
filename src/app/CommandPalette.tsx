@@ -38,11 +38,6 @@ const huntItems = [
   //   icon: <Puzzle className="text-red-500" />,
   // },
   {
-    title: "Map",
-    href: "/map",
-    icon: <Map className="text-red-500" />,
-  },
-  {
     title: "Leaderboard",
     href: "/teams",
     icon: <Trophy className="text-red-500" />,

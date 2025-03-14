@@ -22,11 +22,6 @@ export async function HuntHamburgerMenu() {
       type: "link",
     },
     {
-      title: "Map",
-      href: "/map",
-      type: "link",
-    },
-    {
       title: "Teams",
       href: "/teams",
       type: "link",

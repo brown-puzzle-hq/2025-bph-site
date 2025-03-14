@@ -6,6 +6,9 @@ import { eq, inArray } from "drizzle-orm";
 import { solves, puzzles, unlocks, answerTokens } from "~/server/db/schema";
 import PuzzleTable from "./components/PuzzleTable";
 import EventTable from "./components/EventTable";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(() => import("./Map"), { ssr: false });
 
 export default async function Home() {
   const session = await auth();
@@ -93,6 +96,7 @@ export default async function Home() {
 
   return (
     <div className="mx-auto mb-6 flex w-full max-w-3xl grow flex-col items-center p-4 pt-6">
+      <Map availablePuzzles={availablePuzzles} solvedPuzzles={solvedPuzzles} />
       <h1 className="mb-2">Puzzles</h1>
       <PuzzleTable
         availablePuzzles={availablePuzzles}
