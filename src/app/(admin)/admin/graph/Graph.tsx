@@ -237,6 +237,12 @@ export default function Graph() {
           placeholder="Search by puzzle ID..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setSearchQuery("");
+              handleSearch();
+            }
+          }}
         />
         <Button
           onClick={handleSearch}
