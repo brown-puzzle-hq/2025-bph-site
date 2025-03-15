@@ -60,7 +60,7 @@ export default function PuzzleTable({
                         router.refresh();
                       }
                     }}
-                    className="hover:cursor-pointer hover:bg-footer-bg"
+                    className="hover:cursor-pointer hover:bg-white hover:bg-opacity-10"
                     key={puzzle.id}
                   >
                     <TableCell className={META_PUZZLES.includes(puzzle.id)? "font-bold" : ""}>
