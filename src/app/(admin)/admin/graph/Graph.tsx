@@ -9,40 +9,35 @@ export default function Graph() {
   const NODE_R = 8;
   const fgRef = useRef<any>(null);
 
-  const [highlightNodes, setHighlightNodes] = useState(new Set<NodeObject>());
-  const [highlightLinks, setHighlightLinks] = useState(new Set<LinkObject>());
   const [hoverNode, setHoverNode] = useState<NodeObject | null>(null);
+  const [hoverHighlightNodes, setHoverHighlightNodes] = useState(
+    new Set<NodeObject>(),
+  );
+  const [hoverLinks, setHoverLinks] = useState(new Set<LinkObject>());
+
+  const [clickNode, setClickNode] = useState<NodeObject | null>(null);
+  const [clickHighlightNodes, setClickHighlightNodes] = useState(
+    new Set<NodeObject>(),
+  );
+  const [clickLinks, setClickLinks] = useState(new Set<LinkObject>());
+
   const [showWords, setShowWords] = useState(true);
 
   const handleNodeHover = (node: NodeObject | null) => {
-    const newHighlightNodes = new Set<NodeObject>();
-    const newHighlightLinks = new Set<LinkObject>();
+    const hoverHighlightNodes = new Set<NodeObject>();
+    const hoverLinks = new Set<LinkObject>();
 
     if (node) {
-      newHighlightNodes.add(node);
+      hoverHighlightNodes.add(node);
       node.neighbors?.forEach((neighbor: any) =>
-        newHighlightNodes.add(neighbor),
+        hoverHighlightNodes.add(neighbor),
       );
-      node.links?.forEach((link: any) => newHighlightLinks.add(link));
+      node.links?.forEach((link: any) => hoverLinks.add(link));
     }
 
     setHoverNode(node || null);
-    setHighlightNodes(newHighlightNodes);
-    setHighlightLinks(newHighlightLinks);
-  };
-
-  const handleLinkHover = (link: LinkObject | null) => {
-    const newHighlightNodes = new Set<NodeObject>();
-    const newHighlightLinks = new Set<LinkObject>();
-
-    if (link) {
-      newHighlightLinks.add(link);
-      newHighlightNodes.add(link.source as NodeObject);
-      newHighlightNodes.add(link.target as NodeObject);
-    }
-
-    setHighlightNodes(newHighlightNodes);
-    setHighlightLinks(newHighlightLinks);
+    setHoverHighlightNodes(hoverHighlightNodes);
+    setHoverLinks(hoverLinks);
   };
 
   const nodes = useMemo(() => {
@@ -87,14 +82,22 @@ export default function Graph() {
     return gData;
   }, [nodes, links]);
 
-  // Auto-zoom to fit the graph
-  // useEffect(() => {
-  //   if (fgRef.current) {
-  //     setTimeout(() => {
-  //       fgRef.current.zoomToFit(500);
-  //     }, 300);
-  //   }
-  // }, []);
+  const handleNodeClick = (node: NodeObject | null) => {
+    const clickHighlightNodes = new Set<NodeObject>();
+    const clickLinks = new Set<LinkObject>();
+
+    if (node) {
+      clickHighlightNodes.add(node);
+      node.neighbors?.forEach((neighbor: any) =>
+        clickHighlightNodes.add(neighbor),
+      );
+      node.links?.forEach((link: any) => clickLinks.add(link));
+    }
+
+    setClickNode(node || null);
+    setClickHighlightNodes(clickHighlightNodes);
+    setClickLinks(clickLinks);
+  };
 
   return (
     <div className="relative h-screen w-full">
@@ -114,17 +117,23 @@ export default function Graph() {
           ctx.arc(node.x!, node.y!, 10, 0, 2 * Math.PI, false);
           ctx.fill();
         }}
-        // Highlight nodes and links on hover
+        // Highlight nodes and links on hover or click
         onNodeHover={handleNodeHover}
+        onNodeDrag={handleNodeHover}
+        onNodeClick={handleNodeClick}
         nodeCanvasObjectMode={() => "replace"}
         nodeCanvasObject={(node, ctx, globalScale) => {
           // If showWords is OFF
           if (!showWords) {
             // Check if needs to be highlighted
-            if (highlightNodes.has(node)) {
+            if (
+              hoverHighlightNodes.has(node) ||
+              clickHighlightNodes.has(node)
+            ) {
               ctx.beginPath();
               ctx.arc(node.x!, node.y!, NODE_R * 1.4, 0, 2 * Math.PI, false);
-              ctx.fillStyle = node === hoverNode ? "red" : "orange";
+              ctx.fillStyle =
+                node === hoverNode || node == clickNode ? "red" : "orange";
               ctx.fill();
             }
 
@@ -145,11 +154,12 @@ export default function Graph() {
           ctx.fillStyle = node.color;
           ctx.fillText(label, node.x!, node.y!);
         }}
-        onLinkHover={handleLinkHover}
-        linkWidth={(link) => (highlightLinks.has(link) ? 5 : 1)}
+        linkWidth={(link) =>
+          hoverLinks.has(link) || clickLinks.has(link) ? 5 : 1
+        }
         linkDirectionalParticles={4}
         linkDirectionalParticleWidth={(link) =>
-          highlightLinks.has(link) ? 4 : 0
+          hoverLinks.has(link) || clickLinks.has(link) ? 4 : 0
         }
       />
 
