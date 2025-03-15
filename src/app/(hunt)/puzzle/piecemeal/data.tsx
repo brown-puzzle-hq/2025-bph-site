@@ -117,8 +117,8 @@ export const inPersonBody = (
 
     {/* Puzzle 1 */}
     <div className="grid grid-cols-3 gap-8">
-      {puzzleClues.map((clues) => (
-        <>
+      {puzzleClues.map((clues, index) => (
+        <div key={index}>
           <div className="grid w-36 grid-cols-3 gap-0 border">
             <div className="flex h-12 w-12 items-center justify-center border">
               1
@@ -144,8 +144,8 @@ export const inPersonBody = (
           <div>
             <div>Down</div>
             <ul className="list-decimal">
-              {clues.down.map((clue) => (
-                <li>{clue}</li>
+              {clues.down.map((clue, index) => (
+                <li key={index}>{clue}</li>
               ))}
             </ul>
           </div>
@@ -153,12 +153,12 @@ export const inPersonBody = (
           <div>
             <div>Across</div>
             <ul className="list-decimal">
-              {clues.across.map((clue) => (
-                <li>{clue}</li>
+              {clues.across.map((clue, index) => (
+                <li key={index}>{clue}</li>
               ))}
             </ul>
           </div>
-        </>
+        </div>
       ))}
     </div>
   </div>

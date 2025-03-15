@@ -6,7 +6,7 @@
 @layer base {
   :root {
     --radius: 0.5rem;
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
   }
   h1 {
     @apply text-2xl font-bold; /* Adjust these values as needed */
