@@ -38,10 +38,8 @@ export function HamburgerMenu({
   side,
 }: Props) {
   const pathName = usePathname();
-  const baseClassName = cn(
-    "cursor-pointer rounded-md bg-opacity-0 hover:bg-opacity-20 px-1.5 active:bg-opacity-20",
-    pathName.includes("admin") ? "bg-slate-400" : "bg-white",
-  );
+  const baseClassName =
+    "cursor-pointer rounded-md bg-opacity-0 hover:bg-opacity-20 px-1.5 active:bg-opacity-20 bg-slate-400";
   const elementClassName = (href: string | undefined) =>
     cn(baseClassName, "py-1", pathName === href ? "bg-opacity-20" : "");
   const linkClassName = (href: string | undefined) =>
