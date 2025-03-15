@@ -48,12 +48,15 @@ export default function EventForm({ eventId }: FormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex space-x-2">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex w-full space-x-2"
+      >
         <FormField
           control={form.control}
           name="answer"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormControl>
                 <input
                   {...field}
