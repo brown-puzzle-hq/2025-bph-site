@@ -6,21 +6,37 @@ import { PUZZLE_UNLOCK_MAP, ROUNDS } from "~/hunt.config";
 import { CaseUpper, Waypoints, ScanSearch } from "lucide-react";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
+import Link from "next/link";
+import { getGraphPath } from "./actions";
+
+export type GraphPath = {
+  unlocks: string[];
+  solves: string[];
+};
 
 export default function Graph() {
   const NODE_R = 8;
   const fgRef = useRef<any>(null);
 
+  // The node being hovered over
   const [hoverNode, setHoverNode] = useState<NodeObject | null>(null);
+  // The links connected to the hovered node
   const [hoverLinks, setHoverLinks] = useState(new Set<LinkObject>());
+  // The node that was clicked
   const [clickNode, setClickNode] = useState<NodeObject | null>(null);
+  // The nodes that are highlighted
   const [clickHighlightNodes, setClickHighlightNodes] = useState(
     new Set<NodeObject>(),
   );
+  // The links that are highlighted
   const [clickLinks, setClickLinks] = useState(new Set<LinkObject>());
 
   const [showWords, setShowWords] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchPuzzle, setSearchPuzzle] = useState("");
+  const [searchTeam, setSearchTeam] = useState("");
+
+  const [currTeam, setCurrTeam] = useState<null | string>(null);
+  const [path, setPath] = useState<GraphPath | null>(null);
 
   const nodes = useMemo(() => {
     return Object.keys(PUZZLE_UNLOCK_MAP).map((puzzle) => ({
@@ -88,6 +104,19 @@ export default function Graph() {
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
+    const lime500 = "oklch(0.768 0.233 130.85)";
+    const amber400 = "oklch(0.828 0.189 84.429)";
+    // const yellow400 = "oklch(0.852 0.199 91.936)";
+    const neutral400 = "oklch(0.708 0 0)";
+
+    const nodeColor = path
+      ? path.solves.includes(node.name)
+        ? lime500
+        : path.unlocks.includes(node.name)
+          ? amber400
+          : neutral400
+      : node.color;
+
     // If showWords is OFF
     if (!showWords) {
       // Check if needs to be highlighted
@@ -100,7 +129,7 @@ export default function Graph() {
       }
 
       // Default circle
-      ctx.fillStyle = node.color;
+      ctx.fillStyle = nodeColor;
       ctx.beginPath();
       ctx.arc(node.x!, node.y!, NODE_R, 0, 2 * Math.PI, false);
       ctx.fill();
@@ -165,31 +194,44 @@ export default function Graph() {
     ctx.font = `${fontSize}px Sans-Serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = node.color;
+    ctx.fillStyle = nodeColor;
     ctx.fillText(label, node.x!, node.y!);
   };
 
-  const handleSearch = () => {
-    if (searchQuery === "") return;
+  const handleSearchPuzzle = () => {
+    if (searchPuzzle === "") return;
     // Finds node by full id, then tries substring match
     const node =
-      data.nodes.find((node) => node.id === searchQuery) ||
-      data.nodes.find((node) => node.name.includes(searchQuery)) ||
+      data.nodes.find((node) => node.id === searchPuzzle) ||
+      data.nodes.find((node) => node.name.includes(searchPuzzle)) ||
       null;
 
-    if (node && fgRef.current) {
-      fgRef.current.centerAt(node.x, node.y, 1000);
-    }
+    if (!node) return;
+    setSearchPuzzle("");
+    if (fgRef.current) fgRef.current.centerAt(node.x, node.y, 1000);
     handleNodeClick(node);
   };
 
+  const handleSearchTeam = async () => {
+    const path = await getGraphPath(searchTeam);
+    if (path.error) {
+      console.log("Error: ", path.error);
+      return;
+    }
+    if (path.solves && path.unlocks) {
+      setCurrTeam(searchTeam);
+      setSearchTeam("");
+      setPath(path);
+    }
+  };
+
   return (
-    <div className="relative h-screen w-full">
+    <>
       <ForceGraph
         ref={fgRef}
         graphData={data}
-        width={800}
-        height={600}
+        width={window.innerWidth - 50}
+        height={window.innerHeight - 100}
         cooldownTicks={50}
         autoPauseRedraw={false}
         d3VelocityDecay={0.2}
@@ -230,22 +272,48 @@ export default function Graph() {
         }
       />
 
-      {/* Search */}
-      <div className="absolute left-10 top-0 flex items-center space-x-2 rounded bg-white">
+      <div className="absolute left-10 top-0">
+        Team ID:{" "}
+        {currTeam ? <Link href={`/team/${currTeam}`}>{currTeam}</Link> : "N/A"}
+      </div>
+
+      {/* Search team */}
+      <div className="absolute left-10 top-8 flex items-center space-x-2 rounded bg-white">
         <Input
           type="text"
-          placeholder="Search by puzzle ID..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search by team ID..."
+          value={searchTeam}
+          onChange={(e) => setSearchTeam(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              setSearchQuery("");
-              handleSearch();
+              handleSearchTeam();
             }
           }}
         />
         <Button
-          onClick={handleSearch}
+          onClick={handleSearchTeam}
+          className="rounded bg-blue-500 px-3 py-1 text-white"
+        >
+          Search
+        </Button>
+      </div>
+
+      {/* Search puzzle */}
+      <div className="absolute left-10 top-20 flex items-center space-x-2 rounded bg-white">
+        <Input
+          type="text"
+          placeholder="Search by puzzle ID..."
+          value={searchPuzzle}
+          onChange={(e) => setSearchPuzzle(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setSearchPuzzle("");
+              handleSearchPuzzle();
+            }
+          }}
+        />
+        <Button
+          onClick={handleSearchPuzzle}
           className="rounded bg-blue-500 px-3 py-1 text-white"
         >
           Search
@@ -254,7 +322,7 @@ export default function Graph() {
 
       {/* Words and nodes toggle */}
       <button
-        className="absolute left-10 top-12 rounded bg-orange-500 px-3 py-2 text-white hover:opacity-70"
+        className="absolute left-10 top-32 rounded bg-orange-500 px-3 py-2 text-white hover:opacity-70"
         onClick={() => setShowWords((prev) => !prev)}
       >
         {showWords ? (
@@ -266,11 +334,11 @@ export default function Graph() {
 
       {/* Zoom to Fit Button */}
       <button
-        className="absolute left-24 top-12 rounded bg-emerald-600 px-3 py-2 text-white"
+        className="absolute left-24 top-32 rounded bg-emerald-600 px-3 py-2 text-white"
         onClick={() => fgRef.current?.zoomToFit(500)}
       >
         <ScanSearch className="size-5" />
       </button>
-    </div>
+    </>
   );
 }
