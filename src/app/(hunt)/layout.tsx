@@ -8,7 +8,7 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <body className="bg-gradient-to-t from-[#872C3E] to-main-bg text-main-text">
+    <body className="bg-main-bg bg-gradient-to-t from-[#872C3E] to-main-bg text-main-text">
       {/* Navbar */}
       <div className="bg-nav-bg">
         <HuntHamburgerMenu />
