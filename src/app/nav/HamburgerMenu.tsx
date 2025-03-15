@@ -39,11 +39,13 @@ export function HamburgerMenu({
 }: Props) {
   const pathName = usePathname();
   const baseClassName = cn(
-    "cursor-pointer rounded-md bg-opacity-0 hover:bg-opacity-20 px-1.5",
+    "cursor-pointer rounded-md bg-opacity-0 hover:bg-opacity-20 px-1.5 active:bg-opacity-20",
     pathName.includes("admin") ? "bg-slate-400" : "bg-white",
   );
-  const elementClassName = cn(baseClassName, "py-1");
-  const linkClassName = cn(baseClassName, "py-1.5");
+  const elementClassName = (href: string | undefined) =>
+    cn(baseClassName, "py-1", pathName === href ? "bg-opacity-20" : "");
+  const linkClassName = (href: string | undefined) =>
+    cn(baseClassName, "py-1.5", pathName === href ? "bg-opacity-20" : "");
   return (
     <nav
       className={`fixed z-50 flex w-full items-center justify-between ${colorMap[side]} bg-opacity-30 p-[10px] backdrop-blur-md backdrop-filter md:p-3`}
@@ -55,12 +57,14 @@ export function HamburgerMenu({
             {leftMenuItems.map((item) => (
               <NavigationMenuItem key={item.title}>
                 {item.type == "element" ? (
-                  <div className={elementClassName}>{item.element!}</div>
+                  <div className={elementClassName(item.href)}>
+                    {item.element!}
+                  </div>
                 ) : (
                   <Link
                     href={item.href!}
                     prefetch={false}
-                    className={linkClassName}
+                    className={linkClassName(item.href)}
                   >
                     {item.title}
                   </Link>
@@ -78,11 +82,13 @@ export function HamburgerMenu({
             {rightMenuItems.map((item) => (
               <NavigationMenuItem key={item.title}>
                 {item.type == "element" ? (
-                  <div className={elementClassName}>{item.element!}</div>
+                  <div className={elementClassName(item.href)}>
+                    {item.element!}
+                  </div>
                 ) : (
                   <Link
                     href={item.href!}
-                    className={linkClassName}
+                    className={linkClassName(item.href)}
                     prefetch={false}
                   >
                     {item.title}
