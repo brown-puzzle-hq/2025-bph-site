@@ -200,14 +200,13 @@ export default function Graph() {
 
   const handleSearchPuzzle = () => {
     if (searchPuzzle === "") return;
+    setSearchPuzzle("");
     // Finds node by full id, then tries substring match
     const node =
       data.nodes.find((node) => node.id === searchPuzzle) ||
       data.nodes.find((node) => node.name.includes(searchPuzzle)) ||
       null;
-
     if (!node) return;
-    setSearchPuzzle("");
     if (fgRef.current) fgRef.current.centerAt(node.x, node.y, 1000);
     handleNodeClick(node);
   };
@@ -215,12 +214,13 @@ export default function Graph() {
   const handleSearchTeam = async () => {
     const path = await getGraphPath(searchTeam);
     if (path.error) {
-      console.log("Error: ", path.error);
+      setSearchTeam("");
+      setCurrTeam(null);
+      setPath(null);
       return;
     }
     if (path.solves && path.unlocks) {
       setCurrTeam(searchTeam);
-      setSearchTeam("");
       setPath(path);
     }
   };
@@ -259,6 +259,8 @@ export default function Graph() {
           setClickNode(null);
           setClickHighlightNodes(new Set());
           setClickLinks(new Set());
+          setCurrTeam(null);
+          setPath(null);
         }}
         // Draw nodes and links
         nodeCanvasObjectMode={() => "replace"}
@@ -271,17 +273,11 @@ export default function Graph() {
           hoverLinks.has(link) || clickLinks.has(link) ? 4 : 0
         }
       />
-
-      <div className="absolute left-10 top-0">
-        Team ID:{" "}
-        {currTeam ? <Link href={`/team/${currTeam}`}>{currTeam}</Link> : "N/A"}
-      </div>
-
       {/* Search team */}
       <div className="absolute left-10 top-8 flex items-center space-x-2 rounded bg-white">
         <Input
           type="text"
-          placeholder="Search by team ID..."
+          placeholder={"Search by team ID..."}
           value={searchTeam}
           onChange={(e) => setSearchTeam(e.target.value)}
           onKeyDown={(e) => {
@@ -289,6 +285,7 @@ export default function Graph() {
               handleSearchTeam();
             }
           }}
+          className={currTeam ? "bg-gray-200" : ""}
         />
         <Button
           onClick={handleSearchTeam}
