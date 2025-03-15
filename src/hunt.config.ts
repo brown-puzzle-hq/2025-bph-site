@@ -237,7 +237,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   "whats-my-ride": [
     "bluenos-puzzle-box"
   ],
-  piecemeal: ["once-upon-a-quote", "eye-of-the-storm", "narcissism"],
+  piecemeal: ["barbie", "eye-of-the-storm", "narcissism"],
   "eye-spy": ["bluenos-puzzle-box", "whats-my-ride", "imagine"],
   "identify-the-piece": [
     "the-snack-zone"
@@ -251,7 +251,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   imagine: [
     "whats-my-ride"
   ],
-  "once-upon-a-quote": [
+  "barbie": [
     "boring-plot"
   ],
   "the-snack-zone": [
@@ -381,7 +381,7 @@ export const ROUNDS: Round[] = [
     puzzles: [
       "boring-plot",
       "identify-the-piece",
-      "once-upon-a-quote",
+      "barbie",
       "imagine",
       "narcissism",
       "genetic-counseling",

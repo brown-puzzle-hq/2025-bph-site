@@ -7,7 +7,7 @@ import CONTENT from "./Once Upon A Quote.svg";
  * Feel free to make this creative, because the route to the puzzle will be
  * example.com/puzzle/puzzleId.
  */
-export const puzzleId = "once-upon-a-quote";
+export const puzzleId = "barbie";
 
 /**
  * The body renders above the guess submission form. Put flavor text, images,
