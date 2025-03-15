@@ -11,6 +11,8 @@ export const puzzleId = "piecemeal";
  * and interactive puzzle components here.
  */
 
+const across_index = [1, 4, 5]
+
 const puzzleClues = [
   {
     down: [
@@ -141,18 +143,18 @@ export const inPersonBody = (
           </div>
 
           <div>
-            <div className="w-full font-bold text-main-header">Down</div>
+            <div className="w-full font-bold text-main-header">Across</div>
             <ul className="list-inside list-decimal">
-              {clues.down.map((clue, index) => (
-                <li key={index}>{clue}</li>
+              {clues.across.map((clue, index) => (
+                <li value={across_index[index]}>{clue}</li>
               ))}
             </ul>
           </div>
 
           <div>
-            <div className="w-full font-bold text-main-header">Across</div>
+            <div className="w-full font-bold text-main-header">Down</div>
             <ul className="list-inside list-decimal">
-              {clues.across.map((clue, index) => (
+              {clues.down.map((clue, index) => (
                 <li key={index}>{clue}</li>
               ))}
             </ul>
