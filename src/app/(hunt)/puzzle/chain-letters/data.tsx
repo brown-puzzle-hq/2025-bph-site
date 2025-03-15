@@ -67,7 +67,7 @@ export const inPersonBody = (
       XEPVITSO
     </div>
     <div className="grid grid-cols-[repeat(19,1.5em)] grid-rows-[repeat(19,1.5em)]">
-      {GRID.flatMap((row) => row.split("").map((cell) => <p>{cell}</p>))}
+      {GRID.flatMap((row, i) => row.split("").map((cell, j) => <p key={`${i}-${j}`}>{cell}</p>))}
     </div>
   </div>
   </div>
@@ -108,8 +108,8 @@ export const remoteBoxBody = (
 export const remoteBody = (
   <div className="flex max-w-3xl flex-col items-center space-y-4 text-center">
   <div className="flex">
-    {CHAIN.split("").map((cell) => (
-      <div
+    {CHAIN.split("").map((cell, i) => (
+      <div key={`${i}`}
         className={`size-[1.5em] rounded-md border border-main-bg ${COLORS[cell]}`}
       />
     ))}
@@ -132,7 +132,7 @@ export const remoteBody = (
     XEPVITSO
   </div>
   <div className="grid grid-cols-[repeat(19,1.5em)] grid-rows-[repeat(19,1.5em)]">
-    {GRID.flatMap((row) => row.split("").map((cell) => <p>{cell}</p>))}
+    {GRID.flatMap((row, i) => row.split("").map((cell, j) => <p key={`${i}-${j}`}>{cell}</p>))}
   </div>
 </div>
 );
