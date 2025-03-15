@@ -580,6 +580,8 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
               hitArea={new Rectangle(20, 50, 260, 80)}
             />
           </Stage>
+          {/* Draggable overlay */}
+          <div className="absolute inset-0 flex h-10 items-center justify-center bg-black bg-opacity-50 lg:hidden" />
           {/* Result overlay */}
           {result && (
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
