@@ -1,3 +1,11 @@
+const CHAIN = "BBRBGGGRRGBGRRGRGRG";
+
+const COLORS: Record<string, string> = {
+  B: "bg-[#4a86e8]",
+  R: "bg-[#cc0000]",
+  G: "bg-[#cccccc]",
+};
+
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
  * It should be equal to the name of the folder this file is currently under.
@@ -14,8 +22,8 @@ export const inPersonBody = (
   <div>
     <div className="mb-6 max-w-3xl text-center">
       <i>
-        This is a physical puzzle! If your team has not already picked up a chain,
-        please visit HQ in Friedman 208.
+        This is a physical puzzle! If your team has not already picked up a
+        chain, please visit HQ in Friedman 208.
       </i>
     </div>
     <div className="mb-4 max-w-3xl">
@@ -31,7 +39,7 @@ export const inPersonBody = (
         {Array.from({ length: 20 }).map((_, i) => (
           <div
             key={i}
-            className={`flex h-12 w-12 items-center justify-center border ${
+            className={`flex h-12 w-12 items-center ${i == 4 ? "" : i >= 15 ? "bg-neutral-600" : "bg-neutral-400"} justify-center border ${
               i === 4 ? "border-none" : ""
             }`}
           ></div>
@@ -71,7 +79,19 @@ export const remoteBoxBody = (
   </div>
 );
 
-export const remoteBody = null;
+export const remoteBody = (<div className="mb-4 max-w-3xl">
+  <b>
+    This puzzle is a chain puzzle. In-person solvers and box purchasers were given a wire with beads of the following colors, in order:
+  </b>
+  <div className="flex">
+  {CHAIN.split("").map((cell) => (
+    <div
+      className={`size-[1.5em] rounded-md border border-main-bg ${COLORS[cell]}`}
+    />
+  ))}
+</div>
+{inPersonBody}
+</div>);
 
 /**
  * The `solutionBody` renders in the solution page.
