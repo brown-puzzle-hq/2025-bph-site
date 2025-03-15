@@ -107,58 +107,57 @@ const puzzleClues = [
 ];
 
 export const inPersonBody = (
-  <div className="max-w-3xl py-4">
+  <div className="max-w-4xl py-4">
     <p className="pb-8">
-      Rivers are three letters long and may flow horizontally, vertically, or
-      diagonally. Letters on a river are alphabetical in reading order, first
-      across, then down. Any such triple of letters has a river flowing through
-      it.
+      Rivers are three letters long and may either flow horizontally, vertically, or
+      diagonally. Horizontal and diagonal rivers are read left-to-right,
+      and vertical rivers are read top-to-bottom.
+      Any such triple of letters has a river flowing through it.
     </p>
 
-    {/* Puzzle 1 */}
-    <div className="grid grid-cols-3 gap-8">
-      {puzzleClues.map((clues) => (
-        <>
-          <div className="grid w-36 grid-cols-3 gap-0 border">
+    <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+      {puzzleClues.map((clues, index) => (
+        <div key={index} className="w-full space-y-4">
+          <div className="mx-auto grid w-36 grid-cols-3 gap-0 border sm:mx-0">
             <div className="flex h-12 w-12 items-center justify-center border">
               1
             </div>
             <div className="flex h-12 w-12 items-center justify-center border">
-              4
-            </div>
-            <div className="flex h-12 w-12 items-center justify-center border">
-              5
-            </div>
-            <div className="flex h-12 w-12 items-center justify-center border">
               2
             </div>
-            <div className="flex h-12 w-12 items-center justify-center border"></div>
-            <div className="flex h-12 w-12 items-center justify-center border"></div>
             <div className="flex h-12 w-12 items-center justify-center border">
               3
             </div>
+            <div className="flex h-12 w-12 items-center justify-center border">
+              4
+            </div>
+            <div className="flex h-12 w-12 items-center justify-center border"></div>
+            <div className="flex h-12 w-12 items-center justify-center border"></div>
+            <div className="flex h-12 w-12 items-center justify-center border">
+              5
+            </div>
             <div className="flex h-12 w-12 items-center justify-center border"></div>
             <div className="flex h-12 w-12 items-center justify-center border"></div>
           </div>
 
           <div>
-            <div>Down</div>
-            <ul className="list-decimal">
-              {clues.down.map((clue) => (
-                <li>{clue}</li>
+            <div className="w-full font-bold text-main-header">Down</div>
+            <ul className="list-inside list-decimal">
+              {clues.down.map((clue, index) => (
+                <li key={index}>{clue}</li>
               ))}
             </ul>
           </div>
 
           <div>
-            <div>Across</div>
-            <ul className="list-decimal">
-              {clues.across.map((clue) => (
-                <li>{clue}</li>
+            <div className="w-full font-bold text-main-header">Across</div>
+            <ul className="list-inside list-decimal">
+              {clues.across.map((clue, index) => (
+                <li key={index}>{clue}</li>
               ))}
             </ul>
           </div>
-        </>
+        </div>
       ))}
     </div>
   </div>

@@ -41,6 +41,45 @@ export const puzzleId = "chain-letters";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
+  <div>
+  <div className="mb-6 max-w-3xl text-center">
+      <i>
+        This is a physical puzzle! If your team has not already picked up a chain,
+        please visit HQ in Friedman 208.
+      </i>
+    </div>
+  <div className="flex max-w-3xl flex-col items-center space-y-4 text-center">
+    <div className="grid grid-cols-[auto,auto,auto] gap-x-2 text-left">
+      <div
+        className={`size-[1.5em] rounded-md border border-main-bg ${COLORS["B"]}`}
+      />
+      <p>=</p>
+      COIA
+      <div
+        className={`size-[1.5em] rounded-md border border-main-bg ${COLORS["R"]}`}
+      />
+      <p>=</p>
+      ISNVWAN
+      <div
+        className={`size-[1.5em] rounded-md border border-main-bg ${COLORS["G"]}`}
+      />
+      <p>=</p>
+      XEPVITSO
+    </div>
+    <div className="grid grid-cols-[repeat(19,1.5em)] grid-rows-[repeat(19,1.5em)]">
+      {GRID.flatMap((row, i) => row.split("").map((cell, j) => <p key={`${i}-${j}`}>{cell}</p>))}
+    </div>
+  </div>
+  </div>
+);
+
+export const remoteBoxBody = (
+  <div>
+  <div className="mb-6 max-w-3xl text-center">
+      <i>
+        This is a physical puzzle! You should use an object found in your box.
+      </i>
+    </div>
   <div className="flex max-w-3xl flex-col items-center space-y-4 text-center">
     <div className="grid grid-cols-[auto,auto,auto] gap-x-2 text-left">
       <div
@@ -63,19 +102,23 @@ export const inPersonBody = (
       {GRID.flatMap((row) => row.split("").map((cell) => <p>{cell}</p>))}
     </div>
   </div>
+  </div>
 );
 
-export const remoteBoxBody = inPersonBody;
-
 export const remoteBody = (
-  <div className="flex max-w-3xl flex-col items-center space-y-4 text-center">
+  <div className="flex max-w-3xl flex-col items-center space-y-4">
+  <div className="mb-4 max-w-3xl">
+  <b>
+    This puzzle is a chain puzzle. In-person solvers and box purchasers were given a wire with beads of the following colors, in order:
+  </b>
   <div className="flex">
-    {CHAIN.split("").map((cell) => (
-      <div
-        className={`size-[1.5em] rounded-md border border-main-bg ${COLORS[cell]}`}
-      />
-    ))}
-  </div>
+  {CHAIN.split("").map((cell) => (
+    <div
+      className={`size-[1.5em] rounded-md border border-main-bg ${COLORS[cell]}`}
+    />
+  ))}
+</div>
+</div>
   <div className="grid grid-cols-[auto,auto,auto] gap-x-2 text-left">
     <div
       className={`size-[1.5em] rounded-md border border-main-bg ${COLORS["B"]}`}
@@ -93,7 +136,7 @@ export const remoteBody = (
     <p>=</p>
     XEPVITSO
   </div>
-  <div className="grid grid-cols-[repeat(19,1.5em)] grid-rows-[repeat(19,1.5em)]">
+  <div className="grid grid-cols-[repeat(19,1.5em)] grid-rows-[repeat(19,1.5em)] text-center">
     {GRID.flatMap((row) => row.split("").map((cell) => <p>{cell}</p>))}
   </div>
 </div>

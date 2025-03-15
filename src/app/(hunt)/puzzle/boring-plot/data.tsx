@@ -1,3 +1,6 @@
+import Image from "next/image";
+import MAP from "./images/mapcode.png";
+
 const GRID = [
   "S30",
   "S30",
@@ -33,8 +36,8 @@ const DIGGING = [
   "....↓........→↓...........",
   "....↓.........→↓..........",
   "....↘..........→↓.........",
-  ".....↓..........→↓........",
-  ".....→↓..........→↓.......",
+  ".....↘..........→↓........",
+  ".....↘←..........→↓.......",
   "......→→↘......... .......",
   ".........→→ ..............",
 ];
@@ -91,46 +94,55 @@ export const inPersonBody = (
         show for it. If you dig through the fossil stack instead, going right
         and down, maybe you'll find what you need. What is the plot missing?
       </i>
+            <div className="flex justify-center pb-4">
+              <Image src={MAP} alt="" width={300} height={300} />
+            </div>
       <p className="font-bold text-main-header">Your Backyard</p>
       <div className="grid">
         <div className="col-start-1 row-start-1 grid grid-cols-[0em,repeat(29,1.5em)] grid-rows-[repeat(10,1.5em)]">
-          {FULLGRID.flatMap((row) =>
-            row.map((cell) => <div className={COLORS[cell]} />),
+          {FULLGRID.flatMap((row, i) =>
+            row.map((cell, j) => (
+              <div className={COLORS[cell]} key={`${i}-${j}`} />
+            )),
           )}
         </div>
-        <div className="col-start-1 row-start-1 pl-1 text-left font-mono font-bold text-main-header">
+        {/* <div className="col-start-1 row-start-1 pl-1 text-left font-mono font-bold text-main-header">
           <br />
           <br />
           <br />
-          {ARRANGEMENT.map((line) => (
-            <div>{line}</div>
+          {ARRANGEMENT.map((line, i) => (
+            <div key={`${i}`}>{line}</div>
           ))}
-        </div>
+        </div> */}
       </div>
       <p className="font-bold text-main-header">Digging Guide</p>
       <div className="grid grid-cols-[repeat(26,1.5em)] grid-rows-[repeat(14,1.5em)] font-mono text-secondary-accent">
-        {DIGGING.flatMap((row) =>
-          row
-            .split("")
-            .map((cell) =>
-              cell == "." ? (
-                <p />
-              ) : (
-                <p className="flex items-center justify-center rounded-md border border-main-bg bg-main-accent">
-                  {cell}
-                </p>
-              ),
+        {DIGGING.flatMap((row, i) =>
+          row.split("").map((cell, j) =>
+            cell == "." ? (
+              <p key={`${i}-${j}`} />
+            ) : (
+              <p
+                className="flex items-center justify-center rounded-md border border-main-bg bg-main-accent"
+                key={`${i}-${j}`}
+              >
+                {cell}
+              </p>
             ),
+          ),
         )}
       </div>
       <p className="font-bold text-main-header">Fossil Stack</p>
       <div className="grid grid-cols-[repeat(13,1.5em)] grid-rows-[repeat(6,1.5em)]">
-        {FULLSTACK.flatMap((row) =>
-          row.map((cell) =>
+        {FULLSTACK.flatMap((row, i) =>
+          row.map((cell, j) =>
             cell == "." ? (
-              <p />
+              <p key={`${i}-${j}`} />
             ) : (
-              <p className="flex items-center justify-center rounded-md border border-main-bg bg-main-accent">
+              <p
+                className="flex items-center justify-center rounded-md border border-main-bg bg-main-accent"
+                key={`${i}-${j}`}
+              >
                 {cell}
               </p>
             ),
