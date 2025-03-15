@@ -18,13 +18,19 @@ export default async function AdminHamburgerMenu() {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <Link href="/admin/errata" prefetch={false}>
-            <DropdownMenuItem>Errata</DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer">
+              Errata
+            </DropdownMenuItem>
           </Link>
           <Link href="/admin/feedback" prefetch={false}>
-            <DropdownMenuItem>Feedback</DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer">
+              Feedback
+            </DropdownMenuItem>
           </Link>
           <Link href="/admin/sql" prefetch={false}>
-            <DropdownMenuItem>Queries</DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer">
+              Queries
+            </DropdownMenuItem>
           </Link>
         </DropdownMenuContent>
       </DropdownMenu>

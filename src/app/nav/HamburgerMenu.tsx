@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
+import { cn } from "~/lib/utils";
 
 export type MenuItem = {
   title: string;
@@ -37,35 +38,29 @@ export function HamburgerMenu({
   side,
 }: Props) {
   const pathName = usePathname();
+  const baseClassName = cn(
+    "cursor-pointer rounded-md bg-opacity-0 hover:bg-opacity-20 px-1.5",
+    pathName.includes("admin") ? "bg-slate-400" : "bg-white",
+  );
+  const elementClassName = cn(baseClassName, "py-1");
+  const linkClassName = cn(baseClassName, "py-1.5");
   return (
     <nav
-      className={`fixed z-50 flex w-full items-center justify-between ${colorMap[side]} bg-opacity-30 p-[10px] backdrop-blur-md backdrop-filter md:p-4`}
+      className={`fixed z-50 flex w-full items-center justify-between ${colorMap[side]} bg-opacity-30 p-[10px] backdrop-blur-md backdrop-filter md:p-3`}
     >
       {/* Left menu items */}
       <div className="hidden md:block">
         <NavigationMenu>
-          <NavigationMenuList className="flex space-x-4">
+          <NavigationMenuList className="flex space-x-2">
             {leftMenuItems.map((item) => (
               <NavigationMenuItem key={item.title}>
                 {item.type == "element" ? (
-                  <div
-                    className={`cursor-pointer px-0.5 py-0.5 outline-1 ${
-                      pathName === item.href
-                        ? `rounded-md outline ${pathName.includes("admin") ? "bg-sky-100" : "bg-[#86183D]"}`
-                        : `hover:rounded-md hover:outline ${pathName.includes("admin") ? "hover:bg-amber-300" : "hover:bg-[#C3654C]"}`
-                    }`}
-                  >
-                    {item.element!}
-                  </div>
+                  <div className={elementClassName}>{item.element!}</div>
                 ) : (
                   <Link
                     href={item.href!}
                     prefetch={false}
-                    className={`cursor-pointer px-1 py-1 outline-1 ${
-                      pathName === item.href
-                        ? `rounded-md outline ${pathName.includes("admin") ? "bg-sky-100" : "bg-[#86183D]"}`
-                        : `hover:rounded-md hover:outline ${pathName.includes("admin") ? "hover:bg-amber-300" : "hover:bg-[#C3654C]"}`
-                    }`}
+                    className={linkClassName}
                   >
                     {item.title}
                   </Link>
@@ -79,27 +74,15 @@ export function HamburgerMenu({
       {/* Right menu items */}
       <div className="hidden md:block">
         <NavigationMenu>
-          <NavigationMenuList className="flex space-x-4">
+          <NavigationMenuList className="flex space-x-2">
             {rightMenuItems.map((item) => (
               <NavigationMenuItem key={item.title}>
                 {item.type == "element" ? (
-                  <div
-                    className={`cursor-pointer px-0.5 py-0.5 outline-1 ${
-                      pathName === item.href
-                        ? `rounded-md outline ${pathName.includes("admin") ? "bg-sky-100" : "bg-[#86183D]"}`
-                        : `hover:rounded-md hover:outline ${pathName.includes("admin") ? "hover:bg-amber-300" : "hover:bg-[#C3654C]"}`
-                    }`}
-                  >
-                    {item.element!}
-                  </div>
+                  <div className={elementClassName}>{item.element!}</div>
                 ) : (
                   <Link
                     href={item.href!}
-                    className={`cursor-pointer px-1 py-1 outline-1 ${
-                      pathName === item.href
-                        ? `rounded-md outline ${pathName.includes("admin") ? "bg-sky-100" : "bg-[#86183D]"}`
-                        : `hover:rounded-md hover:outline ${pathName.includes("admin") ? "hover:bg-amber-300" : "hover:bg-[#C3654C]"}`
-                    }`}
+                    className={linkClassName}
                     prefetch={false}
                   >
                     {item.title}
