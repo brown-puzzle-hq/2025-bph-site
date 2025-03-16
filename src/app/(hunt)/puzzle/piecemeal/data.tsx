@@ -11,16 +11,18 @@ export const puzzleId = "piecemeal";
  * and interactive puzzle components here.
  */
 
+const across_index = [1, 4, 5]
+
 const puzzleClues = [
   {
     down: [
-      "Where you might order an Old Fashioned.",
-      "Relative of Id.",
-      "Good to balance golf balls on.",
+      "Where you might order an Old Fashioned",
+      "Relative of Id",
+      "Good thing to balance golf balls on",
     ],
     across: [
       "Wager",
-      "One of Bronze, Dark, Middle, or Reason.",
+      "One of Bronze, Dark, Middle, or Reason",
       "Fish egg mass",
     ],
   },
@@ -51,7 +53,7 @@ const puzzleClues = [
   {
     down: [
       'Interactive puzzle game from 2015, followed by "story"',
-      "How a Roman might read four.",
+      "How a Roman might read four",
       "What you do with your eye",
     ],
     across: [
@@ -75,8 +77,8 @@ const puzzleClues = [
   {
     down: [
       "The onion browser",
-      "Much ___ for nothing",
-      "Comfortable to sleep in",
+      "Much ___ about nothing",
+      "Comfortable place to sleep",
     ],
     across: [
       "What you'd pay off after a long night",
@@ -110,7 +112,7 @@ export const inPersonBody = (
   <div className="max-w-4xl py-4">
     <p className="pb-8">
       Rivers are three letters long and may either flow horizontally, vertically, or
-      diagonally. Horizontal and diagonal rivers are read left-to-right,
+      diagonally in alphabetical order. Horizontal and diagonal rivers are read left-to-right,
       and vertical rivers are read top-to-bottom.
       Any such triple of letters has a river flowing through it.
     </p>
@@ -141,18 +143,18 @@ export const inPersonBody = (
           </div>
 
           <div>
-            <div className="w-full font-bold text-main-header">Down</div>
+            <div className="w-full font-bold text-main-header">Across</div>
             <ul className="list-inside list-decimal">
-              {clues.down.map((clue, index) => (
-                <li key={index}>{clue}</li>
+              {clues.across.map((clue, index) => (
+                <li value={across_index[index]}>{clue}</li>
               ))}
             </ul>
           </div>
 
           <div>
-            <div className="w-full font-bold text-main-header">Across</div>
+            <div className="w-full font-bold text-main-header">Down</div>
             <ul className="list-inside list-decimal">
-              {clues.across.map((clue, index) => (
+              {clues.down.map((clue, index) => (
                 <li key={index}>{clue}</li>
               ))}
             </ul>
