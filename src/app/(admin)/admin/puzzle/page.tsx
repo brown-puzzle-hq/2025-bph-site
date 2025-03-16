@@ -61,7 +61,7 @@ export default async function Home() {
     name: puzzle.name,
     answer: puzzle.answer,
     unlocks: INITIAL_PUZZLES.includes(puzzle.id)
-      ? numTeams
+      ? "-"
       : puzzle.unlocks.length,
     guesses: puzzle.guesses.length,
     solves: puzzle.solves.length,
@@ -122,15 +122,15 @@ export default async function Home() {
               <TableHead className="w-10 py-0">Round</TableHead>
               <TableHead className="w-1/6 min-w-56 py-0">Name</TableHead>
               <TableHead className="w-10 break-all py-0">Answer</TableHead>
-              <TableHead className="w-fit py-0">Seqs</TableHead>
-              <TableHead className="w-fit py-0">Unlocks</TableHead>
-              <TableHead className="w-fit py-0">Solves</TableHead>
-              <TableHead className="w-fit py-0">Guesses</TableHead>
-              <TableHead className="w-fit py-0">In-Person</TableHead>
-              <TableHead className="w-fit py-0">Remote</TableHead>
-              <TableHead className="w-fit py-0">Solution</TableHead>
-              <TableHead className="w-fit py-0">Stats</TableHead>
-              <TableHead className="w-fit py-0">Copy</TableHead>
+              <TableHead className="w-fit py-0 text-center">Seqs</TableHead>
+              <TableHead className="w-fit py-0 text-center">Unlocks</TableHead>
+              <TableHead className="w-fit py-0 text-center">Solves</TableHead>
+              <TableHead className="w-fit py-0 text-center">Guesses</TableHead>
+              <TableHead className="w-fit py-0 text-center">In-Person</TableHead>
+              <TableHead className="w-fit py-0 text-center">Remote</TableHead>
+              <TableHead className="w-fit py-0 text-center">Solution</TableHead>
+              <TableHead className="w-fit py-0 text-center">Stats</TableHead>
+              <TableHead className="w-fit py-0 text-center">Copy</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -171,16 +171,16 @@ export default async function Home() {
                     <TableCell className="py-0">
                       <p className="text-emerald-600">{puzzle.answer}</p>
                     </TableCell>
-                    <TableCell className="justify-center text-base">
+                    <TableCell className="text-center text-base">
                       {puzzle.sequences.map((seq) => seq.icon)}
                     </TableCell>
-                    <TableCell className="justify-center">
+                    <TableCell className="text-center">
                       {puzzle.unlocks}
                     </TableCell>
-                    <TableCell className="justify-center">
+                    <TableCell className="text-center">
                       {puzzle.solves}
                     </TableCell>
-                    <TableCell className="justify-center">
+                    <TableCell className="text-center">
                       {puzzle.guesses}
                     </TableCell>
                     <TableCell className="justify-center">
