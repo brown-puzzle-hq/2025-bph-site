@@ -82,7 +82,7 @@ const adminItems = [
   },
   {
     title: "Graph",
-    href: "/admin/puzzle-graph",
+    href: "/admin/graph",
     icon: <Waypoints className="text-blue-500" />,
   },
   {
