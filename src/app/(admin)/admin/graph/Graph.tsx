@@ -324,7 +324,7 @@ export default function Graph() {
               <User className="size-5" />
             </div>
             <input
-              placeholder="Search team ID..."
+              placeholder="jcarberr"
               value={teamQuery}
               onChange={(e) => setTeamQuery(e.target.value)}
               onKeyDown={(e) => {
@@ -332,7 +332,7 @@ export default function Graph() {
                   handleSearchTeam();
                 }
               }}
-              className="z-10 w-full border-b border-neutral-400 bg-transparent text-sm text-neutral-500 focus:outline-none disabled:cursor-not-allowed"
+              className="z-10 w-full border-b border-neutral-400 bg-transparent text-sm text-neutral-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
               autoComplete="off"
               disabled={!!searchedTeam}
             />
@@ -362,7 +362,7 @@ export default function Graph() {
               <Puzzle className="size-5" />
             </div>
             <input
-              placeholder="Search puzzle ID..."
+              placeholder="example"
               value={puzzleQuery}
               onChange={(e) => setPuzzleQuery(e.target.value)}
               onKeyDown={(e) => {
@@ -375,7 +375,10 @@ export default function Graph() {
               autoComplete="off"
             />
             <button
-              onClick={handleSearchPuzzle}
+              onClick={() => {
+                setPuzzleQuery("");
+                handleSearchPuzzle();
+              }}
               className="z-10 rounded p-1 hover:bg-neutral-200 disabled:bg-inherit disabled:opacity-25"
               disabled={!puzzleQuery}
             >
@@ -412,10 +415,12 @@ export default function Graph() {
           {searchedPuzzle === null ? (
             // Show list of puzzles
             <>
-              <p className="text-base">Puzzles</p>
+              <p className="text-base text-neutral-700 font-semibold">Puzzles</p>
               {ROUNDS.map((round) => (
                 <>
-                  <p className="my-1 bg-neutral-400 text-white">{round.name}</p>
+                  <p className="my-1 bg-neutral-400 pl-0.5 font-semibold text-white">
+                    {round.name}
+                  </p>
                   {round.puzzles.map((puzzle) => {
                     const isSolve = searchedTeam?.solves.includes(puzzle);
                     const isUnlock = searchedTeam?.unlocks.includes(puzzle);
@@ -423,6 +428,7 @@ export default function Graph() {
                     return (
                       <div>
                         <button
+                          className="w-full text-left hover:bg-neutral-200"
                           onClick={async () => await handlePuzzleInfo(puzzle)}
                         >
                           <span
@@ -466,7 +472,9 @@ export default function Graph() {
                 </p>
               </div>
 
-              <p className="my-1 bg-neutral-400 text-white">Info</p>
+              <p className="my-1 bg-neutral-400 pl-0.5 font-semibold text-white">
+                Info
+              </p>
               <p>
                 <Link
                   href={`/puzzle/${searchedPuzzle.puzzleId}`}
@@ -491,7 +499,7 @@ export default function Graph() {
               </p>
               <p>
                 <Link
-                  href={`/puzzle/${searchedPuzzle.puzzleId}/statistics`}
+                  href={`/admin/statistics/${searchedPuzzle.puzzleId}`}
                   prefetch={false}
                   rel="noopener noreferrer"
                   target="_blank"
@@ -504,7 +512,9 @@ export default function Graph() {
               {/* Guesses */}
               {searchedTeam && (
                 <>
-                  <p className="my-1 bg-neutral-400 text-white">Guesses</p>
+                  <p className="my-1 bg-neutral-400 pl-0.5 font-semibold text-white">
+                    Guesses
+                  </p>
                   {searchedPuzzle.guesses?.map((guess, i) => (
                     <p
                       className={`${
@@ -517,7 +527,7 @@ export default function Graph() {
                   ))}
 
                   {/* Hints */}
-                  <p className="my-1 bg-neutral-400 text-white">
+                  <p className="my-1 bg-neutral-400 pl-0.5 font-semibold text-white">
                     Hint Requests
                   </p>
                   {searchedPuzzle.requestedHints?.map((hint, i) => (
