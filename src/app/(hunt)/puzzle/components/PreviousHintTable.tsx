@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
-import { ChevronDown, ChevronRight, EyeOff } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
 import {
@@ -21,7 +21,6 @@ import {
 } from "../actions";
 
 type TableProps = {
-  teamSide?: boolean;
   previousHints: PreviousHints;
   hintRequestState?: HintRequestState;
   teamDisplayName?: string;
@@ -75,7 +74,6 @@ type FollowUp = {
 };
 
 export default function PreviousHintTable({
-  teamSide,
   previousHints,
   hintRequestState,
   teamDisplayName,
@@ -94,7 +92,6 @@ export default function PreviousHintTable({
   const [isPendingSubmit, startTransitionSubmit] = useTransition();
 
   const handleSubmitRequest = async (puzzleId: string, message: string) => {
-    // Optimistic update
     startTransitionSubmit(() => {
       setOptimisticHints((prev) => [
         ...prev,
@@ -209,7 +206,7 @@ export default function PreviousHintTable({
         ),
       );
     });
-    if (teamSide || message !== "[Claimed]") setNewFollowUp(null);
+    setNewFollowUp(null);
     // TODO: is there a better option than passing a ton of arguments?
     // wondering if we should have centralized hint types, same goes for inserting/emailing normal hint responses
     // Also might be more efficient to only pass team members once instead of storing in each hint
@@ -403,9 +400,7 @@ export default function PreviousHintTable({
               <TableCell className="break-words pr-5">
                 {/* Top section with the team ID and the edit button */}
                 <div className="flex justify-between">
-                  <p className="pb-0.5 pt-1 font-bold">
-                    {teamSide ? "Team" : teamDisplayName}
-                  </p>
+                  <p className="pb-0.5 pt-1 font-bold">Team</p>
                   {/* If the hint request was made by the current user, allow edits */}
                   {hint.team.id === session?.user?.id && (
                     <div>
@@ -489,9 +484,7 @@ export default function PreviousHintTable({
                 <TableCell className="break-words pr-5">
                   {/* Top section for claimer ID, the follow-up button, and the edit button */}
                   <div className="flex items-center justify-between">
-                    <p className="pb-1 font-bold">
-                      {teamSide ? "Admin" : hint.claimer?.displayName}
-                    </p>
+                    <p className="pb-1 font-bold">Admin</p>
                     <div className="flex space-x-2">
                       {/* Follow-up button, only show if collapsed */}
                       {(!hint.followUps.length ||
@@ -592,9 +585,7 @@ export default function PreviousHintTable({
             {/* Follow-ups row */}
             {!hiddenFollowUps.includes(hint.id) &&
               hint.followUps
-                .filter(
-                  (followUp) => !teamSide || followUp.message !== "[Claimed]",
-                )
+                .filter((followUp) => followUp.message !== "[Claimed]")
                 .map((followUp, i, row) => (
                   <TableRow
                     key={`${followUp.id}`}
@@ -607,38 +598,13 @@ export default function PreviousHintTable({
                       {/* Top section with userId and edit button */}
                       <div className="flex items-center justify-between">
                         {followUp.user.id === hint.team.id ? (
-                          <p className="pb-1 font-bold">
-                            {teamSide ? "Team" : teamDisplayName}
-                          </p>
+                          <p className="pb-1 font-bold">Team</p>
                         ) : (
                           <p className="flex items-center pb-1 font-bold">
-                            {teamSide ? "Admin" : followUp.user.displayName}
-                            {!teamSide && followUp.message === "[Claimed]" && (
-                              <div className="group relative ml-1.5 font-medium">
-                                <EyeOff className="h-4 cursor-help" />
-                                <span className="pointer-events-none absolute -bottom-7 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-black px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100">
-                                  <div className="absolute -top-1 left-1/2 h-0 w-0 -translate-x-1/2 border-b-4 border-l-4 border-r-4 border-transparent border-b-black" />
-                                  Visible to admins only
-                                </span>
-                              </div>
-                            )}
+                            Admin
                           </p>
                         )}
                         <div className="flex space-x-2">
-                          {i + 1 === row.length &&
-                            !teamSide &&
-                            followUp.user.id === hint.team.id && (
-                              <button
-                                onClick={() =>
-                                  // TODO: kinda jank to use empty team members as signal to not send email
-                                  handleSubmitFollowUp(hint.id, "[Claimed]", "")
-                                }
-                                className="text-link hover:underline"
-                              >
-                                Claim
-                              </button>
-                            )}
-
                           {i + 1 === row.length &&
                             (newFollowUp?.hintId !== hint.id ? (
                               <button
@@ -760,11 +726,7 @@ export default function PreviousHintTable({
                     <Button
                       onClick={() =>
                         // TODO: kinda jank to use empty team members as signal to not send email
-                        handleSubmitFollowUp(
-                          hint.id,
-                          newFollowUp.message,
-                          teamSide ? "" : hint.team.members,
-                        )
+                        handleSubmitFollowUp(hint.id, newFollowUp.message, "")
                       }
                     >
                       Submit
