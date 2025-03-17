@@ -7,10 +7,11 @@ import { eq, and, isNull, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { sendEmail, extractEmails } from "~/lib/utils";
 import { HintEmailTemplate } from "~/lib/email-template";
-import { HintWithRelations } from "./components/hint-table/Columns";
 
-export async function respondToHint(
-  hint: HintWithRelations,
+export async function insertHintResponse(
+  hintId: number,
+  teamDisplayName: string,
+  puzzleName: string,
   response: string,
   members: string,
 ) {
@@ -22,28 +23,34 @@ export async function respondToHint(
   // For a response to go through, the hint claimer must be the user and
   // the hint status must be no_response
   let user = session.user.id ? session.user.id : "";
-  let result = await db
-    .update(hints)
-    .set({
-      response,
-      responseTime: new Date(),
-      status: "answered",
-    })
-    .where(
-      and(
-        eq(hints.id, hint.id),
-        eq(hints.claimer, user),
-        eq(hints.status, "no_response"),
-      ),
-    )
-    .returning({ id: hints.id });
+  let result = (
+    await db
+      .update(hints)
+      .set({
+        response,
+        responseTime: new Date(),
+        status: "answered",
+      })
+      .where(
+        and(
+          eq(hints.id, hintId),
+          eq(hints.claimer, user),
+          eq(hints.status, "no_response"),
+        ),
+      )
+      .returning({
+        id: hints.id,
+        request: hints.request,
+        puzzleId: hints.puzzleId,
+      })
+  )?.[0];
 
   revalidatePath("/admin/");
 
   // Error-handling
-  if (result.length != 1) {
+  if (!result) {
     let hintSearch = await db.query.hints.findFirst({
-      where: eq(hints.id, hint.id),
+      where: eq(hints.id, hintId),
     });
     if (!hintSearch) {
       return {
@@ -75,10 +82,17 @@ export async function respondToHint(
   // Send email
   await sendEmail(
     extractEmails(members),
-    `Hint Answered [${hint.puzzle.name}]`,
-    HintEmailTemplate({ hint, response }),
+    `Hint Answered [${puzzleName}]`,
+    HintEmailTemplate({
+      teamDisplayName: teamDisplayName,
+      puzzleName: puzzleName,
+      puzzleId: result.puzzleId,
+      request: result.request,
+      response,
+    }),
   );
-  return { error: null };
+
+  return { error: null, id: result.id };
 }
 
 export async function claimHint(hintId: number) {

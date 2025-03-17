@@ -7,8 +7,6 @@ import Toast from "../components/hint-page/Toast";
 import HintStatusBox from "../components/hint-page/HintStatusBox";
 import PreviousHintTable from "../components/hint-page/PreviousHintTable";
 import PreviousGuessTable from "~/app/(hunt)/puzzle/components/PreviousGuessTable";
-import { RequestBox } from "../components/hint-page/RequestBox";
-import { ResponseBox } from "../components/hint-page/ResponseBox";
 import { FormattedTime, ElapsedTime } from "~/lib/time";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
 import { Label } from "~/components/ui/label";
@@ -51,8 +49,13 @@ export default async function Page({
           interactionMode: true,
         },
       },
-      claimer: { columns: { id: true, displayName: true } },
       puzzle: { columns: { id: true, name: true, answer: true } },
+      claimer: { columns: { id: true, displayName: true } },
+      followUps: {
+        columns: { id: true, message: true, userId: true, time: true },
+        with: { user: { columns: { id: true, displayName: true } } },
+        orderBy: [asc(followUps.time)],
+      },
     },
   });
 
@@ -85,29 +88,6 @@ export default async function Page({
       eq(guesses.teamId, hint.teamId),
       eq(guesses.puzzleId, hint.puzzleId),
     ),
-  });
-
-  const previousHints = await db.query.hints.findMany({
-    where: and(
-      eq(hints.teamId, hint.teamId),
-      eq(hints.puzzleId, hint.puzzleId),
-    ),
-    columns: {
-      id: true,
-      request: true,
-      response: true,
-      requestTime: true,
-    },
-    with: {
-      team: { columns: { id: true, displayName: true, members: true } },
-      claimer: { columns: { id: true, displayName: true } },
-      followUps: {
-        columns: { id: true, message: true, userId: true, time: true },
-        with: { user: { columns: { id: true, displayName: true } } },
-        orderBy: [asc(followUps.time)],
-      },
-    },
-    orderBy: [asc(hints.requestTime)],
   });
 
   return (
@@ -181,27 +161,8 @@ export default async function Page({
           </div>
 
           <div className="w-full p-6 md:w-2/3">
-            <RequestBox hint={hint} />
-            {(hint.response ||
-              (hint.claimer && hint.claimer.id === session.user.id)) && (
-              <ResponseBox
-                hint={{ ...hint, followUps: [] }}
-                members={hint.team.members}
-              />
-            )}
+            <PreviousHintTable hint={hint} reply={reply ? hintId : undefined} />
           </div>
-
-          {previousHints.length > 0 && (
-            <div className="w-full md:w-2/3">
-              <PreviousHintTable
-                previousHints={previousHints}
-                teamDisplayName={hint.team.displayName}
-                reply={reply ? hintId : undefined}
-                puzzleId={hint.puzzle.id}
-                puzzleName={hint.puzzle.name}
-              />
-            </div>
-          )}
 
           {previousGuesses.length > 0 && (
             <div className="flex flex-col items-center space-y-2 p-4">

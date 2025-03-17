@@ -3,7 +3,6 @@ import { auth } from "~/server/auth/auth";
 import { db } from "~/server/db/index";
 import { and, eq } from "drizzle-orm";
 import { followUps, hints } from "~/server/db/schema";
-import { getNumberOfHintsRemaining } from "~/hunt.config";
 import { sendBotMessage, sendEmail, extractEmails } from "~/lib/utils";
 import {
   FollowUpEmailTemplate,
@@ -11,44 +10,6 @@ import {
 } from "~/lib/email-template";
 
 export type MessageType = "request" | "response" | "follow-up";
-
-/** Inserts a hint request into the hint table */
-export async function insertHintRequest(puzzleId: string, hint: string) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    throw new Error("Not logged in");
-  }
-  const teamId = session.user.id;
-  const role = session.user.role;
-
-  // Checks
-  const hasHint = (await getNumberOfHintsRemaining(teamId, role)) > 0;
-  const hasUnansweredHint = (await db.query.hints.findFirst({
-    columns: { id: true },
-    where: and(eq(hints.teamId, teamId), eq(hints.status, "no_response")),
-  }))
-    ? true
-    : false;
-
-  if (hasHint && !hasUnansweredHint) {
-    const result = await db
-      .insert(hints)
-      .values({
-        teamId: teamId,
-        puzzleId,
-        request: hint,
-        requestTime: new Date(),
-        status: "no_response",
-      })
-      .returning({ id: hints.id });
-
-    // TODO: get specific hint ID
-    const hintMessage = `🙏 **Hint** [request](https://www.brownpuzzlehunt.com/admin/hints) by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${hint} <@&1310029428864057504>`;
-    await sendBotMessage(hintMessage);
-
-    return result[0]?.id;
-  }
-}
 
 /** Edits a hint */
 export async function editMessage(
