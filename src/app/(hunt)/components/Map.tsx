@@ -5,6 +5,16 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import { MapContainer, Marker, Tooltip, ImageOverlay } from "react-leaflet";
 import L, { LatLngBounds } from "leaflet";
+import { Round, ROUNDS } from "@/hunt.config";
+import { real } from "drizzle-orm/mysql-core";
+
+function spriteExists(image_url: string | URL) {
+  var http = new XMLHttpRequest();
+  http.open('HEAD', image_url, false);
+  http.send();
+  return http.status != 404;
+
+}
 
 const positions: Record<string, L.LatLngExpression> = {
   "a-fistful-of-cards": [435, 309],
@@ -76,29 +86,68 @@ type puzzleList = {
 export default function Map({
   availablePuzzles,
   solvedPuzzles,
+  availableRounds,
 }: {
   availablePuzzles: puzzleList;
   solvedPuzzles: { puzzleId: string }[];
+  availableRounds: Round[],
 }) {
   const bounds = new LatLngBounds([0, 0], [1000, 1000]);
-  const colorlayout = "/map/Layout.png";
-  const buildings = "map/Buildings.png";
+  const colorlayout = "/map/Layout.png"; //TODO: remove
+  let actionlayout = "";
+  // const actionbounds = new LatLngBounds([0, 0], [20, 200]);
+  let dramalayout = "";
+  // const dramabounds = new LatLngBounds([0, 0], [1000, 1000]);
+  let comedylayout = "";
+  // const comedybounds = new LatLngBounds([0, 0], [1000, 1000]);
+  let adventurelayout = "";
+  // const adventurebounds = new LatLngBounds([0, 0], [1000, 1000]);
+  let realitylayout = "";
+  // const realitybounds = new LatLngBounds([0, 0], [1000, 1000]);
+  let cerebrallayout = "";
+  // const cerebralbounds = new LatLngBounds([0, 0], [1000, 1000]);
+  const buildings = "map/Buildings.png"; //TODO: remove when map contains buildings
+  if (availableRounds.includes(ROUNDS[0]!)) {
+    actionlayout = "";
+  }
+  if (availableRounds.includes(ROUNDS[1]!)) {
+    dramalayout = "";
+  }
+  if (availableRounds.includes(ROUNDS[2]!)) {
+    comedylayout = "";
+  }
+  if (availableRounds.includes(ROUNDS[3]!)) {
+    adventurelayout = "";
+  }
+  if (availableRounds.includes(ROUNDS[4]!)) {
+    realitylayout = "";
+  }
+  if (availableRounds.includes(ROUNDS[5]!)) {
+    cerebrallayout = "";
+  }
   return (
     <MapContainer
       center={[500, 500]}
       zoom={2}
-      minZoom={1.25}
+      minZoom={-1.25}
       maxZoom={3.5}
       maxBounds={bounds}
       crs={L.CRS.Simple}
       preferCanvas={true}
       scrollWheelZoom={false}
       markerZoomAnimation={true}
+      attributionControl={false}
       style={{ background: "white", zIndex: 10 }}
       className="h-[calc(100vh-56px-32px)] w-screen focus:outline-none"
     >
-      <ImageOverlay url={colorlayout} bounds={bounds} />
-      <ImageOverlay url={buildings} bounds={bounds} />
+      <ImageOverlay url={colorlayout} bounds={bounds} /> {/*/TODO: remove */}
+      {/* <ImageOverlay url={actionlayout} bounds={bounds} />
+      <ImageOverlay url={dramalayout} bounds={bounds} />
+      <ImageOverlay url={comedylayout} bounds={bounds} />
+      <ImageOverlay url={adventurelayout} bounds={bounds} />
+      <ImageOverlay url={realitylayout} bounds={bounds} />
+      <ImageOverlay url={cerebrallayout} bounds={bounds} /> */}
+      <ImageOverlay url={buildings} bounds={bounds} /> {/*/TODO: remove */}
       {availablePuzzles.map((puzzle) => (
         // TODO: format solved puzzles differently
         <Marker
@@ -108,8 +157,13 @@ export default function Map({
             new L.Icon({
               // iconUrl: `map/sprites/${puzzle.id}.png`,
               iconUrl: solvedPuzzles.some((sp) => sp.puzzleId === puzzle.id)
-                ? "map/sprites/bookmark-check.svg"
-                : "map/sprites/puzzle.svg",
+                // ? "map/sprites/bookmark-check.svg"
+                ? spriteExists(`map/sprites/${puzzle.id}.png`)
+                  ? `map/sprites/${puzzle.id}.png`
+                  : `map/sprites/puzzle.svg` //TODO: remove, this is to see the full map with all sprites
+                : spriteExists(`map/sprites/${puzzle.id}.png`)
+                  ? `map/sprites/${puzzle.id}.png`
+                  : `map/sprites/puzzle.svg`,
               iconSize: [40, 40],
               iconAnchor: [20, 40],
             })
