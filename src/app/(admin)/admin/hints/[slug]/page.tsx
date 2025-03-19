@@ -91,92 +91,85 @@ export default async function Page({
   });
 
   return (
-    <div className="mb-12">
-      <div className="flex min-w-36 grow flex-col">
-        <div className="flex flex-col items-center">
-          <h1>Answer a Hint</h1>
-          <HintStatusBox
-            hintId={hint.id}
-            claimer={hint.claimer}
-            status={hint.status}
-            userId={session.user.id}
-          />
+    <div className="mx-auto mb-12 flex max-w-[calc(min(100vw,968px))] flex-col items-center px-4">
+      <h1>Answer a Hint</h1>
+      <HintStatusBox
+        hintId={hint.id}
+        claimer={hint.claimer}
+        status={hint.status}
+        userId={session.user.id}
+      />
+      <div className="grid w-full grid-cols-1 text-sm text-zinc-700 sm:grid-cols-2 gap-4">
+        <div>
+          <p className="font-semibold">Hint #{hint.id}</p>
+          <p className="w-full truncate text-ellipsis">
+            <span className="font-semibold">Team: </span>
+            <Link
+              href={`/teams/${hint.team.id}`}
+              className="text-blue-500 hover:underline"
+              prefetch={false}
+            >
+              {hint.team.displayName} ({hint.team.id})
+            </Link>
+          </p>
+          <p>
+            <span className="font-semibold">Puzzle: </span>
+            <Link
+              href={`/puzzle/${hint.puzzleId}`}
+              className="text-blue-500 hover:underline"
+              prefetch={false}
+            >
+              {hint.puzzle.name}
+            </Link>
+          </p>
         </div>
-
-        <div className="flex flex-col items-center">
-          <div className="flex w-full max-w-[100vw] flex-col justify-between p-4 text-sm text-zinc-700 md:w-2/3 lg:flex-row">
-            <div>
-              <div className="w-full truncate text-ellipsis">
-                <p className="font-semibold">Hint #{hint.id}</p>
-                <span className="font-semibold">Team: </span>
-                <Link
-                  href={`/teams/${hint.team.id}`}
-                  className="text-blue-500 hover:underline"
-                  prefetch={false}
-                >
-                  {hint.team.displayName} ({hint.team.id})
-                </Link>
-              </div>
-              <div>
-                <span className="font-semibold">Puzzle: </span>
-                <Link
-                  href={`/puzzle/${hint.puzzleId}`}
-                  className="text-blue-500 hover:underline"
-                  prefetch={false}
-                >
-                  {hint.puzzle.name}
-                </Link>
-              </div>
-            </div>
-            <div>
-              <p>
-                <span className="font-semibold">Puzzle unlocked </span>
-                <FormattedTime time={unlockTime} /> (
-                <ElapsedTime date={unlockTime} /> ago)
-              </p>
-              <p>
-                <span className="font-semibold">Hint requested </span>
-                <FormattedTime time={hint.requestTime} /> (
-                <ElapsedTime date={hint.requestTime} /> ago)
-              </p>
-              <p>
-                <span className="font-semibold">Hint claimed </span>
-                {hint.claimTime && (
-                  <>
-                    <FormattedTime time={hint.claimTime} /> (
-                    <ElapsedTime date={hint.claimTime} /> ago)
-                  </>
-                )}
-              </p>
-              <p>
-                <span className="font-semibold">Hint responded </span>
-                {hint.responseTime && (
-                  <>
-                    <FormattedTime time={hint.responseTime} /> (
-                    <ElapsedTime date={hint.responseTime} /> ago)
-                  </>
-                )}
-              </p>
-            </div>
-          </div>
-
-          <div className="w-full p-4 md:w-2/3">
-            <PreviousHintTable hint={hint} reply={reply ? hintId : undefined} />
-          </div>
-
-          {previousGuesses.length > 0 && (
-            <div className="flex flex-col items-center space-y-2 p-4">
-              <Label>Previous Guesses</Label>
-              <PreviousGuessTable
-                puzzleAnswer={hint.puzzle.answer}
-                previousGuesses={previousGuesses}
-                partialSolutions={{}} // TODO: Import from puzzle
-                tasks={{}} // TODO: Import from puzzle
-              />
-            </div>
-          )}
+        <div>
+          <p className="text-nowrap">
+            <span className="font-semibold">Puzzle unlocked </span>
+            <FormattedTime time={unlockTime} /> (
+            <ElapsedTime date={unlockTime} /> ago)
+          </p>
+          <p>
+            <span className="font-semibold">Hint requested </span>
+            <FormattedTime time={hint.requestTime} /> (
+            <ElapsedTime date={hint.requestTime} /> ago)
+          </p>
+          <p>
+            <span className="font-semibold">Hint claimed </span>
+            {hint.claimTime && (
+              <>
+                <FormattedTime time={hint.claimTime} /> (
+                <ElapsedTime date={hint.claimTime} /> ago)
+              </>
+            )}
+          </p>
+          <p>
+            <span className="font-semibold">Hint responded </span>
+            {hint.responseTime && (
+              <>
+                <FormattedTime time={hint.responseTime} /> (
+                <ElapsedTime date={hint.responseTime} /> ago)
+              </>
+            )}
+          </p>
         </div>
       </div>
+
+      <div className="w-full">
+        <PreviousHintTable hint={hint} reply={reply ? hintId : undefined} />
+      </div>
+
+      {previousGuesses.length > 0 && (
+        <div className="flex flex-col items-center space-y-2 p-4">
+          <Label>Previous Guesses</Label>
+          <PreviousGuessTable
+            puzzleAnswer={hint.puzzle.answer}
+            previousGuesses={previousGuesses}
+            partialSolutions={{}} // TODO: Import from puzzle
+            tasks={{}} // TODO: Import from puzzle
+          />
+        </div>
+      )}
     </div>
   );
 }
