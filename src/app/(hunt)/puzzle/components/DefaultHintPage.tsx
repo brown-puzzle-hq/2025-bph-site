@@ -96,7 +96,6 @@ export default async function DefaultHintPage({
   return (
     <div className="mb-12 w-full max-w-4xl">
       <PreviousHintTable
-        teamSide={true}
         previousHints={previousHints}
         hintRequestState={hintState}
         teamDisplayName={session.user?.displayName}

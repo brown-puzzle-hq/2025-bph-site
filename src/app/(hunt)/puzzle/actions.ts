@@ -35,8 +35,8 @@ export type TxType = Parameters<Parameters<typeof db.transaction>[0]>[0];
 export type viewStatus = "success" | "not_authenticated" | "not_authorized";
 
 /** Checks whether the user can view the puzzle.
- * Admins can always view hte puzzle, testsolvers can view the puzzle if it is unlocked,
- * and teams can view the puzzle if the hunt has start AND it is unlocked.
+ * Admins can always view the puzzle, testsolvers can view the puzzle if it is unlocked,
+ * and teams can view the puzzle if the hunt has started AND it is unlocked.
  */
 export async function canViewPuzzle(
   puzzleId: string,
