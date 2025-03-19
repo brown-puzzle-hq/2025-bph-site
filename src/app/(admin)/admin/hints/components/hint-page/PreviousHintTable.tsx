@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useTransition, startTransition } from "react";
+import { useState, useEffect, startTransition } from "react";
 import { useSession } from "next-auth/react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
@@ -7,6 +7,7 @@ import { EyeOff } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { editMessage, insertFollowUp, MessageType } from "./actions";
 import { insertHintResponse } from "../../actions";
+import { toast } from "~/hooks/use-toast";
 
 type TableProps = {
   hint: Hint;
@@ -62,44 +63,28 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
     reply ? { hintId: reply, message: "" } : null,
   );
   const [edit, setEdit] = useState<EditedMessage | null>(null);
-  const [isPendingSubmit, startTransitionSubmit] = useTransition();
 
-  const handleSubmitEdit = async (
-    id: number,
-    value: string,
-    type: MessageType,
-  ) => {
-    switch (type) {
-      case "request":
-        startTransition(async () => {
-          setOptimisticHint((hint) =>
-            hint.id === id ? { ...hint, request: value } : hint,
-          );
-          setEdit(null);
-        });
-        await editMessage(id, value, type);
-        break;
-      case "response":
-        startTransition(() => {
-          setOptimisticHint((hint) =>
-            hint.id === id ? { ...hint, response: value } : hint,
-          );
-          setEdit(null);
-        });
-        await editMessage(id, value, type);
-        break;
-      case "follow-up":
-        startTransition(async () => {
-          setOptimisticHint((hint) => {
-            hint.followUps = hint.followUps.map((followUp) =>
+  const handleSubmitEdit = (id: number, value: string, type: MessageType) => {
+    startTransition(async () => await editMessage(id, value, type));
+    setOptimisticHint((hint) => {
+      if (!hint) return hint;
+      switch (type) {
+        case "request":
+          return hint.id === id ? { ...hint, request: value } : hint;
+        case "response":
+          return hint.id === id ? { ...hint, response: value } : hint;
+        case "follow-up":
+          return {
+            ...hint,
+            followUps: hint.followUps.map((followUp) =>
               followUp.id === id ? { ...followUp, message: value } : followUp,
-            );
-            return hint;
-          });
-          setEdit(null);
-          await editMessage(id, value, type);
-        });
-    }
+            ),
+          };
+        default:
+          return hint;
+      }
+    });
+    setEdit(null);
   };
 
   const handleSubmitFollowUp = async (
@@ -108,68 +93,63 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
     members: string,
   ) => {
     // Optimistic update
-    startTransition(() => {
-      setOptimisticHint((hint) => ({
-        ...hint,
-        followUps: hint.followUps.concat({
-          id: 0,
-          message,
-          user: {
-            displayName: session!.user!.displayName,
-            id: session!.user!.id!,
-          },
-          time: new Date(),
-        }),
-      }));
-    });
+    setOptimisticHint((hint) => ({
+      ...hint,
+      followUps: hint.followUps.concat({
+        id: 0,
+        message,
+        user: {
+          displayName: session!.user!.displayName,
+          id: session!.user!.id!,
+        },
+        time: new Date(),
+      }),
+    }));
 
     if (message !== "[Claimed]") setNewFollowUp(null);
-    // TODO: is there a better option than passing a ton of arguments?
-    // wondering if we should have centralized hint types, same goes for inserting/emailing normal hint responses
-    // Also might be more efficient to only pass team members once instead of storing in each hint
-    const followUpId = await insertFollowUp({
-      hintId,
-      members,
-      teamId: session?.user?.id,
-      teamDisplayName: hint.team.displayName,
-      puzzleId: hint.puzzle.id,
-      puzzleName: hint.puzzle.name,
-      message,
-    });
 
-    if (followUpId === null) {
-      // Revert optimistic update
-      startTransition(() => {
+    startTransition(async () => {
+      // TODO: is there a better option than passing a ton of arguments?
+      // wondering if we should have centralized hint types, same goes for inserting/emailing normal hint responses
+      // Also might be more efficient to only pass team members once instead of storing in each hint
+      const followUpId = await insertFollowUp({
+        hintId,
+        members,
+        teamId: session?.user?.id,
+        teamDisplayName: hint.team.displayName,
+        puzzleId: hint.puzzle.id,
+        puzzleName: hint.puzzle.name,
+        message,
+      });
+
+      if (followUpId === null) {
+        // Revert optimistic update
         setOptimisticHint((hint) => ({
           ...hint,
           followUps: hint.followUps.filter((followUp) => followUp.id !== 0),
         }));
-      });
-    } else {
-      // Update followUpId
-      startTransition(() => {
+        setNewFollowUp(newFollowUp); // Works since variable changes are not instant
+        toast({
+          title: "Failed to submit follow-up.",
+          description:
+            "Please try again. If the problem persists, contact HQ or use the feedback form.",
+          variant: "destructive",
+        });
+      } else {
+        // Update followUpId
         setOptimisticHint((hint) => ({
           ...hint,
           followUps: hint.followUps.map((followUp) =>
             followUp.id === 0 ? { ...followUp, id: followUpId } : followUp,
           ),
         }));
-      });
-      // TODO: Not working for some reason
-      // toast({
-      //   title: "Failed to submit follow-up.",
-      //   description:
-      //     "Please try again. If the problem persists, please submit the feedback form.",
-      //   variant: "destructive",
-      // });
-    }
+      }
+    });
   };
 
   const handleSubmitResponse = async (message: string) => {
     // Optimistic update
-    startTransitionSubmit(() => {
-      setOptimisticHint((hint) => ({ ...hint, response: response }));
-    });
+    setOptimisticHint((hint) => ({ ...hint, response: response }));
 
     setResponse("");
     const res = await insertHintResponse(
@@ -207,11 +187,11 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
       <TableBody>
         {/* Hint request row */}
         <TableRow className="border-0 hover:bg-inherit">
-          <TableCell className="break-words pr-5">
+          <TableCell className="break-words px-0">
             <p className="pb-0.5 pt-1 font-bold">
               {optimisticHint.team.displayName}
             </p>
-            <div>{optimisticHint.request}</div>
+            <p>{optimisticHint.request}</p>
           </TableCell>
         </TableRow>
 
@@ -219,7 +199,7 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
         {optimisticHint?.claimer?.id &&
           session?.user?.id === optimisticHint?.claimer?.id && (
             <TableRow className="border-0 hover:bg-inherit">
-              <TableCell className="break-words pr-5">
+              <TableCell className="break-words px-0">
                 {/* Top section for claimer ID, the follow-up button, and the edit button */}
                 <div className="flex items-center justify-between">
                   <p className="pb-1 font-bold">
@@ -227,65 +207,70 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
                   </p>
                   <div className="flex space-x-2">
                     {/* Follow-up button, only show if there are no follow ups */}
-                    <div>
-                      {optimisticHint.followUps.length === 0 && (
-                        <button
-                          onClick={() => {
-                            setEdit(null);
-                            setNewFollowUp({
-                              hintId: optimisticHint.id,
-                              message: "",
-                            });
-                          }}
-                          className="text-link hover:underline"
-                        >
-                          Reply
-                        </button>
-                      )}
-                    </div>
-
-                    {/* If the response was made by the current user, allow edits */}
-                    {optimisticHint.claimer?.id === session?.user?.id && (
-                      <div>
-                        {edit?.id === optimisticHint.id &&
-                        edit.type === "response" ? (
-                          <div className="space-x-2">
+                    {optimisticHint.response &&
+                      optimisticHint.followUps.length === 0 && (
+                        <div>
+                          {newFollowUp?.hintId !== optimisticHint.id ? (
                             <button
-                              onClick={() =>
-                                handleSubmitEdit(
-                                  edit.id,
-                                  edit.value,
-                                  "response",
-                                )
-                              }
+                              onClick={() => {
+                                setEdit(null);
+                                setNewFollowUp({
+                                  hintId: optimisticHint.id,
+                                  message: "",
+                                });
+                              }}
                               className="text-link hover:underline"
                             >
-                              Save
+                              Reply
                             </button>
+                          ) : (
                             <button
-                              onClick={() => setEdit(null)}
+                              onClick={() => setNewFollowUp(null)}
                               className="text-link hover:underline"
                             >
                               Cancel
                             </button>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setNewFollowUp(null);
-                              setEdit({
-                                id: optimisticHint.id,
-                                value: optimisticHint.response ?? "",
-                                type: "response",
-                              });
-                            }}
-                            className="text-link hover:underline"
-                          >
-                            Edit
-                          </button>
-                        )}
-                      </div>
-                    )}
+                          )}
+                        </div>
+                      )}
+
+                    {/* If the response was made by the current user, allow edits */}
+                    {optimisticHint.response &&
+                      optimisticHint.claimer?.id === session?.user?.id && (
+                        <div>
+                          {edit?.id === optimisticHint.id &&
+                          edit.type === "response" ? (
+                            <div className="space-x-2">
+                              <button
+                                onClick={() =>
+                                  handleSubmitEdit(
+                                    edit.id,
+                                    edit.value,
+                                    "response",
+                                  )
+                                }
+                                className="text-link hover:underline"
+                              >
+                                Save
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setNewFollowUp(null);
+                                setEdit({
+                                  id: optimisticHint.id,
+                                  value: optimisticHint.response ?? "",
+                                  type: "response",
+                                });
+                              }}
+                              className="text-link hover:underline"
+                            >
+                              Edit
+                            </button>
+                          )}
+                        </div>
+                      )}
                   </div>
                 </div>
 
@@ -296,7 +281,7 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
                       <div className="pb-4">
                         <AutosizeTextarea
                           maxHeight={500}
-                          className="resize-none focus-visible:ring-offset-0"
+                          className="resize-none focus-visible:ring-0"
                           value={response}
                           onChange={(e) => setResponse(e.target.value)}
                         />
@@ -310,7 +295,7 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
                     <div className="pt-2">
                       <AutosizeTextarea
                         maxHeight={500}
-                        className="resize-none focus-visible:ring-offset-0"
+                        className="resize-none focus-visible:ring-0"
                         value={edit.value}
                         onChange={(e) => {
                           if (!edit) return;
@@ -334,7 +319,7 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
             key={`${followUp.id}`}
             className="border-0 hover:bg-inherit"
           >
-            <TableCell className="break-words pr-5">
+            <TableCell className="break-words px-0">
               {/* Top section */}
               <div className="flex items-center justify-between">
                 {/* Team name and whether this is a hidden follow-up*/}
@@ -343,7 +328,7 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
                     {optimisticHint.team.displayName}
                   </p>
                 ) : (
-                  <p className="flex items-center pb-1 font-bold">
+                  <div className="flex items-center pb-1 font-bold">
                     {followUp.user.displayName}
                     {followUp.message === "[Claimed]" && (
                       <div className="group relative ml-1.5 font-medium">
@@ -354,7 +339,7 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
                         </span>
                       </div>
                     )}
-                  </p>
+                  </div>
                 )}
 
                 {/* Claim, reply, and edit buttons */}
@@ -441,7 +426,7 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
                   <div className="pt-2">
                     <AutosizeTextarea
                       maxHeight={500}
-                      className="resize-none focus-visible:ring-offset-0"
+                      className="resize-none focus-visible:ring-0"
                       value={edit.value}
                       onChange={(e) => {
                         if (!edit) return;
@@ -460,11 +445,11 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
         {/* New follow-up request row */}
         {newFollowUp !== null && newFollowUp.hintId === optimisticHint.id && (
           <TableRow className="border-0 hover:bg-inherit">
-            <TableCell className="break-words pr-5">
+            <TableCell className="break-words px-0">
               <p className="pb-2 font-bold">Follow-Up</p>
               <AutosizeTextarea
                 maxHeight={500}
-                className="resize-none focus-visible:ring-offset-0"
+                className="resize-none focus-visible:ring-0"
                 value={newFollowUp.message}
                 onChange={(e) => {
                   if (newFollowUp === null) return;

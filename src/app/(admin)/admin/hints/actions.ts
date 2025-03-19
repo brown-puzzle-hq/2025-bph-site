@@ -118,7 +118,7 @@ export async function claimHint(hintId: number) {
     )
     .returning({ id: hints.id });
 
-  revalidatePath("/admin/");
+  revalidatePath("/admin/hints");
 
   // Error-handling
   if (result.length != 1) {
@@ -169,7 +169,8 @@ export async function unclaimHint(hintId: number) {
       ),
     )
     .returning({ id: hints.id });
-  revalidatePath("/admin/");
+
+  revalidatePath("/admin/hints");
 
   if (result.length != 1) {
     let hint = await db.query.hints.findFirst({ where: eq(hints.id, hintId) });
@@ -220,7 +221,7 @@ export async function refundHint(hintId: number) {
     )
     .returning({ id: hints.id });
 
-  revalidatePath("/admin/");
+  revalidatePath("/admin/hints");
 
   if (result.length != 1) {
     let hint = await db.query.hints.findFirst({ where: eq(hints.id, hintId) });

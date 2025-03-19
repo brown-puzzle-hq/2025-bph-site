@@ -103,10 +103,10 @@ export default async function Page({
           />
         </div>
 
-        <div className="flex flex-col items-center overflow-auto">
-          <div className="flex w-full flex-col justify-between p-6 text-sm text-zinc-700 md:w-2/3 lg:flex-row">
+        <div className="flex flex-col items-center">
+          <div className="flex w-full max-w-[100vw] flex-col justify-between p-4 text-sm text-zinc-700 md:w-2/3 lg:flex-row">
             <div>
-              <div>
+              <div className="w-full truncate text-ellipsis">
                 <p className="font-semibold">Hint #{hint.id}</p>
                 <span className="font-semibold">Team: </span>
                 <Link
@@ -160,7 +160,7 @@ export default async function Page({
             </div>
           </div>
 
-          <div className="w-full p-6 md:w-2/3">
+          <div className="w-full p-4 md:w-2/3">
             <PreviousHintTable hint={hint} reply={reply ? hintId : undefined} />
           </div>
 
