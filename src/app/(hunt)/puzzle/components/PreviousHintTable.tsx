@@ -1,11 +1,5 @@
 "use client";
-import {
-  useState,
-  useEffect,
-  useTransition,
-  startTransition,
-  Fragment,
-} from "react";
+import { useState, useEffect, Fragment, startTransition } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
@@ -19,6 +13,7 @@ import {
   insertHintRequest,
   MessageType,
 } from "../actions";
+import { toast } from "~/hooks/use-toast";
 
 type TableProps = {
   previousHints: PreviousHints;
@@ -89,50 +84,48 @@ export default function PreviousHintTable({
   );
   const [edit, setEdit] = useState<EditedMessage | null>(null);
   const [hiddenFollowUps, setHiddenFollowUps] = useState<number[]>([]);
-  const [isPendingSubmit, startTransitionSubmit] = useTransition();
 
   const handleSubmitRequest = async (puzzleId: string, message: string) => {
-    startTransitionSubmit(() => {
-      setOptimisticHints((prev) => [
-        ...prev,
-        {
-          id: 0,
-          team: {
-            displayName: session?.user?.displayName!,
-            id: session?.user?.id!,
-            members: "",
-          },
-          claimer: null,
-          request,
-          response: null,
-          requestTime: new Date(),
-          followUps: [],
+    setOptimisticHints((prev) => [
+      ...prev,
+      {
+        id: 0,
+        team: {
+          displayName: session?.user?.displayName!,
+          id: session?.user?.id!,
+          members: "",
         },
-      ]);
-    });
-
+        claimer: null,
+        request,
+        response: null,
+        requestTime: new Date(),
+        followUps: [],
+      },
+    ]);
     setRequest("");
-    const id = await insertHintRequest(puzzleId, message);
-    if (!id) {
-      // Revert optimistic update
-      startTransition(() => {
+
+    startTransition(async () => {
+      const id = await insertHintRequest(puzzleId, message);
+      if (!id) {
+        // Revert optimistic update
         setOptimisticHints((prev) => prev.filter((hint) => hint.id !== 0));
-      });
-    } else {
-      // Update followUpId
-      startTransition(() => {
-        setOptimisticHints((prev) =>
-          prev.map((hint) =>
-            hint.id === 0
-              ? {
-                  ...hint,
-                  id,
-                }
-              : hint,
-          ),
-        );
-      });
-    }
+        setRequest(request);
+      } else {
+        // Update followUpId
+        startTransition(() => {
+          setOptimisticHints((prev) =>
+            prev.map((hint) =>
+              hint.id === 0
+                ? {
+                    ...hint,
+                    id,
+                  }
+                : hint,
+            ),
+          );
+        });
+      }
+    });
   };
 
   const handleSubmitEdit = async (
@@ -140,44 +133,28 @@ export default function PreviousHintTable({
     value: string,
     type: MessageType,
   ) => {
-    switch (type) {
-      case "request":
-        startTransition(() => {
-          setOptimisticHints((prev) =>
-            prev.map((hint) =>
-              hint.id === id ? { ...hint, request: value } : hint,
-            ),
-          );
-          setEdit(null);
-        });
-        await editMessage(id, value, type);
-        break;
-      case "response":
-        startTransition(() => {
-          setOptimisticHints((prev) =>
-            prev.map((hint) =>
-              hint.id === id ? { ...hint, response: value } : hint,
-            ),
-          );
-          setEdit(null);
-        });
-        await editMessage(id, value, type);
-        break;
-      case "follow-up":
-        startTransition(() => {
-          setOptimisticHints((prev) =>
-            prev.map((hint) => ({
+    startTransition(async () => await editMessage(id, value, type));
+    setOptimisticHints((prev) =>
+      prev.map((hint) => {
+        if (!hint) return hint;
+        switch (type) {
+          case "request":
+            return hint.id === id ? { ...hint, request: value } : hint;
+          case "response":
+            return hint.id === id ? { ...hint, response: value } : hint;
+          case "follow-up":
+            return {
               ...hint,
               followUps: hint.followUps.map((followUp) =>
                 followUp.id === id ? { ...followUp, message: value } : followUp,
               ),
-            })),
-          );
-        });
-        setEdit(null);
-        await editMessage(id, value, type);
-        break;
-    }
+            };
+          default:
+            return hint;
+        }
+      }),
+    );
+    setEdit(null);
   };
 
   const handleSubmitFollowUp = async (
@@ -186,42 +163,43 @@ export default function PreviousHintTable({
     members: string,
   ) => {
     // Optimistic update
-    startTransition(() => {
-      setOptimisticHints((prev) =>
-        prev.map((hint) =>
-          hint.id === hintId
-            ? {
-                ...hint,
-                followUps: hint.followUps.concat({
-                  id: 0,
-                  message,
-                  user: {
-                    displayName: session!.user!.displayName,
-                    id: session!.user!.id!,
-                  },
-                  time: new Date(),
-                }),
-              }
-            : hint,
-        ),
-      );
-    });
+    setOptimisticHints((prev) =>
+      prev.map((hint) =>
+        hint.id === hintId
+          ? {
+              ...hint,
+              followUps: hint.followUps.concat({
+                id: 0,
+                message,
+                user: {
+                  displayName: session!.user!.displayName,
+                  id: session!.user!.id!,
+                },
+                time: new Date(),
+              }),
+            }
+          : hint,
+      ),
+    );
+
     setNewFollowUp(null);
-    // TODO: is there a better option than passing a ton of arguments?
-    // wondering if we should have centralized hint types, same goes for inserting/emailing normal hint responses
-    // Also might be more efficient to only pass team members once instead of storing in each hint
-    const followUpId = await insertFollowUp({
-      hintId,
-      members,
-      teamId: session?.user?.id,
-      teamDisplayName,
-      puzzleId,
-      puzzleName,
-      message,
-    });
-    if (followUpId === null) {
-      // Revert optimistic update
-      startTransition(() => {
+
+    startTransition(async () => {
+      // TODO: is there a better option than passing a ton of arguments?
+      // wondering if we should have centralized hint types, same goes for inserting/emailing normal hint responses
+      // Also might be more efficient to only pass team members once instead of storing in each hint
+      const followUpId = await insertFollowUp({
+        hintId,
+        members,
+        teamId: session?.user?.id,
+        teamDisplayName,
+        puzzleId,
+        puzzleName,
+        message,
+      });
+
+      if (followUpId === null) {
+        // Revert optimistic update
         setOptimisticHints((prev) =>
           prev.map((hint) =>
             hint.id === hintId
@@ -234,10 +212,15 @@ export default function PreviousHintTable({
               : hint,
           ),
         );
-      });
-    } else {
-      // Update followUpId
-      startTransition(() => {
+        setNewFollowUp(newFollowUp); // Works since variable changes are not instant
+        toast({
+          title: "Failed to submit follow-up.",
+          description:
+            "Please try again. If the problem persists, contact HQ or use the feedback form.",
+          variant: "destructive",
+        });
+      } else {
+        // Update followUpId
         setOptimisticHints((prev) =>
           prev.map((hint) =>
             hint.id === hintId
@@ -252,15 +235,8 @@ export default function PreviousHintTable({
               : hint,
           ),
         );
-      });
-      // TODO: Not working for some reason
-      // toast({
-      //   title: "Failed to submit follow-up.",
-      //   description:
-      //     "Please try again. If the problem persists, please submit the feedback form.",
-      //   variant: "destructive",
-      // });
-    }
+      }
+    });
   };
 
   const handleHideFollowUps = (hintId: number) => {
@@ -354,7 +330,6 @@ export default function PreviousHintTable({
                   hintRequestState.isSolved ||
                   !!hintRequestState.unansweredHint ||
                   hintRequestState.hintsRemaining < 1 ||
-                  isPendingSubmit ||
                   optimisticHints.some((hint) => !hint.response) ||
                   new Date() >
                     (session?.user?.interactionMode === "in-person"
@@ -375,7 +350,6 @@ export default function PreviousHintTable({
                   hintRequestState.isSolved ||
                   !!hintRequestState.unansweredHint ||
                   hintRequestState.hintsRemaining < 1 ||
-                  isPendingSubmit ||
                   optimisticHints.some((hint) => !hint.response) ||
                   new Date() >
                     (session?.user?.interactionMode === "in-person"
