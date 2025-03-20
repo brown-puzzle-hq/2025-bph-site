@@ -28,6 +28,14 @@ export type SearchedPuzzle = {
   requestedHints: { request: string }[] | null;
 };
 
+const roundColors: Record<string, string> = {
+  Action: "rgb(248,113,113)", // red-400
+  Cerebral: "rgb(251,191,36)", // amber-400
+  Adventure: "rgb(72,187,120)", // green-400
+  Drama: "rgb(96,165,250)", // blue-400
+  Reality: "rgb(147,51,234)", // purple-400
+};
+
 export default function Graph() {
   const NODE_R = 8;
   const fgRef = useRef<any>(null);
@@ -63,7 +71,7 @@ export default function Graph() {
     return Object.keys(PUZZLE_UNLOCK_MAP).map((puzzle) => ({
       id: puzzle,
       name: puzzle,
-      round: ROUNDS.find((round) => round.puzzles.includes(puzzle)),
+      round: ROUNDS.find((round) => round.puzzles.includes(puzzle))!.name,
       neighbors: [],
       links: [],
     })) as NodeObject[];
@@ -415,7 +423,9 @@ export default function Graph() {
           {searchedPuzzle === null ? (
             // Show list of puzzles
             <>
-              <p className="text-base text-neutral-700 font-semibold">Puzzles</p>
+              <p className="text-base font-semibold text-neutral-700">
+                Puzzles
+              </p>
               {ROUNDS.map((round) => (
                 <>
                   <p className="my-1 bg-neutral-400 pl-0.5 font-semibold text-white">

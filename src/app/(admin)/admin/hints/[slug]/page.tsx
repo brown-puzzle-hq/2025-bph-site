@@ -5,7 +5,7 @@ import { followUps, guesses, hints, unlocks } from "@/db/schema";
 import { and, asc, eq } from "drizzle-orm";
 import Toast from "../components/hint-page/Toast";
 import HintStatusBox from "../components/hint-page/HintStatusBox";
-import PreviousHintTable from "../components/hint-page/PreviousHintTable";
+import PreviousHintTable from "../components/hint-page/AdminHintPage";
 import PreviousGuessTable from "~/app/(hunt)/puzzle/components/PreviousGuessTable";
 import { FormattedTime, ElapsedTime } from "~/lib/time";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
@@ -99,7 +99,7 @@ export default async function Page({
         status={hint.status}
         userId={session.user.id}
       />
-      <div className="grid w-full grid-cols-1 text-sm text-zinc-700 sm:grid-cols-2 gap-4">
+      <div className="grid w-full grid-cols-1 gap-4 text-sm text-zinc-700 sm:grid-cols-2">
         <div>
           <p className="font-semibold">Hint #{hint.id}</p>
           <p className="w-full truncate text-ellipsis">

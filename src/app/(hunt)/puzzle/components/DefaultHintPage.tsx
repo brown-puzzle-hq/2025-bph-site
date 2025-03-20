@@ -6,7 +6,7 @@ import { eq, and, asc } from "drizzle-orm";
 import { followUps, solves, hints, puzzles } from "~/server/db/schema";
 import { canViewPuzzle } from "../actions";
 import { getNumberOfHintsRemaining } from "~/hunt.config";
-import PreviousHintTable from "./PreviousHintTable";
+import PreviousHintTable from "./HuntHintPage";
 
 export default async function DefaultHintPage({
   puzzleId,
