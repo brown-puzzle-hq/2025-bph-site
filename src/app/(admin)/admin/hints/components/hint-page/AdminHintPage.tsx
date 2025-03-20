@@ -5,9 +5,16 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
 import { EyeOff } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { editMessage, insertFollowUp, MessageType } from "./actions";
 import { insertHintResponse } from "../../actions";
 import { toast } from "~/hooks/use-toast";
+import {
+  claimHint,
+  refundHint,
+  unclaimHint,
+  editMessage,
+  insertFollowUp,
+  MessageType,
+} from "../../actions";
 
 type TableProps = {
   hint: Hint;
@@ -63,6 +70,97 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
     reply ? { hintId: reply, message: "" } : null,
   );
   const [edit, setEdit] = useState<EditedMessage | null>(null);
+
+  const handleClaim = async () => {
+    setOptimisticHint((prev) => ({
+      ...prev,
+      claimer: { id: session!.user!.id!, displayName: session!.user!.name! },
+    }));
+
+    startTransition(async () => {
+      const { error, title } = await claimHint(hint.id);
+      if (error) {
+        toast({
+          variant: "destructive",
+          title,
+          description: error,
+        });
+        setOptimisticHint((hint) => ({
+          ...hint,
+          claimer: null,
+        }));
+        return;
+      }
+    });
+  };
+
+  const handleUnclaim = async () => {
+    setResponse("");
+    startTransition(async () => {
+      const { error, title } = await unclaimHint(hint.id);
+      if (error) {
+        toast({
+          variant: "destructive",
+          title,
+          description: error,
+        });
+        return;
+      }
+      setOptimisticHint((hint) => ({
+        ...hint,
+        claimer: null,
+      }));
+    });
+  };
+
+  const handleSubmitResponse = async (message: string) => {
+    // Optimistic update
+    setOptimisticHint((hint) => ({
+      ...hint,
+      claimer: { id: session!.user!.id!, displayName: session!.user!.name! },
+      response: response,
+      status: "answered",
+    }));
+
+    setResponse("");
+    const res = await insertHintResponse(
+      hint.id,
+      hint.team.displayName,
+      hint.puzzle.name,
+      message,
+      hint.team.members,
+    );
+
+    if (res.error !== null) {
+      // Revert optimistic update
+      startTransition(() => {
+        setOptimisticHint((hint) => ({ ...hint, response: null }));
+      });
+    } else {
+      // Update response id
+      startTransition(() => {
+        setOptimisticHint((hint) => ({ ...hint, id: res.id }));
+      });
+    }
+  };
+
+  const handleRefund = async () => {
+    startTransition(async () => {
+      const { error, title } = await refundHint(hint.id);
+      if (error) {
+        toast({
+          variant: "destructive",
+          title,
+          description: error,
+        });
+        return;
+      }
+      setOptimisticHint((hint) => ({
+        ...hint,
+        status: "refunded",
+      }));
+    });
+  };
 
   const handleSubmitEdit = (id: number, value: string, type: MessageType) => {
     startTransition(async () => await editMessage(id, value, type));
@@ -147,32 +245,6 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
     });
   };
 
-  const handleSubmitResponse = async (message: string) => {
-    // Optimistic update
-    setOptimisticHint((hint) => ({ ...hint, response: response }));
-
-    setResponse("");
-    const res = await insertHintResponse(
-      hint.id,
-      hint.team.displayName,
-      hint.puzzle.name,
-      message,
-      hint.team.members,
-    );
-
-    if (res.error !== null) {
-      // Revert optimistic update
-      startTransition(() => {
-        setOptimisticHint((hint) => ({ ...hint, response: null }));
-      });
-    } else {
-      // Update followUpId
-      startTransition(() => {
-        setOptimisticHint((hint) => ({ ...hint, id: res.id }));
-      });
-    }
-  };
-
   useEffect(() => {
     if (reply) {
       document.getElementById(`${reply}-follow-up-request`)?.scrollIntoView({
@@ -181,6 +253,10 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
       });
     }
   }, []);
+
+  useEffect(() => {
+    setOptimisticHint(hint);
+  }, [hint]);
 
   return (
     <Table className="table-fixed">
@@ -195,123 +271,168 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
           </TableCell>
         </TableRow>
 
-        {/* Hint response row */}
-        {optimisticHint?.claimer?.id &&
-          session?.user?.id === optimisticHint?.claimer?.id && (
-            <TableRow className="border-0 hover:bg-inherit">
-              <TableCell className="break-words px-0">
-                {/* Top section for claimer ID, the follow-up button, and the edit button */}
-                <div className="flex items-center justify-between">
-                  <p className="pb-1 font-bold">
-                    {optimisticHint.claimer.displayName}
-                  </p>
-                  <div className="flex space-x-2">
-                    {/* Follow-up button, only show if there are no follow ups */}
-                    {optimisticHint.response &&
-                      optimisticHint.followUps.length === 0 && (
-                        <div>
-                          {newFollowUp?.hintId !== optimisticHint.id ? (
-                            <button
-                              onClick={() => {
-                                setEdit(null);
-                                setNewFollowUp({
-                                  hintId: optimisticHint.id,
-                                  message: "",
-                                });
-                              }}
-                              className="text-link hover:underline"
-                            >
-                              Reply
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => setNewFollowUp(null)}
-                              className="text-link hover:underline"
-                            >
-                              Cancel
-                            </button>
-                          )}
-                        </div>
-                      )}
+        {/* New hint response row */}
+        {!optimisticHint.response && (
+          <TableRow className="border-0 hover:bg-inherit">
+            <TableCell className="break-words px-0">
+              <div className="flex items-center justify-between">
+                <p className="pb-1 font-bold">Response</p>
+              </div>
 
-                    {/* If the response was made by the current user, allow edits */}
-                    {optimisticHint.response &&
-                      optimisticHint.claimer?.id === session?.user?.id && (
-                        <div>
-                          {edit?.id === optimisticHint.id &&
-                          edit.type === "response" ? (
-                            <div className="space-x-2">
-                              <button
-                                onClick={() =>
-                                  handleSubmitEdit(
-                                    edit.id,
-                                    edit.value,
-                                    "response",
-                                  )
-                                }
-                                className="text-link hover:underline"
-                              >
-                                Save
-                              </button>
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() => {
-                                setNewFollowUp(null);
-                                setEdit({
-                                  id: optimisticHint.id,
-                                  value: optimisticHint.response ?? "",
-                                  type: "response",
-                                });
-                              }}
-                              className="text-link hover:underline"
-                            >
-                              Edit
-                            </button>
-                          )}
-                        </div>
-                      )}
-                  </div>
-                </div>
+              {/* Botton section with new hint response box */}
+              <div className="pb-4">
+                <AutosizeTextarea
+                  maxHeight={500}
+                  className="resize-none focus-visible:ring-0"
+                  value={response}
+                  onChange={(e) => setResponse(e.target.value)}
+                  disabled={optimisticHint.claimer?.id !== session?.user?.id}
+                />
+              </div>
 
-                {/* Botton section with hint response */}
+              {!optimisticHint.claimer ? (
+                // No claim and no response
                 <div>
-                  {!optimisticHint.response ? (
-                    <>
-                      <div className="pb-4">
-                        <AutosizeTextarea
-                          maxHeight={500}
-                          className="resize-none focus-visible:ring-0"
-                          value={response}
-                          onChange={(e) => setResponse(e.target.value)}
-                        />
-                      </div>
-                      <Button onClick={() => handleSubmitResponse(response)}>
-                        Submit
-                      </Button>
-                    </>
-                  ) : edit?.type === "response" &&
-                    edit.id === optimisticHint.id ? (
-                    <div className="pt-2">
-                      <AutosizeTextarea
-                        maxHeight={500}
-                        className="resize-none focus-visible:ring-0"
-                        value={edit.value}
-                        onChange={(e) => {
-                          if (!edit) return;
-                          setEdit({ ...edit, value: e.target.value });
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <div className="whitespace-pre-wrap">
-                      {optimisticHint.response}
-                    </div>
-                  )}
+                  <Button
+                    className="bg-emerald-700 text-white hover:bg-emerald-900"
+                    onClick={handleClaim}
+                  >
+                    Claim
+                  </Button>
                 </div>
-              </TableCell>
-            </TableRow>
-          )}
+              ) : (
+                <div className="flex space-x-2">
+                  <Button onClick={() => handleSubmitResponse(response)}>
+                    Submit
+                  </Button>
+                  <Button
+                    onClick={handleUnclaim}
+                    className="border-1 border-red-600 bg-white font-semibold text-red-600 outline hover:bg-white"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              )}
+            </TableCell>
+          </TableRow>
+        )}
+
+        {/* Hint response row */}
+        {optimisticHint.response && optimisticHint.claimer?.displayName && (
+          <TableRow className="border-0 hover:bg-inherit">
+            <TableCell className="break-words px-0">
+              {/* Top section for claimer ID, the follow-up button, and the edit button */}
+              <div className="flex items-center justify-between">
+                <p className="pb-1 font-bold">
+                  {optimisticHint.claimer.displayName}
+                </p>
+                <div className="flex space-x-2">
+                  {/* Follow-up button, only show if there are no follow ups */}
+                  {optimisticHint.response &&
+                    optimisticHint.followUps.length === 0 && (
+                      <div>
+                        {newFollowUp?.hintId !== optimisticHint.id ? (
+                          <button
+                            onClick={() => {
+                              setEdit(null);
+                              setNewFollowUp({
+                                hintId: optimisticHint.id,
+                                message: "",
+                              });
+                            }}
+                            className="text-link hover:underline"
+                          >
+                            Reply
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => setNewFollowUp(null)}
+                            className="text-link hover:underline"
+                          >
+                            Cancel
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                  {/* If the response was made by the current user, allow edits */}
+                  {optimisticHint.response &&
+                    optimisticHint.claimer?.id === session?.user?.id && (
+                      <div>
+                        {edit?.id === optimisticHint.id &&
+                        edit.type === "response" ? (
+                          <div className="space-x-2">
+                            <button
+                              onClick={() =>
+                                handleSubmitEdit(
+                                  edit.id,
+                                  edit.value,
+                                  "response",
+                                )
+                              }
+                              className="text-link hover:underline"
+                            >
+                              Save
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              setNewFollowUp(null);
+                              setEdit({
+                                id: optimisticHint.id,
+                                value: optimisticHint.response ?? "",
+                                type: "response",
+                              });
+                            }}
+                            className="text-link hover:underline"
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </div>
+                    )}
+                </div>
+              </div>
+
+              {/* Botton section with hint response */}
+              <div>
+                {edit?.type === "response" && edit.id === optimisticHint.id ? (
+                  // Editing the response
+                  <div className="pt-2">
+                    <AutosizeTextarea
+                      maxHeight={500}
+                      className="resize-none focus-visible:ring-0"
+                      value={edit.value}
+                      onChange={(e) => {
+                        if (!edit) return;
+                        setEdit({ ...edit, value: e.target.value });
+                      }}
+                    />
+                  </div>
+                ) : (
+                  // Displaying the response
+                  <>
+                    <div className="whitespace-pre-wrap">
+                      <p>{optimisticHint.response}</p>
+
+                      {optimisticHint.status === "answered" && (
+                        <div className="pt-4">
+                          <Button
+                            className="bg-neutral-600 text-white hover:bg-neutral-900"
+                            onClick={handleRefund}
+                          >
+                            Refund
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            </TableCell>
+          </TableRow>
+        )}
 
         {/* Follow-ups row */}
         {optimisticHint.followUps.map((followUp, i, row) => (
