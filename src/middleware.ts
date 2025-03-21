@@ -29,6 +29,7 @@ export default auth(async (req) => {
   // }
 });
 
+// WARNING: middleware currently only matches on admin paths
 export const config = {
   matcher: ["/admin/:path*"],
 };
