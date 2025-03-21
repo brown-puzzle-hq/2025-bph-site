@@ -16,6 +16,25 @@ import {
 } from "lucide-react";
 import { getSearchedTeam, getSearchedPuzzle } from "./actions";
 
+const roundTextColor: Record<string, string> = {
+  Action: "text-red-600",
+  Cerebral: "text-indigo-600",
+  Adventure: "text-lime-600",
+  Comedy: "text-yellow-500",
+  Drama: "text-purple-500",
+  Reality: "text-orange-500",
+};
+
+const roundNodeColor: Record<string, string> = {
+  Action: "oklch(0.637 0.237 25.331)",
+  Cerebral: "oklch(0.457 0.24 277.023)",
+  Adventure: "oklch(0.768 0.233 130.85)",
+  Comedy: "oklch(0.879 0.169 91.605)",
+  Drama: "oklch(0.827 0.119 306.383)",
+  Reality: "oklch(0.75 0.183 55.934)",
+  Defaut: "oklch(0.708 0 0)",
+};
+
 export type SearchedTeam = {
   teamId: string;
   unlocks: string[];
@@ -25,7 +44,10 @@ export type SearchedTeam = {
 export type SearchedPuzzle = {
   puzzleId: string;
   guesses: { guess: string; isCorrect: boolean }[] | null;
-  requestedHints: { request: string }[] | null;
+  requestedHints:
+    | { id: number; request: string; response: string | null }[]
+    | null;
+  round: string;
 };
 
 export default function Graph() {
@@ -48,13 +70,12 @@ export default function Graph() {
   );
 
   const [showWords, setShowWords] = useState(false);
-
   const [puzzleQuery, setPuzzleQuery] = useState("");
   const [teamQuery, setTeamQuery] = useState("");
 
-  // Team's solves and unlocks
+  // Individual team's solves and unlocks
   const [searchedTeam, setSearchedTeam] = useState<SearchedTeam | null>(null);
-  // Team's guesses and hints for a puzzle
+  // Guesses and hints for a puzzle
   const [searchedPuzzle, setSearchedPuzzle] = useState<null | SearchedPuzzle>(
     null,
   );
@@ -128,16 +149,20 @@ export default function Graph() {
   ) => {
     const lime500 = "oklch(0.768 0.233 130.85)";
     const amber400 = "oklch(0.828 0.189 84.429)";
-    // const yellow400 = "oklch(0.852 0.199 91.936)";
     const neutral400 = "oklch(0.708 0 0)";
 
+    // If there is a searched team, use their solves and unlocks
+    // Otherwise, use the round color
     const nodeColor = searchedTeam
       ? searchedTeam.solves.includes(node.name)
         ? lime500
         : searchedTeam.unlocks.includes(node.name)
           ? amber400
           : neutral400
-      : node.color;
+      : roundNodeColor[
+          ROUNDS.find((round) => round.puzzles.includes(node.name))?.name ||
+            "Default"
+        ] || "oklch(0.708 0 0)";
 
     // If showWords is OFF
     if (!showWords) {
@@ -248,21 +273,14 @@ export default function Graph() {
   };
 
   const handlePuzzleInfo = async (puzzleId: string) => {
-    console.log("puzzleId", puzzleId);
-    if (searchedTeam == null) {
-      setSearchedPuzzle({
-        puzzleId: puzzleId,
-        guesses: null,
-        requestedHints: null,
-      });
-      console.log("set");
-      return;
-    }
-
-    const res = await getSearchedPuzzle(searchedTeam.teamId, puzzleId);
+    const res = await getSearchedPuzzle(searchedTeam?.teamId || null, puzzleId);
     if ("error" in res) return;
     if ("guesses" in res && "requestedHints" in res) {
-      setSearchedPuzzle(res);
+      setSearchedPuzzle({
+        ...res,
+        round:
+          ROUNDS.find((round) => round.puzzles.includes(puzzleId))?.name || "",
+      });
     }
   };
 
@@ -415,7 +433,9 @@ export default function Graph() {
           {searchedPuzzle === null ? (
             // Show list of puzzles
             <>
-              <p className="text-base text-neutral-700 font-semibold">Puzzles</p>
+              <p className="text-base font-semibold text-neutral-700">
+                Puzzles
+              </p>
               {ROUNDS.map((round) => (
                 <>
                   <p className="my-1 bg-neutral-400 pl-0.5 font-semibold text-white">
@@ -433,11 +453,13 @@ export default function Graph() {
                         >
                           <span
                             className={`${isMeta ? "font-semibold" : ""} ${
-                              isSolve
-                                ? "text-lime-600"
-                                : isUnlock
-                                  ? "text-amber-500"
-                                  : "text-neutral-500"
+                              searchedTeam
+                                ? isSolve
+                                  ? "text-lime-600"
+                                  : isUnlock
+                                    ? "text-amber-500"
+                                    : "text-neutral-500"
+                                : roundTextColor[round.name]
                             }`}
                           >
                             {puzzle}
@@ -466,7 +488,7 @@ export default function Graph() {
                     META_PUZZLES.includes(searchedPuzzle.puzzleId)
                       ? "font-bold"
                       : ""
-                  } ${searchedTeam?.solves.includes(searchedPuzzle.puzzleId) ? "text-lime-600" : searchedTeam?.unlocks.includes(searchedPuzzle.puzzleId) ? "text-amber-500" : "text-neutral-500"}`}
+                  } ${searchedTeam ? (searchedTeam?.solves.includes(searchedPuzzle.puzzleId) ? "text-lime-600" : searchedTeam?.unlocks.includes(searchedPuzzle.puzzleId) ? "text-amber-500" : "text-neutral-500") : roundTextColor[searchedPuzzle.round]}`}
                 >
                   {searchedPuzzle.puzzleId}
                 </p>
@@ -510,7 +532,7 @@ export default function Graph() {
               </p>
 
               {/* Guesses */}
-              {searchedTeam && (
+              {searchedPuzzle.guesses && (
                 <>
                   <p className="my-1 bg-neutral-400 pl-0.5 font-semibold text-white">
                     Guesses
@@ -525,14 +547,39 @@ export default function Graph() {
                       {guess.guess}
                     </p>
                   ))}
+                </>
+              )}
 
-                  {/* Hints */}
+              {/* Hints */}
+              {searchedPuzzle.requestedHints && (
+                <>
                   <p className="my-1 bg-neutral-400 pl-0.5 font-semibold text-white">
                     Hint Requests
                   </p>
-                  {searchedPuzzle.requestedHints?.map((hint, i) => (
-                    <p id={`hint-${i}`}>{hint.request}</p>
-                  ))}
+                  {searchedPuzzle.requestedHints
+                    ?.sort((a, b) => a.id - b.id)
+                    .map((hint) => (
+                      <div className="pb-1">
+                        <div className="flex justify-between space-x-2">
+                          <p id={`hint-${hint.id}`} className="break-all">
+                            {hint.request}
+                          </p>
+                          <div>
+                            <Link
+                              href={`/admin/hints/${hint.id}`}
+                              className="text-blue-500"
+                            >
+                              [{hint.id}]
+                            </Link>{" "}
+                          </div>
+                        </div>
+                        {hint.response && (
+                          <p className="break-all rounded-md text-gray-500">
+                            {">"} {hint.response}
+                          </p>
+                        )}
+                      </div>
+                    ))}
                 </>
               )}
             </>
