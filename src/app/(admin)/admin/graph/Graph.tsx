@@ -56,6 +56,140 @@ export default function Graph() {
   const fgRef = useRef<any>(null);
   const router = useRouter();
 
+  // Guesses and hints for a puzzle
+  const [puzzleQuery, setPuzzleQuery] = useState("");
+  const [searchedPuzzle, setSearchedPuzzle] = useState<null | SearchedPuzzle>(
+    null,
+  );
+
+  // Individual team's solves and unlocks
+  const [teamQuery, setTeamQuery] = useState("");
+  const [searchedTeam, setSearchedTeam] = useState<SearchedTeam | null>(null);
+
+  const handleSearchPuzzle = async () => {
+    if (puzzleQuery === "") return;
+    // Finds node by full id, then tries substring match
+    const node =
+      data.nodes.find((node) => node.id === puzzleQuery) ||
+      data.nodes.find((node) => node.name.includes(puzzleQuery)) ||
+      null;
+    if (!node) return;
+
+    // Focus on the node and highlight it
+    if (fgRef.current) fgRef.current.centerAt(node.x, node.y, 1000);
+    handleNodeClick(node);
+
+    // Get puzzle info
+    await handlePuzzleSidebar(node.name);
+    setPuzzleQuery("");
+  };
+
+  const handlePuzzleSidebar = async (puzzleId: string) => {
+    const res = await getSearchedPuzzle(searchedTeam?.teamId || null, puzzleId);
+    if ("error" in res) return;
+    if ("guesses" in res && "requestedHints" in res) {
+      // Set searched puzzle
+      setSearchedPuzzle({
+        ...res,
+        round:
+          ROUNDS.find((round) => round.puzzles.includes(puzzleId))?.name || "",
+      });
+
+      // Set search params
+      const params = new URLSearchParams();
+      const prevTeam = searchParams.get("team");
+      if (prevTeam) params.set("team", prevTeam);
+      params.set("puzzle", res.puzzleId);
+      router.push(`?${params.toString()}`);
+    }
+  };
+
+  const handleSearchTeam = async () => {
+    const res = await getSearchedTeam(teamQuery);
+    if ("error" in res) {
+      setTeamQuery("");
+      setSearchedTeam(null);
+      return;
+    }
+    if ("solves" in res && "unlocks" in res) {
+      setSearchedTeam(res);
+
+      // Set search params
+      const params = new URLSearchParams();
+      const prevPuzzle = searchParams.get("puzzle");
+      if (prevPuzzle) params.set("puzzle", prevPuzzle);
+      params.set("team", res.teamId);
+      router.push(`?${params.toString()}`);
+    }
+  };
+
+  const clearSearchPuzzle = () => {
+    setSearchedPuzzle(null);
+    setPuzzleQuery("");
+    const params = new URLSearchParams();
+    const prevTeam = searchParams.get("team");
+    if (prevTeam) params.set("team", prevTeam);
+    router.push(`?${params.toString()}`);
+  };
+
+  const clearSearchTeam = () => {
+    setSearchedTeam(null);
+    setTeamQuery("");
+    const params = new URLSearchParams();
+    const prevPuzzle = searchParams.get("puzzle");
+    if (prevPuzzle) params.set("puzzle", prevPuzzle);
+    router.push(`?${params.toString()}`);
+  };
+
+  // Search params
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const run = async () => {
+      // Get team
+      const team = searchParams.get("team");
+      if (team) {
+        const res = await getSearchedTeam(team);
+        if ("error" in res) {
+          setSearchedTeam(null);
+          return;
+        }
+        if ("solves" in res && "unlocks" in res) {
+          setTeamQuery(team);
+          setSearchedTeam(res);
+        }
+      }
+
+      // Get puzzle
+      const puzzle = searchParams.get("puzzle");
+      if (puzzle) {
+        // Find node and center on it
+        const node = data.nodes.find((node) => node.id === puzzle);
+        if (!node) return;
+        if (fgRef.current) fgRef.current.centerAt(node.x, node.y, 1000);
+        setClickedNode(node);
+        setHighlightedNodes(
+          (prev) => new Set([...prev, ...[node], ...node.neighbors]),
+        );
+        setHighlightedLinks((prev) => new Set([...prev, ...node.links]));
+
+        // Search for puzzle info
+        const res = await getSearchedPuzzle(team || null, puzzle);
+        if ("error" in res) return;
+        if ("guesses" in res && "requestedHints" in res) {
+          setSearchedPuzzle({
+            ...res,
+            round:
+              ROUNDS.find((round) => round.puzzles.includes(puzzle))?.name ||
+              "",
+          });
+        }
+      }
+    };
+
+    run();
+  }, [searchParams]);
+
   // Dimensions of the graph
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth - 336,
@@ -90,65 +224,6 @@ export default function Graph() {
   );
 
   const [showWords, setShowWords] = useState(false);
-  const [puzzleQuery, setPuzzleQuery] = useState("");
-  const [teamQuery, setTeamQuery] = useState("");
-
-  // Individual team's solves and unlocks
-  const [searchedTeam, setSearchedTeam] = useState<SearchedTeam | null>(null);
-  // Guesses and hints for a puzzle
-  const [searchedPuzzle, setSearchedPuzzle] = useState<null | SearchedPuzzle>(
-    null,
-  );
-
-  // Search params
-  const searchParams = useSearchParams();
-  useEffect(() => {
-    const run = async () => {
-      // Get team
-      const team = searchParams.get("team");
-      if (team) {
-        const res = await getSearchedTeam(team);
-        if ("error" in res) {
-          setSearchedTeam(null);
-          return;
-        }
-        if ("solves" in res && "unlocks" in res) {
-          setTeamQuery(team);
-          setSearchedTeam(res);
-        }
-      }
-
-      // Get puzzle
-      const puzzle = searchParams.get("puzzle");
-      if (puzzle) {
-        setPuzzleQuery(puzzle);
-
-        // Find node and center on it
-        const node = data.nodes.find((node) => node.id === puzzle);
-        if (!node) return;
-        if (fgRef.current) fgRef.current.centerAt(node.x, node.y, 1000);
-        setClickedNode(node);
-        setHighlightedNodes(
-          (prev) => new Set([...prev, ...[node], ...node.neighbors]),
-        );
-        setHighlightedLinks((prev) => new Set([...prev, ...node.links]));
-
-        // Search for puzzle info
-        const res = await getSearchedPuzzle(team || null, puzzle);
-        if ("error" in res) return;
-        if ("guesses" in res && "requestedHints" in res) {
-          setSearchedPuzzle({
-            ...res,
-            round:
-              ROUNDS.find((round) => round.puzzles.includes(puzzle))?.name ||
-              "",
-          });
-        }
-      }
-    };
-
-    run();
-  }, [searchParams]);
 
   const nodes = useMemo(() => {
     return Object.keys(PUZZLE_UNLOCK_MAP).map((puzzle) => ({
@@ -199,7 +274,7 @@ export default function Graph() {
     setHoveredLinks(hoveredLinks);
   };
 
-  const handleNodeClick = async (node: NodeObject | null) => {
+  const handleNodeClick = (node: NodeObject | null) => {
     if (!node) {
       setClickedNode(null);
       return;
@@ -209,7 +284,6 @@ export default function Graph() {
       (prev) => new Set([...prev, ...[node], ...node.neighbors]),
     );
     setHighlightedLinks((prev) => new Set([...prev, ...node.links]));
-    await handlePuzzleInfo(node.name);
   };
 
   const handleNodeRender = (
@@ -315,60 +389,6 @@ export default function Graph() {
     ctx.fillText(label, node.x!, node.y!);
   };
 
-  const handleSearchPuzzle = () => {
-    if (puzzleQuery === "") return;
-    // Finds node by full id, then tries substring match
-    const node =
-      data.nodes.find((node) => node.id === puzzleQuery) ||
-      data.nodes.find((node) => node.name.includes(puzzleQuery)) ||
-      null;
-    if (!node) return;
-
-    // Focus on the node and highlight it
-    if (fgRef.current) fgRef.current.centerAt(node.x, node.y, 1000);
-    handleNodeClick(node);
-    setPuzzleQuery("");
-  };
-
-  const handleSearchTeam = async () => {
-    const res = await getSearchedTeam(teamQuery);
-    if ("error" in res) {
-      setTeamQuery("");
-      setSearchedTeam(null);
-      return;
-    }
-    if ("solves" in res && "unlocks" in res) {
-      setSearchedTeam(res);
-
-      // Set search params
-      const params = new URLSearchParams();
-      const prevPuzzle = searchParams.get("puzzle");
-      if (prevPuzzle) params.set("puzzle", prevPuzzle);
-      params.set("team", res.teamId);
-      router.push(`?${params.toString()}`);
-    }
-  };
-
-  const handlePuzzleInfo = async (puzzleId: string) => {
-    const res = await getSearchedPuzzle(searchedTeam?.teamId || null, puzzleId);
-    if ("error" in res) return;
-    if ("guesses" in res && "requestedHints" in res) {
-      // Set searched puzzle
-      setSearchedPuzzle({
-        ...res,
-        round:
-          ROUNDS.find((round) => round.puzzles.includes(puzzleId))?.name || "",
-      });
-
-      // Set search params
-      const params = new URLSearchParams();
-      const prevTeam = searchParams.get("team");
-      if (prevTeam) params.set("team", prevTeam);
-      params.set("puzzle", res.puzzleId);
-      router.push(`?${params.toString()}`);
-    }
-  };
-
   return (
     <div className="-mt-20 flex h-screen w-screen">
       {/* Graph */}
@@ -442,8 +462,7 @@ export default function Graph() {
             <button
               onClick={async () => {
                 if (searchedTeam) {
-                  setSearchedTeam(null);
-                  setTeamQuery("");
+                  clearSearchTeam();
                 } else {
                   await handleSearchTeam();
                 }
@@ -534,7 +553,9 @@ export default function Graph() {
                       <div>
                         <button
                           className="w-full text-left hover:bg-neutral-200"
-                          onClick={async () => await handlePuzzleInfo(puzzle)}
+                          onClick={async () =>
+                            await handlePuzzleSidebar(puzzle)
+                          }
                         >
                           <span
                             className={`${isMeta ? "font-semibold" : ""} ${
@@ -561,11 +582,7 @@ export default function Graph() {
             <>
               {/* Title */}
               <div className="flex">
-                <button
-                  onClick={() => {
-                    setSearchedPuzzle(null);
-                  }}
-                >
+                <button onClick={clearSearchPuzzle}>
                   <ChevronLeft className="size-4" />
                 </button>
                 <p
