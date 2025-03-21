@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import ForceGraph from "react-force-graph-2d";
 import { LinkObject, NodeObject } from "react-force-graph-2d";
 import { PUZZLE_UNLOCK_MAP, ROUNDS, META_PUZZLES } from "~/hunt.config";
@@ -53,6 +54,9 @@ export type SearchedPuzzle = {
 export default function Graph() {
   const NODE_R = 8;
   const fgRef = useRef<any>(null);
+  const router = useRouter();
+
+  // Dimensions of the graph
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth - 336,
     height: window.innerHeight,
@@ -95,6 +99,56 @@ export default function Graph() {
   const [searchedPuzzle, setSearchedPuzzle] = useState<null | SearchedPuzzle>(
     null,
   );
+
+  // Search params
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const run = async () => {
+      // Get team
+      const team = searchParams.get("team");
+      if (team) {
+        const res = await getSearchedTeam(team);
+        if ("error" in res) {
+          setSearchedTeam(null);
+          return;
+        }
+        if ("solves" in res && "unlocks" in res) {
+          setTeamQuery(team);
+          setSearchedTeam(res);
+        }
+      }
+
+      // Get puzzle
+      const puzzle = searchParams.get("puzzle");
+      if (puzzle) {
+        setPuzzleQuery(puzzle);
+
+        // Find node and center on it
+        const node = data.nodes.find((node) => node.id === puzzle);
+        if (!node) return;
+        if (fgRef.current) fgRef.current.centerAt(node.x, node.y, 1000);
+        setClickedNode(node);
+        setHighlightedNodes(
+          (prev) => new Set([...prev, ...[node], ...node.neighbors]),
+        );
+        setHighlightedLinks((prev) => new Set([...prev, ...node.links]));
+
+        // Search for puzzle info
+        const res = await getSearchedPuzzle(team || null, puzzle);
+        if ("error" in res) return;
+        if ("guesses" in res && "requestedHints" in res) {
+          setSearchedPuzzle({
+            ...res,
+            round:
+              ROUNDS.find((round) => round.puzzles.includes(puzzle))?.name ||
+              "",
+          });
+        }
+      }
+    };
+
+    run();
+  }, [searchParams]);
 
   const nodes = useMemo(() => {
     return Object.keys(PUZZLE_UNLOCK_MAP).map((puzzle) => ({
@@ -261,7 +315,7 @@ export default function Graph() {
     ctx.fillText(label, node.x!, node.y!);
   };
 
-  const handleSearchPuzzle = async () => {
+  const handleSearchPuzzle = () => {
     if (puzzleQuery === "") return;
     // Finds node by full id, then tries substring match
     const node =
@@ -285,6 +339,13 @@ export default function Graph() {
     }
     if ("solves" in res && "unlocks" in res) {
       setSearchedTeam(res);
+
+      // Set search params
+      const params = new URLSearchParams();
+      const prevPuzzle = searchParams.get("puzzle");
+      if (prevPuzzle) params.set("puzzle", prevPuzzle);
+      params.set("team", res.teamId);
+      router.push(`?${params.toString()}`);
     }
   };
 
@@ -292,11 +353,19 @@ export default function Graph() {
     const res = await getSearchedPuzzle(searchedTeam?.teamId || null, puzzleId);
     if ("error" in res) return;
     if ("guesses" in res && "requestedHints" in res) {
+      // Set searched puzzle
       setSearchedPuzzle({
         ...res,
         round:
           ROUNDS.find((round) => round.puzzles.includes(puzzleId))?.name || "",
       });
+
+      // Set search params
+      const params = new URLSearchParams();
+      const prevTeam = searchParams.get("team");
+      if (prevTeam) params.set("team", prevTeam);
+      params.set("puzzle", res.puzzleId);
+      router.push(`?${params.toString()}`);
     }
   };
 
