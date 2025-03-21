@@ -85,17 +85,18 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
           title,
           description: error,
         });
-        setOptimisticHint((hint) => ({
-          ...hint,
-          claimer: null,
-        }));
-        return;
+        setOptimisticHint(optimisticHint);
       }
     });
   };
 
   const handleUnclaim = async () => {
+    setOptimisticHint((hint) => ({
+      ...hint,
+      claimer: null,
+    }));
     setResponse("");
+
     startTransition(async () => {
       const { error, title } = await unclaimHint(hint.id);
       if (error) {
@@ -104,47 +105,50 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
           title,
           description: error,
         });
-        return;
+        setOptimisticHint(optimisticHint);
+        setResponse(response);
       }
-      setOptimisticHint((hint) => ({
-        ...hint,
-        claimer: null,
-      }));
     });
   };
 
   const handleSubmitResponse = async (message: string) => {
-    // Optimistic update
     setOptimisticHint((hint) => ({
       ...hint,
-      claimer: { id: session!.user!.id!, displayName: session!.user!.name! },
+      claimer: {
+        id: session!.user!.id!,
+        displayName: session!.user!.displayName!,
+      },
       response: response,
       status: "answered",
     }));
-
     setResponse("");
-    const res = await insertHintResponse(
-      hint.id,
-      hint.team.displayName,
-      hint.puzzle.name,
-      message,
-      hint.team.members,
-    );
 
-    if (res.error !== null) {
-      // Revert optimistic update
-      startTransition(() => {
-        setOptimisticHint((hint) => ({ ...hint, response: null }));
-      });
-    } else {
-      // Update response id
-      startTransition(() => {
-        setOptimisticHint((hint) => ({ ...hint, id: res.id }));
-      });
-    }
+    startTransition(async () => {
+      const { error, title, id } = await insertHintResponse(
+        hint.id,
+        hint.team.displayName,
+        hint.puzzle.name,
+        message,
+        hint.team.members,
+      );
+      if (error) {
+        toast({
+          variant: "destructive",
+          title,
+          description: error,
+        });
+      } else {
+        setOptimisticHint((hint) => ({ ...hint, id: id! }));
+      }
+    });
   };
 
   const handleRefund = async () => {
+    setOptimisticHint((hint) => ({
+      ...hint,
+      status: "refunded",
+    }));
+
     startTransition(async () => {
       const { error, title } = await refundHint(hint.id);
       if (error) {
@@ -153,17 +157,12 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
           title,
           description: error,
         });
-        return;
+        setOptimisticHint(optimisticHint);
       }
-      setOptimisticHint((hint) => ({
-        ...hint,
-        status: "refunded",
-      }));
     });
   };
 
   const handleSubmitEdit = (id: number, value: string, type: MessageType) => {
-    startTransition(async () => await editMessage(id, value, type));
     setOptimisticHint((hint) => {
       if (!hint) return hint;
       switch (type) {
@@ -183,6 +182,7 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
       }
     });
     setEdit(null);
+    startTransition(async () => await editMessage(id, value, type));
   };
 
   const handleSubmitFollowUp = async (
@@ -300,17 +300,21 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
                     Claim
                   </Button>
                 </div>
-              ) : (
+              ) : optimisticHint.claimer.id === session?.user?.id ? (
                 <div className="flex space-x-2">
                   <Button onClick={() => handleSubmitResponse(response)}>
                     Submit
                   </Button>
                   <Button
                     onClick={handleUnclaim}
-                    className="border-1 border-red-600 bg-white font-semibold text-red-600 outline hover:bg-white"
+                    className="bg-white font-semibold text-red-600 ring-2 ring-inset ring-red-600 hover:bg-white"
                   >
                     Cancel
                   </Button>
+                </div>
+              ) : (
+                <div>
+                  <i>Claimed by {optimisticHint.claimer.displayName}</i>
                 </div>
               )}
             </TableCell>
@@ -318,7 +322,7 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
         )}
 
         {/* Hint response row */}
-        {optimisticHint.response && optimisticHint.claimer?.displayName && (
+        {optimisticHint.response && optimisticHint.claimer && (
           <TableRow className="border-0 hover:bg-inherit">
             <TableCell className="break-words px-0">
               {/* Top section for claimer ID, the follow-up button, and the edit button */}
@@ -412,22 +416,20 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
                   </div>
                 ) : (
                   // Displaying the response
-                  <>
-                    <div className="whitespace-pre-wrap">
-                      <p>{optimisticHint.response}</p>
-
-                      {optimisticHint.status === "answered" && (
+                  <div className="whitespace-pre-wrap">
+                    <p>{optimisticHint.response}</p>
+                    {optimisticHint.status === "answered" &&
+                      optimisticHint.claimer.id === session?.user?.id && (
                         <div className="pt-4">
                           <Button
-                            className="bg-neutral-600 text-white hover:bg-neutral-900"
+                            // className="bg-neutral-600 text-white hover:bg-neutral-900"
                             onClick={handleRefund}
                           >
                             Refund
                           </Button>
                         </div>
                       )}
-                    </div>
-                  </>
+                  </div>
                 )}
               </div>
             </TableCell>

@@ -114,6 +114,10 @@ export default async function Page({
               {hint.puzzle.name}
             </Link>
           </p>
+          <p>
+            <span className="font-semibold">Claimer: </span>
+            {hint.claimer?.displayName}
+          </p>
         </div>
         <div>
           <p className="text-nowrap">
@@ -147,13 +151,13 @@ export default async function Page({
         </div>
       </div>
 
-      <div className="w-full">
-        <PreviousHintTable hint={hint} reply={reply ? hintId : undefined} />
-      </div>
+      <PreviousHintTable hint={hint} reply={reply ? hintId : undefined} />
 
       {previousGuesses.length > 0 && (
-        <div className="flex flex-col items-center space-y-2 p-4">
-          <Label>Previous Guesses</Label>
+        <div className="w-full max-w-3xl space-y-2">
+          <p className="w-full text-center text-sm font-semibold text-zinc-700">
+            Previous Guesses
+          </p>
           <PreviousGuessTable
             puzzleAnswer={hint.puzzle.answer}
             previousGuesses={previousGuesses}

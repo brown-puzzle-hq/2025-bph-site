@@ -274,7 +274,7 @@ export default function PreviousHintTable({
           <>
             You have an outstanding hint on the puzzle{" "}
             <Link
-              href={`/puzzle/${unansweredHint.puzzleId}`}
+              href={`/puzzle/${unansweredHint.puzzleId}/hint`}
               className="text-link hover:text-link hover:underline"
             >
               {unansweredHint.puzzleName}
@@ -458,7 +458,7 @@ export default function PreviousHintTable({
                 <TableCell className="break-words pr-5">
                   {/* Top section for claimer ID, the follow-up button, and the edit button */}
                   <div className="flex items-center justify-between">
-                    <p className="pb-1 font-bold">Admin</p>
+                    <p className="pb-0.5 pt-1 font-bold">Admin</p>
                     <div className="flex space-x-2">
                       {/* Follow-up button, only show if collapsed */}
                       {(!hint.followUps.length ||
@@ -572,11 +572,9 @@ export default function PreviousHintTable({
                       {/* Top section with userId and edit button */}
                       <div className="flex items-center justify-between">
                         {followUp.user.id === hint.team.id ? (
-                          <p className="pb-1 font-bold">Team</p>
+                          <p className="pb-0.5 pt-1 font-bold">Team</p>
                         ) : (
-                          <p className="flex items-center pb-1 font-bold">
-                            Admin
-                          </p>
+                          <p className="pb-0.5 pt-1 font-bold">Admin</p>
                         )}
                         <div className="flex space-x-2">
                           {i + 1 === row.length &&

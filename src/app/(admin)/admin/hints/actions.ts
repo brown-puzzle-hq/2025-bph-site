@@ -314,7 +314,9 @@ export async function insertHintResponse(
     } else if (hintSearch.claimer !== user) {
       return {
         title: "Error responding to hint",
-        error: `Hint not claimed by user. Its current value is ${hintSearch.claimer}.`,
+        error: hintSearch.claimer
+          ? `Hint claimed by ${hintSearch.claimer}.`
+          : "Hint is currently unclaimed.",
         response: response,
       };
     } else if (hintSearch.status != "no_response") {
