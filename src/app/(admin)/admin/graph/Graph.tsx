@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import ForceGraph from "react-force-graph-2d";
 import { LinkObject, NodeObject } from "react-force-graph-2d";
 import { PUZZLE_UNLOCK_MAP, ROUNDS, META_PUZZLES } from "~/hunt.config";
@@ -53,6 +53,22 @@ export type SearchedPuzzle = {
 export default function Graph() {
   const NODE_R = 8;
   const fgRef = useRef<any>(null);
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth - 336,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth - 336,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // The node being hovered over
   const [hoveredNode, setHoveredNode] = useState<NodeObject | null>(null);
@@ -292,8 +308,8 @@ export default function Graph() {
           <ForceGraph
             ref={fgRef}
             graphData={data}
-            width={window.innerWidth - 336}
-            height={window.innerHeight}
+            width={dimensions.width}
+            height={dimensions.height}
             cooldownTicks={50}
             autoPauseRedraw={false}
             d3VelocityDecay={0.2}
