@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
-import { hints, followUps } from "@/db/schema";
+import { hints, followUps, hintStatusEnum } from "@/db/schema";
 import { db } from "@/db/index";
 import { eq, and, isNull, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -13,6 +13,33 @@ import {
 } from "~/lib/email-template";
 
 export type MessageType = "request" | "response" | "follow-up";
+
+export async function editHintStatus(
+  hintId: number,
+  status: (typeof hintStatusEnum.enumValues)[number],
+) {
+  const session = await auth();
+  if (session?.user?.role !== "admin") {
+    throw new Error("Not authorized");
+  }
+
+  let result = await db
+    .update(hints)
+    .set({ status })
+    .where(eq(hints.id, hintId))
+    .returning({ id: hints.id });
+
+  revalidatePath("/admin/hints");
+
+  if (result.length != 1) {
+    return {
+      title: "Error updating hint status",
+      error: "Hint entry not found",
+    };
+  }
+
+  return { error: null };
+}
 
 export async function claimHint(hintId: number) {
   const session = await auth();

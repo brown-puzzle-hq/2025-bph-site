@@ -1,23 +1,33 @@
 "use client";
+import Link from "next/link";
 import { useState, useEffect, startTransition } from "react";
 import { useSession } from "next-auth/react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
-import { EyeOff } from "lucide-react";
+import { Check, EyeOff } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { insertHintResponse } from "../../actions";
 import { toast } from "~/hooks/use-toast";
 import {
+  editHintStatus,
   claimHint,
-  refundHint,
   unclaimHint,
   editMessage,
   insertFollowUp,
   MessageType,
 } from "../../actions";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { FormattedTime, ElapsedTime } from "~/lib/time";
 
 type TableProps = {
   hint: Hint;
+  unlockTime: Date;
   reply?: number;
 };
 
@@ -41,6 +51,8 @@ type Hint = {
     displayName: string;
   } | null;
   requestTime: Date;
+  claimTime: Date | null;
+  responseTime: Date | null;
   followUps: {
     id: number;
     message: string;
@@ -62,8 +74,34 @@ type FollowUp = {
   message: string;
 };
 
-export default function PreviousHintTable({ hint, reply }: TableProps) {
+export default function PreviousHintTable({
+  hint,
+  unlockTime,
+  reply,
+}: TableProps) {
   const { data: session } = useSession();
+
+  const [selectedStatus, setSelectedStatus] = useState(hint.status);
+
+  const handleSelectedStatus = async () => {
+    if (selectedStatus === hint.status) return;
+    setOptimisticHint((prev) => ({
+      ...prev,
+      status: selectedStatus,
+    }));
+    startTransition(async () => {
+      const { error, title } = await editHintStatus(hint.id, selectedStatus);
+      if (error) {
+        toast({
+          variant: "destructive",
+          title,
+          description: error,
+        });
+        setOptimisticHint({ ...hint, status: hint.status });
+      }
+    });
+  };
+
   const [optimisticHint, setOptimisticHint] = useState(hint);
   const [response, setResponse] = useState<string>("");
   const [newFollowUp, setNewFollowUp] = useState<FollowUp | null>(
@@ -139,25 +177,6 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
         });
       } else {
         setOptimisticHint((hint) => ({ ...hint, id: id! }));
-      }
-    });
-  };
-
-  const handleRefund = async () => {
-    setOptimisticHint((hint) => ({
-      ...hint,
-      status: "refunded",
-    }));
-
-    startTransition(async () => {
-      const { error, title } = await refundHint(hint.id);
-      if (error) {
-        toast({
-          variant: "destructive",
-          title,
-          description: error,
-        });
-        setOptimisticHint(optimisticHint);
       }
     });
   };
@@ -259,349 +278,442 @@ export default function PreviousHintTable({ hint, reply }: TableProps) {
   }, [hint]);
 
   return (
-    <Table className="table-fixed">
-      <TableBody>
-        {/* Hint request row */}
-        <TableRow className="border-0 hover:bg-inherit">
-          <TableCell className="break-words px-0">
-            <p className="pb-0.5 pt-1 font-bold">
-              {optimisticHint.team.displayName}
-            </p>
-            <p>{optimisticHint.request}</p>
-          </TableCell>
-        </TableRow>
+    <>
+      <div className="grid w-full grid-cols-1 gap-4 text-sm text-zinc-700 sm:grid-cols-2">
+        <div>
+          <p className="w-full truncate text-ellipsis">
+            <span className="font-semibold">Team: </span>
+            <Link
+              href={`/teams/${hint.team.id}`}
+              className="text-blue-500 hover:underline"
+              prefetch={false}
+            >
+              {hint.team.displayName} ({hint.team.id})
+            </Link>
+          </p>
+          <p>
+            <span className="font-semibold">Puzzle: </span>
+            <Link
+              href={`/puzzle/${hint.puzzle.id}`}
+              className="text-blue-500 hover:underline"
+              prefetch={false}
+            >
+              {hint.puzzle.name}
+            </Link>
+          </p>
+          <p>
+            <span className="font-semibold">Claimer: </span>
+            {hint.claimer?.displayName}
+          </p>
 
-        {/* New hint response row */}
-        {!optimisticHint.response && (
+          {/* Status box */}
+          <div className="flex flex-row justify-center space-x-2">
+            <p>
+              <span className="font-semibold">Status: </span>
+            </p>
+            <Select
+              value={selectedStatus}
+              onValueChange={(val: "no_response" | "answered" | "refunded") =>
+                setSelectedStatus(val)
+              }
+            >
+              <SelectTrigger
+                className={`h-5 w-full p-1 focus:outline-none focus:ring-0 ${
+                  selectedStatus != optimisticHint.status
+                    ? "border-2 border-red-500"
+                    : ""
+                }`}
+              >
+                <SelectValue placeholder={hint.status} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem
+                  value="no_response"
+                  disabled={hint.status !== "no_response"}
+                >
+                  No response
+                </SelectItem>
+                <SelectItem value="answered">Answered</SelectItem>
+                <SelectItem value="refunded">Refunded</SelectItem>
+              </SelectContent>
+            </Select>
+            <button onClick={handleSelectedStatus}>
+              <Check
+                className={`size-4 font-bold ${selectedStatus != optimisticHint.status && "text-red-500"}`}
+              />
+            </button>
+          </div>
+        </div>
+        <div>
+          <p className="text-nowrap">
+            <span className="font-semibold">Puzzle unlocked </span>
+            <FormattedTime time={unlockTime} /> (
+            <ElapsedTime date={unlockTime} /> ago)
+          </p>
+          <p>
+            <span className="font-semibold">Hint requested </span>
+            <FormattedTime time={hint.requestTime} /> (
+            <ElapsedTime date={hint.requestTime} /> ago)
+          </p>
+          <p>
+            <span className="font-semibold">Hint claimed </span>
+            {hint.claimTime && (
+              <>
+                <FormattedTime time={hint.claimTime} /> (
+                <ElapsedTime date={hint.claimTime} /> ago)
+              </>
+            )}
+          </p>
+          <p>
+            <span className="font-semibold">Hint responded </span>
+            {hint.responseTime && (
+              <>
+                <FormattedTime time={hint.responseTime} /> (
+                <ElapsedTime date={hint.responseTime} /> ago)
+              </>
+            )}
+          </p>
+        </div>
+      </div>
+      <Table className="table-fixed">
+        <TableBody>
+          {/* Hint request row */}
           <TableRow className="border-0 hover:bg-inherit">
             <TableCell className="break-words px-0">
-              <div className="flex items-center justify-between">
-                <p className="pb-1 font-bold">Response</p>
-              </div>
-
-              {/* Botton section with new hint response box */}
-              <div className="pb-4">
-                <AutosizeTextarea
-                  maxHeight={500}
-                  className="resize-none focus-visible:ring-0"
-                  value={response}
-                  onChange={(e) => setResponse(e.target.value)}
-                  disabled={optimisticHint.claimer?.id !== session?.user?.id}
-                />
-              </div>
-
-              {!optimisticHint.claimer ? (
-                // No claim and no response
-                <div>
-                  <Button
-                    className="bg-emerald-700 text-white hover:bg-emerald-900"
-                    onClick={handleClaim}
-                  >
-                    Claim
-                  </Button>
-                </div>
-              ) : optimisticHint.claimer.id === session?.user?.id ? (
-                <div className="flex space-x-2">
-                  <Button onClick={() => handleSubmitResponse(response)}>
-                    Submit
-                  </Button>
-                  <Button
-                    onClick={handleUnclaim}
-                    className="bg-white font-semibold text-red-600 ring-2 ring-inset ring-red-600 hover:bg-white"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              ) : (
-                <div>
-                  <i>Claimed by {optimisticHint.claimer.displayName}</i>
-                </div>
-              )}
+              <p className="pb-0.5 pt-1 font-bold">
+                {optimisticHint.team.displayName}
+              </p>
+              <p>{optimisticHint.request}</p>
             </TableCell>
           </TableRow>
-        )}
 
-        {/* Hint response row */}
-        {optimisticHint.response && optimisticHint.claimer && (
-          <TableRow className="border-0 hover:bg-inherit">
-            <TableCell className="break-words px-0">
-              {/* Top section for claimer ID, the follow-up button, and the edit button */}
-              <div className="flex items-center justify-between">
-                <p className="pb-1 font-bold">
-                  {optimisticHint.claimer.displayName}
-                </p>
-                <div className="flex space-x-2">
-                  {/* Follow-up button, only show if there are no follow ups */}
-                  {optimisticHint.response &&
-                    optimisticHint.followUps.length === 0 && (
-                      <div>
-                        {newFollowUp?.hintId !== optimisticHint.id ? (
-                          <button
-                            onClick={() => {
-                              setEdit(null);
-                              setNewFollowUp({
-                                hintId: optimisticHint.id,
-                                message: "",
-                              });
-                            }}
-                            className="text-link hover:underline"
-                          >
-                            Reply
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => setNewFollowUp(null)}
-                            className="text-link hover:underline"
-                          >
-                            Cancel
-                          </button>
-                        )}
-                      </div>
-                    )}
+          {/* New hint response row */}
+          {!optimisticHint.response && (
+            <TableRow className="border-0 hover:bg-inherit">
+              <TableCell className="break-words px-0">
+                <div className="flex items-center justify-between">
+                  <p className="pb-1 font-bold">Response</p>
+                </div>
 
-                  {/* If the response was made by the current user, allow edits */}
-                  {optimisticHint.response &&
-                    optimisticHint.claimer?.id === session?.user?.id && (
-                      <div>
-                        {edit?.id === optimisticHint.id &&
-                        edit.type === "response" ? (
-                          <div className="space-x-2">
+                {/* Botton section with new hint response box */}
+                <div className="pb-4">
+                  <AutosizeTextarea
+                    maxHeight={500}
+                    className="resize-none focus-visible:ring-0"
+                    value={response}
+                    onChange={(e) => setResponse(e.target.value)}
+                    disabled={optimisticHint.claimer?.id !== session?.user?.id}
+                  />
+                </div>
+
+                {!optimisticHint.claimer ? (
+                  // No claim and no response
+                  <div>
+                    <Button
+                      className="bg-emerald-700 text-white hover:bg-emerald-900"
+                      onClick={handleClaim}
+                    >
+                      Claim
+                    </Button>
+                  </div>
+                ) : optimisticHint.claimer.id === session?.user?.id ? (
+                  <div className="flex space-x-2">
+                    <Button onClick={() => handleSubmitResponse(response)}>
+                      Submit
+                    </Button>
+                    <Button
+                      onClick={handleUnclaim}
+                      className="bg-white font-semibold text-red-600 ring-2 ring-inset ring-red-600 hover:bg-white"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                ) : (
+                  <div>
+                    <i>Claimed by {optimisticHint.claimer.displayName}</i>
+                  </div>
+                )}
+              </TableCell>
+            </TableRow>
+          )}
+
+          {/* Hint response row */}
+          {optimisticHint.response && optimisticHint.claimer && (
+            <TableRow className="border-0 hover:bg-inherit">
+              <TableCell className="break-words px-0">
+                {/* Top section for claimer ID, the follow-up button, and the edit button */}
+                <div className="flex items-center justify-between">
+                  <p className="pb-1 font-bold">
+                    {optimisticHint.claimer.displayName}
+                  </p>
+                  <div className="flex space-x-2">
+                    {/* Follow-up button, only show if there are no follow ups */}
+                    {optimisticHint.response &&
+                      optimisticHint.followUps.length === 0 && (
+                        <div>
+                          {newFollowUp?.hintId !== optimisticHint.id ? (
+                            <button
+                              onClick={() => {
+                                setEdit(null);
+                                setNewFollowUp({
+                                  hintId: optimisticHint.id,
+                                  message: "",
+                                });
+                              }}
+                              className="text-link hover:underline"
+                            >
+                              Reply
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => setNewFollowUp(null)}
+                              className="text-link hover:underline"
+                            >
+                              Cancel
+                            </button>
+                          )}
+                        </div>
+                      )}
+
+                    {/* If the response was made by the current user, allow edits */}
+                    {optimisticHint.response &&
+                      optimisticHint.claimer?.id === session?.user?.id && (
+                        <div>
+                          {edit?.id === optimisticHint.id &&
+                          edit.type === "response" ? (
+                            <div className="space-x-2">
+                              <button
+                                onClick={() =>
+                                  handleSubmitEdit(
+                                    edit.id,
+                                    edit.value,
+                                    "response",
+                                  )
+                                }
+                                className="text-link hover:underline"
+                              >
+                                Save
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setNewFollowUp(null);
+                                setEdit({
+                                  id: optimisticHint.id,
+                                  value: optimisticHint.response ?? "",
+                                  type: "response",
+                                });
+                              }}
+                              className="text-link hover:underline"
+                            >
+                              Edit
+                            </button>
+                          )}
+                        </div>
+                      )}
+                  </div>
+                </div>
+
+                {/* Botton section with hint response */}
+                <div>
+                  {edit?.type === "response" &&
+                  edit.id === optimisticHint.id ? (
+                    // Editing the response
+                    <div className="pt-2">
+                      <AutosizeTextarea
+                        maxHeight={500}
+                        className="resize-none focus-visible:ring-0"
+                        value={edit.value}
+                        onChange={(e) => {
+                          if (!edit) return;
+                          setEdit({ ...edit, value: e.target.value });
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    // Displaying the response
+                    <div className="whitespace-pre-wrap">
+                      <p>{optimisticHint.response}</p>
+                    </div>
+                  )}
+                </div>
+              </TableCell>
+            </TableRow>
+          )}
+
+          {/* Follow-ups row */}
+          {optimisticHint.followUps.map((followUp, i, row) => (
+            <TableRow
+              key={`${followUp.id}`}
+              className="border-0 hover:bg-inherit"
+            >
+              <TableCell className="break-words px-0">
+                {/* Top section */}
+                <div className="flex items-center justify-between">
+                  {/* Team name and whether this is a hidden follow-up*/}
+                  {followUp.user.id === optimisticHint.team.id ? (
+                    <p className="pb-1 font-bold">
+                      {optimisticHint.team.displayName}
+                    </p>
+                  ) : (
+                    <div className="flex items-center pb-1 font-bold">
+                      {followUp.user.displayName}
+                      {followUp.message === "[Claimed]" && (
+                        <div className="group relative ml-1.5 font-medium">
+                          <EyeOff className="h-4 cursor-help" />
+                          <span className="pointer-events-none absolute -bottom-7 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-black px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100">
+                            <div className="absolute -top-1 left-1/2 h-0 w-0 -translate-x-1/2 border-b-4 border-l-4 border-r-4 border-transparent border-b-black" />
+                            Visible to admins only
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Claim, reply, and edit buttons */}
+                  <div className="flex space-x-2">
+                    {i + 1 === row.length &&
+                      followUp.user.id === optimisticHint.team.id && (
+                        <button
+                          onClick={() =>
+                            handleSubmitFollowUp(
+                              optimisticHint.id,
+                              "[Claimed]",
+                              "",
+                            )
+                          }
+                          className="text-link hover:underline"
+                        >
+                          Claim
+                        </button>
+                      )}
+
+                    {i + 1 === row.length &&
+                      (newFollowUp?.hintId !== optimisticHint.id ? (
+                        <button
+                          onClick={() => {
+                            setEdit(null);
+                            setNewFollowUp({
+                              hintId: optimisticHint.id,
+                              message: "",
+                            });
+                          }}
+                          className="text-link hover:underline"
+                        >
+                          Reply
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setNewFollowUp(null)}
+                          className="text-link hover:underline"
+                        >
+                          Cancel
+                        </button>
+                      ))}
+
+                    {/* If the previous hint follow-up was made by user, allow edits */}
+                    {followUp.user.id === session?.user?.id &&
+                      followUp.message !== "[Claimed]" && (
+                        <div>
+                          {edit?.type === "follow-up" &&
+                          edit.id === followUp.id ? (
                             <button
                               onClick={() =>
                                 handleSubmitEdit(
-                                  edit.id,
+                                  followUp.id,
                                   edit.value,
-                                  "response",
+                                  "follow-up",
                                 )
                               }
                               className="text-link hover:underline"
                             >
                               Save
                             </button>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setNewFollowUp(null);
-                              setEdit({
-                                id: optimisticHint.id,
-                                value: optimisticHint.response ?? "",
-                                type: "response",
-                              });
-                            }}
-                            className="text-link hover:underline"
-                          >
-                            Edit
-                          </button>
-                        )}
-                      </div>
-                    )}
-                </div>
-              </div>
-
-              {/* Botton section with hint response */}
-              <div>
-                {edit?.type === "response" && edit.id === optimisticHint.id ? (
-                  // Editing the response
-                  <div className="pt-2">
-                    <AutosizeTextarea
-                      maxHeight={500}
-                      className="resize-none focus-visible:ring-0"
-                      value={edit.value}
-                      onChange={(e) => {
-                        if (!edit) return;
-                        setEdit({ ...edit, value: e.target.value });
-                      }}
-                    />
-                  </div>
-                ) : (
-                  // Displaying the response
-                  <div className="whitespace-pre-wrap">
-                    <p>{optimisticHint.response}</p>
-                    {optimisticHint.status === "answered" &&
-                      optimisticHint.claimer.id === session?.user?.id && (
-                        <div className="pt-4">
-                          <Button
-                            // className="bg-neutral-600 text-white hover:bg-neutral-900"
-                            onClick={handleRefund}
-                          >
-                            Refund
-                          </Button>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setNewFollowUp(null);
+                                setEdit({
+                                  id: followUp.id,
+                                  value: followUp.message,
+                                  type: "follow-up",
+                                });
+                              }}
+                              className="text-link hover:underline"
+                            >
+                              Edit
+                            </button>
+                          )}
                         </div>
                       )}
                   </div>
-                )}
-              </div>
-            </TableCell>
-          </TableRow>
-        )}
-
-        {/* Follow-ups row */}
-        {optimisticHint.followUps.map((followUp, i, row) => (
-          <TableRow
-            key={`${followUp.id}`}
-            className="border-0 hover:bg-inherit"
-          >
-            <TableCell className="break-words px-0">
-              {/* Top section */}
-              <div className="flex items-center justify-between">
-                {/* Team name and whether this is a hidden follow-up*/}
-                {followUp.user.id === optimisticHint.team.id ? (
-                  <p className="pb-1 font-bold">
-                    {optimisticHint.team.displayName}
-                  </p>
-                ) : (
-                  <div className="flex items-center pb-1 font-bold">
-                    {followUp.user.displayName}
-                    {followUp.message === "[Claimed]" && (
-                      <div className="group relative ml-1.5 font-medium">
-                        <EyeOff className="h-4 cursor-help" />
-                        <span className="pointer-events-none absolute -bottom-7 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-black px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100">
-                          <div className="absolute -top-1 left-1/2 h-0 w-0 -translate-x-1/2 border-b-4 border-l-4 border-r-4 border-transparent border-b-black" />
-                          Visible to admins only
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Claim, reply, and edit buttons */}
-                <div className="flex space-x-2">
-                  {i + 1 === row.length &&
-                    followUp.user.id === optimisticHint.team.id && (
-                      <button
-                        onClick={() =>
-                          handleSubmitFollowUp(
-                            optimisticHint.id,
-                            "[Claimed]",
-                            "",
-                          )
-                        }
-                        className="text-link hover:underline"
-                      >
-                        Claim
-                      </button>
-                    )}
-
-                  {i + 1 === row.length &&
-                    (newFollowUp?.hintId !== optimisticHint.id ? (
-                      <button
-                        onClick={() => {
-                          setEdit(null);
-                          setNewFollowUp({
-                            hintId: optimisticHint.id,
-                            message: "",
-                          });
-                        }}
-                        className="text-link hover:underline"
-                      >
-                        Reply
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => setNewFollowUp(null)}
-                        className="text-link hover:underline"
-                      >
-                        Cancel
-                      </button>
-                    ))}
-
-                  {/* If the previous hint follow-up was made by user, allow edits */}
-                  {followUp.user.id === session?.user?.id &&
-                    followUp.message !== "[Claimed]" && (
-                      <div>
-                        {edit?.type === "follow-up" &&
-                        edit.id === followUp.id ? (
-                          <button
-                            onClick={() =>
-                              handleSubmitEdit(
-                                followUp.id,
-                                edit.value,
-                                "follow-up",
-                              )
-                            }
-                            className="text-link hover:underline"
-                          >
-                            Save
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setNewFollowUp(null);
-                              setEdit({
-                                id: followUp.id,
-                                value: followUp.message,
-                                type: "follow-up",
-                              });
-                            }}
-                            className="text-link hover:underline"
-                          >
-                            Edit
-                          </button>
-                        )}
-                      </div>
-                    )}
                 </div>
-              </div>
-              {/* Botton section with follow-up message */}
-              <div>
-                {edit?.type === "follow-up" && edit.id === followUp.id ? (
-                  <div className="pt-2">
-                    <AutosizeTextarea
-                      maxHeight={500}
-                      className="resize-none focus-visible:ring-0"
-                      value={edit.value}
-                      onChange={(e) => {
-                        if (!edit) return;
-                        setEdit({ ...edit, value: e.target.value });
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div className="whitespace-pre-wrap">{followUp.message}</div>
-                )}
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
+                {/* Botton section with follow-up message */}
+                <div>
+                  {edit?.type === "follow-up" && edit.id === followUp.id ? (
+                    <div className="pt-2">
+                      <AutosizeTextarea
+                        maxHeight={500}
+                        className="resize-none focus-visible:ring-0"
+                        value={edit.value}
+                        onChange={(e) => {
+                          if (!edit) return;
+                          setEdit({ ...edit, value: e.target.value });
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="whitespace-pre-wrap">
+                      {followUp.message}
+                    </div>
+                  )}
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
 
-        {/* New follow-up request row */}
-        {newFollowUp !== null && newFollowUp.hintId === optimisticHint.id && (
-          <TableRow className="border-0 hover:bg-inherit">
-            <TableCell className="break-words px-0">
-              <p className="pb-2 font-bold">Follow-Up</p>
-              <AutosizeTextarea
-                maxHeight={500}
-                className="resize-none focus-visible:ring-0"
-                value={newFollowUp.message}
-                onChange={(e) => {
-                  if (newFollowUp === null) return;
-                  setNewFollowUp({
-                    hintId: optimisticHint.id,
-                    message: e.target.value,
-                  });
-                }}
-              />
-              <div className="flex space-x-2 pt-3">
-                <Button
-                  onClick={() =>
-                    handleSubmitFollowUp(
-                      optimisticHint.id,
-                      newFollowUp.message,
-                      optimisticHint.team.members,
-                    )
-                  }
-                >
-                  Submit
-                </Button>
-                <Button variant="outline" onClick={() => setNewFollowUp(null)}>
-                  Cancel
-                </Button>
-              </div>
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+          {/* New follow-up request row */}
+          {newFollowUp !== null && newFollowUp.hintId === optimisticHint.id && (
+            <TableRow className="border-0 hover:bg-inherit">
+              <TableCell className="break-words px-0">
+                <p className="pb-2 font-bold">Follow-Up</p>
+                <AutosizeTextarea
+                  maxHeight={500}
+                  className="resize-none focus-visible:ring-0"
+                  value={newFollowUp.message}
+                  onChange={(e) => {
+                    if (newFollowUp === null) return;
+                    setNewFollowUp({
+                      hintId: optimisticHint.id,
+                      message: e.target.value,
+                    });
+                  }}
+                />
+                <div className="flex space-x-2 pt-3">
+                  <Button
+                    onClick={() =>
+                      handleSubmitFollowUp(
+                        optimisticHint.id,
+                        newFollowUp.message,
+                        optimisticHint.team.members,
+                      )
+                    }
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setNewFollowUp(null)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
   );
 }

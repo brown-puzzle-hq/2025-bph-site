@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { auth } from "~/server/auth/auth";
 import { db } from "@/db/index";
 import { followUps, guesses, hints, unlocks } from "@/db/schema";
@@ -6,9 +5,7 @@ import { and, asc, eq } from "drizzle-orm";
 import Toast from "../components/hint-page/Toast";
 import PreviousHintTable from "../components/hint-page/AdminHintPage";
 import PreviousGuessTable from "~/app/(hunt)/puzzle/components/PreviousGuessTable";
-import { FormattedTime, ElapsedTime } from "~/lib/time";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
-import { Label } from "~/components/ui/label";
 
 export default async function Page({
   params,
@@ -92,67 +89,11 @@ export default async function Page({
   return (
     <div className="mx-auto mb-12 flex max-w-[calc(min(100vw,968px))] flex-col items-center px-4">
       <h1 className="p-4">Hint #{hint.id}</h1>
-      <div className="grid w-full grid-cols-1 gap-4 text-sm text-zinc-700 sm:grid-cols-2">
-        <div>
-          <p className="w-full truncate text-ellipsis">
-            <span className="font-semibold">Team: </span>
-            <Link
-              href={`/teams/${hint.team.id}`}
-              className="text-blue-500 hover:underline"
-              prefetch={false}
-            >
-              {hint.team.displayName} ({hint.team.id})
-            </Link>
-          </p>
-          <p>
-            <span className="font-semibold">Puzzle: </span>
-            <Link
-              href={`/puzzle/${hint.puzzleId}`}
-              className="text-blue-500 hover:underline"
-              prefetch={false}
-            >
-              {hint.puzzle.name}
-            </Link>
-          </p>
-          <p>
-            <span className="font-semibold">Claimer: </span>
-            {hint.claimer?.displayName}
-          </p>
-        </div>
-        <div>
-          <p className="text-nowrap">
-            <span className="font-semibold">Puzzle unlocked </span>
-            <FormattedTime time={unlockTime} /> (
-            <ElapsedTime date={unlockTime} /> ago)
-          </p>
-          <p>
-            <span className="font-semibold">Hint requested </span>
-            <FormattedTime time={hint.requestTime} /> (
-            <ElapsedTime date={hint.requestTime} /> ago)
-          </p>
-          <p>
-            <span className="font-semibold">Hint claimed </span>
-            {hint.claimTime && (
-              <>
-                <FormattedTime time={hint.claimTime} /> (
-                <ElapsedTime date={hint.claimTime} /> ago)
-              </>
-            )}
-          </p>
-          <p>
-            <span className="font-semibold">Hint responded </span>
-            {hint.responseTime && (
-              <>
-                <FormattedTime time={hint.responseTime} /> (
-                <ElapsedTime date={hint.responseTime} /> ago)
-              </>
-            )}
-          </p>
-        </div>
-      </div>
-
-      <PreviousHintTable hint={hint} reply={reply ? hintId : undefined} />
-
+      <PreviousHintTable
+        hint={hint}
+        unlockTime={unlockTime}
+        reply={reply ? hintId : undefined}
+      />
       {previousGuesses.length > 0 && (
         <div className="w-full max-w-3xl space-y-2">
           <p className="w-full text-center text-sm font-semibold text-zinc-700">
