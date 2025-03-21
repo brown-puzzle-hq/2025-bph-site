@@ -106,12 +106,12 @@ export default async function DefaultPuzzlePage({
       ? interactionMode
       : session.user.interactionMode;
 
-  // TODO: show remote box body
   const puzzleBody =
-    (actualInteractionMode === "remote-box" && remoteBoxBody) ||
-    actualInteractionMode === "in-person"
-      ? inPersonBody
-      : remoteBody;
+    actualInteractionMode === "remote-box"
+      ? remoteBoxBody
+      : actualInteractionMode === "in-person"
+        ? inPersonBody
+        : remoteBody;
 
   return (
     <div className="w-full px-4">
