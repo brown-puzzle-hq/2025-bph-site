@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Filter,
   Rows2,
@@ -30,6 +30,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { getCookie, setCookie } from "typescript-cookie";
+
 interface TeamTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -43,6 +45,9 @@ export function TeamTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isCompact, setIsCompact] = useState(true);
+  useEffect(() => {
+    setIsCompact(getCookie("compact") !== "false");
+  }, []);
   const pageSize = 100;
 
   const table = useReactTable({
@@ -87,7 +92,10 @@ export function TeamTable<TData, TValue>({
         <div className="flex items-center space-x-2">
           <button
             className="hover:opacity-70"
-            onClick={() => setIsCompact(!isCompact)}
+            onClick={() => {
+              setIsCompact(!isCompact);
+              setCookie("compact", !isCompact);
+            }}
           >
             {isCompact ? (
               <Rows2 className="size-5" />
