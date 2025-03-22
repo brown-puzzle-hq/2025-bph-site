@@ -277,6 +277,7 @@ export function ProfileForm({
       if (session?.user?.id !== id && session?.user?.role === "admin") {
         router.push("/admin/teams");
       } else {
+        update({ role: null });
         await logout();
       }
     }

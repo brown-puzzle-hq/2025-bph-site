@@ -105,8 +105,14 @@ export function LoginForm() {
 }
 
 export function LogoutForm() {
+  const { update } = useSession();
   return (
-    <Button className="hover:bg-otherblue" onClick={() => logout()}>
+    <Button
+      onClick={async () => {
+        update({ role: null });
+        await logout();
+      }}
+    >
       Logout
     </Button>
   );
