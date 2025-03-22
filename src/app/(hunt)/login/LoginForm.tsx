@@ -62,7 +62,7 @@ export function LoginForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
-              <FormControl className="bg-secondary-bg text-secondary-accent">
+              <FormControl className="placeholder:text-white placeholder:text-opacity-40 focus-visible:ring-opacity-20">
                 <Input placeholder="jcarberr" {...field} />
               </FormControl>
             </FormItem>
@@ -83,15 +83,15 @@ export function LoginForm() {
                   Forgot?
                 </Link>
               </div>
-              <FormControl className="bg-secondary-bg text-secondary-accent">
+              <FormControl className="placeholder:text-white placeholder:text-opacity-40 focus-visible:ring-opacity-20">
                 <Input type="password" placeholder="password" {...field} />
               </FormControl>
               <FormMessage className="text-error">{error}</FormMessage>
             </FormItem>
           )}
         />
-        <Button className="hover:bg-otherblue" type="submit">
-          Log In
+        <Button type="submit">
+          <p className="w-full text-center">Log In</p>
         </Button>
         <div className="pt-4 text-sm">
           New to the hunt?{" "}
