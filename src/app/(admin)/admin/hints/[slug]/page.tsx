@@ -88,7 +88,7 @@ export default async function Page({
 
   return (
     <div className="mx-auto mb-12 flex max-w-[calc(min(100vw,968px))] flex-col items-center px-4">
-      <h1 className="p-4">Hint #{hint.id}</h1>
+      <h1 className="px-4 pb-4">Hint #{hint.id}</h1>
       <PreviousHintTable
         hint={hint}
         unlockTime={unlockTime}

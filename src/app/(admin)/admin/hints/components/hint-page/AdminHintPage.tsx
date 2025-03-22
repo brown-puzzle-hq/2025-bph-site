@@ -81,10 +81,9 @@ export default function PreviousHintTable({
 }: TableProps) {
   const { data: session } = useSession();
 
-  const [selectedStatus, setSelectedStatus] = useState(hint.status);
-
-  const handleSelectedStatus = async () => {
-    if (selectedStatus === hint.status) return;
+  const handleStatus = async (
+    selectedStatus: "no_response" | "answered" | "refunded",
+  ) => {
     setOptimisticHint((prev) => ({
       ...prev,
       status: selectedStatus,
@@ -97,7 +96,7 @@ export default function PreviousHintTable({
           title,
           description: error,
         });
-        setOptimisticHint({ ...hint, status: hint.status });
+        setOptimisticHint(optimisticHint);
       }
     });
   };
@@ -307,23 +306,12 @@ export default function PreviousHintTable({
           </p>
 
           {/* Status box */}
-          <div className="flex flex-row justify-center space-x-2">
+          <div className="flex flex-row items-center space-x-1">
             <p>
-              <span className="font-semibold">Status: </span>
+              <span className="font-semibold">Status:</span>
             </p>
-            <Select
-              value={selectedStatus}
-              onValueChange={(val: "no_response" | "answered" | "refunded") =>
-                setSelectedStatus(val)
-              }
-            >
-              <SelectTrigger
-                className={`h-5 w-full p-1 focus:outline-none focus:ring-0 ${
-                  selectedStatus != optimisticHint.status
-                    ? "border-2 border-red-500"
-                    : ""
-                }`}
-              >
+            <Select defaultValue={hint.status} onValueChange={handleStatus}>
+              <SelectTrigger className="h-5 w-36 p-1 focus:ring-0">
                 <SelectValue placeholder={hint.status} />
               </SelectTrigger>
               <SelectContent>
@@ -337,11 +325,6 @@ export default function PreviousHintTable({
                 <SelectItem value="refunded">Refunded</SelectItem>
               </SelectContent>
             </Select>
-            <button onClick={handleSelectedStatus}>
-              <Check
-                className={`size-4 font-bold ${selectedStatus != optimisticHint.status && "text-red-500"}`}
-              />
-            </button>
           </div>
         </div>
         <div>
