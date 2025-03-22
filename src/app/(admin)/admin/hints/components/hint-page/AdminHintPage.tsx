@@ -4,7 +4,7 @@ import { useState, useEffect, startTransition } from "react";
 import { useSession } from "next-auth/react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
-import { Check, EyeOff } from "lucide-react";
+import { EyeOff } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { insertHintResponse } from "../../actions";
 import { toast } from "~/hooks/use-toast";
@@ -172,8 +172,12 @@ export default function PreviousHintTable({
         toast({
           variant: "destructive",
           title,
-          description: error,
+          description: response
+            ? error + " Response copied to clipboard."
+            : error,
         });
+        if (response) navigator.clipboard.writeText(response);
+        setOptimisticHint(optimisticHint);
       } else {
         setOptimisticHint((hint) => ({ ...hint, id: id! }));
       }
@@ -310,21 +314,20 @@ export default function PreviousHintTable({
             <p>
               <span className="font-semibold">Status:</span>
             </p>
-            <Select defaultValue={hint.status} onValueChange={handleStatus}>
-              <SelectTrigger className="h-5 w-36 p-1 focus:ring-0">
-                <SelectValue placeholder={hint.status} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem
-                  value="no_response"
-                  disabled={hint.status !== "no_response"}
-                >
-                  No response
-                </SelectItem>
-                <SelectItem value="answered">Answered</SelectItem>
-                <SelectItem value="refunded">Refunded</SelectItem>
-              </SelectContent>
-            </Select>
+            {optimisticHint.status !== "no_response" && (
+              <Select
+                value={optimisticHint.status}
+                onValueChange={handleStatus}
+              >
+                <SelectTrigger className="h-5 w-36 p-1 focus:ring-0">
+                  <SelectValue placeholder={hint.status} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="answered">Answered</SelectItem>
+                  <SelectItem value="refunded">Refunded</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
           </div>
         </div>
         <div>
