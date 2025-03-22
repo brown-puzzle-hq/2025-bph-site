@@ -17,8 +17,6 @@ import CopyButton from "./CopyButton";
 import { db } from "@/db/index";
 export const fetchCache = "force-no-store";
 
-// TODO: would be nice to force in-person body
-
 const roundBgColor: Record<string, string> = {
   Action: "bg-red-100",
   Cerebral: "bg-indigo-100",
@@ -38,9 +36,6 @@ const roundTextColor: Record<string, string> = {
 };
 
 export default async function Home() {
-  const numTeams = (await db.query.teams.findMany({ columns: { id: true } }))
-    .length;
-
   const query = await db.query.puzzles.findMany({
     columns: { id: true, name: true, answer: true },
     with: {
@@ -60,9 +55,7 @@ export default async function Home() {
     id: puzzle.id,
     name: puzzle.name,
     answer: puzzle.answer,
-    unlocks: INITIAL_PUZZLES.includes(puzzle.id)
-      ? "-"
-      : puzzle.unlocks.length,
+    unlocks: INITIAL_PUZZLES.includes(puzzle.id) ? "-" : puzzle.unlocks.length,
     guesses: puzzle.guesses.length,
     solves: puzzle.solves.length,
     sequences: SEQUENCES.filter((seq) => seq.puzzles.includes(puzzle.id)),
@@ -78,28 +71,28 @@ export default async function Home() {
       try {
         // Try to import the puzzle data from the hunt folder
         const module = await import(
-          `../../../(hunt)/puzzle/${puzzle.id}/data.tsx`
+          `../../../(hunt)/puzzle/(${ROUNDS.find((round) => round.puzzles.includes(puzzle.id))?.name.toLowerCase()})/${puzzle.id}/data.tsx`
         );
         inPersonBody = !!module.inPersonBody;
         remoteBody = !!module.remoteBody;
         solutionBody = !!module.solutionBody;
         copyText = module.copyText;
       } catch (e) {
-        try {
-          // Try to import from the dev folder
-          const module = await import(
-            `../../../(hunt)/puzzle/(dev)/${puzzle.id}/data.tsx`
-          );
-          inPersonBody = !!module.inPersonBody;
-          remoteBody = !!module.remoteBody;
-          solutionBody = !!module.solutionBody;
-          copyText = module.copyText;
-        } catch (e) {
-          inPersonBody = null;
-          remoteBody = null;
-          solutionBody = null;
-          copyText = null;
-        }
+        // try {
+        //   // Try to import from the dev folder
+        //   const module = await import(
+        //     `../../../(hunt)/puzzle/(dev)/${puzzle.id}/data.tsx`
+        //   );
+        //   inPersonBody = !!module.inPersonBody;
+        //   remoteBody = !!module.remoteBody;
+        //   solutionBody = !!module.solutionBody;
+        //   copyText = module.copyText;
+        // } catch (e) {
+        inPersonBody = null;
+        remoteBody = null;
+        solutionBody = null;
+        copyText = null;
+        // }
       }
 
       return {
@@ -126,7 +119,9 @@ export default async function Home() {
               <TableHead className="w-fit py-0 text-center">Unlocks</TableHead>
               <TableHead className="w-fit py-0 text-center">Solves</TableHead>
               <TableHead className="w-fit py-0 text-center">Guesses</TableHead>
-              <TableHead className="w-fit py-0 text-center">In-Person</TableHead>
+              <TableHead className="w-fit py-0 text-center">
+                In-Person
+              </TableHead>
               <TableHead className="w-fit py-0 text-center">Remote</TableHead>
               <TableHead className="w-fit py-0 text-center">Solution</TableHead>
               <TableHead className="w-fit py-0 text-center">Stats</TableHead>
@@ -186,7 +181,9 @@ export default async function Home() {
                     <TableCell className="justify-center">
                       {puzzle.inPersonBody && (
                         <div className="flex justify-center">
-                          <a href={`/puzzle/${puzzle.id}`}>
+                          <a
+                            href={`/puzzle/${puzzle.id}?interactionMode=in-person`}
+                          >
                             <Puzzle className="size-5 text-red-500 hover:opacity-75" />
                           </a>
                         </div>
@@ -195,7 +192,9 @@ export default async function Home() {
                     <TableCell className="justify-center">
                       {puzzle.remoteBody && (
                         <div className="flex justify-center">
-                          <a href={`/puzzle/${puzzle.id}`}>
+                          <a
+                            href={`/puzzle/${puzzle.id}?interactionMode=remote`}
+                          >
                             <Puzzle className="size-5 text-red-500 hover:opacity-75" />
                           </a>
                         </div>
