@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, useMemo, useRef, useCallback, use } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import ForceGraph from "react-force-graph-2d";
 import { LinkObject, NodeObject } from "react-force-graph-2d";
 import { PUZZLE_UNLOCK_MAP, ROUNDS, META_PUZZLES } from "~/hunt.config";
@@ -53,14 +53,6 @@ export type SearchedPuzzle = {
   round: string;
 };
 
-const roundColors: Record<string, string> = {
-  Action: "rgb(248,113,113)", // red-400
-  Cerebral: "rgb(251,191,36)", // amber-400
-  Adventure: "rgb(72,187,120)", // green-400
-  Drama: "rgb(96,165,250)", // blue-400
-  Reality: "rgb(147,51,234)", // purple-400
-};
-
 export default function Graph() {
   const NODE_R = 8;
   const fgRef = useRef<any>(null);
@@ -89,11 +81,9 @@ export default function Graph() {
 
     // Focus on the node and highlight it
     if (fgRef.current) fgRef.current.centerAt(node.x, node.y, 1000);
-    handleNodeClick(node);
 
-    // Get puzzle info
-    await handlePuzzleSidebar(node.name);
-    setPuzzleQuery("");
+    // Handle node click
+    await handleNodeClick(node);
   };
 
   const handlePuzzleSidebar = async (puzzleId: string) => {
@@ -114,6 +104,7 @@ export default function Graph() {
       params.set("puzzle", res.puzzleId);
       router.push(`?${params.toString()}`);
     }
+    setPuzzleQuery("");
   };
 
   const handleSearchTeam = async () => {
@@ -286,7 +277,7 @@ export default function Graph() {
     setHoveredLinks(hoveredLinks);
   };
 
-  const handleNodeClick = (node: NodeObject | null) => {
+  const handleNodeClick = async (node: NodeObject | null) => {
     if (!node) {
       setClickedNode(null);
       return;
@@ -296,6 +287,9 @@ export default function Graph() {
       (prev) => new Set([...prev, ...[node], ...node.neighbors]),
     );
     setHighlightedLinks((prev) => new Set([...prev, ...node.links]));
+
+    // Get puzzle info
+    await handlePuzzleSidebar(node.name);
   };
 
   const handleNodeRender = (
@@ -340,7 +334,7 @@ export default function Graph() {
       // Show words anyway on hover or click
       if (node === hoveredNode || highlightedNodes.has(node)) {
         const label = node.name as string;
-        const fontSize = 12 / globalScale;
+        const fontSize = 12;
         ctx.font = `${fontSize}px Sans-Serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
@@ -547,7 +541,7 @@ export default function Graph() {
         <div className="fixed min-h-2 w-full -translate-y-1 bg-neutral-200 shadow-sm sm:w-80 md:hidden"></div>
         <div
           onClick={() => setShowSidebar(!showSidebar)}
-          className="fixed left-1/2 w-12 -translate-x-1/2 -translate-y-4 rounded-md bg-neutral-300 text-neutral-600 hover:cursor-pointer md:hidden sm:left-40"
+          className="fixed left-1/2 w-12 -translate-x-1/2 -translate-y-4 rounded-md bg-neutral-300 text-neutral-600 hover:cursor-pointer sm:left-40 md:hidden"
         >
           {showSidebar ? (
             <ChevronDown className="mx-auto" />
