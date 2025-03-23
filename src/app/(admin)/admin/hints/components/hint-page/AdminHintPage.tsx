@@ -4,7 +4,7 @@ import { useState, useEffect, startTransition } from "react";
 import { useSession } from "next-auth/react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
-import { EyeOff } from "lucide-react";
+import { ExternalLink, EyeOff, Waypoints } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { insertHintResponse } from "../../actions";
 import { toast } from "~/hooks/use-toast";
@@ -282,19 +282,27 @@ export default function PreviousHintTable({
 
   return (
     <>
-      <div className="grid w-full grid-cols-1 gap-4 text-sm text-zinc-700 sm:grid-cols-2">
+      {/* Header */}
+      <div className="grid w-full grid-cols-1 gap-4 py-4 text-sm text-zinc-700 sm:grid-cols-2">
         <div>
-          <p className="w-full truncate text-ellipsis">
+          <div className="flex w-full flex-row space-x-1 truncate text-ellipsis align-bottom">
             <span className="font-semibold">Team: </span>
             <Link
-              href={`/teams/${hint.team.id}`}
+              href={`/team/${hint.team.id}`}
               className="text-blue-500 hover:underline"
               prefetch={false}
             >
               {hint.team.displayName} ({hint.team.id})
             </Link>
-          </p>
-          <p>
+            <Link
+              href={`/admin/graph?team=${hint.team.id}`}
+              className="text-blue-500 hover:underline"
+            >
+              <Waypoints className="size-4" />
+            </Link>
+          </div>
+
+          <div className="flex flex-row space-x-1 align-bottom">
             <span className="font-semibold">Puzzle: </span>
             <Link
               href={`/puzzle/${hint.puzzle.id}`}
@@ -303,7 +311,14 @@ export default function PreviousHintTable({
             >
               {hint.puzzle.name}
             </Link>
-          </p>
+            <Link
+              href={`/admin/graph?puzzle=${hint.puzzle.id}`}
+              className="text-blue-500 hover:underline"
+            >
+              <Waypoints className="size-4" />
+            </Link>
+          </div>
+
           <p>
             <span className="font-semibold">Claimer: </span>
             {hint.claimer?.displayName}
@@ -361,6 +376,8 @@ export default function PreviousHintTable({
           </p>
         </div>
       </div>
+
+      {/* Hint table */}
       <Table className="table-fixed">
         <TableBody>
           {/* Hint request row */}
