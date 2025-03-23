@@ -2,8 +2,8 @@ import { db } from "@/db/index";
 import { followUps, guesses, hints, unlocks } from "@/db/schema";
 import { and, asc, eq } from "drizzle-orm";
 import Toast from "../components/hint-page/Toast";
-import PreviousHintTable from "../components/hint-page/AdminHintPage";
-import PreviousGuessTable from "~/app/(hunt)/puzzle/components/PreviousGuessTable";
+import AdminHintThread from "../components/hint-page/AdminHintThread";
+import GuessTable from "~/app/(hunt)/puzzle/components/GuessTable";
 import { IN_PERSON, REMOTE, ROUNDS } from "~/hunt.config";
 
 export default async function Page({
@@ -104,7 +104,7 @@ export default async function Page({
     <div className="mx-auto mb-12 flex max-w-[calc(min(100vw,968px))] flex-col items-center px-4">
       <h1 className="px-4 pb-4">Hint #{hint.id}</h1>
       <div className="w-full pb-4">
-        <PreviousHintTable
+        <AdminHintThread
           hint={hint}
           unlockTime={unlockTime}
           reply={reply ? hintId : undefined}
@@ -115,7 +115,7 @@ export default async function Page({
           <p className="w-full text-center text-sm font-semibold text-zinc-700">
             Team's Guesses
           </p>
-          <PreviousGuessTable
+          <GuessTable
             puzzleAnswer={hint.puzzle.answer}
             previousGuesses={previousGuesses}
             partialSolutions={partialSolutions}

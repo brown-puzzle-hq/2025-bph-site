@@ -4,7 +4,7 @@ import { useState, useEffect, startTransition } from "react";
 import { useSession } from "next-auth/react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
-import { ExternalLink, EyeOff, Waypoints } from "lucide-react";
+import { EyeOff, Waypoints } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { insertHintResponse } from "../../actions";
 import { toast } from "~/hooks/use-toast";
@@ -74,7 +74,7 @@ type FollowUp = {
   message: string;
 };
 
-export default function PreviousHintTable({
+export default function AdminHintThread({
   hint,
   unlockTime,
   reply,
