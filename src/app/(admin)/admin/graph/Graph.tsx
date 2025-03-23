@@ -544,10 +544,10 @@ export default function Graph() {
       <div
         className={`no-scrollbar absolute bottom-0 ${showSidebar ? "max-h-[60vh]" : "max-h-4"} w-full overflow-auto text-xs sm:w-80 md:right-4 md:top-0 md:max-h-screen md:pb-4`}
       >
-        <div className="fixed min-h-2 w-full -translate-y-1 bg-neutral-200 shadow-sm sm:hidden"></div>
+        <div className="fixed min-h-2 w-full -translate-y-1 bg-neutral-200 shadow-sm sm:w-80 md:hidden"></div>
         <div
           onClick={() => setShowSidebar(!showSidebar)}
-          className="fixed left-1/2 w-12 -translate-x-1/2 -translate-y-4 rounded-md bg-neutral-300 text-neutral-600 sm:hidden hover:cursor-pointer"
+          className="fixed left-1/2 w-12 -translate-x-1/2 -translate-y-4 rounded-md bg-neutral-300 text-neutral-600 hover:cursor-pointer md:hidden sm:left-40"
         >
           {showSidebar ? (
             <ChevronDown className="mx-auto" />
