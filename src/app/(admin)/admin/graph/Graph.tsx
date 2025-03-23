@@ -677,7 +677,7 @@ export default function Graph() {
                           <div>
                             <Link
                               href={`/admin/hints/${hint.id}`}
-                              className="text-blue-500"
+                              className="text-blue-500 hover:underline"
                             >
                               [{hint.id}]
                             </Link>{" "}
