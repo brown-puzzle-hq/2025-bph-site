@@ -208,7 +208,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 </span>
                 <FormMessage className="text-error" />
               </FormLabel>
-              <FormControl className="text-main-text placeholder:text-white placeholder:text-opacity-40">
+              <FormControl className="text-main-text placeholder:text-white/40">
                 <Input placeholder="jcarberr" autoComplete="on" {...field} />
               </FormControl>
               <FormDescription>
@@ -231,7 +231,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 </span>
                 <FormMessage className="text-error" />
               </FormLabel>
-              <FormControl className="text-main-text placeholder:text-white placeholder:text-opacity-40">
+              <FormControl className="text-main-text placeholder:text-white/40">
                 <Input placeholder="Josiah Carberry" {...field} />
               </FormControl>
               <FormDescription>
@@ -299,7 +299,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 name={`members.${index}.name`}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
-                    <FormControl className="text-main-text placeholder:text-white placeholder:text-opacity-40">
+                    <FormControl className="text-main-text placeholder:text-white/40">
                       <Input
                         className="rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent"
                         {...field}
@@ -343,7 +343,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 name={`members.${index}.email`}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
-                    <FormControl className="text-main-text placeholder:text-white placeholder:text-opacity-40">
+                    <FormControl className="text-main-text placeholder:text-white/40">
                       <Input
                         className={`rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent ${form.formState.errors.members?.[index] ? "border-red-300" : ""} text-current shadow-none`}
                         {...field}

@@ -69,7 +69,7 @@ export default function EventForm({ eventId }: FormProps) {
                   }}
                   placeholder="TOKEN"
                   autoComplete="off"
-                  className={`w-full bg-inherit placeholder:text-white placeholder:text-opacity-40 ${error ? "text-incorrect-guess" : "text-main-text"} focus:outline-none`}
+                  className={`w-full bg-inherit placeholder:text-white/40 ${error ? "text-incorrect-guess" : "text-main-text"} focus:outline-none`}
                 />
               </FormControl>
             </FormItem>

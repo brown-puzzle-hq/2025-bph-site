@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback, use } from "react";
 import ForceGraph from "react-force-graph-2d";
 import { LinkObject, NodeObject } from "react-force-graph-2d";
 import { PUZZLE_UNLOCK_MAP, ROUNDS, META_PUZZLES } from "~/hunt.config";
@@ -14,6 +14,8 @@ import {
   Puzzle,
   Check,
   X,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { getSearchedTeam, getSearchedPuzzle } from "./actions";
 
@@ -73,6 +75,8 @@ export default function Graph() {
   // Individual team's solves and unlocks
   const [teamQuery, setTeamQuery] = useState("");
   const [searchedTeam, setSearchedTeam] = useState<SearchedTeam | null>(null);
+
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const handleSearchPuzzle = async () => {
     if (puzzleQuery === "") return;
@@ -200,14 +204,14 @@ export default function Graph() {
 
   // Dimensions of the graph
   const [dimensions, setDimensions] = useState({
-    width: window.innerWidth - 336,
+    width: window.innerWidth,
     height: window.innerHeight,
   });
 
   useEffect(() => {
     const handleResize = () => {
       setDimensions({
-        width: window.innerWidth - 336,
+        width: window.innerWidth,
         height: window.innerHeight,
       });
     };
@@ -400,148 +404,158 @@ export default function Graph() {
   return (
     <div className="-mt-20 flex h-screen w-screen">
       {/* Graph */}
-      <div className="grid max-w-full">
-        <div className="col-start-1 row-start-1">
-          <ForceGraph
-            ref={fgRef}
-            graphData={data}
-            width={dimensions.width}
-            height={dimensions.height}
-            cooldownTicks={50}
-            autoPauseRedraw={false}
-            d3VelocityDecay={0.2}
-            // Visuals
-            nodeRelSize={NODE_R}
-            nodeLabel={() => ""} // Remove tooltip
-            nodeAutoColorBy="round"
-            nodePointerAreaPaint={(node, color, ctx) => {
-              ctx.fillStyle = color;
-              ctx.beginPath();
-              ctx.arc(node.x!, node.y!, 10, 0, 2 * Math.PI, false);
-              ctx.fill();
+      <div className="absolute">
+        <ForceGraph
+          ref={fgRef}
+          graphData={data}
+          width={dimensions.width}
+          height={dimensions.height}
+          cooldownTicks={50}
+          autoPauseRedraw={false}
+          d3VelocityDecay={0.2}
+          // Visuals
+          nodeRelSize={NODE_R}
+          nodeLabel={() => ""} // Remove tooltip
+          nodeAutoColorBy="round"
+          nodePointerAreaPaint={(node, color, ctx) => {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(node.x!, node.y!, 10, 0, 2 * Math.PI, false);
+            ctx.fill();
+          }}
+          // Prevent moving after dragging
+          onNodeDragEnd={(node) => {
+            node.fx = node.x;
+            node.fy = node.y;
+            node.fz = node.z;
+          }}
+          // Highlight nodes and links on hover or click
+          onNodeHover={handleNodeHover}
+          onNodeDrag={handleNodeHover}
+          onNodeClick={handleNodeClick}
+          onBackgroundClick={() => {
+            setClickedNode(null);
+            setHighlightedNodes(new Set());
+            setHighlightedLinks(new Set());
+          }}
+          // Draw nodes and links
+          nodeCanvasObjectMode={() => "replace"}
+          nodeCanvasObject={handleNodeRender}
+          linkWidth={(link) =>
+            hoveredLinks.has(link) || highlightedLinks.has(link) ? 5 : 1
+          }
+          linkDirectionalParticles={4}
+          linkDirectionalParticleWidth={(link) =>
+            hoveredLinks.has(link) || highlightedLinks.has(link) ? 4 : 0
+          }
+        />
+      </div>
+
+      <div className="absolute w-full space-y-2 px-4 sm:w-80">
+        {/* Search team */}
+        <div className="z-10 mt-[56px] flex items-center space-x-2 rounded bg-neutral-100 pr-1 backdrop-blur-md">
+          <div className="rounded bg-neutral-300 p-2">
+            <User className="size-5" />
+          </div>
+          <input
+            placeholder="jcarberr"
+            value={teamQuery}
+            onChange={(e) => setTeamQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearchTeam();
+              }
             }}
-            // Prevent moving after dragging
-            onNodeDragEnd={(node) => {
-              node.fx = node.x;
-              node.fy = node.y;
-              node.fz = node.z;
-            }}
-            // Highlight nodes and links on hover or click
-            onNodeHover={handleNodeHover}
-            onNodeDrag={handleNodeHover}
-            onNodeClick={handleNodeClick}
-            onBackgroundClick={() => {
-              setClickedNode(null);
-              setHighlightedNodes(new Set());
-              setHighlightedLinks(new Set());
-            }}
-            // Draw nodes and links
-            nodeCanvasObjectMode={() => "replace"}
-            nodeCanvasObject={handleNodeRender}
-            linkWidth={(link) =>
-              hoveredLinks.has(link) || highlightedLinks.has(link) ? 5 : 1
-            }
-            linkDirectionalParticles={4}
-            linkDirectionalParticleWidth={(link) =>
-              hoveredLinks.has(link) || highlightedLinks.has(link) ? 4 : 0
-            }
+            className="z-10 w-full border-b border-neutral-400 bg-transparent text-sm text-neutral-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            autoComplete="off"
+            disabled={!!searchedTeam}
           />
-        </div>
-
-        <div className="col-start-1 row-start-1 w-80 space-y-2 pl-4">
-          {/* Search team */}
-          <div className="z-10 mt-[56px] flex items-center space-x-2 rounded bg-neutral-100 pr-1 backdrop-blur-md">
-            <div className="rounded bg-neutral-300 p-2">
-              <User className="size-5" />
-            </div>
-            <input
-              placeholder="jcarberr"
-              value={teamQuery}
-              onChange={(e) => setTeamQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSearchTeam();
-                }
-              }}
-              className="z-10 w-full border-b border-neutral-400 bg-transparent text-sm text-neutral-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-              autoComplete="off"
-              disabled={!!searchedTeam}
-            />
-            <button
-              onClick={async () => {
-                if (searchedTeam) {
-                  clearSearchTeam();
-                } else {
-                  await handleSearchTeam();
-                }
-              }}
-              className="z-10 rounded p-1 hover:bg-neutral-200 disabled:bg-inherit disabled:opacity-25"
-              disabled={!searchedTeam && !teamQuery}
-            >
-              {searchedTeam ? (
-                <X className="size-5" />
-              ) : (
-                <Check className="size-5" />
-              )}
-            </button>
-          </div>
-
-          {/* Search puzzle */}
-          <div className="flex items-center space-x-2 rounded bg-neutral-100 pr-1 backdrop-blur-md">
-            <div className="rounded bg-neutral-300 p-2">
-              <Puzzle className="size-5" />
-            </div>
-            <input
-              placeholder="example"
-              value={puzzleQuery}
-              onChange={(e) => setPuzzleQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  setPuzzleQuery("");
-                  handleSearchPuzzle();
-                }
-              }}
-              className="z-10 w-full border-b border-neutral-400 bg-transparent text-sm text-neutral-500 focus:outline-none"
-              autoComplete="off"
-            />
-            <button
-              onClick={() => {
-                setPuzzleQuery("");
-                handleSearchPuzzle();
-              }}
-              className="z-10 rounded p-1 hover:bg-neutral-200 disabled:bg-inherit disabled:opacity-25"
-              disabled={!puzzleQuery}
-            >
-              <Check className="size-5" />
-            </button>
-          </div>
-
-          {/* Words and nodes toggle */}
           <button
-            className="absolute z-10 rounded bg-orange-500 p-2 text-white hover:opacity-70"
-            onClick={() => setShowWords((prev) => !prev)}
+            onClick={async () => {
+              if (searchedTeam) {
+                clearSearchTeam();
+              } else {
+                await handleSearchTeam();
+              }
+            }}
+            className="z-10 rounded p-1 hover:bg-neutral-200 disabled:bg-inherit disabled:opacity-25"
+            disabled={!searchedTeam && !teamQuery}
           >
-            {showWords ? (
-              <Waypoints className="size-5" />
+            {searchedTeam ? (
+              <X className="size-5" />
             ) : (
-              <CaseUpper className="size-5" />
+              <Check className="size-5" />
             )}
           </button>
+        </div>
 
-          {/* Zoom to Fit Button */}
+        {/* Search puzzle */}
+        <div className="flex items-center space-x-2 rounded bg-neutral-100 pr-1 backdrop-blur-md">
+          <div className="rounded bg-neutral-300 p-2">
+            <Puzzle className="size-5" />
+          </div>
+          <input
+            placeholder="example"
+            value={puzzleQuery}
+            onChange={(e) => setPuzzleQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setPuzzleQuery("");
+                handleSearchPuzzle();
+              }
+            }}
+            className="z-10 w-full border-b border-neutral-400 bg-transparent text-sm text-neutral-500 focus:outline-none"
+            autoComplete="off"
+          />
           <button
-            className="absolute z-10 translate-y-11 rounded bg-emerald-600 p-2 text-white hover:opacity-70"
-            onClick={() => fgRef.current?.zoomToFit(500, 66)}
+            onClick={() => {
+              setPuzzleQuery("");
+              handleSearchPuzzle();
+            }}
+            className="z-10 rounded p-1 hover:bg-neutral-200 disabled:bg-inherit disabled:opacity-25"
+            disabled={!puzzleQuery}
           >
-            <ScanSearch className="size-5" />
+            <Check className="size-5" />
           </button>
         </div>
+
+        {/* Words and nodes toggle */}
+        <button
+          className="absolute z-10 rounded bg-orange-500 p-2 text-white hover:opacity-70"
+          onClick={() => setShowWords((prev) => !prev)}
+        >
+          {showWords ? (
+            <Waypoints className="size-5" />
+          ) : (
+            <CaseUpper className="size-5" />
+          )}
+        </button>
+
+        {/* Zoom to Fit Button */}
+        <button
+          className="absolute z-10 translate-y-11 rounded bg-emerald-600 p-2 text-white hover:opacity-70"
+          onClick={() => fgRef.current?.zoomToFit(500, 66)}
+        >
+          <ScanSearch className="size-5" />
+        </button>
       </div>
 
       {/* Side panel */}
-      <div className="no-scrollbar w-80 overflow-auto pb-4 text-xs">
-        <div className="h-[56px]"></div>
-        <div className="rounded-lg bg-neutral-100 p-4">
+      <div
+        className={`no-scrollbar absolute bottom-0 ${showSidebar ? "max-h-[60vh]" : "max-h-4"} w-full overflow-auto text-xs sm:w-80 md:right-4 md:top-0 md:max-h-screen md:pb-4`}
+      >
+        <div className="fixed min-h-2 w-full -translate-y-1 bg-neutral-200 shadow-sm sm:hidden"></div>
+        <div
+          onClick={() => setShowSidebar(!showSidebar)}
+          className="fixed left-1/2 w-12 -translate-x-1/2 -translate-y-4 rounded-md bg-neutral-300 text-neutral-600 sm:hidden hover:cursor-pointer"
+        >
+          {showSidebar ? (
+            <ChevronDown className="mx-auto" />
+          ) : (
+            <ChevronUp className="mx-auto" />
+          )}
+        </div>
+        <div className="bg-neutral-100 p-4 sm:rounded-lg md:mt-14">
           {searchedPuzzle === null ? (
             // Show list of puzzles
             <>
@@ -550,7 +564,7 @@ export default function Graph() {
               </p>
               {ROUNDS.map((round) => (
                 <>
-                  <p className="my-1 bg-neutral-400 pl-0.5 font-semibold text-white">
+                  <p className="my-1 rounded-[2px] bg-neutral-400 pl-0.5 font-semibold text-white">
                     {round.name}
                   </p>
                   {round.puzzles.map((puzzle) => {
