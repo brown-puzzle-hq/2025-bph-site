@@ -51,7 +51,9 @@ export function TeamTable<TData, TValue>({
 }: TeamTableProps<TData, TValue>) {
   const router = useRouter();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "createTime", desc: true },
+  ]);
   const [isCompact, setIsCompact] = useState(true);
   const pageSize = 100;
 
@@ -76,6 +78,12 @@ export function TeamTable<TData, TValue>({
       columnVisibility: {
         responseTime: false,
       },
+      sorting: [
+        {
+          id: "createTime",
+          desc: true,
+        },
+      ],
     },
     pageCount: Math.ceil(data.length / pageSize),
   });
@@ -153,13 +161,22 @@ export function TeamTable<TData, TValue>({
         </div>
 
         <div className="flex items-center space-x-2">
+          {/* Save and discard changes buttons */}
           <button
-            className="role-button ml-2 text-sm text-blue-600 disabled:opacity-50"
+            className="ml-2 text-sm text-blue-600 disabled:opacity-50"
             disabled={Object.keys(editedRows).length === 0}
             onClick={handleSaveEdits}
           >
             Save
           </button>
+          <button
+            className="ml-2 text-sm text-neutral-400 underline"
+            hidden={Object.keys(editedRows).length === 0}
+            onClick={() => setEditedRows({})}
+          >
+            Discard changes
+          </button>
+
           <button
             className="hover:opacity-70"
             onClick={() => setIsCompact(!isCompact)}
@@ -254,7 +271,7 @@ export function TeamTable<TData, TValue>({
                       return (
                         <TableCell key={cell.id}>
                           <select
-                            className="rounded border px-2 py-1 text-sm"
+                            className={`rounded border px-2 py-1 text-sm ${editedRows[teamId]?.[field] && "bg-orange-100"}`}
                             value={
                               editedRows[teamId]?.[field]?.new ??
                               (cellValue as string)
