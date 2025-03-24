@@ -21,7 +21,14 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="w-44 truncate">{row.getValue("id")}</div>
+      <div className="w-44 truncate">
+        <a
+          className="text-blue-500 hover:underline"
+          href={`/teams/${row.getValue("id")}`}
+        >
+          {row.getValue("id")}
+        </a>
+      </div>
     ),
   },
   // TODO: figure out how to get this column to fill available space, if any
@@ -118,7 +125,6 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
       return (
         <div
           className={`font-medium ${textColor} inline-flex rounded-sm ${bgColor} px-1 py-0.5`}
-          onClick={() => console.log("HELLO")}
         >
           {interactionMode}
         </div>

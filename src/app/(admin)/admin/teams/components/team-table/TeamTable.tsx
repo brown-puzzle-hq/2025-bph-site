@@ -1,13 +1,17 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
+  AlertCircle,
   Filter,
   Rows2,
   Rows4,
   SquareChevronLeft,
   SquareChevronRight,
 } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "~/components/ui/button";
 
 import {
   ColumnDef,
@@ -146,177 +150,178 @@ export function TeamTable<TData, TValue>({
   };
 
   return (
-    <div className="w-screen px-4 xl:px-12">
-      {/* Controls */}
-      <div className="flex items-center justify-between space-x-2 pb-2 text-neutral-500">
-        <div className="flex items-center space-x-2">
-          <Filter className="size-5" />
-          <input
-            name="filterTeams"
-            placeholder="Filter teams..."
-            onChange={(event) => table.setGlobalFilter(event.target.value)}
-            className="border-b text-sm placeholder:text-neutral-300 focus:outline-none"
-            autoComplete="off"
-          />
+    <>
+      <div className="w-screen px-4 xl:px-12">
+        {/* Controls */}
+        <div className="flex items-center justify-between space-x-2 pb-2 text-neutral-500">
+          <div className="flex items-center space-x-2">
+            <Filter className="size-5" />
+            <input
+              name="filterTeams"
+              placeholder="Filter teams..."
+              onChange={(event) => table.setGlobalFilter(event.target.value)}
+              className="border-b text-sm placeholder:text-neutral-300 focus:outline-none"
+              autoComplete="off"
+            />
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <button
+              className="hover:opacity-70"
+              onClick={() => setIsCompact(!isCompact)}
+            >
+              {isCompact ? (
+                <Rows2 className="size-5" />
+              ) : (
+                <Rows4 className="size-5" />
+              )}
+            </button>
+            <button
+              className="hover:opacity-70"
+              onClick={() => table.previousPage()}
+            >
+              <SquareChevronLeft className="size-5" />
+            </button>
+            <button
+              className="hover:opacity-70"
+              onClick={() => table.nextPage()}
+            >
+              <SquareChevronRight className="size-5" />
+            </button>
+          </div>
         </div>
 
-        <div className="flex items-center space-x-2">
-          {/* Save and discard changes buttons */}
-          <button
-            className="ml-2 text-sm text-blue-600 disabled:opacity-50"
-            disabled={Object.keys(editedRows).length === 0}
-            onClick={handleSaveEdits}
-          >
-            Save
-          </button>
-          <button
-            className="ml-2 text-sm text-neutral-400 underline"
-            hidden={Object.keys(editedRows).length === 0}
-            onClick={() => setEditedRows({})}
-          >
-            Discard changes
-          </button>
-
-          <button
-            className="hover:opacity-70"
-            onClick={() => setIsCompact(!isCompact)}
-          >
-            {isCompact ? (
-              <Rows2 className="size-5" />
-            ) : (
-              <Rows4 className="size-5" />
-            )}
-          </button>
-          <button
-            className="hover:opacity-70"
-            onClick={() => table.previousPage()}
-          >
-            <SquareChevronLeft className="size-5" />
-          </button>
-          <button className="hover:opacity-70" onClick={() => table.nextPage()}>
-            <SquareChevronRight className="size-5" />
-          </button>
-        </div>
-      </div>
-
-      {/* Table */}
-      <div className="overflow-y-auto rounded-md">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow
-                key={`header-${headerGroup.id}`}
-                className="hover:bg-inherit"
-              >
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    onClick={() =>
-                      header.column.toggleSorting(
-                        header.column.getIsSorted() === "asc",
-                      )
-                    }
-                    role="button"
-                    className={`hover:text-opacity-70 ${isCompact && "py-0"}`}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+        {/* Table */}
+        <div className="overflow-y-auto rounded-md">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow
-                  // onClick={(event) => {
-                  //   if (
-                  //     event.target instanceof HTMLElement &&
-                  //     event.target.classList.contains("role-button")
-                  //   )
-                  //     return;
-                  //   if (event.metaKey || event.ctrlKey) {
-                  //     // Open in new tab
-                  //     window.open(`/teams/${row.getValue("id")}`, "_blank");
-                  //   } else {
-                  //     // Move to team page
-                  //     router.push(`/teams/${row.getValue("id")}`);
-                  //     router.refresh();
-                  //   }
-                  // }}
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className={`cursor-pointer ${isCompact && "py-0"}`}
+                  key={`header-${headerGroup.id}`}
+                  className="hover:bg-inherit"
                 >
-                  {row.getVisibleCells().map((cell) => {
-                    const columnId = cell.column.id;
-                    const teamId = row.getValue("id") as string;
-                    const cellValue = cell.getValue();
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      onClick={() =>
+                        header.column.toggleSorting(
+                          header.column.getIsSorted() === "asc",
+                        )
+                      }
+                      role="button"
+                      className={`hover:text-opacity-70 ${isCompact && "py-0"}`}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    className={
+                      isCompact ? "py-0 hover:bg-inherit" : "hover:bg-inherit"
+                    }
+                  >
+                    {row.getVisibleCells().map((cell) => {
+                      const columnId = cell.column.id;
+                      const teamId = row.getValue("id") as string;
+                      const cellValue = cell.getValue();
 
-                    // Check whether column is editable
-                    if (["role", "interactionMode"].includes(columnId)) {
-                      const field = columnId as keyof EditableFields;
-                      const options =
-                        field === "role"
-                          ? roleEnum.enumValues
-                          : field === "interactionMode"
-                            ? interactionModeEnum.enumValues
-                            : [];
+                      // Check whether column is editable
+                      if (["role", "interactionMode"].includes(columnId)) {
+                        const field = columnId as keyof EditableFields;
+                        const options =
+                          field === "role"
+                            ? roleEnum.enumValues
+                            : field === "interactionMode"
+                              ? interactionModeEnum.enumValues
+                              : [];
+
+                        return (
+                          <TableCell key={cell.id}>
+                            <select
+                              id={cell.id}
+                              className={`rounded border px-2 py-1 text-sm ${editedRows[teamId]?.[field] && "bg-orange-100"}`}
+                              value={
+                                editedRows[teamId]?.[field]?.new ??
+                                (cellValue as string)
+                              }
+                              onChange={(e) =>
+                                handleEditRow(teamId, field, cellValue, e)
+                              }
+                            >
+                              {options.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          </TableCell>
+                        );
+                      }
 
                       return (
-                        <TableCell key={cell.id}>
-                          <select
-                            className={`rounded border px-2 py-1 text-sm ${editedRows[teamId]?.[field] && "bg-orange-100"}`}
-                            value={
-                              editedRows[teamId]?.[field]?.new ??
-                              (cellValue as string)
-                            }
-                            onChange={(e) =>
-                              handleEditRow(teamId, field, cellValue, e)
-                            }
-                          >
-                            {options.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
+                        <TableCell
+                          key={cell.id}
+                          className={isCompact ? "py-0" : undefined}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
                         </TableCell>
                       );
-                    }
-
-                    return (
-                      <TableCell
-                        key={cell.id}
-                        className={isCompact ? "py-0" : undefined}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    );
-                  })}
+                    })}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="pointer-events-none h-16 text-center font-medium text-neutral-500"
+                  >
+                    No results.
+                  </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="pointer-events-none h-16 text-center font-medium text-neutral-500"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
-    </div>
+      <div
+        className={`fixed bottom-3 left-1/2 z-10 flex w-full max-w-xl -translate-x-1/2 transform px-4 transition-transform duration-300 ${
+          Object.keys(editedRows).length !== 0
+            ? "translate-y-0"
+            : "translate-y-[5rem]"
+        }`}
+      >
+        <Alert className="w-full border-0 bg-slate-900/75 p-2 shadow-lg">
+          <div className="flex items-center justify-between">
+            <AlertDescription className="flex items-center space-x-2 text-white">
+              <AlertCircle className="h-4 w-4" />
+              <span className="hidden sm:block">
+                Careful — you have unsaved changes!
+              </span>
+              <span className="sm:hidden">Unsaved changes!</span>
+            </AlertDescription>
+            <div className="flex space-x-2">
+              <Button variant="outline" onClick={() => setEditedRows({})}>
+                Reset
+              </Button>
+              <Button onClick={handleSaveEdits}>Save</Button>
+            </div>
+          </div>
+        </Alert>
+      </div>
+    </>
   );
 }
