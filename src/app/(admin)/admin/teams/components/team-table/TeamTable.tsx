@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   AlertCircle,
@@ -36,6 +35,15 @@ import {
 
 import { roleEnum, interactionModeEnum } from "~/server/db/schema";
 import { EditableFields, EditedTeam, updateTeam } from "../../actions";
+import { cn } from "~/lib/utils";
+
+const colorMap: Record<string, string> = {
+  user: "bg-sky-200 text-sky-900",
+  admin: "bg-emerald-200 text-emerald-900",
+  testsolver: "bg-violet-200 text-violet-900",
+  remote: "bg-lime-200 text-lime-900",
+  "in-person": "bg-orange-200 text-orange-900",
+};
 
 export type EditedRow = {
   [K in keyof EditableFields]?: {
@@ -53,7 +61,6 @@ export function TeamTable<TData, TValue>({
   columns,
   data,
 }: TeamTableProps<TData, TValue>) {
-  const router = useRouter();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     { id: "createTime", desc: true },
@@ -98,12 +105,21 @@ export function TeamTable<TData, TValue>({
     teamId: string,
     field: F,
     cellValue: any,
-    e: any,
   ) {
     setEditedRows((prev) => {
+      const options: string[] =
+        field === "role"
+          ? roleEnum.enumValues
+          : field === "interactionMode"
+            ? interactionModeEnum.enumValues
+            : [];
+
       const prevEdits = prev[teamId] ?? {};
       const oldValue = prevEdits[field]?.old ?? cellValue;
-      const newValue = e.target.value;
+
+      const prevIndex = options.indexOf(prevEdits[field]?.new ?? cellValue);
+      const nextIndex = (prevIndex + 1) % options.length;
+      const newValue = options[nextIndex];
 
       // If the new value is the same as the original, remove the field
       // If no other fields are left, remove the team entirely
@@ -209,7 +225,10 @@ export function TeamTable<TData, TValue>({
                         )
                       }
                       role="button"
-                      className={`hover:text-opacity-70 ${isCompact && "py-0"}`}
+                      className={cn(
+                        "hover:text-opacity-70",
+                        isCompact && "py-0",
+                      )}
                     >
                       {header.isPlaceholder
                         ? null
@@ -239,32 +258,27 @@ export function TeamTable<TData, TValue>({
                       // Check whether column is editable
                       if (["role", "interactionMode"].includes(columnId)) {
                         const field = columnId as keyof EditableFields;
-                        const options =
-                          field === "role"
-                            ? roleEnum.enumValues
-                            : field === "interactionMode"
-                              ? interactionModeEnum.enumValues
-                              : [];
-
+                        const currValue =
+                          editedRows[teamId]?.[field]?.new ??
+                          (cellValue as string);
                         return (
-                          <TableCell key={cell.id}>
-                            <select
-                              id={cell.id}
-                              className={`rounded border px-2 py-1 text-sm ${editedRows[teamId]?.[field] && "bg-orange-100"}`}
-                              value={
-                                editedRows[teamId]?.[field]?.new ??
-                                (cellValue as string)
-                              }
-                              onChange={(e) =>
-                                handleEditRow(teamId, field, cellValue, e)
+                          <TableCell
+                            key={cell.id}
+                            className={isCompact ? "py-0" : undefined}
+                          >
+                            <button
+                              className={cn(
+                                colorMap[currValue],
+                                "rounded-sm px-1 py-0.5 font-medium outline-none",
+                                editedRows[teamId]?.[field] &&
+                                  "bg-red-200 text-red-900",
+                              )}
+                              onClick={() =>
+                                handleEditRow(teamId, field, cellValue)
                               }
                             >
-                              {options.map((option) => (
-                                <option key={option} value={option}>
-                                  {option}
-                                </option>
-                              ))}
-                            </select>
+                              {currValue}
+                            </button>
                           </TableCell>
                         );
                       }

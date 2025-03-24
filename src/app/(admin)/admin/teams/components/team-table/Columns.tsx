@@ -64,32 +64,6 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
         )}
       </div>
     ),
-    cell: ({ row }) => {
-      const role = row.getValue("role") as string;
-
-      const bgColor =
-        role == "user"
-          ? "bg-sky-200"
-          : role == "admin"
-            ? "bg-emerald-200"
-            : "bg-violet-200";
-
-      const textColor =
-        role == "user"
-          ? "text-sky-900"
-          : role == "admin"
-            ? "text-emerald-900"
-            : "text-violet-900";
-
-      return (
-        <div
-          // Add role-button to className to disable row redirect
-          className={`font-medium ${textColor} inline-flex rounded-sm ${bgColor} px-1 py-0.5`}
-        >
-          {role}
-        </div>
-      );
-    },
   },
   {
     accessorKey: "interactionMode",
@@ -105,31 +79,6 @@ export const columns: ColumnDef<typeof teams.$inferSelect>[] = [
         )}
       </div>
     ),
-    cell: ({ row }) => {
-      const interactionMode = row.getValue("interactionMode") as string;
-
-      const bgColor =
-        interactionMode == "remote"
-          ? "bg-lime-200"
-          : interactionMode == "in-person"
-            ? "bg-orange-200"
-            : "bg-gray-200";
-
-      const textColor =
-        interactionMode == "remote"
-          ? "text-lime-900"
-          : interactionMode == "in-person"
-            ? "text-orange-900"
-            : "text-gray-900";
-
-      return (
-        <div
-          className={`font-medium ${textColor} inline-flex rounded-sm ${bgColor} px-1 py-0.5`}
-        >
-          {interactionMode}
-        </div>
-      );
-    },
   },
   {
     accessorKey: "hasBox",
