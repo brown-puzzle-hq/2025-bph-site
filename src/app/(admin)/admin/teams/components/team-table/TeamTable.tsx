@@ -30,6 +30,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { roleEnum, interactionModeEnum } from "~/server/db/schema";
+import { EditableFields, EditedTeam, updateTeam } from "../../actions";
+
+export type EditedRow = {
+  [K in keyof EditableFields]?: {
+    new: EditableFields[K];
+    old: EditableFields[K];
+  };
+};
+
 interface TeamTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -70,6 +80,63 @@ export function TeamTable<TData, TValue>({
     pageCount: Math.ceil(data.length / pageSize),
   });
 
+  const [editedRows, setEditedRows] = useState<Record<string, EditedRow>>({});
+
+  function handleEditRow<F extends keyof EditableFields>(
+    teamId: string,
+    field: F,
+    cellValue: any,
+    e: any,
+  ) {
+    setEditedRows((prev) => {
+      const prevEdits = prev[teamId] ?? {};
+      const oldValue = prevEdits[field]?.old ?? cellValue;
+      const newValue = e.target.value;
+
+      // If the new value is the same as the original, remove the field
+      // If no other fields are left, remove the team entirely
+      if (newValue === oldValue) {
+        const { [field]: _, ...rest } = prevEdits;
+        const updatedTeamEdit = { ...rest };
+
+        if (Object.keys(updatedTeamEdit).length === 0) {
+          const { [teamId]: _, ...restTeams } = prev;
+          return restTeams;
+        }
+
+        return {
+          ...prev,
+          [teamId]: updatedTeamEdit,
+        };
+      }
+
+      // Otherwise, update the field
+      return {
+        ...prev,
+        [teamId]: {
+          ...prevEdits,
+          [field]: {
+            new: newValue,
+            old: oldValue,
+          },
+        },
+      };
+    });
+  }
+
+  const handleSaveEdits = async () => {
+    const editedTeams: Record<string, EditedTeam> = Object.entries(
+      editedRows,
+    ).reduce((acc: Record<string, EditedTeam>, [teamId, fields]) => {
+      acc[teamId] = Object.fromEntries(
+        Object.entries(fields).map(([key, value]) => [key, value.new]),
+      ) as EditedTeam;
+      return acc;
+    }, {});
+    await updateTeam(editedTeams);
+    setEditedRows({});
+  };
+
   return (
     <div className="w-screen px-4 xl:px-12">
       {/* Controls */}
@@ -84,7 +151,15 @@ export function TeamTable<TData, TValue>({
             autoComplete="off"
           />
         </div>
+
         <div className="flex items-center space-x-2">
+          <button
+            className="role-button ml-2 text-sm text-blue-600 disabled:opacity-50"
+            disabled={Object.keys(editedRows).length === 0}
+            onClick={handleSaveEdits}
+          >
+            Save
+          </button>
           <button
             className="hover:opacity-70"
             onClick={() => setIsCompact(!isCompact)}
@@ -142,36 +217,74 @@ export function TeamTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  onClick={(event) => {
-                    if (
-                      event.target instanceof HTMLElement &&
-                      event.target.classList.contains("role-button")
-                    )
-                      return;
-                    if (event.metaKey || event.ctrlKey) {
-                      // Open in new tab
-                      window.open(`/teams/${row.getValue("id")}`, "_blank");
-                    } else {
-                      // Move to team page
-                      router.push(`/teams/${row.getValue("id")}`);
-                      router.refresh();
-                    }
-                  }}
+                  // onClick={(event) => {
+                  //   if (
+                  //     event.target instanceof HTMLElement &&
+                  //     event.target.classList.contains("role-button")
+                  //   )
+                  //     return;
+                  //   if (event.metaKey || event.ctrlKey) {
+                  //     // Open in new tab
+                  //     window.open(`/teams/${row.getValue("id")}`, "_blank");
+                  //   } else {
+                  //     // Move to team page
+                  //     router.push(`/teams/${row.getValue("id")}`);
+                  //     router.refresh();
+                  //   }
+                  // }}
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   className={`cursor-pointer ${isCompact && "py-0"}`}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={isCompact ? "py-0" : undefined}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    const columnId = cell.column.id;
+                    const teamId = row.getValue("id") as string;
+                    const cellValue = cell.getValue();
+
+                    // Check whether column is editable
+                    if (["role", "interactionMode"].includes(columnId)) {
+                      const field = columnId as keyof EditableFields;
+                      const options =
+                        field === "role"
+                          ? roleEnum.enumValues
+                          : field === "interactionMode"
+                            ? interactionModeEnum.enumValues
+                            : [];
+
+                      return (
+                        <TableCell key={cell.id}>
+                          <select
+                            className="rounded border px-2 py-1 text-sm"
+                            value={
+                              editedRows[teamId]?.[field]?.new ??
+                              (cellValue as string)
+                            }
+                            onChange={(e) =>
+                              handleEditRow(teamId, field, cellValue, e)
+                            }
+                          >
+                            {options.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </TableCell>
+                      );
+                    }
+
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        className={isCompact ? "py-0" : undefined}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (
