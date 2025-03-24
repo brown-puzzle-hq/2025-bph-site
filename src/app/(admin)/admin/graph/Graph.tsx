@@ -445,7 +445,7 @@ export default function Graph() {
         />
       </div>
 
-      <div className="absolute w-full space-y-2 px-4 sm:w-80">
+      <div className="absolute w-full space-y-2 px-4 md:w-80">
         {/* Search team */}
         <div className="z-10 mt-[56px] flex items-center space-x-2 rounded bg-neutral-100 pr-1 backdrop-blur-md">
           <div className="rounded bg-neutral-300 p-2">
@@ -536,12 +536,12 @@ export default function Graph() {
 
       {/* Side panel */}
       <div
-        className={`no-scrollbar absolute bottom-0 ${showSidebar ? "max-h-[60vh]" : "max-h-4"} w-full overflow-auto text-xs sm:w-80 md:right-4 md:top-0 md:max-h-screen md:pb-4`}
+        className={`no-scrollbar absolute bottom-0 ${showSidebar ? "max-h-[60vh]" : "max-h-4"} w-full overflow-auto text-xs md:right-4 md:top-0 md:max-h-screen md:w-80 md:pb-4`}
       >
-        <div className="fixed min-h-2 w-full -translate-y-1 bg-neutral-200 shadow-sm sm:w-80 md:hidden"></div>
+        <div className="fixed min-h-2 w-full -translate-y-1 bg-neutral-200 shadow-sm md:hidden md:w-80"></div>
         <div
           onClick={() => setShowSidebar(!showSidebar)}
-          className="fixed left-1/2 w-12 -translate-x-1/2 -translate-y-4 rounded-md bg-neutral-300 text-neutral-600 hover:cursor-pointer sm:left-40 md:hidden"
+          className="fixed left-1/2 w-12 -translate-x-1/2 -translate-y-4 rounded-md bg-neutral-300 text-neutral-600 hover:cursor-pointer md:left-40 md:hidden"
         >
           {showSidebar ? (
             <ChevronDown className="mx-auto" />
@@ -549,7 +549,7 @@ export default function Graph() {
             <ChevronUp className="mx-auto" />
           )}
         </div>
-        <div className="bg-neutral-100 p-4 sm:rounded-lg md:mt-14">
+        <div className="bg-neutral-100 p-4 md:mt-14 md:rounded-lg">
           {searchedPuzzle === null ? (
             // Show list of puzzles
             <>
