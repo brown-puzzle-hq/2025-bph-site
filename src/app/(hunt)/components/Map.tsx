@@ -8,12 +8,12 @@ import L, { LatLngBounds } from "leaflet";
 import { Round, ROUNDS } from "@/hunt.config";
 import { real } from "drizzle-orm/mysql-core";
 
-function spriteExists(image_url: string | URL) {
+function spriteExists(image_url: string | URL) { //can remove later
   var http = new XMLHttpRequest();
+  console.log(image_url + ": " + (http.status != 404));
   http.open('HEAD', image_url, false);
   http.send();
   return http.status != 404;
-
 }
 
 const positions: Record<string, L.LatLngExpression> = {
@@ -94,22 +94,17 @@ export default function Map({
 }) {
   const bounds = new LatLngBounds([0, 0], [1000, 1000]);
   const colorlayout = "/map/Layout.png"; //TODO: remove
-  let actionlayout = "";
-  // const actionbounds = new LatLngBounds([0, 0], [20, 200]);
+  let actionlayout = ""; //input: default (grayed out)
   let dramalayout = "";
-  // const dramabounds = new LatLngBounds([0, 0], [1000, 1000]);
   let comedylayout = "";
-  // const comedybounds = new LatLngBounds([0, 0], [1000, 1000]);
   let adventurelayout = "";
-  // const adventurebounds = new LatLngBounds([0, 0], [1000, 1000]);
   let realitylayout = "";
-  // const realitybounds = new LatLngBounds([0, 0], [1000, 1000]);
   let cerebrallayout = "";
-  // const cerebralbounds = new LatLngBounds([0, 0], [1000, 1000]);
   const buildings = "map/Buildings.png"; //TODO: remove when map contains buildings
+  console.log(availableRounds);
   if (availableRounds.includes(ROUNDS[0]!)) {
-    actionlayout = "";
-  }
+    actionlayout = "map/sprites/puzzle.svg";
+  } //actually probably remove
   if (availableRounds.includes(ROUNDS[1]!)) {
     dramalayout = "";
   }
@@ -125,58 +120,62 @@ export default function Map({
   if (availableRounds.includes(ROUNDS[5]!)) {
     cerebrallayout = "";
   }
+  console.log("hello");
+  console.log(availableRounds);
   return (
-    <MapContainer
-      center={[500, 500]}
-      zoom={2}
-      minZoom={-1.25}
-      maxZoom={3.5}
-      maxBounds={bounds}
-      crs={L.CRS.Simple}
-      preferCanvas={true}
-      scrollWheelZoom={false}
-      markerZoomAnimation={true}
-      attributionControl={false}
-      style={{ background: "white", zIndex: 10 }}
-      className="h-[calc(100vh-56px-32px)] w-screen focus:outline-none"
-    >
-      <ImageOverlay url={colorlayout} bounds={bounds} /> {/*/TODO: remove */}
-      {/* <ImageOverlay url={actionlayout} bounds={bounds} />
+    <>
+      <MapContainer
+        center={[500, 500]}
+        zoom={2}
+        minZoom={1.25}
+        maxZoom={3.5}
+        maxBounds={bounds}
+        crs={L.CRS.Simple}
+        preferCanvas={true}
+        scrollWheelZoom={false}
+        markerZoomAnimation={true}
+        attributionControl={false}
+        style={{ background: "white", zIndex: 10 }}
+        className="h-[calc(100vh-56px-32px)] w-screen focus:outline-none"
+      >
+        <ImageOverlay url={colorlayout} bounds={bounds} /> {/*/TODO: remove */}
+        {/* <ImageOverlay url={actionlayout} bounds={bounds} />
       <ImageOverlay url={dramalayout} bounds={bounds} />
       <ImageOverlay url={comedylayout} bounds={bounds} />
       <ImageOverlay url={adventurelayout} bounds={bounds} />
       <ImageOverlay url={realitylayout} bounds={bounds} />
       <ImageOverlay url={cerebrallayout} bounds={bounds} /> */}
-      <ImageOverlay url={buildings} bounds={bounds} /> {/*/TODO: remove */}
-      {availablePuzzles.map((puzzle) => (
-        // TODO: format solved puzzles differently
-        <Marker
-          key={puzzle.id}
-          position={positions[puzzle.id] ?? [180, 500]}
-          icon={
-            new L.Icon({
-              // iconUrl: `map/sprites/${puzzle.id}.png`,
-              iconUrl: solvedPuzzles.some((sp) => sp.puzzleId === puzzle.id)
-                // ? "map/sprites/bookmark-check.svg"
-                ? spriteExists(`map/sprites/${puzzle.id}.png`)
-                  ? `map/sprites/${puzzle.id}.png`
-                  : `map/sprites/puzzle.svg` //TODO: remove, this is to see the full map with all sprites
-                : spriteExists(`map/sprites/${puzzle.id}.png`)
-                  ? `map/sprites/${puzzle.id}.png`
-                  : `map/sprites/puzzle.svg`,
-              iconSize: [40, 40],
-              iconAnchor: [20, 40],
-            })
-          }
-          eventHandlers={{
-            click: () => window.open(`puzzle/${puzzle.id}`, "_blank"),
-          }}
-        >
-          <Tooltip direction="bottom" permanent>
-            {puzzle.name}
-          </Tooltip>
-        </Marker>
-      ))}
-    </MapContainer>
+        <ImageOverlay url={buildings} bounds={bounds} /> {/*/TODO: remove */}
+        {availablePuzzles.map((puzzle) => (
+          // TODO: format solved puzzles differently
+          <Marker
+            key={puzzle.id}
+            position={positions[puzzle.id] ?? [180, 500]}
+            icon={
+              new L.Icon({
+                // iconUrl: `map/sprites/${puzzle.id}.png`,
+                iconUrl: solvedPuzzles.some((sp) => sp.puzzleId === puzzle.id)
+                  // ? "map/sprites/bookmark-check.svg"
+                  ? spriteExists(`map/sprites/${puzzle.id}.png`)
+                    ? `map/sprites/${puzzle.id}.png`
+                    : `map/sprites/puzzle.svg` //TODO: remove, this is to see the full map with all sprites
+                  : spriteExists(`map/sprites/${puzzle.id}.png`)
+                    ? `map/sprites/${puzzle.id}.png`
+                    : `map/sprites/puzzle.svg`,
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+              })
+            }
+            eventHandlers={{
+              click: () => window.open(`puzzle/${puzzle.id}`, "_blank"),
+            }}
+          >
+            <Tooltip direction="bottom" permanent>
+              {puzzle.name}
+            </Tooltip>
+          </Marker>
+        ))}
+      </MapContainer>
+    </>
   );
 }
