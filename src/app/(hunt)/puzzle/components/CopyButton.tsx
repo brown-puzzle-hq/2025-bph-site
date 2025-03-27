@@ -9,21 +9,29 @@ export default function CopyButton({ copyText }: { copyText: string }) {
   return (
     <button
       onClick={() => {
-        if (isHtml) {
-          const blob = new Blob([copyText], { type: "text/html" });
-          const clipboardItem = new ClipboardItem({ "text/html": blob });
-          navigator.clipboard.write([clipboardItem]);
-        } else {
-          navigator.clipboard.writeText(copyText);
+        try {
+          if (isHtml) {
+            const blob = new Blob([copyText], { type: "text/html" });
+            const clipboardItem = new ClipboardItem({ "text/html": blob });
+            navigator.clipboard.write([clipboardItem]);
+          } else {
+            navigator.clipboard.writeText(copyText);
+          }
+          toast({
+            title: "Puzzle copied to clipboard!",
+            description: (
+              <span className="block max-w-[calc(100vw-64px)] truncate md:max-w-[356px]">
+                {plainText}
+              </span>
+            ),
+          });
+        } catch (error) {
+          toast({
+            variant: "destructive",
+            title: "Failed to copy",
+            description: "An error occurred while copying."
+          });
         }
-        toast({
-          title: "Puzzle copied to clipboard!",
-          description: (
-            <span className="block max-w-[calc(100vw-64px)] truncate md:max-w-[356px]">
-              {plainText}
-            </span>
-          ),
-        });
       }}
     >
       <Clipboard className="hover:opacity-75" />

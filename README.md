@@ -212,6 +212,8 @@ To run the development server and see your changes live:
     </table>`;
     ```
 
+4. You can make and format table(s) in Google Sheets, export them to HTML, and use that as a starting point.
+
 ## Developer guide
 
 This assumes that you are setting up a new hunt from scratch.
