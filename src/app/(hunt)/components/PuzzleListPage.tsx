@@ -7,6 +7,7 @@ import Map from "./Map";
 import { useState, useMemo, useEffect } from "react";
 
 import { getCookie, setCookie } from "typescript-cookie";
+import { cn } from "~/lib/utils";
 
 type PuzzleListPageProps = {
   availablePuzzles: any;
@@ -41,36 +42,42 @@ export default function PuzzleListPage({
   );
 
   return (
-    <Tabs
-      defaultValue={getCookie("puzzle_view")}
-      onValueChange={(value) => {
-        setActiveTab(value);
-        setCookie("puzzle_view", value);
-      }}
-    >
-      <TabsList className="fixed right-0 z-20 m-2 flex h-fit flex-col space-y-1 bg-footer-bg text-[#6c518e] md:flex-row md:space-x-1 md:space-y-0">
-        {/* Icons */}
-        <TabsTrigger
-          className="data-[state=active]:bg-[#5e437e] data-[state=active]:text-main-text"
-          value="map"
-        >
-          <MapIcon />
-        </TabsTrigger>
-        <TabsTrigger
-          className="data-[state=active]:bg-[#5e437e] data-[state=active]:text-main-text"
-          value="tables"
-        >
-          <Table />
-        </TabsTrigger>
-      </TabsList>
+    <div className="grid">
+      <Tabs
+        defaultValue={getCookie("puzzle_view")}
+        onValueChange={(value) => {
+          setActiveTab(value);
+          setCookie("puzzle_view", value);
+        }}
+        className="col-start-1 row-start-1"
+      >
+        <TabsList className="fixed right-0 z-20 m-2 flex h-fit flex-col space-y-1 bg-footer-bg text-[#6c518e] md:flex-row md:space-x-1 md:space-y-0">
+          {/* Icons */}
+          <TabsTrigger
+            className="data-[state=active]:bg-[#5e437e] data-[state=active]:text-main-text"
+            value="map"
+          >
+            <MapIcon />
+          </TabsTrigger>
+          <TabsTrigger
+            className="data-[state=active]:bg-[#5e437e] data-[state=active]:text-main-text"
+            value="tables"
+          >
+            <Table />
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* Map content */}
-      <div className={activeTab === "map" ? "block" : "hidden"}>
-        {memoizedMap}
-      </div>
+      <div className={"col-start-1 row-start-1"}>{memoizedMap}</div>
 
       {/* Table conent */}
-      <div className={activeTab === "tables" ? "block" : "hidden"}>
+      <div
+        className={cn(
+          "z-10 col-start-1 row-start-1 bg-main-bg opacity-0",
+          activeTab === "tables" && "opacity-100",
+        )}
+      >
         <div className="mx-auto mb-6 flex w-full max-w-3xl grow flex-col items-center p-4 pt-6">
           <h1 className="mb-2">Puzzles</h1>
 
@@ -94,6 +101,6 @@ export default function PuzzleListPage({
           )}
         </div>
       </div>
-    </Tabs>
+    </div>
   );
 }
