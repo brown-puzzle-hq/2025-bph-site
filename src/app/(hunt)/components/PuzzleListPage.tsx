@@ -74,8 +74,8 @@ export default function PuzzleListPage({
       {/* Table conent */}
       <div
         className={cn(
-          "col-start-1 row-start-1 bg-main-bg",
-          activeTab === "tables" && "z-10",
+          "z-10 col-start-1 row-start-1 hidden bg-main-bg bg-gradient-to-t from-[#872C3E] to-main-bg",
+          activeTab === "tables" && "block",
         )}
       >
         <div className="mx-auto mb-6 flex w-full max-w-3xl grow flex-col items-center p-4 pt-6">
