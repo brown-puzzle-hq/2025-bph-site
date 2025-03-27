@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -26,7 +25,6 @@ export default function PuzzleTable({
   availablePuzzles: puzzleList;
   solvedPuzzles: { puzzleId: string }[];
 }) {
-  const router = useRouter();
   return (
     <div>
       {availableRounds.map((round) => (

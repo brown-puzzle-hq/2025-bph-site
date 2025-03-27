@@ -4,7 +4,9 @@ import { MapIcon, Table } from "lucide-react";
 import PuzzleTable from "../puzzle/components/PuzzleTable";
 import EventTable from "../puzzle/components/EventTable";
 import Map from "./Map";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+
+import { getCookie, setCookie } from "typescript-cookie";
 
 type PuzzleListPageProps = {
   availablePuzzles: any;
@@ -26,6 +28,9 @@ export default function PuzzleListPage({
   hasEventInputBox,
 }: PuzzleListPageProps) {
   const [activeTab, setActiveTab] = useState("map");
+  useEffect(() => {
+    setActiveTab(getCookie("puzzle_view") ?? "map");
+  }, []);
 
   // Will crash on mobile if not memoized
   const memoizedMap = useMemo(
@@ -36,7 +41,13 @@ export default function PuzzleListPage({
   );
 
   return (
-    <Tabs defaultValue="map" onValueChange={setActiveTab}>
+    <Tabs
+      defaultValue={getCookie("puzzle_view")}
+      onValueChange={(value) => {
+        setActiveTab(value);
+        setCookie("puzzle_view", value);
+      }}
+    >
       <TabsList className="fixed right-0 z-20 m-2 flex h-fit flex-col space-y-1 bg-footer-bg text-[#6c518e] md:flex-row md:space-x-1 md:space-y-0">
         {/* Icons */}
         <TabsTrigger
