@@ -63,13 +63,13 @@ export const inPersonBody = (
           />
         </div>
         <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
-          [A]: AU$10.04
+          AU$10.04
         </div>
         <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
-          [B]: AU$10.02
+          AU$10.02
         </div>
         <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
-          [C]: €7.03
+          €7.03
         </div>
 
         <div className="flex flex-col items-center justify-center bg-white text-white">
@@ -103,13 +103,13 @@ export const inPersonBody = (
           />
         </div>
         <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
-          [D]: NZ$5.03
+          NZ$5.03
         </div>
         <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
-          [E]: NZ$5.08
+          NZ$5.08
         </div>
         <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
-          [F]: NZ$5.05
+          NZ$5.05
         </div>
 
         <div className="flex flex-col items-center justify-center bg-white text-white">
@@ -143,13 +143,13 @@ export const inPersonBody = (
           />
         </div>
         <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
-          [G]: NZ$5.04
+          NZ$5.04
         </div>
         <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
-          [H]: ¥12.07
+          ¥12.07
         </div>
         <div className="bg-black p-3 text-center font-['Courier_New','Courier',monospace] text-2xl font-bold text-white">
-          [I]: NZ$5.02
+          NZ$5.02
         </div>
       </div>
     </div>
