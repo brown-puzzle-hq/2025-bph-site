@@ -1,5 +1,20 @@
 import * as data from "./data";
 
+export const metadata = {
+  title: data.puzzleId
+    .split("-")
+    .map((word) => {
+      // Uppercase every letter in a roman numeral
+      const romanRegex =
+        /^(M{0,4})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
+      if (romanRegex.test(word.toUpperCase())) {
+        return word.toUpperCase();
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" "),
+};
+
 export default async function Page() {
   return (
     <DefaultPuzzlePage
@@ -17,7 +32,7 @@ import { db } from "~/server/db";
 import { eq, and } from "drizzle-orm";
 import { solves, guesses, errata } from "~/server/db/schema";
 import { redirect } from "next/navigation";
-import PreviousGuessTable from "@/puzzle/components/PreviousGuessTable";
+import GuessTable from "~/app/(hunt)/puzzle/components/GuessTable";
 import ErratumDialog from "@/puzzle/components/ErratumDialog";
 import { canViewPuzzle } from "@/puzzle/actions";
 import CopyButton from "@/puzzle/components/CopyButton";
@@ -111,7 +126,7 @@ async function DefaultPuzzlePage({
       </div>
 
       <div className="mx-auto max-w-3xl">
-        <PreviousGuessTable
+        <GuessTable
           puzzleAnswer={puzzleAnswer}
           previousGuesses={previousGuesses}
           partialSolutions={partialSolutions}

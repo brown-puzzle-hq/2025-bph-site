@@ -17,8 +17,6 @@ import CopyButton from "./CopyButton";
 import { db } from "@/db/index";
 export const fetchCache = "force-no-store";
 
-// TODO: would be nice to force in-person body
-
 const roundBgColor: Record<string, string> = {
   Action: "bg-red-100",
   Cerebral: "bg-indigo-100",
@@ -38,9 +36,6 @@ const roundTextColor: Record<string, string> = {
 };
 
 export default async function Home() {
-  const numTeams = (await db.query.teams.findMany({ columns: { id: true } }))
-    .length;
-
   const query = await db.query.puzzles.findMany({
     columns: { id: true, name: true, answer: true },
     with: {
@@ -68,44 +63,20 @@ export default async function Home() {
 
   const allPuzzlesWithEverything = await Promise.all(
     allPuzzles.map(async (puzzle) => {
-      // Check if there is a body, solution, and copy text
-      var inPersonBody;
-      var remoteBody;
-      var solutionBody;
-      var copyText;
-      try {
-        // Try to import the puzzle data from the hunt folder
-        const module = await import(
-          `../../../(hunt)/puzzle/(${ROUNDS.find((round) => round.puzzles.includes(puzzle.id))?.name.toLowerCase()})/${puzzle.id}/data.tsx`
-        );
-        inPersonBody = !!module.inPersonBody;
-        remoteBody = !!module.remoteBody;
-        solutionBody = !!module.solutionBody;
-        copyText = module.copyText;
-      } catch (e) {
-        // try {
-        //   // Try to import from the dev folder
-        //   const module = await import(
-        //     `../../../(hunt)/puzzle/(dev)/${puzzle.id}/data.tsx`
-        //   );
-        //   inPersonBody = !!module.inPersonBody;
-        //   remoteBody = !!module.remoteBody;
-        //   solutionBody = !!module.solutionBody;
-        //   copyText = module.copyText;
-        // } catch (e) {
-        inPersonBody = null;
-        remoteBody = null;
-        solutionBody = null;
-        copyText = null;
-        // }
-      }
+      const roundName = ROUNDS.find((round) =>
+        round.puzzles.includes(puzzle.id),
+      )?.name.toLowerCase();
+
+      const module = await import(
+        `../../../(hunt)/puzzle/(${roundName})/${puzzle.id}/data.tsx`
+      ).catch(() => null);
 
       return {
         ...puzzle,
-        remoteBody: remoteBody,
-        inPersonBody: inPersonBody,
-        solutionBody: solutionBody,
-        copyText: copyText,
+        inPersonBody: module?.inPersonBody ?? null,
+        remoteBody: module?.remoteBody ?? null,
+        solutionBody: module?.solutionBody ?? null,
+        copyText: module?.copyText ?? null,
       };
     }),
   );
@@ -186,7 +157,9 @@ export default async function Home() {
                     <TableCell className="justify-center">
                       {puzzle.inPersonBody && (
                         <div className="flex justify-center">
-                          <a href={`/puzzle/${puzzle.id}`}>
+                          <a
+                            href={`/puzzle/${puzzle.id}?interactionMode=in-person`}
+                          >
                             <Puzzle className="size-5 text-red-500 hover:opacity-75" />
                           </a>
                         </div>
@@ -195,7 +168,9 @@ export default async function Home() {
                     <TableCell className="justify-center">
                       {puzzle.remoteBody && (
                         <div className="flex justify-center">
-                          <a href={`/puzzle/${puzzle.id}`}>
+                          <a
+                            href={`/puzzle/${puzzle.id}?interactionMode=remote`}
+                          >
                             <Puzzle className="size-5 text-red-500 hover:opacity-75" />
                           </a>
                         </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { AsYouType, parsePhoneNumberFromString } from "libphonenumber-js";
-import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -25,7 +24,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { deleteTeam, updateTeam } from "../actions";
 import { roleEnum, interactionModeEnum } from "~/server/db/schema";
-import { X } from "lucide-react";
+import { AlertCircle, X } from "lucide-react";
 import { IN_PERSON } from "~/hunt.config";
 import { logout } from "../../login/actions";
 import {
@@ -277,6 +276,7 @@ export function ProfileForm({
       if (session?.user?.id !== id && session?.user?.role === "admin") {
         router.push("/admin/teams");
       } else {
+        update({ role: null });
         await logout();
       }
     }
@@ -335,7 +335,7 @@ export function ProfileForm({
                   </span>
                   <FormMessage className="text-error" />
                 </FormLabel>
-                <FormControl className="">
+                <FormControl className="placeholder:text-white/40">
                   <Input placeholder="Josiah Carberry" {...field} />
                 </FormControl>
                 <FormDescription>
@@ -366,7 +366,7 @@ export function ProfileForm({
                   name={`members.${index}.name`}
                   render={({ field }) => (
                     <FormItem className="w-1/2">
-                      <FormControl className="text-main-text placeholder:text-main-accent">
+                      <FormControl className="text-main-text placeholder:text-white/40">
                         <Input
                           className="rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent"
                           {...field}
@@ -410,7 +410,7 @@ export function ProfileForm({
                   name={`members.${index}.email`}
                   render={({ field }) => (
                     <FormItem className="w-1/2">
-                      <FormControl className="text-main-text placeholder:text-main-accent">
+                      <FormControl className="text-main-text placeholder:text-white/40">
                         <Input
                           className={`rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent ${form.formState.errors.members?.[index] ? "border-red-300" : ""} text-current shadow-none focus-visible:ring-transparent`}
                           {...field}
@@ -451,7 +451,7 @@ export function ProfileForm({
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-7 w-7 p-1 hover:bg-footer-bg hover:text-main-text focus-visible:bg-footer-bg focus-visible:ring-0"
+                  className="h-7 w-7 p-1 hover:bg-black/20 focus-visible:bg-black/20 focus-visible:ring-0"
                   disabled={
                     fields.length == 1 &&
                     form.watch("members")[0]?.name === "" &&
@@ -459,7 +459,7 @@ export function ProfileForm({
                   }
                   onClick={() => remove(index)}
                 >
-                  <X />
+                  <X className="text-main-text" />
                 </Button>
               </div>
             ))}
@@ -597,7 +597,7 @@ export function ProfileForm({
                     </div>
                     <FormControl>
                       <Switch
-                        className="focus-visible:ring-offset-0 data-[state=checked]:bg-violet-400 data-[state=unchecked]:bg-violet-950"
+                        className="focus-visible:ring-offset-0 data-[state=checked]:bg-white/50 data-[state=unchecked]:bg-black/50"
                         checked={form.watch("roomNeeded")}
                         onCheckedChange={field.onChange}
                       />
@@ -804,9 +804,9 @@ export function ProfileForm({
               isDirty() ? "translate-y-0" : "translate-y-[5rem]"
             }`}
           >
-            <Alert className="w-full border-footer-bg bg-slate-300 p-2 shadow-lg">
+            <Alert className="w-full border-0 bg-slate-700/50 p-2 shadow-lg backdrop-blur-md backdrop-filter">
               <div className="flex items-center justify-between">
-                <AlertDescription className="flex items-center space-x-2">
+                <AlertDescription className="flex items-center space-x-2 text-main-text">
                   <AlertCircle className="h-4 w-4" />
                   <span className="hidden sm:block">
                     Careful — you have unsaved changes!
