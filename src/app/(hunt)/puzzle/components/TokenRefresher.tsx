@@ -7,6 +7,6 @@ export default function TokenRefresher({ hasBox }: { hasBox: boolean }) {
   const { update } = useSession();
   useEffect(() => {
     update({ hasBox });
-  });
+  }, [hasBox]);
   return null;
 }
