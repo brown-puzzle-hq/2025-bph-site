@@ -3,11 +3,15 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapIcon, Table } from "lucide-react";
 import PuzzleTable from "../puzzle/components/PuzzleTable";
 import EventTable from "../puzzle/components/EventTable";
-import Map from "./Map";
 import { useState, useMemo, useEffect } from "react";
-
 import { getCookie, setCookie } from "typescript-cookie";
 import { cn } from "~/lib/utils";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(() => import("./Map"), {
+  ssr: false,
+  loading: () => <div className="flex justify-center">Loading...</div>,
+});
 
 type PuzzleListPageProps = {
   availablePuzzles: any;
@@ -42,7 +46,7 @@ export default function PuzzleListPage({
   );
 
   return (
-    <div className="grid">
+    <div className="grid min-h-[90vh]">
       <Tabs
         defaultValue={getCookie("puzzle_view")}
         onValueChange={(value) => {
