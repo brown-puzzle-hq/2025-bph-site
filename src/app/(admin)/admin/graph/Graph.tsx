@@ -18,6 +18,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { getSearchedTeam, getSearchedPuzzle } from "./actions";
+import { Team } from "~/server/db/schema";
 
 const roundTextColor: Record<string, string> = {
   Action: "text-red-600",
@@ -38,8 +39,7 @@ const roundNodeColor: Record<string, string> = {
   Defaut: "oklch(0.708 0 0)",
 };
 
-export type SearchedTeam = {
-  teamId: string;
+export type SearchedTeam = Team & {
   unlocks: string[];
   solves: string[];
 };
@@ -67,6 +67,7 @@ export default function Graph() {
   // Individual team's solves and unlocks
   const [teamQuery, setTeamQuery] = useState("");
   const [searchedTeam, setSearchedTeam] = useState<SearchedTeam | null>(null);
+  const [teamSidebar, setTeamSidebar] = useState(false);
 
   const [showSidebar, setShowSidebar] = useState(false);
 
@@ -87,7 +88,7 @@ export default function Graph() {
   };
 
   const handlePuzzleSidebar = async (puzzleId: string) => {
-    const res = await getSearchedPuzzle(searchedTeam?.teamId || null, puzzleId);
+    const res = await getSearchedPuzzle(searchedTeam?.id || null, puzzleId);
     if ("error" in res) return;
     if ("guesses" in res && "requestedHints" in res) {
       // Set searched puzzle
@@ -116,12 +117,13 @@ export default function Graph() {
     }
     if ("solves" in res && "unlocks" in res) {
       setSearchedTeam(res);
+      setTeamSidebar(true);
 
       // Set search params
       const params = new URLSearchParams();
       const prevPuzzle = searchParams.get("puzzle");
       if (prevPuzzle) params.set("puzzle", prevPuzzle);
-      params.set("team", res.teamId);
+      params.set("team", res.id);
       router.push(`?${params.toString()}`);
     }
   };
@@ -146,7 +148,6 @@ export default function Graph() {
 
   // Search params
   const searchParams = useSearchParams();
-
   useEffect(() => {
     const run = async () => {
       // Get team
@@ -550,9 +551,74 @@ export default function Graph() {
           )}
         </div>
         <div className="bg-neutral-100 p-4 md:mt-14 md:rounded-lg">
-          {searchedPuzzle === null ? (
+          {teamSidebar && searchedTeam ? (
+            <div className="text-neutral-500">
+              <div className="flex">
+                <button onClick={() => setTeamSidebar(false)}>
+                  <ChevronLeft className="size-4" />
+                </button>
+                <p className="text-base font-semibold text-neutral-700">Team</p>
+              </div>
+              <p className="my-1 rounded-[2px] bg-neutral-400 pl-0.5 font-semibold text-white">
+                Info
+              </p>
+              <p>
+                <span className="font-semibold">ID: </span>
+                {searchedTeam.id}
+              </p>
+              <p>
+                <span className="font-semibold">Display name: </span>
+                {searchedTeam.displayName}
+              </p>
+              <p>
+                <span className="font-semibold"> Members: </span>
+                {searchedTeam.members}
+              </p>
+              <p>
+                <span className="font-semibold"> Mode: </span>
+                {searchedTeam.interactionMode}
+              </p>
+              <p>
+                <span className="font-semibold"> Role: </span>
+                {searchedTeam.role}
+              </p>
+              {searchedTeam.interactionMode === "in-person" && (
+                <>
+                  <p>
+                    <span className="font-semibold"> Phone number: </span>
+                    {searchedTeam.phoneNumber}
+                  </p>
+                  <p>
+                    <span className="font-semibold"> Solving location: </span>
+                    {searchedTeam.solvingLocation}
+                  </p>
+                </>
+              )}
+              {/* TODO: put more stats here */}
+              <p className="my-1 rounded-[2px] bg-neutral-400 pl-0.5 font-semibold text-white">
+                Stats
+              </p>
+              <p>
+                <span className="font-semibold">Unlocked puzzles:</span>{" "}
+                {searchedTeam.unlocks.length}
+              </p>
+              <p>
+                <span className="font-semibold">Solved puzzles:</span>{" "}
+                {searchedTeam.solves.length}
+              </p>
+              <p>
+                <span className="font-semibold">Solved metas:</span>{" "}
+                {
+                  searchedTeam.solves.filter((solve) =>
+                    META_PUZZLES.includes(solve),
+                  ).length
+                }
+              </p>
+              <p>Finished time: </p>
+            </div>
+          ) : searchedPuzzle === null ? (
             // Show list of puzzles
-            <>
+            <div>
               <p className="text-base font-semibold text-neutral-700">
                 Puzzles
               </p>
@@ -592,10 +658,10 @@ export default function Graph() {
                   })}
                 </>
               ))}
-            </>
+            </div>
           ) : (
-            // Show the team's puzzle information
-            <>
+            // Show the puzzle information
+            <div>
               {/* Title */}
               <div className="flex">
                 <button onClick={clearSearchPuzzle}>
@@ -700,7 +766,7 @@ export default function Graph() {
                     ))}
                 </>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, InferSelectModel } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -387,3 +387,5 @@ export const answerTokenRelations = relations(answerTokens, ({ one }) => ({
     references: [puzzles.id],
   }),
 }));
+
+export type Team = InferSelectModel<typeof teams>;
