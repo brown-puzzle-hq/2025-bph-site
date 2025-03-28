@@ -90,7 +90,10 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">
+        <Button
+          className="w-full border-2 bg-opacity-0 hover:bg-black hover:bg-opacity-10"
+          type="submit"
+        >
           <p className="w-full text-center">Log In</p>
         </Button>
         <div className="pt-4 text-sm">
