@@ -120,13 +120,56 @@ export default function RemoteBody({ run }: { run: Row[] }) {
     });
   };
 
+  const videos: Record<number, Partial<Record<Step, string>>> = {
+    1: {
+      initial: "K9U6X0WJunQ",
+      door_1: "E94aGrxoyuk",
+      door_2: "gAorxB3oJU4",
+      door_3: "eBtARI1LfPI",
+      switch: "WshgkZDiavo",
+      stay: "w0qqX6vp4AE",
+    },
+    2: {
+      initial: "U9ZURnPDRFs",
+      door_1: "zGcKUldar5c",
+      door_2: "1xwWnd1oiKo",
+      door_3: "K7_pRbiM9Kg",
+      switch: "3C5J7UNoD3g",
+      stay: "3gC6vh-WjHs",
+    },
+    3: {
+      initial: "voL9aS-gNEc",
+      door_1: "o6FmcOb9Vaw",
+      door_2: "Uqk-uERUiBs",
+      door_3: "DVqhJrtwBw4",
+      switch: "Sfw6BRGhCI0",
+      stay: "WwPlpm7grE8",
+    },
+    4: {
+      initial: "P3_MFiB9aHY",
+      door_1: "Iq-oIEBbWzg",
+      door_2: "Okf-8Aw7kkY",
+      door_3: "TQzzUHRKuqU",
+      switch: "M2SVM4gwRgc",
+      stay: "7ovWo95JNRc",
+    },
+  };
+
   return (
     <div>
-      <p>Run: {state.run}</p>
-      <p>Scenario: {state.scenario}</p>
-      <p>Step: {state.step}</p>
+      <div className="p-4 text-lg">{`Scenario ${state.scenario} ${state.step} video`}</div>
 
-      <div className="p-4 text-lg">{`scenario ${state.scenario} ${state.step} video`}</div>
+      <div className="py-4">
+        <iframe
+          width="560"
+          height="315"
+          src={`https://www.youtube-nocookie.com/embed/${videos[state.scenario]![state.step]}`}
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        ></iframe>
+      </div>
 
       {state.step == "initial" && (
         <div className="flex space-x-10">
