@@ -36,9 +36,7 @@ export default function PuzzleListPage({
   finishedEvents,
   hasEventInputBox,
 }: PuzzleListPageProps) {
-  const [activeTab, setActiveTab] = useState(
-    () => getCookie("puzzle_view") ?? "map",
-  );
+  const [activeTab, setActiveTab] = useState(getCookie("puzzle_view") ?? "map");
   const [needMap, setNeedMap] = useState(activeTab === "map");
 
   // Will crash on mobile if not memoized
@@ -65,6 +63,7 @@ export default function PuzzleListPage({
           <TabsTrigger
             className="data-[state=active]:bg-[#5e437e] data-[state=active]:text-main-text"
             value="map"
+            onMouseEnter={() => setNeedMap(true)}
           >
             <MapIcon />
           </TabsTrigger>
