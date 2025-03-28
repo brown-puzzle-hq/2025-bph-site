@@ -39,6 +39,7 @@ export default function PuzzleListPage({
   const [activeTab, setActiveTab] = useState(
     () => getCookie("puzzle_view") ?? "map",
   );
+  const [needMap, setNeedMap] = useState(activeTab === "map");
 
   // Will crash on mobile if not memoized
   const memoizedMap = useMemo(
@@ -54,6 +55,7 @@ export default function PuzzleListPage({
         defaultValue={getCookie("puzzle_view") ?? "map"}
         onValueChange={(value) => {
           setActiveTab(value);
+          setNeedMap(true);
           setCookie("puzzle_view", value);
         }}
         className="col-start-1 row-start-1"
@@ -76,7 +78,9 @@ export default function PuzzleListPage({
       </Tabs>
 
       {/* Map content */}
-      <div className={"col-start-1 row-start-1"}>{memoizedMap}</div>
+      {needMap && (
+        <div className={"col-start-1 row-start-1"}>{memoizedMap}</div>
+      )}
 
       {/* Table conent */}
       <div
