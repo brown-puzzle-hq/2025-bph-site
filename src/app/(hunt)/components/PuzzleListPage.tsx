@@ -36,7 +36,7 @@ export default function PuzzleListPage({
   finishedEvents,
   hasEventInputBox,
 }: PuzzleListPageProps) {
-  const [activeTab, setActiveTab] = useState(getCookie("puzzle_view") ?? "map");
+  const [activeTab, setActiveTab] = useState(() => getCookie("puzzle_view") ?? "map");
   const [needMap, setNeedMap] = useState(activeTab === "map");
 
   // Will crash on mobile if not memoized
