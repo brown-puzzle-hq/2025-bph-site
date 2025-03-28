@@ -46,9 +46,9 @@ export default function PuzzleListPage({
   );
 
   return (
-    <div className="grid min-h-[90vh]">
+    <div className="grid min-h-[calc(100vh-56px-32px)]">
       <Tabs
-        defaultValue={getCookie("puzzle_view")}
+        defaultValue={getCookie("puzzle_view") ?? "map"}
         onValueChange={(value) => {
           setActiveTab(value);
           setCookie("puzzle_view", value);
