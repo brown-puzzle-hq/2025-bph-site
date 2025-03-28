@@ -135,7 +135,7 @@ export async function handleGuess(puzzleId: string, guess: string) {
   const roundName = ROUNDS.find((round) =>
     round.puzzles.includes(puzzleId),
   )?.name.toLowerCase();
-  const module = await import(`(${roundName})/${puzzleId}/data.tsx`).catch(
+  const module = await import(`./(${roundName})/${puzzleId}/data.tsx`).catch(
     () => null,
   );
   const tasks = module?.tasks ?? {};
