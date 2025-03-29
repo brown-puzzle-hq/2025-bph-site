@@ -24,12 +24,19 @@ function Dot() {
   );
 }
 
-function Marker({ variant }: { variant: "scenario" | "normal" }) {
+function Marker({
+  variant,
+  selected,
+}: {
+  variant: "scenario" | "normal";
+  selected: boolean;
+}) {
   return (
     <div
       className={cn(
-        "absolute mt-[5px]",
-        variant === "scenario" ? "-translate-x-9" : "-translate-x-8",
+        "pointer-events-none absolute top-[6.2px] opacity-0",
+        variant === "scenario" ? "-translate-x-[37px]" : "-translate-x-10",
+        selected ? "opacity-100" : "group-hover:opacity-50",
       )}
     >
       <Triangle className="size-3 rotate-90 fill-main-header" />
@@ -37,7 +44,7 @@ function Marker({ variant }: { variant: "scenario" | "normal" }) {
   );
 }
 
-const coolDownTime = 12 * 60 * 1000; // 30 minutes
+const coolDownTime = 30 * 60 * 1000; // 30 minutes
 
 const stateDisplay = (currRun: Row[], inRow: Row) => {
   if (inRow.decisionType === "door") {
@@ -237,7 +244,7 @@ export default function RemoteBody({ run }: { run: Row[] }) {
   return (
     <div className="mb-2 flex space-x-8">
       {/* List of states of the puzzles */}
-      <div className="flex flex-col items-center space-y-4 text-main-text">
+      <div className="ml-4 flex flex-col items-center space-y-4 text-main-text">
         <h2 className="text-xl font-semibold text-main-header">Timeline</h2>
         <div className="relative space-y-0.5 border-s-2 border-main-header">
           {currRun.map((row) => (
@@ -245,28 +252,42 @@ export default function RemoteBody({ run }: { run: Row[] }) {
               {row.decisionType === "door" && (
                 <div>
                   <Dot />
-                  {state.scenario === row.scenario &&
-                    state.step == "initial" && <Marker variant="scenario" />}
-                  <button
-                    onClick={() =>
-                      handlePreviousScenarioClick(row.scenario, "initial")
-                    }
-                    className="mb-0.5 w-[84px] rounded-md font-semibold hover:opacity-80"
-                  >
-                    Scenario {row.scenario}
-                  </button>
+                  <div className="group relative">
+                    <button
+                      onClick={() =>
+                        handlePreviousScenarioClick(row.scenario, "initial")
+                      }
+                      className="mb-0.5 w-[84px] rounded-md font-semibold"
+                    >
+                      Scenario {row.scenario}
+                    </button>
+                    <Marker
+                      variant="scenario"
+                      selected={
+                        state.scenario === row.scenario &&
+                        state.step === "initial"
+                      }
+                    />
+                  </div>
                 </div>
               )}
-              {state.scenario === row.scenario &&
-                state.step == row.decision && <Marker variant="normal" />}
-              <button
-                onClick={() =>
-                  handlePreviousScenarioClick(row.scenario, row.decision)
-                }
-                className="rounded-md pl-2 hover:opacity-80"
-              >
-                {stateDisplay(currRun, row)}
-              </button>
+              <div className="group relative ml-2">
+                <button
+                  onClick={() =>
+                    handlePreviousScenarioClick(row.scenario, row.decision)
+                  }
+                  className="rounded-md"
+                >
+                  {stateDisplay(currRun, row)}
+                </button>
+                <Marker
+                  variant="normal"
+                  selected={
+                    state.scenario === row.scenario &&
+                    state.step === row.decision
+                  }
+                />
+              </div>
             </div>
           ))}
           {(() => {
@@ -278,19 +299,26 @@ export default function RemoteBody({ run }: { run: Row[] }) {
               return (
                 <div className="ms-4">
                   <Dot />
-                  {state.scenario === (lastRow?.scenario ?? 0) + 1 &&
-                    state.step == "initial" && <Marker variant="scenario" />}
-                  <button
-                    onClick={() =>
-                      handlePreviousScenarioClick(
-                        (lastRow?.scenario ?? 0) + 1,
-                        "initial",
-                      )
-                    }
-                    className="mb-0.5 w-[84px] rounded-md font-semibold hover:opacity-80"
-                  >
-                    Scenario {(lastRow?.scenario ?? 0) + 1}
-                  </button>
+                  <div className="group relative">
+                    <button
+                      onClick={() =>
+                        handlePreviousScenarioClick(
+                          (lastRow?.scenario ?? 0) + 1,
+                          "initial",
+                        )
+                      }
+                      className="mb-0.5 w-[84px] rounded-md font-semibold"
+                    >
+                      Scenario {(lastRow?.scenario ?? 0) + 1}
+                    </button>
+                    <Marker
+                      variant="scenario"
+                      selected={
+                        state.scenario === (lastRow?.scenario ?? 0) + 1 &&
+                        state.step === "initial"
+                      }
+                    />
+                  </div>
                 </div>
               );
             }
@@ -363,7 +391,7 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                     alt=""
                     className="col-start-1 row-start-1"
                   />
-                  <p className="col-start-1 row-start-1 mt-[52px] text-4xl font-bold text-[#44413D]">
+                  <p className="col-start-1 row-start-1 mt-[60px] text-4xl font-bold text-[#44413D]">
                     {decision.slice(-1)}
                   </p>
                 </button>
@@ -426,7 +454,7 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                     alt=""
                     className="col-start-1 row-start-1"
                   />
-                  <p className="col-start-1 row-start-1 mt-[52px] text-4xl font-bold text-[#44413D]">
+                  <p className="col-start-1 row-start-1 mt-[60px] text-4xl font-bold text-[#44413D]">
                     {decision.slice(-1)}
                   </p>
                 </button>
@@ -471,7 +499,7 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                       alt=""
                       className="col-start-1 row-start-1"
                     />
-                    <p className="col-start-1 row-start-1 mt-[52px] text-4xl font-bold text-[#44413D]">
+                    <p className="col-start-1 row-start-1 mt-[60px] text-4xl font-bold text-[#44413D]">
                       {finalDecision === decision ? "✓" : decision.slice(-1)}
                     </p>
                   </button>
