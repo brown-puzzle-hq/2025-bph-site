@@ -13,7 +13,7 @@ export default async function AdminHamburgerMenu() {
   const OtherMenuItems = () => {
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger className="align-middle">
+        <DropdownMenuTrigger className="align-middle px-1.5 py-1">
           <Ellipsis className="mb-0.5 h-[20px]" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -83,7 +83,7 @@ export default async function AdminHamburgerMenu() {
     },
   ];
 
-  const hambergerMenuItems: MenuItem[] = [
+  const hamburgerMenuItems: MenuItem[] = [
     {
       title: "Dashboard",
       href: "/admin",
@@ -115,6 +115,11 @@ export default async function AdminHamburgerMenu() {
       type: "link",
     },
     {
+      title: "Graph",
+      href: "/admin/graph",
+      type: "link",
+    },
+    {
       title: "Queries",
       href: "/admin/sql",
       type: "link",
@@ -135,7 +140,7 @@ export default async function AdminHamburgerMenu() {
     <HamburgerMenu
       leftMenuItems={leftMenuItems}
       rightMenuItems={rightMenuItems}
-      hambergerMenuItems={hambergerMenuItems}
+      hamburgerMenuItems={hamburgerMenuItems}
       side="admin"
     />
   );

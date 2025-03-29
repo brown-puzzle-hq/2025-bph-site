@@ -26,6 +26,7 @@ import { interactionModeEnum } from "~/server/db/schema";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { IN_PERSON } from "~/hunt.config";
+import { useSession } from "next-auth/react";
 
 export type Member = {
   id?: number;
@@ -104,27 +105,27 @@ export const registerFormSchema = z
   })
   .refine(
     (data) =>
-      !(data.interactionMode === "remote" && data.wantsBox === undefined),
-    {
-      message: "Required",
-      path: ["wantsBox"],
-    },
-  )
-  .refine(
-    (data) =>
       !(data.interactionMode === "in-person" && data.phoneNumber === ""),
     {
       message: "Required",
       path: ["phoneNumber"],
     },
   );
+// .refine(
+//   (data) =>
+//     !(data.interactionMode === "remote" && data.wantsBox === undefined),
+//   {
+//     message: "Required",
+//     path: ["wantsBox"],
+//   },
+// )
 
 type RegisterFormProps = {};
 type RegisterFormValues = z.infer<typeof registerFormSchema>;
 
 export function RegisterForm({}: RegisterFormProps) {
+  const { update } = useSession();
   const router = useRouter();
-  router.prefetch("/");
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerFormSchema),
@@ -162,7 +163,7 @@ export function RegisterForm({}: RegisterFormProps) {
   });
 
   const onSubmit = async (data: RegisterFormValues) => {
-    const result = await insertTeam({
+    const { error, session } = await insertTeam({
       id: data.id,
       displayName: data.displayName,
       password: data.password,
@@ -175,20 +176,19 @@ export function RegisterForm({}: RegisterFormProps) {
       wantsBox: data.wantsBox,
     });
 
-    if (result.error) {
+    if (error) {
       toast({
         title: "Register failed",
-        description: result.error,
+        description: error,
       });
-      return;
+    } else {
+      update(session);
+      toast({
+        title: "Welcome to Brown Puzzlehunt, " + data.displayName + "!",
+        description: "Your team has been registered.",
+      });
+      router.push("/");
     }
-
-    toast({
-      title: "Welcome to Brown Puzzlehunt, " + data.displayName + "!",
-      description: "Your team has been registered.",
-    });
-    router.push("/");
-    router.refresh();
   };
 
   return (
@@ -206,7 +206,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 </span>
                 <FormMessage className="text-error" />
               </FormLabel>
-              <FormControl className="text-main-text placeholder:text-main-accent">
+              <FormControl className="text-main-text placeholder:text-white/40">
                 <Input placeholder="jcarberr" autoComplete="on" {...field} />
               </FormControl>
               <FormDescription>
@@ -229,7 +229,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 </span>
                 <FormMessage className="text-error" />
               </FormLabel>
-              <FormControl className="text-main-text placeholder:text-main-accent">
+              <FormControl className="text-main-text placeholder:text-white/40">
                 <Input placeholder="Josiah Carberry" {...field} />
               </FormControl>
               <FormDescription>
@@ -297,7 +297,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 name={`members.${index}.name`}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
-                    <FormControl className="text-main-text placeholder:text-main-accent">
+                    <FormControl className="text-main-text placeholder:text-white/40">
                       <Input
                         className="rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent"
                         {...field}
@@ -341,7 +341,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 name={`members.${index}.email`}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
-                    <FormControl className="text-main-text placeholder:text-main-accent">
+                    <FormControl className="text-main-text placeholder:text-white/40">
                       <Input
                         className={`rounded-none border-0 border-b p-0 shadow-none focus-visible:ring-transparent ${form.formState.errors.members?.[index] ? "border-red-300" : ""} text-current shadow-none`}
                         {...field}
@@ -382,7 +382,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-7 w-7 p-1 hover:bg-footer-bg hover:text-main-text focus-visible:bg-footer-bg focus-visible:ring-0"
+                className="h-7 w-7 p-1 hover:bg-black/20 focus-visible:bg-black/20 focus-visible:ring-0"
                 disabled={
                   fields.length == 1 &&
                   form.watch("members")[0]?.name === "" &&
@@ -390,7 +390,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 }
                 onClick={() => remove(index)}
               >
-                <X className="text-white" />
+                <X className="text-main-text" />
               </Button>
             </div>
           ))}
@@ -509,7 +509,7 @@ export function RegisterForm({}: RegisterFormProps) {
                   </div>
                   <FormControl className="text-main-text">
                     <Switch
-                      className="focus-visible:ring-offset-0 data-[state=checked]:bg-violet-400 data-[state=unchecked]:bg-violet-950"
+                      className="focus-visible:ring-offset-0 data-[state=checked]:bg-white/50 data-[state=unchecked]:bg-black/50"
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -539,6 +539,8 @@ export function RegisterForm({}: RegisterFormProps) {
             />
           </div>
         )}
+
+        {/* Sold out of boxes
         {form.watch("interactionMode") === "remote" && (
           <div className="mb-8 space-y-8">
             <FormField
@@ -552,39 +554,31 @@ export function RegisterForm({}: RegisterFormProps) {
                     </span>
                     <FormMessage className="text-error" />
                   </FormLabel>
-                  <FormDescription>
+                  <FormDescription className="text-muted-foreground">
                     Are you interested in purchasing a box of physical puzzles?
-                    This is non-binding and only offered to remote teams.
+                    This is non-binding and only offered to remote teams.{" "}
                   </FormDescription>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={
-                        (value) =>
-                          field.onChange(
-                            value === "true"
-                              ? true
-                              : value === "false"
-                                ? false
-                                : undefined,
-                          ) // Map string to boolean
-                      }
+                      onValueChange={() => {}}
                       value={
                         field.value === undefined
                           ? undefined
                           : field.value === true
                             ? "true"
                             : "false"
-                      } // Map boolean to string
+                      }
                       className="flex flex-col space-y-1"
+                      disabled
                     >
                       <FormItem className="flex items-center space-x-3 space-y-0">
-                        <RadioGroupItem value="true" />
+                        <RadioGroupItem value="true" disabled />
                         <FormLabel className="font-normal text-main-header">
                           Yes, I might be interested!
                         </FormLabel>
                       </FormItem>
                       <FormItem className="flex items-center space-x-3 space-y-0">
-                        <RadioGroupItem value="false" />
+                        <RadioGroupItem value="false" disabled />
                         <FormLabel className="font-normal text-main-header">
                           No thank you.
                         </FormLabel>
@@ -596,6 +590,7 @@ export function RegisterForm({}: RegisterFormProps) {
             />
           </div>
         )}
+      */}
 
         <Button type="submit">Register</Button>
 

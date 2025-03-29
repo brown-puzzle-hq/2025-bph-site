@@ -25,7 +25,7 @@ export const loginFormSchema = z.object({
 });
 
 export function LoginForm() {
-  const session = useSession();
+  const { update } = useSession();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -38,18 +38,17 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof loginFormSchema>) => {
-    const result = await login(data.id, data.password);
-    if (result.error !== null) {
-      setError(result.error);
+    const { error, session } = await login(data.id, data.password);
+    if (error) {
+      setError(error);
     } else {
+      update(session);
       if (session.data?.user?.role === "admin") {
         router.push("/admin");
       } else {
         router.push("/");
-        // Not sure how to refresh nav without this,
-        // but this seems to not be a problem for admin
-        router.refresh();
       }
+      router.refresh();
       setError(null);
     }
   };
@@ -63,7 +62,7 @@ export function LoginForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
-              <FormControl className="bg-secondary-bg text-secondary-accent">
+              <FormControl className="placeholder:text-white/40 focus-visible:ring-opacity-20">
                 <Input placeholder="jcarberr" {...field} />
               </FormControl>
             </FormItem>
@@ -84,15 +83,15 @@ export function LoginForm() {
                   Forgot?
                 </Link>
               </div>
-              <FormControl className="bg-secondary-bg text-secondary-accent">
+              <FormControl className="placeholder:text-white/40 focus-visible:ring-opacity-20">
                 <Input type="password" placeholder="password" {...field} />
               </FormControl>
               <FormMessage className="text-error">{error}</FormMessage>
             </FormItem>
           )}
         />
-        <Button className="hover:bg-otherblue" type="submit">
-          Log In
+        <Button type="submit">
+          <p className="w-full text-center">Log In</p>
         </Button>
         <div className="pt-4 text-sm">
           New to the hunt?{" "}
@@ -107,7 +106,11 @@ export function LoginForm() {
 
 export function LogoutForm() {
   return (
-    <Button className="hover:bg-otherblue" onClick={() => logout()}>
+    <Button
+      onClick={async () => {
+        await logout();
+      }}
+    >
       Logout
     </Button>
   );

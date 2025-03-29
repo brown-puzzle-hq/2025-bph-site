@@ -1,0 +1,249 @@
+import Image from "next/image";
+import eye from "./eye.png";
+
+/**
+ * The puzzle ID is used to uniquely identify the puzzle in the database.
+ * It should be equal to the name of the folder this file is currently under.
+ * Feel free to make this creative, because the route to the puzzle will be
+ * example.com/puzzle/puzzleId.
+ */
+export const puzzleId = "eye-to-eye";
+
+/**
+ * The body renders above the guess submission form. Put flavor text, images,
+ * and interactive puzzle components here.
+ */
+export const inPersonBody = (
+  <div>
+    <div className="mb-4 max-w-3xl">
+      This is a sequence metapuzzle. It uses feeders from the 👁️ sequence.
+    </div>
+    <hr className="my-6 mb-6 border-t border-white" />
+    <div className="mb-4 max-w-3xl">
+      <i>Only one of my eyes ever work... What do I need to fix my eyesight?</i>
+    </div>
+
+    <div className="mx-auto grid w-fit grid-cols-9 gap-0 overflow-x-auto border-2 border-white">
+      {[
+        "T",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "",
+        "⬜",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "⬜",
+        "⬜",
+        "",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "",
+        "⬜",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "⬜",
+        "⬜",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "",
+        "",
+        "⬜",
+        "",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "⬜",
+        "⬜",
+        "",
+        "",
+        "",
+        "👁️",
+        "",
+        "",
+        "⬜",
+        "⬜",
+      ].map((cell, index) => (
+        <div
+          key={index}
+          className={`flex h-10 w-10 items-center justify-center border border-white text-lg font-bold ${
+            cell === "⬜" ? "bg-white" : "bg-transparent"
+          }`}
+        >
+          {cell !== "⬜" && cell}
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+// Flagging: need actual emoji integration here
+
+export const remoteBoxBody = inPersonBody;
+
+export const remoteBody = inPersonBody;
+
+/**
+ * The `solutionBody` renders in the solution page.
+ * If there are no solutions available, set it null.
+ */
+export const solutionBody = (
+  <div className="max-w-3xl text-center">
+    This solution does not exist yet. Go nag Arnav + Thomas.
+  </div>
+);
+
+/**
+ * The `copyText` should provide a convenient text representation of the puzzle
+ * that can be copied to the clipboard. Set this to `null` to remove the copy button.
+ */
+
+export const copyText = `
+  <style type="text/css">
+  .tg {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .tg td {
+    border: none;
+  }
+  .tg tr:first-child td,
+  .tg tr:first-child th {
+    border-top: 2px solid black;
+  }
+  .tg tr:last-child td,
+  .tg tr:last-child th {
+    border-bottom: 2px solid black;
+  }
+  .tg tr td:first-child,
+  .tg tr th:first-child {
+    border-left: 2px solid black;
+  }
+  .tg tr td:last-child,
+  .tg tr th:last-child {
+    border-right: 2px solid black;
+  }
+  .tg .tg-87il{background-color:#000000;text-align:left;vertical-align:bottom}
+  .tg .tg-ttet{background-color:#000000;text-align:left;vertical-align:bottom}
+  .tg .tg-1tnc{background-color:#000000;color:#333333;font-weight:bold;text-align:center;vertical-align:top}
+  .tg .tg-fll5{font-weight:bold;text-align:center;vertical-align:bottom}
+  .tg .tg-za14{text-align:left;vertical-align:bottom}
+  </style>
+  <table class="tg">
+  <tbody>
+    <tr>
+      <th class="tg-fll5"><span style="font-weight:bold">T</span></th>
+      <th class="tg-za14"></th>
+      <th class="tg-za14"></th>
+      <th class="tg-za14"></th>
+      <th class="tg-fll5"><span style="font-weight:bold">👁️</span></th>
+      <th class="tg-za14"></th>
+      <th class="tg-za14"></th>
+      <th class="tg-za14"></th>
+      <th class="tg-ttet"></th>
+    </tr>
+    <tr>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-fll5">👁️</td>
+      <td class="tg-za14"></td>
+      <td class="tg-1tnc"></td>
+      <td class="tg-ttet"></td>
+    </tr>
+    <tr>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-fll5">👁️</td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-ttet"></td>
+    </tr>
+    <tr>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-fll5"><span style="font-weight:bold">👁️</span></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-ttet"></td>
+    </tr>
+    <tr>
+      <td class="tg-87il"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-fll5"><span style="font-weight:bold">👁️</span></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+    </tr>
+    <tr>
+      <td class="tg-87il"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-fll5"><span style="font-weight:bold">👁️</span></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-ttet"></td>
+    </tr>
+    <tr>
+      <td class="tg-87il"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-fll5"><span style="font-weight:bold">👁️</span></td>
+      <td class="tg-za14"></td>
+      <td class="tg-za14"></td>
+      <td class="tg-ttet"></td>
+      <td class="tg-ttet"></td>
+    </tr>
+  </tbody></table>`;
+
+/**
+ * The `partialSolutions` object is used to prompt solutions with significant progress.
+ * Each key is a partial solution, and the value is the prompt to be displayed. Keys must
+ * be in all caps, no spaces.
+ */
+export const partialSolutions: Record<string, string> = {};
+
+/**
+ * The `tasks` object is used for multi-part puzzles. When a certain answer is submitted,
+ * more content will be added to the puzzle body. Keys must be in all caps, no spaces.
+ */
+export const tasks: Record<string, JSX.Element> = {};

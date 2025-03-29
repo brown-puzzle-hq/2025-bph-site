@@ -14,16 +14,20 @@ export const authConfig = {
         token.displayName = user.displayName;
         token.role = user.role;
         token.interactionMode = user.interactionMode;
+        token.hasBox = user.hasBox;
       }
       if (trigger === "update") {
-        if (session?.displayName) {
+        if (session?.displayName !== undefined) {
           token.displayName = session.displayName;
         }
-        if (session?.role) {
+        if (session?.role !== undefined) {
           token.role = session.role;
         }
-        if (session?.interactionMode) {
+        if (session?.interactionMode !== undefined) {
           token.interactionMode = session.interactionMode;
+        }
+        if (session?.hasBox !== undefined) {
+          token.hasBox = session.hasBox;
         }
       }
       return token;
@@ -36,6 +40,7 @@ export const authConfig = {
           displayName: token.displayName as string,
           role: token.role as string,
           interactionMode: token.interactionMode as string,
+          hasBox: token.hasBox as boolean,
         };
       }
       return session;
