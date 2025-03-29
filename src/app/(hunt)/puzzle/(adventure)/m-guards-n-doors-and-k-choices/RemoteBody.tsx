@@ -4,7 +4,11 @@ import { mnk, MNKDecision, MNKDecisionType } from "~/server/db/schema";
 import { useState, useEffect } from "react";
 import { insertMNKDecision } from "./actions";
 import { useToast } from "~/hooks/use-toast";
-import { ElapsedTime } from "~/lib/time";
+import { Countdown } from "./Countdown";
+import { Triangle } from "lucide-react";
+import Image from "next/image";
+import DOOR from "./door.svg";
+import { cn } from "~/lib/utils";
 
 type Row = InferSelectModel<typeof mnk>;
 type Step = "initial" | "door_1" | "door_2" | "door_3" | "switch" | "stay";
@@ -14,16 +18,72 @@ type State = {
   step: Step;
 };
 
+function Dot() {
+  return (
+    <div className="absolute -start-[7px] mt-1.5 h-3 w-3 rounded-full border border-main-header bg-main-header"></div>
+  );
+}
+
+function Marker({ variant }: { variant: "scenario" | "normal" }) {
+  return (
+    <div
+      className={cn(
+        "absolute mt-[5px]",
+        variant === "scenario" ? "-translate-x-9" : "-translate-x-8",
+      )}
+    >
+      <Triangle className="size-3 rotate-90 fill-main-header" />
+    </div>
+  );
+}
+
 const coolDownTime = 30 * 60 * 1000; // 30 minutes
 
-const stateToString = (scenario: number, step: Step) => {
-  if (step === "initial") return `Scenario ${scenario}`;
-  if (["door_1", "door_2", "door_3"].includes(step)) {
-    return `Door ${step.split("_")[1]}`;
+const stateDisplay = (currRun: Row[], inRow: Row) => {
+  if (inRow.decisionType === "door") {
+    return (
+      <div className="flex">
+        {["door_1", "door_2", "door_3"].map((decision) => (
+          <p
+            key={decision}
+            className={cn(
+              "w-4 rounded-sm",
+              decision === inRow.decision && "border",
+            )}
+          >
+            {decision.slice(-1)}
+          </p>
+        ))}
+      </div>
+    );
   }
-  if (["switch", "stay"].includes(step)) {
-    return `${step.charAt(0).toUpperCase() + step.slice(1)}`;
-  }
+
+  const doorDecision = currRun.find(
+    (row) => row.scenario === inRow.scenario && row.decisionType === "door",
+  );
+  const switchDoor = doorDecision?.decision === "door_2" ? "door_1" : "door_2";
+
+  return (
+    <div className="flex">
+      {["door_1", "door_2", "door_3"].map((decision) => (
+        <p
+          key={decision}
+          className={cn(
+            "w-4 rounded-sm",
+            ((decision === doorDecision?.decision &&
+              inRow.decision === "stay") ||
+              (decision === switchDoor && inRow.decision === "switch")) &&
+              "border",
+            decision ===
+              (doorDecision?.decision === "door_3" ? "door_1" : "door_3") &&
+              "opacity-50",
+          )}
+        >
+          {decision.slice(-1)}
+        </p>
+      ))}
+    </div>
+  );
 };
 
 const videos: Record<number, Partial<Record<Step, string>>> = {
@@ -149,34 +209,15 @@ export default function RemoteBody({ run }: { run: Row[] }) {
 
   const handleNextScenarioClick = () => {
     // Only update the run if the current scenario is 4 and the step is "stay" or "switch"
-    setRun((prevState) => {
-      if (
-        state.scenario === 4 &&
-        (state.step === "stay" || state.step === "switch")
-      )
-        return [];
-      return prevState;
-    });
-
     setState((prevState) => {
       const isNewScenario =
         prevState.step === "stay" || prevState.step === "switch";
-      const isNewRun = prevState.scenario + +isNewScenario > 4;
-
-      // Check if the run is new
-      if (isNewRun) {
-        return {
-          run: prevState.run + 1,
-          scenario: 1,
-          step: "initial",
-        };
-      }
 
       // Check if the scenario is new
       if (isNewScenario) {
         return {
           run: prevState.run,
-          scenario: prevState.scenario + 1,
+          scenario: prevState.scenario === 4 ? 1 : prevState.scenario + 1,
           step: "initial",
         };
       }
@@ -194,156 +235,245 @@ export default function RemoteBody({ run }: { run: Row[] }) {
   };
 
   return (
-    <div>
+    <div className="mb-2 flex space-x-8">
       {/* List of states of the puzzles */}
-      <div className="flex flex-col">
-        {currRun.map((row) => (
-          <>
-            {row.decisionType === "door" && (
+      <div className="flex flex-col items-center space-y-4 text-main-text">
+        <h1 className="text-main-header">History</h1>
+        <div className="relative space-y-0.5 border-s-2 border-main-header">
+          {currRun.map((row) => (
+            <div className="ms-4" key={row.scenario}>
+              {row.decisionType === "door" && (
+                <div>
+                  <Dot />
+                  {state.scenario === row.scenario &&
+                    state.step == "initial" && <Marker variant="scenario" />}
+                  <button
+                    onClick={() =>
+                      handlePreviousScenarioClick(row.scenario, "initial")
+                    }
+                    className="mb-0.5 rounded-md font-semibold hover:opacity-80"
+                  >
+                    Scenario {row.scenario}
+                  </button>
+                </div>
+              )}
+              {state.scenario === row.scenario &&
+                state.step == row.decision && <Marker variant="normal" />}
               <button
                 onClick={() =>
-                  handlePreviousScenarioClick(row.scenario, "initial")
+                  handlePreviousScenarioClick(row.scenario, row.decision)
                 }
-                className={`hover:bg-gray-400 ${state.scenario === row.scenario && state.step == "initial" && "bg-gray-400"}`}
+                className="rounded-md pl-2 hover:opacity-80"
               >
-                <div>{stateToString(row.scenario, "initial")}</div>
+                {stateDisplay(currRun, row)}
               </button>
-            )}
-            <button
-              onClick={() =>
-                handlePreviousScenarioClick(row.scenario, row.decision)
-              }
-              className={`hover:bg-gray-400 ${state.scenario === row.scenario && state.step == row.decision && "bg-gray-400"}`}
-            >
-              <div>{stateToString(row.scenario, row.decision)}</div>
-            </button>
-          </>
-        ))}
+            </div>
+          ))}
+          {(() => {
+            const lastRow = getLastRow(currRun);
+            if (
+              !lastRow ||
+              (lastRow?.decisionType === "final" && lastRow.scenario < 4)
+            ) {
+              return (
+                <div className="ms-4">
+                  <Dot />
+                  {state.scenario === (lastRow?.scenario ?? 0) + 1 &&
+                    state.step == "initial" && <Marker variant="scenario" />}
+                  <button
+                    onClick={() =>
+                      handlePreviousScenarioClick(
+                        (lastRow?.scenario ?? 0) + 1,
+                        "initial",
+                      )
+                    }
+                    className="mb-0.5 rounded-md font-semibold hover:opacity-80"
+                  >
+                    Scenario {(lastRow?.scenario ?? 0) + 1}
+                  </button>
+                </div>
+              );
+            }
+          })()}
+        </div>
+        {cooldown &&
+          getLastRow(currRun)?.scenario === 4 &&
+          getLastRow(currRun)?.decisionType === "final" && (
+            <Countdown
+              targetDate={cooldown}
+              callBack={() => {
+                setRun([]);
+                setState((prevState) => ({
+                  run: prevState.run + 1,
+                  scenario: 1,
+                  step: "initial",
+                }));
+              }}
+            />
+          )}
+      </div>
+
+      <div className="flex flex-col items-center space-y-8">
+        {/* Video */}
+        <div>
+          <iframe
+            className="rounded-md"
+            width="560"
+            height="315"
+            src={`https://www.youtube-nocookie.com/embed/${videos[state.scenario]![state.step]}`}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+        </div>
+
+        {/* Door 1, Door 2, and Door 3 buttons */}
         {(() => {
-          const lastRow = getLastRow(currRun);
-          if (lastRow?.decisionType === "final" && lastRow.scenario < 4) {
-            return (
-              <button
-                onClick={() =>
-                  handlePreviousScenarioClick(lastRow.scenario + 1, "initial")
-                }
-                className={`hover:bg-gray-400 ${state.scenario === lastRow.scenario + 1 && state.step == "initial" && "bg-gray-400"}`}
-              >
-                <div>{stateToString(lastRow.scenario + 1, "initial")}</div>
-              </button>
-            );
-          }
+          if (state.step !== "initial") return null;
+
+          const prevDecision = currRun.find(
+            (row) =>
+              row.scenario === state.scenario && row.decisionType === "door",
+          );
+
+          return (
+            <div className="flex space-x-8">
+              {["door_1", "door_2", "door_3"].map((decision) => (
+                <button
+                  key={decision}
+                  disabled={
+                    !!prevDecision && prevDecision.decision !== decision
+                  }
+                  onClick={() =>
+                    prevDecision
+                      ? handlePreviousScenarioClick(
+                          state.scenario,
+                          decision as Step,
+                        )
+                      : handleDecisionClick(decision as MNKDecision, "door")
+                  }
+                  className="grid hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Image
+                    src={DOOR}
+                    width={150}
+                    alt=""
+                    className="col-start-1 row-start-1"
+                  />
+                  <p className="col-start-1 row-start-1 mt-[52px] text-4xl font-bold text-[#44413D]">
+                    {decision.slice(-1)}
+                  </p>
+                </button>
+              ))}
+            </div>
+          );
+        })()}
+
+        {/* Switch and Stay buttons */}
+        {(() => {
+          if (!["door_1", "door_2", "door_3"].includes(state.step)) return null;
+
+          const doorDecision = currRun.find(
+            (row) =>
+              row.scenario === state.scenario && row.decisionType === "door",
+          );
+          const stayDoor = doorDecision?.decision;
+          const switchDoor =
+            doorDecision?.decision === "door_2" ? "door_1" : "door_2";
+
+          const prevDecision = currRun.find(
+            (row) =>
+              row.scenario === state.scenario && row.decisionType === "final",
+          );
+
+          return (
+            <div className="flex space-x-8">
+              {["door_1", "door_2", "door_3"].map((decision) => (
+                <button
+                  key={decision}
+                  disabled={
+                    (!!prevDecision &&
+                      prevDecision.decision !==
+                        (decision === stayDoor ? "stay" : "switch")) ||
+                    (decision !== stayDoor && decision !== switchDoor)
+                  }
+                  onClick={() =>
+                    prevDecision
+                      ? handlePreviousScenarioClick(
+                          state.scenario,
+                          (decision === stayDoor ? "stay" : "switch") as Step,
+                        )
+                      : handleDecisionClick(
+                          (decision === stayDoor
+                            ? "stay"
+                            : "switch") as MNKDecision,
+                          "final",
+                        )
+                  }
+                  className="grid hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Image
+                    src={DOOR}
+                    width={150}
+                    alt=""
+                    className="col-start-1 row-start-1"
+                  />
+                  <p className="col-start-1 row-start-1 mt-[52px] text-4xl font-bold text-[#44413D]">
+                    {decision.slice(-1)}
+                  </p>
+                </button>
+              ))}
+            </div>
+          );
+        })()}
+
+        {/* Next Scenario button */}
+        {(() => {
+          if (!["stay", "switch"].includes(state.step)) return null;
+
+          const doorDecision = currRun.find(
+            (row) =>
+              row.scenario === state.scenario && row.decisionType === "door",
+          );
+
+          const switchDecision = currRun.find(
+            (row) =>
+              row.scenario === state.scenario && row.decisionType === "final",
+          );
+
+          const finalDecision =
+            switchDecision?.decision === "switch"
+              ? doorDecision?.decision === "door_2"
+                ? "door_1"
+                : "door_2"
+              : doorDecision?.decision;
+
+          return (
+            <div className="flex space-x-8">
+              {["door_1", "door_2", "door_3"].map((decision) => (
+                <div key={decision} className="flex flex-col items-center">
+                  <button
+                    disabled={decision !== finalDecision}
+                    onClick={handleNextScenarioClick}
+                    className="grid hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <Image
+                      src={DOOR}
+                      width={150}
+                      alt=""
+                      className="col-start-1 row-start-1"
+                    />
+                    <p className="col-start-1 row-start-1 mt-[52px] text-4xl font-bold text-[#44413D]">
+                      {finalDecision === decision ? "✓" : decision.slice(-1)}
+                    </p>
+                  </button>
+                </div>
+              ))}
+            </div>
+          );
         })()}
       </div>
-
-      {/* Video */}
-      <div className="py-4">
-        <iframe
-          width="560"
-          height="315"
-          src={`https://www.youtube-nocookie.com/embed/${videos[state.scenario]![state.step]}`}
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-        ></iframe>
-      </div>
-
-      {/* Door 1, Door 2, and Door 3 buttons */}
-      {(() => {
-        if (state.step !== "initial") return null;
-
-        const prevDecision = currRun.find(
-          (row) =>
-            row.scenario === state.scenario && row.decisionType === "door",
-        );
-
-        return (
-          <div className="flex space-x-10">
-            {["door_1", "door_2", "door_3"].map((decision) => (
-              <button
-                key={decision}
-                disabled={!!prevDecision && prevDecision.decision != decision}
-                onClick={() =>
-                  prevDecision
-                    ? handlePreviousScenarioClick(
-                        state.scenario,
-                        decision as Step,
-                      )
-                    : handleDecisionClick(decision as MNKDecision, "door")
-                }
-                className={`rounded-md bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-700 ${prevDecision?.decision === decision ? "disabled:bg-blue-500" : "disabled:bg-gray-500"} disabled:cursor-not-allowed`}
-              >
-                {decision
-                  .replace("_", " ")
-                  .replace(/\b\w/g, (l) => l.toUpperCase())}
-              </button>
-            ))}
-          </div>
-        );
-      })()}
-
-      {/* Switch and Stay buttons */}
-      {(() => {
-        if (!["door_1", "door_2", "door_3"].includes(state.step)) return null;
-
-        const prevDecision = currRun.find(
-          (row) =>
-            row.scenario === state.scenario && row.decisionType === "final",
-        );
-
-        return (
-          <div className="flex space-x-10">
-            {["switch", "stay"].map((decision) => (
-              <button
-                key={decision}
-                disabled={!!prevDecision && prevDecision.decision != decision}
-                onClick={() =>
-                  prevDecision
-                    ? handlePreviousScenarioClick(
-                        state.scenario,
-                        decision as Step,
-                      )
-                    : handleDecisionClick(decision as MNKDecision, "final")
-                }
-                className={`rounded-md bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-700 ${prevDecision?.decision === decision ? "disabled:bg-blue-500" : "disabled:bg-gray-500"}`}
-              >
-                {decision
-                  .replace("_", " ")
-                  .replace(/\b\w/g, (l) => l.toUpperCase())}
-              </button>
-            ))}
-          </div>
-        );
-      })()}
-
-      {/* Next Scenario and Try Again buttons */}
-      {["stay", "switch"].includes(state.step) && (
-        <div>
-          {state.scenario < 4 ? (
-            <button
-              onClick={handleNextScenarioClick}
-              className={`rounded-md bg-orange-500 px-4 py-2 font-semibold text-white hover:bg-orange-700`}
-            >
-              Next scenario
-            </button>
-          ) : (
-            <button
-              onClick={handleNextScenarioClick}
-              disabled={cooldown ? new Date() < cooldown : false}
-              className={`rounded-md bg-orange-500 px-4 py-2 font-semibold text-white hover:bg-orange-700 disabled:bg-gray-500`}
-            >
-              {cooldown && new Date() < cooldown ? (
-                <p>
-                  Try again in <ElapsedTime date={cooldown} />
-                </p>
-              ) : (
-                <p>Try again</p>
-              )}
-            </button>
-          )}
-        </div>
-      )}
     </div>
   );
 }
