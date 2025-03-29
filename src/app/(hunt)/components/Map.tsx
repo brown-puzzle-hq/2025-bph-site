@@ -6,9 +6,9 @@ import "leaflet-defaulticon-compatibility";
 import { MapContainer, Marker, Tooltip, ImageOverlay } from "react-leaflet";
 import L, { LatLngBounds } from "leaflet";
 import { Round, ROUNDS } from "@/hunt.config";
-import { real } from "drizzle-orm/mysql-core";
 
-function spriteExists(image_url: string | URL) { //can remove later
+function spriteExists(image_url: string | URL) {
+  // TODO: can remove later
   var http = new XMLHttpRequest();
   console.log(image_url + ": " + (http.status != 404));
   http.open('HEAD', image_url, false);
@@ -90,38 +90,21 @@ export default function Map({
 }: {
   availablePuzzles: puzzleList;
   solvedPuzzles: { puzzleId: string }[];
-  availableRounds: Round[],
+  availableRounds: Round[];
 }) {
   const bounds = new LatLngBounds([0, 0], [1000, 1000]);
   const colorlayout = "/map/Layout.png"; //TODO: remove
-  let actionlayout = ""; //input: default (grayed out)
-  let dramalayout = "";
-  let comedylayout = "";
-  let adventurelayout = "";
-  let realitylayout = "";
-  let cerebrallayout = "";
-  const buildings = "map/Buildings.png"; //TODO: remove when map contains buildings
-  console.log(availableRounds);
-  if (availableRounds.includes(ROUNDS[0]!)) {
-    actionlayout = "map/sprites/puzzle.svg";
-  } //actually probably remove
-  if (availableRounds.includes(ROUNDS[1]!)) {
-    dramalayout = "";
-  }
-  if (availableRounds.includes(ROUNDS[2]!)) {
-    comedylayout = "";
-  }
-  if (availableRounds.includes(ROUNDS[3]!)) {
-    adventurelayout = "";
-  }
-  if (availableRounds.includes(ROUNDS[4]!)) {
-    realitylayout = "";
-  }
-  if (availableRounds.includes(ROUNDS[5]!)) {
-    cerebrallayout = "";
-  }
-  console.log("hello");
-  console.log(availableRounds);
+  const availableRoundNames = availableRounds.map(({ name }) => name);
+  const layouts = ROUNDS.reduce(
+    (acc, { name }) => {
+      acc[name] = availableRoundNames.includes(name)
+        ? `${name}.png`
+        : `${name}Gray.png`;
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
+
   return (
     <>
       <MapContainer
@@ -139,26 +122,22 @@ export default function Map({
         className="h-[calc(100vh-56px-32px)] w-screen focus:outline-none"
       >
         <ImageOverlay url={colorlayout} bounds={bounds} /> {/*/TODO: remove */}
-        {/* <ImageOverlay url={actionlayout} bounds={bounds} />
-      <ImageOverlay url={dramalayout} bounds={bounds} />
-      <ImageOverlay url={comedylayout} bounds={bounds} />
-      <ImageOverlay url={adventurelayout} bounds={bounds} />
-      <ImageOverlay url={realitylayout} bounds={bounds} />
-      <ImageOverlay url={cerebrallayout} bounds={bounds} /> */}
-        <ImageOverlay url={buildings} bounds={bounds} /> {/*/TODO: remove */}
+        {/* <ImageOverlay url={layouts.Action!} bounds={bounds} />
+        <ImageOverlay url={layouts.Drama!} bounds={bounds} />
+        <ImageOverlay url={layouts.Comedy!} bounds={bounds} />
+        <ImageOverlay url={layouts.Adventure!} bounds={bounds} />
+        <ImageOverlay url={layouts.Reality!} bounds={bounds} />
+        <ImageOverlay url={layouts.Cerebral!} bounds={bounds} /> */}
         {availablePuzzles.map((puzzle) => (
-          // TODO: format solved puzzles differently
           <Marker
             key={puzzle.id}
             position={positions[puzzle.id] ?? [180, 500]}
             icon={
               new L.Icon({
-                // iconUrl: `map/sprites/${puzzle.id}.png`,
                 iconUrl: solvedPuzzles.some((sp) => sp.puzzleId === puzzle.id)
-                  // ? "map/sprites/bookmark-check.svg"
                   ? spriteExists(`map/sprites/${puzzle.id}.png`)
-                    ? `map/sprites/${puzzle.id}.png`
-                    : `map/sprites/puzzle.svg` //TODO: remove, this is to see the full map with all sprites
+                    ? `map/sprites/${puzzle.id}.png` // TODO: format solved puzzles differently
+                    : `map/sprites/bookmark-check.svg`
                   : spriteExists(`map/sprites/${puzzle.id}.png`)
                     ? `map/sprites/${puzzle.id}.png`
                     : `map/sprites/puzzle.svg`,
