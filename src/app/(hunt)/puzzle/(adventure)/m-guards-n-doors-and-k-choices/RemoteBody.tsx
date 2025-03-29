@@ -252,12 +252,15 @@ export default function RemoteBody({ run }: { run: Row[] }) {
               {row.decisionType === "door" && (
                 <div>
                   <Dot />
-                  <div className="group relative">
+                  <div className="group relative w-fit">
                     <button
                       onClick={() =>
                         handlePreviousScenarioClick(row.scenario, "initial")
                       }
-                      className="mb-0.5 w-[84px] rounded-md font-semibold"
+                      className={cn(
+                        "mb-0.5 w-[84px] rounded-md font-semibold",
+                        row.scenario !== state.scenario && "opacity-60",
+                      )}
                     >
                       Scenario {row.scenario}
                     </button>
@@ -271,12 +274,15 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                   </div>
                 </div>
               )}
-              <div className="group relative ml-2">
+              <div className="group relative ml-2 w-fit">
                 <button
                   onClick={() =>
                     handlePreviousScenarioClick(row.scenario, row.decision)
                   }
-                  className="rounded-md"
+                  className={cn(
+                    "rounded-md",
+                    row.scenario !== state.scenario && "opacity-60",
+                  )}
                 >
                   {stateDisplay(currRun, row)}
                 </button>
@@ -299,7 +305,7 @@ export default function RemoteBody({ run }: { run: Row[] }) {
               return (
                 <div className="ms-4">
                   <Dot />
-                  <div className="group relative">
+                  <div className="group relative w-fit">
                     <button
                       onClick={() =>
                         handlePreviousScenarioClick(
@@ -307,7 +313,11 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                           "initial",
                         )
                       }
-                      className="mb-0.5 w-[84px] rounded-md font-semibold"
+                      className={cn(
+                        "mb-0.5 w-[84px] rounded-md font-semibold",
+                        (lastRow?.scenario ?? 0) + 1 !== state.scenario &&
+                          "opacity-60",
+                      )}
                     >
                       Scenario {(lastRow?.scenario ?? 0) + 1}
                     </button>
