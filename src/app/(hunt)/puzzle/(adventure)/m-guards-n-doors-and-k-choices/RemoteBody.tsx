@@ -37,7 +37,7 @@ function Marker({ variant }: { variant: "scenario" | "normal" }) {
   );
 }
 
-const coolDownTime = 30 * 60 * 1000; // 30 minutes
+const coolDownTime = 12 * 60 * 1000; // 30 minutes
 
 const stateDisplay = (currRun: Row[], inRow: Row) => {
   if (inRow.decisionType === "door") {
@@ -45,7 +45,7 @@ const stateDisplay = (currRun: Row[], inRow: Row) => {
       <div className="flex">
         {["door_1", "door_2", "door_3"].map((decision) => (
           <p
-            key={decision}
+            key={`state-${inRow.scenario}-${inRow.decisionType}-${decision}`}
             className={cn(
               "w-4 rounded-sm",
               decision === inRow.decision && "border",
@@ -67,7 +67,7 @@ const stateDisplay = (currRun: Row[], inRow: Row) => {
     <div className="flex">
       {["door_1", "door_2", "door_3"].map((decision) => (
         <p
-          key={decision}
+          key={`state-${inRow.scenario}-${inRow.decisionType}-${decision}`}
           className={cn(
             "w-4 rounded-sm",
             ((decision === doorDecision?.decision &&
@@ -238,10 +238,10 @@ export default function RemoteBody({ run }: { run: Row[] }) {
     <div className="mb-2 flex space-x-8">
       {/* List of states of the puzzles */}
       <div className="flex flex-col items-center space-y-4 text-main-text">
-        <h1 className="text-main-header">History</h1>
+        <h2 className="text-xl font-semibold text-main-header">Timeline</h2>
         <div className="relative space-y-0.5 border-s-2 border-main-header">
           {currRun.map((row) => (
-            <div className="ms-4" key={row.scenario}>
+            <div className="ms-4" key={`${row.scenario}-${row.decisionType}`}>
               {row.decisionType === "door" && (
                 <div>
                   <Dot />
@@ -251,7 +251,7 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                     onClick={() =>
                       handlePreviousScenarioClick(row.scenario, "initial")
                     }
-                    className="mb-0.5 rounded-md font-semibold hover:opacity-80"
+                    className="mb-0.5 w-[84px] rounded-md font-semibold hover:opacity-80"
                   >
                     Scenario {row.scenario}
                   </button>
@@ -287,7 +287,7 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                         "initial",
                       )
                     }
-                    className="mb-0.5 rounded-md font-semibold hover:opacity-80"
+                    className="mb-0.5 w-[84px] rounded-md font-semibold hover:opacity-80"
                   >
                     Scenario {(lastRow?.scenario ?? 0) + 1}
                   </button>
@@ -312,6 +312,8 @@ export default function RemoteBody({ run }: { run: Row[] }) {
             />
           )}
       </div>
+
+      <div className="border-l-2 border-main-header"></div>
 
       <div className="flex flex-col items-center space-y-8">
         {/* Video */}
@@ -353,11 +355,11 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                         )
                       : handleDecisionClick(decision as MNKDecision, "door")
                   }
-                  className="grid hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="grid enabled:hover:opacity-90 disabled:cursor-not-allowed"
                 >
                   <Image
                     src={DOOR}
-                    width={150}
+                    width={166}
                     alt=""
                     className="col-start-1 row-start-1"
                   />
@@ -411,11 +413,16 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                           "final",
                         )
                   }
-                  className="grid hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className={cn(
+                    "grid enabled:hover:opacity-90 disabled:cursor-not-allowed",
+                    decision !== stayDoor &&
+                      decision !== switchDoor &&
+                      "disabled:opacity-50",
+                  )}
                 >
                   <Image
                     src={DOOR}
-                    width={150}
+                    width={166}
                     alt=""
                     className="col-start-1 row-start-1"
                   />
@@ -460,7 +467,7 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                   >
                     <Image
                       src={DOOR}
-                      width={150}
+                      width={166}
                       alt=""
                       className="col-start-1 row-start-1"
                     />

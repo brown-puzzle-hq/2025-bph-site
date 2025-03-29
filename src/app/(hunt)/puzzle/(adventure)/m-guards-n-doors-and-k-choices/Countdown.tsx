@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock } from "lucide-react";
+import { Hourglass } from "lucide-react";
 import React, { useState, useEffect, MouseEventHandler } from "react";
 
 export function Countdown({
@@ -38,16 +38,16 @@ export function Countdown({
     return (
       <button
         onClick={callBack}
-        className="text w-fit rounded-md bg-orange-900 px-3 py-1.5 font-semibold hover:opacity-80"
+        className="w-fit translate-y-1 rounded-md bg-orange-700 px-3 py-1.5 font-semibold hover:opacity-80"
       >
         Retry
       </button>
     );
 
   return (
-    <div className="flex space-x-2">
-      <Clock />
-      <p className="font-mono">
+    <div className="flex translate-y-2 space-x-2">
+      <Hourglass />
+      <p className="w-12 font-semibold">
         {String(timeRemaining.minutes).padStart(2, "0")}:
         {String(timeRemaining.seconds).padStart(2, "0")}
       </p>
