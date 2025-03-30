@@ -215,22 +215,11 @@ export default function RemoteBody({ run }: { run: Row[] }) {
   };
 
   const handleNextScenarioClick = () => {
-    // Only update the run if the current scenario is 4 and the step is "stay" or "switch"
-    setState((prevState) => {
-      const isNewScenario =
-        prevState.step === "stay" || prevState.step === "switch";
-
-      // Check if the scenario is new
-      if (isNewScenario) {
-        return {
-          run: prevState.run,
-          scenario: prevState.scenario === 4 ? 1 : prevState.scenario + 1,
-          step: "initial",
-        };
-      }
-
-      return prevState;
-    });
+    setState((prevState) => ({
+      run: prevState.run,
+      scenario: prevState.scenario === 4 ? 1 : prevState.scenario + 1,
+      step: "initial",
+    }));
   };
 
   const handlePreviousScenarioClick = (scenario: number, step: Step) => {
@@ -497,23 +486,22 @@ export default function RemoteBody({ run }: { run: Row[] }) {
           return (
             <div className="flex space-x-8">
               {["door_1", "door_2", "door_3"].map((decision) => (
-                <div key={decision} className="flex flex-col items-center">
-                  <button
-                    disabled={decision !== finalDecision}
-                    onClick={handleNextScenarioClick}
-                    className="grid hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <Image
-                      src={DOOR}
-                      width={166}
-                      alt=""
-                      className="col-start-1 row-start-1"
-                    />
-                    <p className="col-start-1 row-start-1 mt-[60px] text-4xl font-bold text-[#44413D]">
-                      {finalDecision === decision ? "✓" : decision.slice(-1)}
-                    </p>
-                  </button>
-                </div>
+                <button
+                  key={decision}
+                  disabled={decision !== finalDecision}
+                  onClick={handleNextScenarioClick}
+                  className="grid hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Image
+                    src={DOOR}
+                    width={166}
+                    alt=""
+                    className="col-start-1 row-start-1"
+                  />
+                  <p className="col-start-1 row-start-1 mt-[60px] text-4xl font-bold text-[#44413D]">
+                    {finalDecision === decision ? "✓" : decision.slice(-1)}
+                  </p>
+                </button>
               ))}
             </div>
           );
