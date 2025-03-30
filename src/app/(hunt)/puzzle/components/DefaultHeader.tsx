@@ -57,7 +57,7 @@ export default async function DefaultHeader({
                   prefetch={false}
                 >
                   <div className="group relative">
-                    <p>{seq.icon}</p>
+                    {seq.icon}
                     {puzzId === puzzleId ? (
                       <Triangle className="pointer-events-none absolute -bottom-4 left-1/2 z-0 w-2 -translate-x-1/2 fill-current" />
                     ) : (
