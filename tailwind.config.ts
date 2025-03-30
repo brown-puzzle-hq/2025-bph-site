@@ -129,9 +129,9 @@ export default {
       keyframes: {
         shake: {
           "0%, 100%": { transform: "translateX(0)" },
-          "25%": { transform: "translateX(-5px)" },
+          "25%": { transform: "translateX(-3px)" },
           "50%": { transform: "translateX(3px)" },
-          "75%": { transform: "translateX(-5px)" },
+          "75%": { transform: "translateX(-3px)" },
         },
       },
       animation: {
