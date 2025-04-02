@@ -623,7 +623,6 @@ export default function Graph() {
                   ),
                 )}
               </table>
-              {/* TODO: put more stats here */}
               <p className="my-1 rounded-[2px] bg-neutral-400 pl-0.5 font-semibold text-white">
                 Stats
               </p>
