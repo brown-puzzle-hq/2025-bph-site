@@ -20,6 +20,8 @@ import {
 } from "lucide-react";
 import { getSearchedTeam, getSearchedPuzzle } from "./actions";
 import { Team } from "~/server/db/schema";
+import { FormattedTime } from "~/lib/time";
+import { deserializeMembers } from "~/lib/team-members";
 
 const roundTextColor: Record<string, string> = {
   Action: "text-red-600",
@@ -40,7 +42,10 @@ const roundNodeColor: Record<string, string> = {
   Defaut: "oklch(0.708 0 0)",
 };
 
-export type SearchedTeam = Team & {
+export type SearchedTeam = Omit<
+  Team,
+  "password" | "wantsBox" | "roomNeeded"
+> & {
   unlocks: string[];
   solves: string[];
 };
@@ -573,29 +578,51 @@ export default function Graph() {
                 {searchedTeam.displayName}
               </p>
               <p>
-                <span className="font-semibold"> Members: </span>
-                {searchedTeam.members}
+                <span className="font-semibold"> Role: </span>
+                {searchedTeam.role}
               </p>
               <p>
                 <span className="font-semibold"> Mode: </span>
                 {searchedTeam.interactionMode}
               </p>
-              <p>
-                <span className="font-semibold"> Role: </span>
-                {searchedTeam.role}
-              </p>
               {searchedTeam.interactionMode === "in-person" && (
                 <>
                   <p>
-                    <span className="font-semibold"> Phone number: </span>
+                    <span className="font-semibold">
+                      Number of Brown members:{" "}
+                    </span>
+                    {searchedTeam.numCommunity}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Phone number: </span>
                     {searchedTeam.phoneNumber}
                   </p>
                   <p>
-                    <span className="font-semibold"> Solving location: </span>
+                    <span className="font-semibold">Solving location: </span>
                     {searchedTeam.solvingLocation}
                   </p>
                 </>
               )}
+              {searchedTeam.interactionMode === "remote" && (
+                <p>
+                  <span className="font-semibold">Has box: </span>
+                  {searchedTeam.hasBox ? "yes" : "no"}
+                </p>
+              )}
+              <p className="my-1 rounded-[2px] bg-neutral-400 pl-0.5 font-semibold text-white">
+                Members
+              </p>
+              <table>
+                {deserializeMembers(searchedTeam.members).map(
+                  (member, index) => (
+                    <tr>
+                      <td className="pr-4">{index}</td>
+                      <td className="pr-4">{member.name}</td>
+                      <td className="pr-4">{member.email}</td>
+                    </tr>
+                  ),
+                )}
+              </table>
               {/* TODO: put more stats here */}
               <p className="my-1 rounded-[2px] bg-neutral-400 pl-0.5 font-semibold text-white">
                 Stats
@@ -615,6 +642,14 @@ export default function Graph() {
                     META_PUZZLES.includes(solve),
                   ).length
                 }
+              </p>
+              <p>
+                <span className="font-semibold">Register time:</span>{" "}
+                <FormattedTime time={searchedTeam.createTime} />
+              </p>
+              <p>
+                <span className="font-semibold">Finish time:</span>{" "}
+                <FormattedTime time={searchedTeam.finishTime} />
               </p>
             </div>
           ) : searchedPuzzle === null ? (

@@ -7,7 +7,19 @@ import { INITIAL_PUZZLES } from "~/hunt.config";
 export async function getSearchedTeam(teamId: string) {
   const result = await db.query.teams.findFirst({
     where: eq(teams.id, teamId),
-    columns: { id: true, displayName: true, role: true, members: true, interactionMode: true, phoneNumber: true, solvingLocation: true},
+    columns: {
+      id: true,
+      displayName: true,
+      role: true,
+      createTime: true,
+      finishTime: true,
+      members: true,
+      interactionMode: true,
+      phoneNumber: true,
+      solvingLocation: true,
+      numCommunity: true,
+      hasBox: true,
+    },
     with: {
       unlocks: {
         columns: { puzzleId: true },
