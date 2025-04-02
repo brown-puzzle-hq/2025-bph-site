@@ -16,6 +16,7 @@ import {
   X,
   ChevronDown,
   ChevronUp,
+  ChevronRight,
 } from "lucide-react";
 import { getSearchedTeam, getSearchedPuzzle } from "./actions";
 import { Team } from "~/server/db/schema";
@@ -161,6 +162,7 @@ export default function Graph() {
         if ("solves" in res && "unlocks" in res) {
           setTeamQuery(team);
           setSearchedTeam(res);
+          setTeamSidebar(true);
         }
       }
 
@@ -614,14 +616,23 @@ export default function Graph() {
                   ).length
                 }
               </p>
-              <p>Finished time: </p>
             </div>
           ) : searchedPuzzle === null ? (
             // Show list of puzzles
             <div>
-              <p className="text-base font-semibold text-neutral-700">
-                Puzzles
-              </p>
+              <div className="flex justify-between">
+                <p className="text-base font-semibold text-neutral-700">
+                  Puzzles
+                </p>
+                {searchedTeam && (
+                  <button onClick={() => setTeamSidebar(true)}>
+                    <div className="flex items-center space-x-1 text-neutral-500">
+                      Team
+                      <ChevronRight className="size-3" />
+                    </div>
+                  </button>
+                )}
+              </div>
               {ROUNDS.map((round) => (
                 <>
                   <p className="my-1 rounded-[2px] bg-neutral-400 pl-0.5 font-semibold text-white">
