@@ -1,14 +1,15 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { logout } from "./actions";
+import { logout } from "../../app/(hunt)/login/actions";
 
 export function LogoutButton() {
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    await logout();
-    router.push("/");
-  };
-
-  return <p onClick={handleLogout}>Logout</p>;
+  return (
+    <p
+      className="px-1.5 py-1"
+      onClick={async () => {
+        await logout();
+      }}
+    >
+      Logout
+    </p>
+  );
 }

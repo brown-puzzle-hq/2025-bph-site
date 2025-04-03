@@ -1,17 +1,10 @@
-import Link from "next/link";
-import { auth } from "~/server/auth/auth";
 import { db } from "@/db/index";
 import { followUps, guesses, hints, unlocks } from "@/db/schema";
 import { and, asc, eq } from "drizzle-orm";
 import Toast from "../components/hint-page/Toast";
-import HintStatusBox from "../components/hint-page/HintStatusBox";
-import PreviousHintTable from "../components/hint-page/PreviousHintTable";
-import PreviousGuessTable from "~/app/(hunt)/puzzle/components/PreviousGuessTable";
-import { RequestBox } from "../components/hint-page/RequestBox";
-import { ResponseBox } from "../components/hint-page/ResponseBox";
-import { FormattedTime, ElapsedTime } from "~/lib/time";
-import { IN_PERSON, REMOTE } from "~/hunt.config";
-import { Label } from "~/components/ui/label";
+import AdminHintThread from "../components/hint-page/AdminHintThread";
+import GuessTable from "~/app/(hunt)/puzzle/components/GuessTable";
+import { IN_PERSON, REMOTE, ROUNDS } from "~/hunt.config";
 
 export default async function Page({
   params,
@@ -20,12 +13,6 @@ export default async function Page({
   params: Promise<{ slug: number }>;
   searchParams?: { reply?: boolean };
 }) {
-  // Authentication
-  const session = await auth();
-  if (!session?.user?.id) {
-    throw new Error("Not authorized.");
-  }
-
   // Check if slug is a valid number
   const { slug } = await params;
   const reply = searchParams?.reply;
@@ -51,8 +38,22 @@ export default async function Page({
           interactionMode: true,
         },
       },
-      claimer: { columns: { id: true, displayName: true } },
       puzzle: { columns: { id: true, name: true, answer: true } },
+      claimer: { columns: { id: true, displayName: true } },
+      followUps: {
+        columns: { id: true, message: true, userId: true, time: true },
+        with: { user: { columns: { id: true, displayName: true } } },
+        orderBy: [asc(followUps.time)],
+      },
+    },
+    columns: {
+      id: true,
+      request: true,
+      response: true,
+      status: true,
+      requestTime: true,
+      claimTime: true,
+      responseTime: true,
     },
   });
 
@@ -71,8 +72,8 @@ export default async function Page({
       await db.query.unlocks.findFirst({
         columns: { unlockTime: true },
         where: and(
-          eq(unlocks.teamId, hint.teamId),
-          eq(unlocks.puzzleId, hint.puzzleId),
+          eq(unlocks.teamId, hint.team.id),
+          eq(unlocks.puzzleId, hint.puzzle.id),
         ),
       })
     )?.unlockTime ??
@@ -82,140 +83,46 @@ export default async function Page({
 
   const previousGuesses = await db.query.guesses.findMany({
     where: and(
-      eq(guesses.teamId, hint.teamId),
-      eq(guesses.puzzleId, hint.puzzleId),
+      eq(guesses.teamId, hint.team.id),
+      eq(guesses.puzzleId, hint.puzzle.id),
     ),
   });
 
-  const previousHints = await db.query.hints.findMany({
-    where: and(
-      eq(hints.teamId, hint.teamId),
-      eq(hints.puzzleId, hint.puzzleId),
-    ),
-    columns: {
-      id: true,
-      request: true,
-      response: true,
-      requestTime: true,
-    },
-    with: {
-      team: { columns: { id: true, displayName: true, members: true } },
-      claimer: { columns: { id: true, displayName: true } },
-      followUps: {
-        columns: { id: true, message: true, userId: true, time: true },
-        with: { user: { columns: { id: true, displayName: true } } },
-        orderBy: [asc(followUps.time)],
-      },
-    },
-    orderBy: [asc(hints.requestTime)],
-  });
+  // Get partial solutions and tasks
+  const roundName = ROUNDS.find((round) =>
+    round.puzzles.includes(hint.puzzle.id),
+  )?.name.toLowerCase();
+
+  const module = await import(
+    `../../../.../../../(hunt)/puzzle/(${roundName})/${hint.puzzle.id}/data.tsx`
+  ).catch(() => null);
+
+  const partialSolutions = module?.partialSolutions ?? {};
+  const tasks = module?.tasks ?? {};
 
   return (
-    <div className="mb-12">
-      <div className="flex min-w-36 grow flex-col">
-        <div className="flex flex-col items-center">
-          <h1>Answer a Hint</h1>
-          <HintStatusBox
-            hintId={hint.id}
-            claimer={hint.claimer}
-            status={hint.status}
-            userId={session.user.id}
+    <div className="mx-auto mb-12 flex max-w-[calc(min(100vw,968px))] flex-col items-center px-4">
+      <h1 className="px-4 pb-4">Hint #{hint.id}</h1>
+      <div className="w-full pb-4">
+        <AdminHintThread
+          hint={hint}
+          unlockTime={unlockTime}
+          reply={reply ? hintId : undefined}
+        />
+      </div>
+      {previousGuesses.length > 0 && (
+        <div className="w-full space-y-2">
+          <p className="w-full text-center text-sm font-semibold text-zinc-700">
+            Team's Guesses
+          </p>
+          <GuessTable
+            puzzleAnswer={hint.puzzle.answer}
+            previousGuesses={previousGuesses}
+            partialSolutions={partialSolutions}
+            tasks={tasks}
           />
         </div>
-
-        <div className="flex flex-col items-center overflow-auto">
-          <div className="flex w-full flex-col justify-between p-6 text-sm text-zinc-700 md:w-2/3 lg:flex-row">
-            <div>
-              <div>
-                <p className="font-semibold">Hint #{hint.id}</p>
-                <span className="font-semibold">Team: </span>
-                <Link
-                  href={`/teams/${hint.team.id}`}
-                  className="text-blue-500 hover:underline"
-                  prefetch={false}
-                >
-                  {hint.team.displayName} ({hint.team.id})
-                </Link>
-              </div>
-              <div>
-                <span className="font-semibold">Puzzle: </span>
-                <Link
-                  href={`/puzzle/${hint.puzzleId}`}
-                  className="text-blue-500 hover:underline"
-                  prefetch={false}
-                >
-                  {hint.puzzle.name}
-                </Link>
-              </div>
-            </div>
-            <div>
-              <p>
-                <span className="font-semibold">Puzzle unlocked </span>
-                <FormattedTime time={unlockTime} /> (
-                <ElapsedTime date={unlockTime} /> ago)
-              </p>
-              <p>
-                <span className="font-semibold">Hint requested </span>
-                <FormattedTime time={hint.requestTime} /> (
-                <ElapsedTime date={hint.requestTime} /> ago)
-              </p>
-              <p>
-                <span className="font-semibold">Hint claimed </span>
-                {hint.claimTime && (
-                  <>
-                    <FormattedTime time={hint.claimTime} /> (
-                    <ElapsedTime date={hint.claimTime} /> ago)
-                  </>
-                )}
-              </p>
-              <p>
-                <span className="font-semibold">Hint responded </span>
-                {hint.responseTime && (
-                  <>
-                    <FormattedTime time={hint.responseTime} /> (
-                    <ElapsedTime date={hint.responseTime} /> ago)
-                  </>
-                )}
-              </p>
-            </div>
-          </div>
-
-          <div className="w-full p-6 md:w-2/3">
-            <RequestBox hint={hint} />
-            {(hint.response ||
-              (hint.claimer && hint.claimer.id === session.user.id)) && (
-              <ResponseBox
-                hint={{ ...hint, followUps: [] }}
-                members={hint.team.members}
-              />
-            )}
-          </div>
-
-          {previousHints.length > 0 && (
-            <div className="w-full md:w-2/3">
-              <PreviousHintTable
-                previousHints={previousHints}
-                teamDisplayName={hint.team.displayName}
-                reply={reply ? hintId : undefined}
-                puzzleId={hint.puzzle.id}
-                puzzleName={hint.puzzle.name}
-              />
-            </div>
-          )}
-
-          {previousGuesses.length > 0 && (
-            <div className="flex flex-col items-center space-y-2 p-4">
-              <Label>Previous Guesses</Label>
-              <PreviousGuessTable
-                puzzleAnswer={hint.puzzle.answer}
-                previousGuesses={previousGuesses}
-                partialSolutions={{}} // TODO: Import from puzzle
-                tasks={{}} // TODO: Import from puzzle
-              />
-            </div>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

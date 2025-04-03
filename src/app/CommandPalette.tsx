@@ -23,6 +23,7 @@ import {
   ClipboardPenLine,
   UsersRound,
   Database,
+  Waypoints,
 } from "lucide-react";
 
 const huntItems = [
@@ -56,7 +57,7 @@ const adminItems = [
   },
   {
     title: "Puzzles",
-    href: "/admin/solutions",
+    href: "/admin/puzzle",
     icon: <Puzzle className="text-blue-500" />,
   },
   {
@@ -80,6 +81,11 @@ const adminItems = [
     icon: <ClipboardPenLine className="text-blue-500" />,
   },
   {
+    title: "Graph",
+    href: "/admin/graph",
+    icon: <Waypoints className="text-blue-500" />,
+  },
+  {
     title: "Queries",
     href: "/admin/sql",
     icon: <Database className="text-blue-500" />,
@@ -93,7 +99,11 @@ export function CommandPalette() {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+      if (
+        session.data?.user?.role === "admin" &&
+        e.key === "k" &&
+        (e.metaKey || e.ctrlKey)
+      ) {
         e.preventDefault();
         e.stopPropagation();
         setOpen((open) => !open);
@@ -102,10 +112,6 @@ export function CommandPalette() {
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
-
-  if (session?.data?.user?.role != "admin") {
-    return <></>;
-  }
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>

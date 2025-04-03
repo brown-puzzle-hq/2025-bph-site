@@ -13,7 +13,7 @@ export default async function AdminHamburgerMenu() {
   const OtherMenuItems = () => {
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger className="align-middle">
+        <DropdownMenuTrigger className="align-middle px-1.5 py-1">
           <Ellipsis className="mb-0.5 h-[20px]" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -25,6 +25,11 @@ export default async function AdminHamburgerMenu() {
           <Link href="/admin/feedback" prefetch={false}>
             <DropdownMenuItem className="hover:cursor-pointer">
               Feedback
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/admin/graph" prefetch={false}>
+            <DropdownMenuItem className="hover:cursor-pointer">
+              Graph
             </DropdownMenuItem>
           </Link>
           <Link href="/admin/sql" prefetch={false}>
@@ -45,7 +50,7 @@ export default async function AdminHamburgerMenu() {
     },
     {
       title: "Puzzles",
-      href: "/admin/solutions",
+      href: "/admin/puzzle",
       type: "link",
     },
     {
@@ -78,7 +83,7 @@ export default async function AdminHamburgerMenu() {
     },
   ];
 
-  const hambergerMenuItems: MenuItem[] = [
+  const hamburgerMenuItems: MenuItem[] = [
     {
       title: "Dashboard",
       href: "/admin",
@@ -86,7 +91,7 @@ export default async function AdminHamburgerMenu() {
     },
     {
       title: "Puzzles",
-      href: "/admin/solutions",
+      href: "/admin/puzzle",
       type: "link",
     },
     {
@@ -110,6 +115,11 @@ export default async function AdminHamburgerMenu() {
       type: "link",
     },
     {
+      title: "Graph",
+      href: "/admin/graph",
+      type: "link",
+    },
+    {
       title: "Queries",
       href: "/admin/sql",
       type: "link",
@@ -130,7 +140,7 @@ export default async function AdminHamburgerMenu() {
     <HamburgerMenu
       leftMenuItems={leftMenuItems}
       rightMenuItems={rightMenuItems}
-      hambergerMenuItems={hambergerMenuItems}
+      hamburgerMenuItems={hamburgerMenuItems}
       side="admin"
     />
   );

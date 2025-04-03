@@ -1,5 +1,4 @@
 "use server";
-import { redirect } from "next/navigation";
 import { Session } from "next-auth";
 import { revalidatePath } from "next/dist/server/web/spec-extension/revalidate";
 import { db } from "@/db/index";
@@ -24,13 +23,22 @@ import {
   META_PUZZLES,
   NUMBER_OF_GUESSES_PER_PUZZLE,
   PUZZLE_UNLOCK_MAP,
+  ROUNDS,
 } from "~/hunt.config";
-import { sendBotMessage } from "~/lib/utils";
+import { getNumberOfHintsRemaining } from "~/hunt.config";
+import { sendBotMessage, sendEmail, extractEmails } from "~/lib/utils";
+import {
+  FollowUpEmailTemplate,
+  FollowUpEmailTemplateProps,
+} from "~/lib/email-template";
 
 export type TxType = Parameters<Parameters<typeof db.transaction>[0]>[0];
-export type MessageType = "request" | "response" | "follow-up";
 export type viewStatus = "success" | "not_authenticated" | "not_authorized";
 
+/** Checks whether the user can view the puzzle.
+ * Admins can always view the puzzle, testsolvers can view the puzzle if it is unlocked,
+ * and teams can view the puzzle if the hunt has started AND it is unlocked.
+ */
 export async function canViewPuzzle(
   puzzleId: string,
   session: Session | null,
@@ -102,6 +110,7 @@ export async function canViewSolution(
   return solved ? "success" : "not_authorized";
 }
 
+/** Handles a guess for a puzzle. Calls handleSolve. */
 export async function handleGuess(puzzleId: string, guess: string) {
   // Check that the user is logged in
   const session = await auth();
@@ -123,7 +132,18 @@ export async function handleGuess(puzzleId: string, guess: string) {
 
   if (!puzzle) return { error: "Puzzle not found!" };
 
-  if (puzzle.guesses.length >= NUMBER_OF_GUESSES_PER_PUZZLE) {
+  const roundName = ROUNDS.find((round) =>
+    round.puzzles.includes(puzzleId),
+  )?.name.toLowerCase();
+  const module = await import(`./(${roundName})/${puzzleId}/data.tsx`).catch(
+    () => null,
+  );
+  const tasks = module?.tasks ?? {};
+
+  if (
+    puzzle.guesses.filter(({ guess }) => !(guess in tasks)).length >=
+    NUMBER_OF_GUESSES_PER_PUZZLE
+  ) {
     revalidatePath(`/puzzle/${puzzleId}`);
     return;
   }
@@ -219,6 +239,7 @@ export async function handleGuess(puzzleId: string, guess: string) {
   }
 }
 
+/** Handles a solve for a puzzle */
 export async function handleSolve(
   tx: TxType,
   teamId: string,
@@ -236,7 +257,7 @@ export async function handleSolve(
 
   // Unlock the next puzzles
   const nextPuzzles = PUZZLE_UNLOCK_MAP[puzzleId];
-  if (nextPuzzles) {
+  if (nextPuzzles?.length) {
     const newUnlocks = nextPuzzles.map((puzzleId) => ({
       teamId,
       puzzleId,
@@ -265,41 +286,7 @@ export async function handleSolve(
   }
 }
 
-export async function editMessage(
-  id: number,
-  message: string,
-  type: MessageType,
-) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return { error: "Not logged in" };
-  }
-
-  switch (type) {
-    case "request":
-      await db
-        .update(hints)
-        .set({ request: message })
-        .where(and(eq(hints.id, id), eq(hints.teamId, session.user.id)))
-        .returning({ id: hints.id });
-      break;
-    case "response":
-      await db
-        .update(hints)
-        .set({ response: message })
-        .where(and(eq(hints.id, id), eq(hints.claimer, session.user.id)));
-      break;
-    case "follow-up":
-      await db
-        .update(followUps)
-        .set({ message })
-        .where(
-          and(eq(followUps.id, id), eq(followUps.userId, session.user.id)),
-        );
-      break;
-  }
-}
-
+/** Inserts an answer token into the token table */
 export async function insertAnswerToken(eventId: string, guess: string) {
   // Check that the user is logged in
   const session = await auth();
@@ -325,4 +312,139 @@ export async function insertAnswerToken(eventId: string, guess: string) {
 
   revalidatePath(`/event/${eventId}`);
   return { error: null };
+}
+
+/** PREVIOUS HINT TABLE **/
+
+export type MessageType = "request" | "response" | "follow-up";
+
+/** Inserts a hint request into the hint table */
+export async function insertHintRequest(puzzleId: string, hint: string) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw new Error("Not logged in");
+  }
+  const teamId = session.user.id;
+  const role = session.user.role;
+
+  // Checks
+  const hasHint = (await getNumberOfHintsRemaining(teamId, role)) > 0;
+  const hasUnansweredHint = (await db.query.hints.findFirst({
+    columns: { id: true },
+    where: and(eq(hints.teamId, teamId), eq(hints.status, "no_response")),
+  }))
+    ? true
+    : false;
+
+  if (hasHint && !hasUnansweredHint) {
+    const result = await db
+      .insert(hints)
+      .values({
+        teamId: teamId,
+        puzzleId,
+        request: hint,
+        requestTime: new Date(),
+        status: "no_response",
+      })
+      .returning({ id: hints.id });
+
+    // TODO: get specific hint ID
+    const hintMessage = `🙏 **Hint** [request](https://www.brownpuzzlehunt.com/admin/hints) by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${hint} <@&1310029428864057504>`;
+    await sendBotMessage(hintMessage);
+
+    return result[0]?.id;
+  }
+}
+
+/** Edits a hint */
+export async function editMessage(
+  id: number,
+  message: string,
+  type: MessageType,
+) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw new Error("Not logged in");
+  }
+
+  switch (type) {
+    case "request":
+      await db
+        .update(hints)
+        .set({ request: message })
+        .where(and(eq(hints.id, id), eq(hints.teamId, session.user.id)))
+        .returning({ id: hints.id });
+      break;
+    case "response":
+      await db
+        .update(hints)
+        .set({ response: message })
+        .where(and(eq(hints.id, id), eq(hints.claimer, session.user.id)))
+        .returning({ id: hints.id });
+      break;
+    case "follow-up":
+      await db
+        .update(followUps)
+        .set({ message })
+        .where(and(eq(followUps.id, id), eq(followUps.userId, session.user.id)))
+        .returning({ id: hints.id });
+      break;
+  }
+}
+
+/** Inserts a follow-up hint into the hint table */
+export async function insertFollowUp({
+  hintId,
+  members,
+  teamId,
+  teamDisplayName,
+  puzzleId,
+  puzzleName,
+  message,
+}: FollowUpEmailTemplateProps & {
+  hintId: number;
+  teamId?: string;
+  members: string;
+}) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw new Error("Not logged in");
+  }
+  try {
+    const result = await db
+      .insert(followUps)
+      .values({
+        hintId,
+        userId: session.user.id,
+        message,
+        time: new Date(),
+      })
+      .returning({ id: followUps.id });
+
+    if (result[0]?.id) {
+      // If there are members, then this is a follow-up by a team
+      // So send an email
+      if (members) {
+        await sendEmail(
+          extractEmails(members),
+          `Follow-Up Hint [${puzzleName}]`,
+          FollowUpEmailTemplate({
+            teamDisplayName,
+            puzzleId,
+            puzzleName,
+            message,
+          }),
+        );
+      }
+      // Otherwise, notify admin on Discord that there is a follow-up
+      else if (message !== "[Claimed]") {
+        const hintMessage = `🙏 **Hint** [follow-up](https://www.brownpuzzlehunt.com/admin/hints/${hintId}?reply=true) by [${teamDisplayName}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleName}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${message} <@&1310029428864057504>`;
+        await sendBotMessage(hintMessage);
+      }
+      return result[0].id;
+    }
+    return null;
+  } catch (_) {
+    return null;
+  }
 }

@@ -4,6 +4,7 @@
     - [First steps](#first-steps)
     - [Adding puzzles](#adding-puzzles)
     - [Creating puzzle and solution bodies](#creating-puzzle-and-solution-bodies)
+    - [Creating copy text](#creating-copy-text)
 - [Developer guide](#developer-guide)
     - [Overview](#overview)
     - [Quick Links](#quick-links)
@@ -34,7 +35,7 @@ Now you're all ready to start postprodding!
 To run the development server and see your changes live:
 1. Run `pnpm run dev`
 2. Login with `admin123` as the username and password
-3. Go to `http://localhost:3000/admin/solutions`
+3. Go to `http://localhost:3000/admin/puzzle`
 
 #### Adding puzzles
 
@@ -182,6 +183,37 @@ To run the development server and see your changes live:
     <p>The answer is{" "}<span className="bg-main-text">ANSWER</span>.
     ```
 
+#### Creating copy text
+
+1. Each copy text entry should either be plaintext (simple and faster) or HTML (which allows for text and cell formatting).
+
+2. With plaintext, write a newline to move down a row and `\t` to move across a row. Make sure to wrap the string with backticks (`` ` ``) instead of single or double quotes.
+    ```ts
+    export const copyText = `one\ttwo
+    three\tfour
+    =IMAGE("https://www.brownpuzzlehunt.com/home/Register.png")`;
+    ```
+3. With HTML, you will have to use raw HTML `style` tags which differ slightly from Tailwind (used for puzzle and solution bodies). You might want to write the HTML elsewhere for syntax highlighting before placing it into the `copyText`.
+    ```ts
+    export const copyText = `<table>
+        <tr>
+            <td><b>Bold</b></td>
+            <td><i>Italic</i></td>
+            <td><u>Underline</u></td>
+        </tr>
+        <tr>
+            <td><span style="color: red;">Red</span></td>
+            <td style="background-color: yellow; border: 1px solid red;">Cell</td>
+            <td style="background-color: yellow; border-top: 1px solid #452c63;">Cell</td>
+        </tr>
+        <tr>
+            <td>=IMAGE("https://www.brownpuzzlehunt.com/home/Register.png")</td>
+        </tr>
+    </table>`;
+    ```
+
+4. You can make and format table(s) in Google Sheets, export them to HTML, and use that as a starting point.
+
 ## Developer guide
 
 This assumes that you are setting up a new hunt from scratch.
@@ -230,9 +262,9 @@ Most documentation out there is still for v4, so check that you are reading docu
     1. Register (`src/app/register`)
     2. Login (`src/app/login`)
     3. Make guesses (`src/app/puzzle/components/GuessForm.tsx`)
-    4. See previous guesses (`src/app/puzzle/components/PreviousGuessTable.tsx`)
+    4. See guesses (`src/app/puzzle/components/GuessTable.tsx`)
     5. Request hints (`src/app/puzzle/components/HintForm.tsx`)
-    6. See previous hints (`src/app/puzzle/components/PreviousHintTable.tsx`)
+    6. See hints (`src/app/puzzle/components/HuntHintThreads.tsx`)
     7. See the leaderboard (`src/app/leaderboard`)
 
 3. Admins can:

@@ -22,7 +22,7 @@ export default async function GuessStatisticsInfo({
   })!;
 
   if (!puzzle) {
-    redirect("/admin/solutions");
+    redirect("/admin/puzzle");
   }
 
   // Get previous guesses
@@ -34,7 +34,7 @@ export default async function GuessStatisticsInfo({
   });
 
   return (
-    <div className="flex grow flex-col items-center">
+    <div className="-mt-6 flex grow flex-col items-center">
       {/* TODO: this has built-in padding, ideally we remove padding from admin layout and manually add it to each page */}
       <DefaultHeader puzzleId={puzzleId} hasSolution={true} />
       <div className="grid w-full max-w-[1200px] grid-cols-1 gap-4 p-4 md:grid-cols-2">
