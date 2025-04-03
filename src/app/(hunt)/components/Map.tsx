@@ -9,6 +9,7 @@ import { Round, ROUNDS } from "@/hunt.config";
 
 function spriteExists(image_url: string | URL) {
   // TODO: can remove later
+  return true;
   var http = new XMLHttpRequest();
   console.log(image_url + ": " + (http.status != 404));
   http.open('HEAD', image_url, false);
@@ -135,21 +136,21 @@ export default function Map({
             icon={
               new L.Icon({
                 iconUrl: solvedPuzzles.some((sp) => sp.puzzleId === puzzle.id)
-                  ? spriteExists(`map/sprites/${puzzle.id}.png`)
-                    ? `map/sprites/${puzzle.id}.png` // TODO: format solved puzzles differently
+                  ? spriteExists(`map/sprites-outlined/${puzzle.id}.png`)
+                    ? `map/sprites-outlined/${puzzle.id}.png` // TODO: format solved puzzles differently
                     : `map/sprites/bookmark-check.svg`
-                  : spriteExists(`map/sprites/${puzzle.id}.png`)
-                    ? `map/sprites/${puzzle.id}.png`
+                  : spriteExists(`map/sprites-outlined/${puzzle.id}.png`)
+                    ? `map/sprites-outlined/${puzzle.id}.png`
                     : `map/sprites/puzzle.svg`,
-                iconSize: [40, 40],
-                iconAnchor: [20, 40],
+                iconSize: [100, 100],
+                iconAnchor: [50, 100],
               })
             }
             eventHandlers={{
               click: () => window.open(`puzzle/${puzzle.id}`, "_blank"),
             }}
           >
-            <Tooltip direction="bottom" permanent>
+            <Tooltip direction="bottom">
               {puzzle.name}
             </Tooltip>
           </Marker>
