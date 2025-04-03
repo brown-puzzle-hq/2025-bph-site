@@ -190,7 +190,7 @@ export default function Game() {
             <EventComponent
               running={running}
               rate={rate}
-              scatter={scrollPosition >= width / 2 + WIDTH / 4 - HEIGHT / 16}
+              scatter={scrollPosition >= width / 2 - WIDTH / 4 + HEIGHT / 16}
             />
           </Stage>
         </div>
