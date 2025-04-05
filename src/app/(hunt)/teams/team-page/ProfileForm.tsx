@@ -138,7 +138,7 @@ type TeamInfoFormProps = {
 };
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-function formatPhoneNumber(phoneNumber: string | null): string {
+export function formatPhoneNumber(phoneNumber: string | null): string {
   if (!phoneNumber) return "";
   const parsed = parsePhoneNumberFromString(phoneNumber);
   if (parsed && parsed.country === "US") {

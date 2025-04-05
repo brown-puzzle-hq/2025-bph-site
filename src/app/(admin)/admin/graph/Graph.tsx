@@ -22,6 +22,7 @@ import { getSearchedTeam, getSearchedPuzzle } from "./actions";
 import { Team } from "~/server/db/schema";
 import { FormattedTime } from "~/lib/time";
 import { deserializeMembers } from "~/lib/team-members";
+import { formatPhoneNumber } from "src/app/(hunt)/teams/team-page/ProfileForm";
 import { cn } from "~/lib/utils";
 
 const roundTextColor: Record<string, string> = {
@@ -620,7 +621,7 @@ export default function Graph() {
                   </p>
                   <p>
                     <span className="font-semibold">Phone number: </span>
-                    {searchedTeam.phoneNumber}
+                    {formatPhoneNumber(searchedTeam.phoneNumber)}
                   </p>
                   <p>
                     <span className="font-semibold">Solving location: </span>
