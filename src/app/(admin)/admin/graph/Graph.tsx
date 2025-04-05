@@ -641,10 +641,10 @@ export default function Graph() {
               <table>
                 {deserializeMembers(searchedTeam.members).map(
                   (member, index) => (
-                    <tr>
-                      <td className="pr-4">{index}</td>
-                      <td className="pr-4">{member.name}</td>
-                      <td className="pr-4">{member.email}</td>
+                    <tr className="w-full">
+                      <td className="text-center">{index + 1}</td>
+                      <td className="break-all pl-2">{member.name}</td>
+                      <td className="break-all pl-2">{member.email}</td>
                     </tr>
                   ),
                 )}
