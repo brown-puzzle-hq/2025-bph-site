@@ -1,14 +1,15 @@
 import { auth } from "@/auth";
 import { db } from "~/server/db";
 import { eq, and } from "drizzle-orm";
-import { puzzles, solves, guesses, errata } from "~/server/db/schema";
+import { teams, puzzles, solves, guesses, errata } from "~/server/db/schema";
 import { redirect } from "next/navigation";
-import PreviousGuessTable from "./PreviousGuessTable";
-import ErratumDialog from "./ErratumDialog";
-import GuessForm from "./GuessForm";
-import { canViewPuzzle } from "../actions";
+import GuessTable from "@/puzzle/components/GuessTable";
+import ErratumDialog from "@/puzzle/components/ErratumDialog";
+import GuessForm from "@/puzzle/components/GuessForm";
+import CopyButton from "@/puzzle/components/CopyButton";
+import TokenRefresher from "@/puzzle/components/TokenRefresher";
+import { canViewPuzzle } from "@/puzzle/actions";
 import { NUMBER_OF_GUESSES_PER_PUZZLE, REMOTE } from "~/hunt.config";
-import CopyButton from "./CopyButton";
 
 export default async function DefaultPuzzlePage({
   puzzleId,
@@ -44,7 +45,7 @@ export default async function DefaultPuzzlePage({
   // TODO: which version should we show?
   if (!session?.user?.id) {
     return (
-      <div className="mb-12 w-full px-4">
+      <div className="w-full px-4">
         <div className="flex items-start justify-center space-x-2">
           <div className="w-fit">{inPersonBody}</div>
           {copyText && <CopyButton copyText={copyText} />}
@@ -96,7 +97,18 @@ export default async function DefaultPuzzlePage({
   }));
 
   const numberOfGuessesLeft =
-    NUMBER_OF_GUESSES_PER_PUZZLE - previousGuesses.length;
+    NUMBER_OF_GUESSES_PER_PUZZLE -
+    previousGuesses.filter(({ guess }) => !(guess in tasks)).length;
+
+  var refresh = false;
+  if (typeof session.user.hasBox === "undefined") {
+    const user = await db.query.teams.findFirst({
+      where: eq(teams.id, session.user.id),
+    });
+    const hasBox = user!.hasBox;
+    session.user.hasBox = hasBox;
+    refresh = true;
+  }
 
   // If there is an URL query, use that for admins and after the hunt ends
   // Otherwise, use the session interaction mode
@@ -104,7 +116,11 @@ export default async function DefaultPuzzlePage({
     interactionMode &&
     (session.user.role === "admin" || new Date() > REMOTE.END_TIME)
       ? interactionMode
-      : session.user.interactionMode;
+      : session.user.interactionMode === "in-person"
+        ? "in-person"
+        : session.user.hasBox
+          ? "remote-box"
+          : "remote";
 
   const puzzleBody =
     actualInteractionMode === "remote-box"
@@ -115,6 +131,8 @@ export default async function DefaultPuzzlePage({
 
   return (
     <div className="w-full px-4">
+      {refresh && <TokenRefresher hasBox={session.user.hasBox} />}
+
       <div className="mx-auto max-w-3xl">
         <ErratumDialog errataList={errataList} />
       </div>
@@ -146,7 +164,7 @@ export default async function DefaultPuzzlePage({
       </div>
 
       <div className="mx-auto max-w-3xl">
-        <PreviousGuessTable
+        <GuessTable
           puzzleAnswer={puzzleAnswer}
           previousGuesses={previousGuesses}
           partialSolutions={partialSolutions}

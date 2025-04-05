@@ -35,8 +35,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { AlertCircle } from "lucide-react";
-import { X } from "lucide-react";
+import { AlertCircle, X } from "lucide-react";
 
 // Other
 import { deleteTeam, updateTeam } from "../actions";
@@ -103,14 +102,14 @@ export const profileFormSchema = z
     confirmPassword: z.string().or(z.literal("")),
     hasBox: z.boolean(),
   })
-  .refine(
-    (data) =>
-      !(data.interactionMode === "remote" && data.wantsBox === undefined),
-    {
-      message: "Required",
-      path: ["wantsBox"],
-    },
-  )
+  // .refine(
+  //   (data) =>
+  //     !(data.interactionMode === "remote" && data.wantsBox === undefined),
+  //   {
+  //     message: "Required",
+  //     path: ["wantsBox"],
+  //   },
+  // )
   .refine(
     (data) =>
       !(data.interactionMode === "in-person" && data.phoneNumber === ""),
@@ -240,6 +239,9 @@ export function ProfileForm({
       ) {
         update({ interactionMode: data.interactionMode });
       }
+      if (data.hasBox != form.formState.defaultValues?.hasBox) {
+        update({ hasBox: data.hasBox });
+      }
     }
 
     form.reset({
@@ -264,7 +266,6 @@ export function ProfileForm({
       if (session?.user?.id !== id && session?.user?.role === "admin") {
         router.push("/admin/teams");
       } else {
-        update({ role: null });
         await logout();
       }
     }
@@ -616,6 +617,7 @@ export function ProfileForm({
             </div>
           ) : (
             <div className="mb-8 space-y-8">
+              {/*
               <FormField
                 control={form.control}
                 name="wantsBox"
@@ -670,6 +672,7 @@ export function ProfileForm({
                   </FormItem>
                 )}
               />
+              */}
             </div>
           )}
 
@@ -812,9 +815,9 @@ export function ProfileForm({
                       !form
                         .watch("members")
                         .some((member: Member) => member?.email) ||
-                      (form.watch("interactionMode") === "remote" &&
-                        form.watch("wantsBox") !== true &&
-                        form.watch("wantsBox") !== false) ||
+                      // (form.watch("interactionMode") === "remote" &&
+                      //   form.watch("wantsBox") !== true &&
+                      //   form.watch("wantsBox") !== false) ||
                       form.watch("password") !== form.watch("confirmPassword")
                     }
                   >
