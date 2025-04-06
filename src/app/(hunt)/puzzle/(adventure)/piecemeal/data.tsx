@@ -63,7 +63,7 @@ const puzzleClues = [
     ],
   },
   {
-    down: ["All women born after 1993, according to the internet", 
+    down: ["All women born after 1993, according to the Internet", 
       "What one might do in hell", 
       "Belonging to me and you"],
     across: [
