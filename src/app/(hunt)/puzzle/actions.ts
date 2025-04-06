@@ -326,9 +326,10 @@ export async function insertHintRequest(puzzleId: string, hint: string) {
   }
   const teamId = session.user.id;
   const role = session.user.role;
+  const interactionMode = session.user.interactionMode;
 
   // Checks
-  const hasHint = (await getNumberOfHintsRemaining(teamId, role)) > 0;
+  const hasHint = (await getNumberOfHintsRemaining(teamId, role, interactionMode)) > 0;
   const hasUnansweredHint = (await db.query.hints.findFirst({
     columns: { id: true },
     where: and(eq(hints.teamId, teamId), eq(hints.status, "no_response")),

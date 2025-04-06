@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, CornerUpLeft, Pencil } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
 import {
@@ -368,7 +368,7 @@ export default function HuntHintThreads({
             {/* Hint request row */}
             <TableRow
               key={`${hint.id}-request`}
-              className="border-0 hover:bg-inherit"
+              className="group border-0 hover:bg-black hover:bg-opacity-10"
             >
               <TableCell className="w-4"></TableCell>
               <TableCell className="break-words pr-5">
@@ -405,9 +405,9 @@ export default function HuntHintThreads({
                               type: "request",
                             });
                           }}
-                          className="text-link hover:underline"
+                          className="-translate-y-5 rounded-md bg-black bg-opacity-20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                         >
-                          Edit
+                          <Pencil className="size-4" />
                         </button>
                       )}
                     </div>
@@ -437,7 +437,7 @@ export default function HuntHintThreads({
             {hint.response && (
               <TableRow
                 key={`${hint.id}-response`}
-                className="border-0 hover:bg-inherit"
+                className="group border-0 hover:bg-black hover:bg-opacity-10"
               >
                 {/* Chevron for hiding follow-up hints */}
                 <TableCell className="relative">
@@ -477,9 +477,9 @@ export default function HuntHintThreads({
                                   message: "",
                                 });
                               }}
-                              className="text-link hover:underline"
+                              className="-translate-y-5 rounded-md bg-black bg-opacity-20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                             >
-                              Reply
+                              <CornerUpLeft className="size-4" />
                             </button>
                           ) : (
                             <button
@@ -487,47 +487,6 @@ export default function HuntHintThreads({
                               className="text-link hover:underline"
                             >
                               Cancel
-                            </button>
-                          )}
-                        </div>
-                      )}
-                      {/* If the response was made by the current user, allow edits */}
-                      {hint.claimer?.id === session?.user?.id && (
-                        <div>
-                          {edit?.id === hint.id && edit.type === "response" ? (
-                            <div className="space-x-2">
-                              <button
-                                onClick={() =>
-                                  handleSubmitEdit(
-                                    edit.id,
-                                    edit.value,
-                                    "response",
-                                  )
-                                }
-                                className="text-link hover:underline"
-                              >
-                                Save
-                              </button>
-                              <button
-                                onClick={() => setEdit(null)}
-                                className="text-link hover:underline"
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() => {
-                                setNewFollowUp(null);
-                                setEdit({
-                                  id: hint.id,
-                                  value: hint.response ?? "",
-                                  type: "response",
-                                });
-                              }}
-                              className="text-link hover:underline"
-                            >
-                              Edit
                             </button>
                           )}
                         </div>
