@@ -68,6 +68,8 @@ type FollowUp = {
   message: string;
 };
 
+const DURATION = 0.15;
+
 export default function HuntHintThreads({
   previousHints,
   hintRequestState,
@@ -245,7 +247,7 @@ export default function HuntHintThreads({
     } else {
       setHiddenFollowUps((prev) => prev.concat(hintId));
       if (newFollowUp?.hintId === hintId) {
-        setNewFollowUp(null);
+        setTimeout(() => setNewFollowUp(null), DURATION * 1000);
       }
     }
   };
@@ -310,8 +312,8 @@ export default function HuntHintThreads({
   return (
     <div className="px-1 text-sm">
       <div className="mb-6 break-words px-3">
-        <b>Request</b>
-        <p>
+        <p className="mb-1 font-semibold">Request</p>
+        <p className="text-main-text/70">
           Please provide as much detail as possible to help us understand where
           you're at and where you're stuck! Specific clues, steps, and
           hypotheses are all helpful. If you're working with any spreadsheets,
@@ -333,7 +335,9 @@ export default function HuntHintThreads({
           value={request}
           onChange={(e) => setRequest(e.target.value)}
         />
-        <div className="mt-2">{getFormDescription(hintRequestState)}</div>
+        <div className="mt-2 text-main-text/70">
+          {getFormDescription(hintRequestState)}
+        </div>
         <Button
           onClick={() =>
             handleSubmitRequest(hintRequestState.puzzleId, request)
@@ -461,7 +465,7 @@ export default function HuntHintThreads({
               animate={{
                 height: hiddenFollowUps.includes(hint.id) ? 20 : "auto",
                 transition: {
-                  duration: 0.15,
+                  duration: DURATION,
                   ease: "linear",
                 },
               }}
@@ -470,7 +474,7 @@ export default function HuntHintThreads({
               {hint.followUps.length > 0 &&
                 (hiddenFollowUps.includes(hint.id) ? (
                   <button
-                    className="ml-3 flex items-center space-x-1.5 text-main-text/50 hover:opacity-80"
+                    className="ml-3 flex items-center space-x-1.5 text-main-text/70 hover:opacity-85"
                     onClick={() => handleHideFollowUps(hint.id)}
                   >
                     <ChevronDown className="-mx-1 size-5" />
@@ -478,12 +482,12 @@ export default function HuntHintThreads({
                   </button>
                 ) : (
                   <button
-                    className="relative ml-3 flex items-center space-x-1.5 hover:opacity-80"
+                    className="relative ml-3 flex items-center space-x-1.5 hover:opacity-85"
                     onClick={() => handleHideFollowUps(hint.id)}
                   >
-                    <div className="size-3 rounded-full bg-main-text/50" />
-                    <div className="absolute -left-[1px] bottom-0 h-[4px] border-l-2 border-main-text/50"></div>
-                    <p className="font-medium text-main-text/50">
+                    <div className="size-3 rounded-full bg-main-text/70" />
+                    <div className="absolute -left-[1px] bottom-0 h-[4px] border-l-2 border-main-text/70"></div>
+                    <p className="font-medium text-main-text/70">
                       Hide Replies
                     </p>
                   </button>
@@ -494,7 +498,7 @@ export default function HuntHintThreads({
                 .map((followUp, i, row) => (
                   <div
                     key={`${followUp.id}`}
-                    className="group ml-[17px] break-words rounded-r-md border-l-2 border-main-text/50 px-3 py-2 hover:bg-black/5"
+                    className="group ml-[17px] break-words rounded-r-md border-l-2 border-main-text/70 px-3 py-2 hover:bg-black/5"
                   >
                     {/* Top section with userId and edit button */}
                     <div className="relative flex justify-between">
@@ -598,7 +602,7 @@ export default function HuntHintThreads({
                 <div
                   id={`${hint.id}-follow-up-request`}
                   key={`${hint.id}-follow-up-request`}
-                  className="group ml-[17px] break-words border-l-2 border-main-text/50 px-3 py-2"
+                  className="group ml-[17px] break-words border-l-2 border-main-text/70 px-3 py-2"
                 >
                   <p className="font-semibold">Follow-Up</p>
                   <p>
@@ -617,22 +621,24 @@ export default function HuntHintThreads({
                       });
                     }}
                   />
-                  <div className="mb-1 mt-3 flex space-x-2">
-                    <Button
+                  <div className="mb-1 mt-3 flex items-center space-x-2">
+                    <button
                       onClick={() =>
                         // TODO: kinda jank to use empty team members as signal to not send email
                         handleSubmitFollowUp(hint.id, newFollowUp.message, "")
                       }
+                      className="rounded-sm bg-white/5 px-2.5 py-1.5 font-medium text-main-text/90 hover:opacity-85"
                     >
-                      Submit
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="text-secondary-accent"
-                      onClick={() => setNewFollowUp(null)}
+                      Send
+                    </button>
+                    <button
+                      onClick={() => {
+                        setNewFollowUp(null);
+                      }}
+                      className="h-fit text-main-text/30 hover:underline"
                     >
                       Cancel
-                    </Button>
+                    </button>
                   </div>
                 </div>
               )}
