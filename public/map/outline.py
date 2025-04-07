@@ -65,7 +65,7 @@ def add_white_border(input_path, output_path, border_size=10):
     print(f"Saved bordered image to {output_path}")
 
 # Example usage
-for filename in os.listdir("sprites"):
+for filename in set(os.listdir("sprites")).difference(os.listdir("sprites-outlined")):
     _, ext = os.path.splitext(filename)
     if (ext == ".png"):
         add_white_border(f"sprites/{filename}", f"sprites-outlined/{filename}")
