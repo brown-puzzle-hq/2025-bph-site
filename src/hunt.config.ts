@@ -74,7 +74,7 @@ export const SEQUENCES: Sequence[] = [
     name: "CD",
     icon: "💿",
     puzzles: [
-      "lost-category",
+      "common-words",
       "youve-got-this-covered",
       "imagine",
       "the-compact-disc",
@@ -178,11 +178,11 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "a-fistful-of-cards",
     "filming-schedule",
     "beads",
-    "lost-category",
+    "common-words",
   ],
   "a-fistful-of-cards-ii": ["heist-ii", "youve-got-this-covered"], // ten-guards-ten-doors
   beads: ["heist-ii", "a-fistful-of-cards-ii", "aha-erlebnis"], // ten-guards-ten-doors
-  "lost-category": [
+  "common-words": [
     "youve-got-this-covered",
     "a-fistful-of-cards-ii",
     "m-guards-n-doors-and-k-choices",
@@ -196,7 +196,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   "youve-got-this-covered": [
     "heist-ii",
     "beads",
-    "lost-category",
+    "common-words",
     "aha-erlebnis",
     "m-guards-n-doors-and-k-choices",
   ],
@@ -369,7 +369,7 @@ export const ROUNDS: Round[] = [
       "beads",
       "ten-guards-ten-doors",
       "a-fistful-of-cards-ii",
-      "lost-category",
+      "common-words",
       "youve-got-this-covered",
       "heist-ii",
     ],
