@@ -123,7 +123,7 @@ export const SEQUENCES: Sequence[] = [
   {
     name: "Time",
     icon: "⏰",
-    puzzles: ["filming-schedule", "hand-letters", "placeholder-ii"], // Need placeholder
+    puzzles: ["filming-schedule", "hand-letters", "like-clockwork"], // Need placeholder
   },
 ];
 
@@ -302,7 +302,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   // HORROR
   "red-blue": ["the-final-heist", "eye-to-eye", "fridge-magnets"], // the-guard-and-the-door
   "a-fistful-of-cards-iv": [
-    "placeholder-ii",
+    "like-clockwork",
     "eye-to-eye",
     "secret-ingredient",
     "color-transfer",
@@ -340,8 +340,8 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "the-final-heist",
     "red-blue",
   ],
-  "placeholder-i": ["placeholder-ii", "color-transfer", "secret-ingredient"],
-  "placeholder-ii": ["placeholder-i", "constellation", "a-fistful-of-cards-iv"],
+  "placeholder-i": ["like-clockwork", "color-transfer", "secret-ingredient"],
+  "like-clockwork": ["placeholder-i", "constellation", "a-fistful-of-cards-iv"],
 };
 
 export type Round = {
@@ -431,7 +431,7 @@ export const ROUNDS: Round[] = [
       "fridge-magnets",
       "red-blue",
       "secret-ingredient",
-      "placeholder-ii",
+      "like-clockwork",
       "constellation",
       "the-compact-disc",
       "the-final-heist",

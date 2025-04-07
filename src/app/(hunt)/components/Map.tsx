@@ -47,7 +47,7 @@ const positions: Record<string, L.LatLngExpression> = {
   peanuts: [382, 445],
   piecemeal: [671, 435],
   "placeholder-i": [670, 480],
-  "placeholder-ii": [590, 400],
+  "like-clockwork": [590, 400],
   plagiarism: [335, 460],
   "red-blue": [460, 510],
   "secret-ingredient": [610, 570],
