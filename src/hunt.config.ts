@@ -293,13 +293,13 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     // reality
     "study-abroad",
     "a-fistful-of-cards-iii",
-    // cerebral
+    // horror
     "secret-ingredient",
     "color-transfer",
     "the-compact-disc",
   ],
 
-  // CEREBRAL
+  // HORROR
   "red-blue": ["the-final-heist", "eye-to-eye", "fridge-magnets"], // the-guard-and-the-door
   "a-fistful-of-cards-iv": [
     "placeholder-ii",
@@ -420,7 +420,7 @@ export const ROUNDS: Round[] = [
     ],
   },
   {
-    name: "Cerebral",
+    name: "Horror",
     puzzles: [
       "cutting-room-floor",
       "color-transfer",
