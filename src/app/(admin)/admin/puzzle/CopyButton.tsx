@@ -30,7 +30,7 @@ function renderTableToPlainText(html: string): string {
       row
         .map((cell, i) => cell.padEnd(colWidths[i]!))
         .join(" | ")
-        .trim(),
+        .trimEnd(),
     )
     .join("\n");
 
