@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
 import { Check, ChevronDown, CornerUpLeft, Pencil, X } from "lucide-react";
-import { Button } from "~/components/ui/button";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
 import {
   editMessage,
@@ -321,7 +320,7 @@ export default function HuntHintThreads({
         </p>
         <AutosizeTextarea
           maxHeight={500}
-          className="mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
+          className="mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-0 focus-visible:ring-offset-0"
           disabled={
             hintRequestState.isSolved ||
             !!hintRequestState.unansweredHint ||
@@ -338,11 +337,12 @@ export default function HuntHintThreads({
         <div className="mt-2 text-main-text/70">
           {getFormDescription(hintRequestState)}
         </div>
-        <Button
+        <button
           onClick={() =>
             handleSubmitRequest(hintRequestState.puzzleId, request)
           }
           disabled={
+            !request ||
             hintRequestState.isSolved ||
             !!hintRequestState.unansweredHint ||
             hintRequestState.hintsRemaining < 1 ||
@@ -352,10 +352,10 @@ export default function HuntHintThreads({
                 ? IN_PERSON.END_TIME
                 : REMOTE.END_TIME)
           }
-          className="mt-2"
+          className="mt-2 rounded-md bg-black/30 px-3 py-2 font-medium text-main-text hover:opacity-85 disabled:opacity-50"
         >
           Submit
-        </Button>
+        </button>
       </div>
       <hr className="mb-3.5 px-3" />
       {optimisticHints.map((hint) => (
@@ -410,7 +410,7 @@ export default function HuntHintThreads({
             {edit?.type === "request" && edit.id === hint.id ? (
               <AutosizeTextarea
                 maxHeight={500}
-                className="mb-1 mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
+                className="mb-1 mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-0 focus-visible:ring-offset-0"
                 value={edit.value}
                 onChange={(e) => {
                   if (!edit) return;
@@ -581,7 +581,7 @@ export default function HuntHintThreads({
                       {edit?.type === "follow-up" && edit.id === followUp.id ? (
                         <AutosizeTextarea
                           maxHeight={500}
-                          className="mb-1 mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
+                          className="mb-1 mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-0 focus-visible:ring-offset-0"
                           value={edit.value}
                           onChange={(e) => {
                             if (!edit) return;
@@ -605,13 +605,13 @@ export default function HuntHintThreads({
                   className="group ml-[17px] break-words border-l-2 border-main-text/70 px-3 py-2"
                 >
                   <p className="font-semibold">Follow-Up</p>
-                  <p>
+                  <p className="text-main-text/70">
                     Ask for clarification in this follow-up thread. Follow-ups
                     don't count toward your hint limit!
                   </p>
                   <AutosizeTextarea
                     maxHeight={500}
-                    className="mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
+                    className="mt-1 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-0 focus-visible:ring-offset-0"
                     value={newFollowUp.message}
                     onChange={(e) => {
                       if (newFollowUp === null) return;
@@ -621,13 +621,14 @@ export default function HuntHintThreads({
                       });
                     }}
                   />
-                  <div className="mb-1 mt-3 flex items-center space-x-2">
+                  <div className="mb-1 mt-2 flex items-center space-x-2">
                     <button
                       onClick={() =>
                         // TODO: kinda jank to use empty team members as signal to not send email
                         handleSubmitFollowUp(hint.id, newFollowUp.message, "")
                       }
-                      className="rounded-sm bg-white/5 px-2.5 py-1.5 font-medium text-main-text/90 hover:opacity-85"
+                      disabled={!newFollowUp.message}
+                      className="rounded-sm bg-black/30 px-2.5 py-1.5 font-medium text-main-text hover:opacity-85 disabled:opacity-50"
                     >
                       Send
                     </button>
@@ -635,7 +636,7 @@ export default function HuntHintThreads({
                       onClick={() => {
                         setNewFollowUp(null);
                       }}
-                      className="h-fit text-main-text/30 hover:underline"
+                      className="h-fit text-main-text/70 hover:underline"
                     >
                       Cancel
                     </button>
