@@ -13,6 +13,7 @@ import {
   MessageType,
 } from "../actions";
 import { toast } from "~/hooks/use-toast";
+import { motion, AnimatePresence } from "framer-motion";
 
 type TableProps = {
   previousHints: PreviousHints;
@@ -453,175 +454,190 @@ export default function HuntHintThreads({
             </div>
           )}
 
-          {/* Icon for displaying follow-up hints */}
-          {hint.followUps.length > 0 &&
-            (hiddenFollowUps.includes(hint.id) ? (
-              <button
-                className="ml-3 flex items-center space-x-1.5 text-main-text/50 hover:opacity-80"
-                onClick={() => handleHideFollowUps(hint.id)}
-              >
-                <ChevronDown className="-mx-1 size-5" />
-                <p className="font-medium">Show Replies</p>
-              </button>
-            ) : (
-              <button
-                className="relative ml-3 flex items-center space-x-1.5 hover:opacity-80"
-                onClick={() => handleHideFollowUps(hint.id)}
-              >
-                <div className="size-3 rounded-full bg-main-text/50" />
-                <div className="absolute -left-[1px] bottom-0 h-[4px] border-l-2 border-main-text/50"></div>
-                <p className="font-medium text-main-text/50">Hide Replies</p>
-              </button>
-            ))}
-
           {/* Follow-ups row */}
-          {!hiddenFollowUps.includes(hint.id) &&
-            hint.followUps
-              .filter((followUp) => followUp.message !== "[Claimed]")
-              .map((followUp, i, row) => (
-                <div
-                  key={`${followUp.id}`}
-                  className="group ml-[17px] break-words rounded-r-md border-l-2 border-main-text/50 px-3 py-2 hover:bg-black/5"
-                >
-                  {/* Top section with userId and edit button */}
-                  <div className="relative flex justify-between">
-                    {followUp.user.id === hint.team.id ? (
-                      <b>Team</b>
-                    ) : (
-                      <b>Admin</b>
-                    )}
-                    <div className="absolute -top-5 right-0 flex space-x-0.5">
-                      {i + 1 === row.length &&
-                        !(
-                          edit?.type === "follow-up" && edit.id === followUp.id
-                        ) &&
-                        newFollowUp?.hintId !== hint.id && (
-                          <button
-                            onClick={() => {
-                              setEdit(null);
-                              // Hide other follow-ups under the same hint
-                              setHiddenFollowUps((prev) =>
-                                prev.filter((prevId) => prevId !== hint.id),
-                              );
-                              setNewFollowUp({
-                                hintId: hint.id,
-                                message: "",
-                              });
-                            }}
-                            className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
-                          >
-                            <CornerUpLeft className="size-4" />
-                          </button>
-                        )}
+          <AnimatePresence>
+            <motion.div
+              style={{ overflow: "hidden" }}
+              animate={{
+                height: hiddenFollowUps.includes(hint.id) ? 20 : "auto",
+                transition: {
+                  duration: 0.15,
+                  ease: "linear",
+                },
+              }}
+            >
+              {/* Icon for displaying follow-up hints */}
+              {hint.followUps.length > 0 &&
+                (hiddenFollowUps.includes(hint.id) ? (
+                  <button
+                    className="ml-3 flex items-center space-x-1.5 text-main-text/50 hover:opacity-80"
+                    onClick={() => handleHideFollowUps(hint.id)}
+                  >
+                    <ChevronDown className="-mx-1 size-5" />
+                    <p className="font-medium">Show Replies</p>
+                  </button>
+                ) : (
+                  <button
+                    className="relative ml-3 flex items-center space-x-1.5 hover:opacity-80"
+                    onClick={() => handleHideFollowUps(hint.id)}
+                  >
+                    <div className="size-3 rounded-full bg-main-text/50" />
+                    <div className="absolute -left-[1px] bottom-0 h-[4px] border-l-2 border-main-text/50"></div>
+                    <p className="font-medium text-main-text/50">
+                      Hide Replies
+                    </p>
+                  </button>
+                ))}
 
-                      {/* If the previous hint follow-up was made by user, allow edits */}
-                      {followUp.user.id === session?.user?.id &&
-                        (edit?.type === "follow-up" &&
-                        edit.id === followUp.id ? (
-                          <div className="space-x-0.5">
-                            <button
-                              onClick={() =>
-                                handleSubmitEdit(
-                                  followUp.id,
-                                  edit.value,
-                                  "follow-up",
-                                )
-                              }
-                              className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
-                            >
-                              <Check className="size-4" />
-                            </button>
+              {hint.followUps
+                .filter((followUp) => followUp.message !== "[Claimed]")
+                .map((followUp, i, row) => (
+                  <div
+                    key={`${followUp.id}`}
+                    className="group ml-[17px] break-words rounded-r-md border-l-2 border-main-text/50 px-3 py-2 hover:bg-black/5"
+                  >
+                    {/* Top section with userId and edit button */}
+                    <div className="relative flex justify-between">
+                      {followUp.user.id === hint.team.id ? (
+                        <b>Team</b>
+                      ) : (
+                        <b>Admin</b>
+                      )}
+                      <div className="absolute -top-5 right-0 flex space-x-0.5">
+                        {i + 1 === row.length &&
+                          !(
+                            edit?.type === "follow-up" &&
+                            edit.id === followUp.id
+                          ) &&
+                          newFollowUp?.hintId !== hint.id && (
                             <button
                               onClick={() => {
                                 setEdit(null);
+                                // Hide other follow-ups under the same hint
+                                setHiddenFollowUps((prev) =>
+                                  prev.filter((prevId) => prevId !== hint.id),
+                                );
+                                setNewFollowUp({
+                                  hintId: hint.id,
+                                  message: "",
+                                });
                               }}
                               className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                             >
-                              <X className="size-4" />
+                              <CornerUpLeft className="size-4" />
                             </button>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setNewFollowUp(null);
-                              setEdit({
-                                id: followUp.id,
-                                value: followUp.message,
-                                type: "follow-up",
-                              });
-                            }}
-                            className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
-                          >
-                            <Pencil className="size-4" />
-                          </button>
-                        ))}
+                          )}
+
+                        {/* If the previous hint follow-up was made by user, allow edits */}
+                        {followUp.user.id === session?.user?.id &&
+                          (edit?.type === "follow-up" &&
+                          edit.id === followUp.id ? (
+                            <div className="space-x-0.5">
+                              <button
+                                onClick={() =>
+                                  handleSubmitEdit(
+                                    followUp.id,
+                                    edit.value,
+                                    "follow-up",
+                                  )
+                                }
+                                className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                              >
+                                <Check className="size-4" />
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setEdit(null);
+                                }}
+                                className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                              >
+                                <X className="size-4" />
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setNewFollowUp(null);
+                                setEdit({
+                                  id: followUp.id,
+                                  value: followUp.message,
+                                  type: "follow-up",
+                                });
+                              }}
+                              className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                            >
+                              <Pencil className="size-4" />
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+
+                    {/* Botton section with follow-up message */}
+                    <div>
+                      {edit?.type === "follow-up" && edit.id === followUp.id ? (
+                        <AutosizeTextarea
+                          maxHeight={500}
+                          className="mb-1 mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
+                          value={edit.value}
+                          onChange={(e) => {
+                            if (!edit) return;
+                            setEdit({ ...edit, value: e.target.value });
+                          }}
+                        />
+                      ) : (
+                        <div className="whitespace-pre-wrap">
+                          {followUp.message}
+                        </div>
+                      )}
                     </div>
                   </div>
+                ))}
 
-                  {/* Botton section with follow-up message */}
-                  <div>
-                    {edit?.type === "follow-up" && edit.id === followUp.id ? (
-                      <AutosizeTextarea
-                        maxHeight={500}
-                        className="mb-1 mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
-                        value={edit.value}
-                        onChange={(e) => {
-                          if (!edit) return;
-                          setEdit({ ...edit, value: e.target.value });
-                        }}
-                      />
-                    ) : (
-                      <div className="whitespace-pre-wrap">
-                        {followUp.message}
-                      </div>
-                    )}
+              {/* New follow-up request row */}
+              {newFollowUp !== null && newFollowUp.hintId === hint.id && (
+                <div
+                  id={`${hint.id}-follow-up-request`}
+                  key={`${hint.id}-follow-up-request`}
+                  className="group ml-[17px] break-words border-l-2 border-main-text/50 px-3 py-2"
+                >
+                  <p className="font-semibold">Follow-Up</p>
+                  <p>
+                    Ask for clarification in this follow-up thread. Follow-ups
+                    don't count toward your hint limit!
+                  </p>
+                  <AutosizeTextarea
+                    maxHeight={500}
+                    className="mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
+                    value={newFollowUp.message}
+                    onChange={(e) => {
+                      if (newFollowUp === null) return;
+                      setNewFollowUp({
+                        hintId: hint.id,
+                        message: e.target.value,
+                      });
+                    }}
+                  />
+                  <div className="mb-1 mt-3 flex space-x-2">
+                    <Button
+                      onClick={() =>
+                        // TODO: kinda jank to use empty team members as signal to not send email
+                        handleSubmitFollowUp(hint.id, newFollowUp.message, "")
+                      }
+                    >
+                      Submit
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="text-secondary-accent"
+                      onClick={() => setNewFollowUp(null)}
+                    >
+                      Cancel
+                    </Button>
                   </div>
                 </div>
-              ))}
-
-          {/* New follow-up request row */}
-          {newFollowUp !== null && newFollowUp.hintId === hint.id && (
-            <div
-              id={`${hint.id}-follow-up-request`}
-              key={`${hint.id}-follow-up-request`}
-              className="group ml-[17px] break-words border-l-2 border-main-text/50 px-3 py-2"
-            >
-              <p className="font-semibold">Follow-Up</p>
-              <p>
-                Ask for clarification in this follow-up thread. Follow-ups don't
-                count toward your hint limit!
-              </p>
-              <AutosizeTextarea
-                maxHeight={500}
-                className="mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
-                value={newFollowUp.message}
-                onChange={(e) => {
-                  if (newFollowUp === null) return;
-                  setNewFollowUp({
-                    hintId: hint.id,
-                    message: e.target.value,
-                  });
-                }}
-              />
-              <div className="mb-1 mt-3 flex space-x-2">
-                <Button
-                  onClick={() =>
-                    // TODO: kinda jank to use empty team members as signal to not send email
-                    handleSubmitFollowUp(hint.id, newFollowUp.message, "")
-                  }
-                >
-                  Submit
-                </Button>
-                <Button
-                  variant="outline"
-                  className="text-secondary-accent"
-                  onClick={() => setNewFollowUp(null)}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          )}
+              )}
+            </motion.div>
+          </AnimatePresence>
         </Fragment>
       ))}
     </div>
