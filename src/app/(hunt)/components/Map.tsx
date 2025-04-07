@@ -41,7 +41,7 @@ const positions: Record<string, L.LatLngExpression> = {
   "common-words": [540, 315],
   "m-guards-n-doors-and-k-choices": [658, 365],
   narcissism: [723, 550],
-  "once-upon-a-quote": [695, 398],
+  "barbie": [695, 398],
   "one-guard-screen": [378, 600],
   "opening-sequences": [430, 610],
   peanuts: [382, 445],

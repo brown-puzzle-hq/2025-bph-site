@@ -246,7 +246,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   ], // m-guards-n-doors-and-k-choices
   "boring-plot": ["bluenos-puzzle-box", "narcissism", "financial-crimes-3"],
   "whats-my-ride": ["bluenos-puzzle-box"],
-  piecemeal: ["once-upon-a-quote", "eye-of-the-storm", "narcissism"],
+  piecemeal: ["barbie", "eye-of-the-storm", "narcissism"],
   "eye-spy": ["bluenos-puzzle-box", "whats-my-ride", "imagine"],
   "identify-the-piece": ["the-snack-zone"],
   "eye-of-the-storm": ["boring-plot", "narcissism"],
@@ -256,7 +256,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "eye-spy",
   ],
   imagine: ["whats-my-ride"],
-  "once-upon-a-quote": ["boring-plot"],
+  "barbie": ["boring-plot"],
   "the-snack-zone": ["imagine"],
 
   // REALITY -> COMEDY
@@ -391,7 +391,7 @@ export const ROUNDS: Round[] = [
     puzzles: [
       "boring-plot",
       "identify-the-piece",
-      "once-upon-a-quote",
+      "barbie",
       "imagine",
       "narcissism",
       "genetic-counseling",
