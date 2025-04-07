@@ -309,8 +309,8 @@ export default function HuntHintThreads({
   return (
     <div className="px-1 text-sm">
       <div className="mb-6 break-words px-3">
-        <p className="font-bold">Request</p>
-        <p className="pb-3 pt-2 text-secondary-text">
+        <b>Request</b>
+        <p>
           Please provide as much detail as possible to help us understand where
           you're at and where you're stuck! Specific clues, steps, and
           hypotheses are all helpful. If you're working with any spreadsheets,
@@ -318,7 +318,7 @@ export default function HuntHintThreads({
         </p>
         <AutosizeTextarea
           maxHeight={500}
-          className="resize-none bg-secondary-bg text-secondary-accent focus-visible:ring-offset-0"
+          className="mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
           disabled={
             hintRequestState.isSolved ||
             !!hintRequestState.unansweredHint ||
@@ -332,9 +332,7 @@ export default function HuntHintThreads({
           value={request}
           onChange={(e) => setRequest(e.target.value)}
         />
-        <div className="py-3 text-secondary-text">
-          {getFormDescription(hintRequestState)}
-        </div>
+        <div className="mt-2">{getFormDescription(hintRequestState)}</div>
         <Button
           onClick={() =>
             handleSubmitRequest(hintRequestState.puzzleId, request)
@@ -349,6 +347,7 @@ export default function HuntHintThreads({
                 ? IN_PERSON.END_TIME
                 : REMOTE.END_TIME)
           }
+          className="mt-2"
         >
           Submit
         </Button>
@@ -357,7 +356,7 @@ export default function HuntHintThreads({
       {optimisticHints.map((hint) => (
         <Fragment key={`${hint.id}`}>
           {/* Hint request row */}
-          <div className="group w-full break-words px-3 py-2 hover:bg-black/10">
+          <div className="group break-words rounded-md px-3 py-2 hover:bg-black/5">
             {/* Top section with the team ID and the edit button */}
             <div className="relative flex justify-between">
               <b>Team</b>
@@ -370,7 +369,7 @@ export default function HuntHintThreads({
                         onClick={() =>
                           handleSubmitEdit(edit.id, edit.value, "request")
                         }
-                        className="rounded-md bg-black bg-opacity-20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                        className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                       >
                         <Check className="size-4" />
                       </button>
@@ -378,7 +377,7 @@ export default function HuntHintThreads({
                         onClick={() => {
                           setEdit(null);
                         }}
-                        className="rounded-md bg-black bg-opacity-20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                        className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                       >
                         <X className="size-4" />
                       </button>
@@ -393,7 +392,7 @@ export default function HuntHintThreads({
                           type: "request",
                         });
                       }}
-                      className="rounded-md bg-black bg-opacity-20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                      className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                     >
                       <Pencil className="size-4" />
                     </button>
@@ -406,7 +405,7 @@ export default function HuntHintThreads({
             {edit?.type === "request" && edit.id === hint.id ? (
               <AutosizeTextarea
                 maxHeight={500}
-                className="mb-1 mt-2 resize-none border-0 bg-white bg-opacity-5 focus-visible:ring-offset-0"
+                className="mb-1 mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
                 value={edit.value}
                 onChange={(e) => {
                   if (!edit) return;
@@ -420,7 +419,7 @@ export default function HuntHintThreads({
 
           {/* Hint response row */}
           {hint.response && (
-            <div className="group w-full break-words px-3 py-2 hover:bg-black/10">
+            <div className="group break-words rounded-md px-3 py-2 hover:bg-black/5">
               <div className="relative flex justify-between">
                 {/* Top section for claimer ID, the follow-up button, and the edit button */}
                 <b>Admin</b>
@@ -441,7 +440,7 @@ export default function HuntHintThreads({
                             message: "",
                           });
                         }}
-                        className="rounded-md bg-black bg-opacity-20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                        className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                       >
                         <CornerUpLeft className="size-4" />
                       </button>
@@ -482,7 +481,7 @@ export default function HuntHintThreads({
               .map((followUp, i, row) => (
                 <div
                   key={`${followUp.id}`}
-                  className="group ml-[17px] w-full break-words border-l-2 border-main-text/50 px-3 py-2 hover:bg-black/10"
+                  className="group ml-[17px] break-words rounded-r-md border-l-2 border-main-text/50 px-3 py-2 hover:bg-black/5"
                 >
                   {/* Top section with userId and edit button */}
                   <div className="relative flex justify-between">
@@ -509,7 +508,7 @@ export default function HuntHintThreads({
                                 message: "",
                               });
                             }}
-                            className="rounded-md bg-black bg-opacity-20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                            className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                           >
                             <CornerUpLeft className="size-4" />
                           </button>
@@ -528,7 +527,7 @@ export default function HuntHintThreads({
                                   "follow-up",
                                 )
                               }
-                              className="rounded-md bg-black bg-opacity-20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                              className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                             >
                               <Check className="size-4" />
                             </button>
@@ -536,7 +535,7 @@ export default function HuntHintThreads({
                               onClick={() => {
                                 setEdit(null);
                               }}
-                              className="rounded-md bg-black bg-opacity-20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                              className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                             >
                               <X className="size-4" />
                             </button>
@@ -551,7 +550,7 @@ export default function HuntHintThreads({
                                 type: "follow-up",
                               });
                             }}
-                            className="rounded-md bg-black bg-opacity-20 p-1 text-main-text opacity-0 group-hover:opacity-100"
+                            className="rounded-md bg-black/20 p-1 text-main-text opacity-0 group-hover:opacity-100"
                           >
                             <Pencil className="size-4" />
                           </button>
@@ -564,7 +563,7 @@ export default function HuntHintThreads({
                     {edit?.type === "follow-up" && edit.id === followUp.id ? (
                       <AutosizeTextarea
                         maxHeight={500}
-                        className="mb-1 mt-2 resize-none border-0 bg-white bg-opacity-5 focus-visible:ring-offset-0"
+                        className="mb-1 mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
                         value={edit.value}
                         onChange={(e) => {
                           if (!edit) return;
@@ -585,7 +584,7 @@ export default function HuntHintThreads({
             <div
               id={`${hint.id}-follow-up-request`}
               key={`${hint.id}-follow-up-request`}
-              className="group ml-[17px] break-words border-l-2 border-main-text/50 px-3 py-2 hover:bg-black/10"
+              className="group ml-[17px] break-words border-l-2 border-main-text/50 px-3 py-2"
             >
               <p className="font-semibold">Follow-Up</p>
               <p>
@@ -594,7 +593,7 @@ export default function HuntHintThreads({
               </p>
               <AutosizeTextarea
                 maxHeight={500}
-                className="mt-2 resize-none border-0 bg-white bg-opacity-5 focus-visible:ring-offset-0"
+                className="mt-2 resize-none border-0 bg-white bg-opacity-10 focus-visible:ring-offset-0"
                 value={newFollowUp.message}
                 onChange={(e) => {
                   if (newFollowUp === null) return;
