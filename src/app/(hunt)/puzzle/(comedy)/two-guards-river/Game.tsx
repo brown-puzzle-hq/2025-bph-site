@@ -528,12 +528,12 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
     <div>
       <div className="no-scrollbar flex max-w-[calc(100vw-32px)] overflow-auto">
         {/* Moves */}
-        <ScrollArea className="mr-4 hidden h-[600px] min-w-[13rem] rounded-md bg-footer-bg p-4 lg:block">
+        <ScrollArea className="mr-4 hidden h-[600px] min-w-[13rem] rounded-md bg-black/5 p-4 lg:block">
           <Table className="w-44">
             <TableHeader>
               <TableRow className="hover:bg-inherit">
                 <TableHead
-                  className="text-lg font-bold text-main-header"
+                  className="text-lg font-bold text-main-text"
                   colSpan={2}
                 >
                   <div className="flex justify-between">
@@ -578,7 +578,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
           <Stage
             width={WIDTH * SCALE}
             height={HEIGHT * SCALE}
-            className="rounded-md border-8 border-footer-bg"
+            className="rounded-md border-8 border-black/30"
             style={{ cursor }}
           >
             <Sprite
@@ -686,12 +686,12 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
           )}
         </div>
         {/* Deaths */}
-        <ScrollArea className="ml-4 hidden h-[600px] min-w-[13rem] rounded-md bg-footer-bg p-4 lg:block">
+        <ScrollArea className="ml-4 hidden h-[600px] min-w-[13rem] rounded-md bg-black/5 p-4 lg:block">
           <Table className="w-44">
             <TableHeader>
               <TableRow className="hover:bg-inherit">
                 <TableHead
-                  className="text-lg font-bold text-main-header"
+                  className="text-lg font-bold text-main-text"
                   colSpan={2}
                 >
                   Deaths
