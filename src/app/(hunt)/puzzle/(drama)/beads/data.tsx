@@ -3,9 +3,9 @@ import BEADS from "./beads.jpg";
 const CHAIN = "BBRBGGGRRGBGRRGRGRG";
 
 const COLORS: Record<string, string> = {
-  B: "bg-[#4a86e8]",
-  R: "bg-[#cc0000]",
-  G: "bg-[#cccccc]",
+  B: "bg-[#4a86e8] border-[#4264A9]",
+  R: "bg-[#cc0000] border-[#8C271B]",
+  G: "bg-[#cccccc] border-[#8A8A8A]",
 };
 
 /**
@@ -22,7 +22,7 @@ export const puzzleId = "beads";
  */
 export const inPersonBody = (
   <div>
-    <div className="mb-6 max-w-3xl text-center">
+    <div className="mb-6 max-w-xl text-center">
       <i>
         This is a physical puzzle! If your team has not already picked up a
         chain, please visit HQ in Friedman 208.
@@ -47,7 +47,7 @@ export const remoteBoxBody = (
     <div className="flex max-w-3xl flex-col items-center space-y-4 text-center">
       <i className="pb-4">You’ve had me bending double from your curses!</i>
       <div className="flex justify-center pb-4">
-        <Image src={BEADS} alt="beads" className="w-1/2" />
+        <Image src={BEADS} alt="beads" />
       </div>
     </div>
   </div>
@@ -55,21 +55,26 @@ export const remoteBoxBody = (
 
 export const remoteBody = (
   <div>
-    <div className="mb-4 max-w-3xl">
-      <b>
+    <div className="mb-6 max-w-xl text-center">
+      <i>
         This puzzle is a chain puzzle. In-person solvers and box purchasers were
         given a wire with beads of the following colors, in order:
-      </b>
-      <div className="flex">
+      </i>
+      <div className="mt-6 flex justify-center">
         {CHAIN.split("").map((cell, index) => (
           <div
             key={index}
-            className={`size-[1.5em] rounded-md border border-main-bg ${COLORS[cell]}`}
+            className={`size-4 rounded-sm border-2 md:size-6 ${COLORS[cell]}`}
           />
         ))}
       </div>
     </div>
-    {inPersonBody}
+    <div className="flex max-w-3xl flex-col items-center space-y-4 text-center">
+      <i className="pb-4">You’ve had me bending double from your curses!</i>
+      <div className="flex justify-center pb-4">
+        <Image src={BEADS} alt="beads" />
+      </div>
+    </div>
   </div>
 );
 

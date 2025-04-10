@@ -36,12 +36,12 @@ export const remoteBoxBody = (
 );
 
 export const remoteBody = (
-    <div className="flex justify-center pb-4">
-      <audio controls>
-        <source src="/api/puzzle/imagine" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-    </div>
+  <div className="flex justify-center py-4">
+    <audio controls className="w-96 max-w-full">
+      <source src="/api/puzzle/imagine" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+  </div>
 );
 
 /**
@@ -209,8 +209,8 @@ export const tasks: Record<string, JSX.Element> = {
       <div className="mb-6 max-w-3xl text-center">
         Oh...that thing you did was actually kind of insensitive...Make an
         apology video and send it to brownpuzzlehq@gmail.com, making sure to
-        include "Taking Accountability" in the subject line. Your apology 
-        should include at least 4 of the following:
+        include "Taking Accountability" in the subject line. Your apology should
+        include at least 4 of the following:
       </div>
       <ul className="max-w-3xl list-disc pl-6">
         <li>Blow your nose loudly for 5 continuous seconds</li>

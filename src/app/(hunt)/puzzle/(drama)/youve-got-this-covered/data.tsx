@@ -35,13 +35,11 @@ export const remoteBoxBody = (
 );
 
 export const remoteBody = (
-  <div>
-    <div className="flex justify-center pb-4">
-      <audio controls>
-        <source src="/api/puzzle/youve-got-this-covered" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-    </div>
+  <div className="flex justify-center py-4">
+    <audio controls className="w-96 max-w-full">
+      <source src="/api/puzzle/youve-got-this-covered" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
   </div>
 );
 
