@@ -15,19 +15,17 @@ export const puzzleId = "find-ben";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
-  <div className="w-fit max-w-3xl text-center">
+  <div className="w-fit max-w-xl text-center">
     <p className="mb-6 italic">What kind of place is behind Ben?</p>
     <iframe
-      width="640"
-      height="360"
+      className="mb-4 aspect-video w-full"
       src="https://www.youtube-nocookie.com/embed/G04LbGyI9g8"
       title="YouTube video player"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       referrerPolicy="strict-origin-when-cross-origin"
       allowFullScreen
-      className="mb-4"
     />
-    <Image src={BEN} alt="" width={640} className="mb-4" />
+    <Image src={BEN} alt="" className="mb-4" />
   </div>
 );
 
