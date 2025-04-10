@@ -31,7 +31,7 @@ export const inPersonBody = (
   <div>
     <div className="mx-auto mb-6 max-w-3xl text-center">
       <i>
-        This is  a physical puzzle! You should have received it at kickoff.
+        This is a physical puzzle! You should have received it at kickoff.
         Please visit HQ in Friedman 208 if you believe you are missing these
         supplies.
       </i>
