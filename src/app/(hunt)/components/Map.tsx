@@ -127,8 +127,8 @@ export default function Map({
         <ImageOverlay url={layouts.Drama!} bounds={bounds} />
         <ImageOverlay url={layouts.Comedy!} bounds={bounds} />
         <ImageOverlay url={layouts.Adventure!} bounds={bounds} />
-        <ImageOverlay url={layouts.Reality!} bounds={bounds} />
         <ImageOverlay url={layouts.Cerebral!} bounds={bounds} /> */}
+        <ImageOverlay url={layouts.Reality!} bounds={bounds} />
         {availablePuzzles.map((puzzle) => (
           <Marker
             key={puzzle.id}
@@ -138,10 +138,10 @@ export default function Map({
                 iconUrl: solvedPuzzles.some((sp) => sp.puzzleId === puzzle.id)
                   ? spriteExists(`map/sprites-outlined/${puzzle.id}.png`)
                     ? `map/sprites-outlined/${puzzle.id}.png` // TODO: format solved puzzles differently
-                    : `map/sprites/bookmark-check.svg`
+                    : `map/sprites-outlined/bookmark-check.svg`
                   : spriteExists(`map/sprites-outlined/${puzzle.id}.png`)
                     ? `map/sprites-outlined/${puzzle.id}.png`
-                    : `map/sprites/puzzle.svg`,
+                    : `map/sprites-outlined/puzzle.svg`,
                 iconSize: [100, 100],
                 iconAnchor: [50, 100],
               })
