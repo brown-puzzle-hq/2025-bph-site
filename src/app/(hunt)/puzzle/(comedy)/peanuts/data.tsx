@@ -48,7 +48,7 @@ LT [6]	9. LUC	LYB	MIN	N [7]	NG [11]
 NKL	NPE	OCK [7]	OPY [5]	OWN [10]	PEN [6]
 4. PEP	PER	10. PIG	RLI	RMS	ROE
 ROW	2. SAL	6. SCH	1. SNO	TPA	TRO
-TTY [13]	UMP	USV	3. WOO	YVA	`;
+TTY [10]	UMP	USV	3. WOO	YVA	`;
 
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.
