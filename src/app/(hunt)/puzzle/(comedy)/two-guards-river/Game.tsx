@@ -89,7 +89,8 @@ const AnimatedSprite: React.FC<AnimatedSpriteProps> = ({
       }
 
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        const animationFrameId = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(animationFrameId);
       } else {
         prevPosition.current = { x: targetX, y: targetY };
       }
