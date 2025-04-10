@@ -11,7 +11,9 @@ import DOOR from "./door.svg";
 import { cn } from "~/lib/utils";
 
 type Row = InferSelectModel<typeof mnk>;
+
 type Step = "initial" | "door_1" | "door_2" | "door_3" | "switch" | "stay";
+
 type State = {
   run: number;
   scenario: number;
@@ -161,9 +163,8 @@ export default function RemoteBody({ run }: { run: Row[] }) {
   const { toast } = useToast();
 
   // Keep track of the current run
-  const [currRun, setRun] = useState<Row[]>(run);
-
   // Initialize the current state of the puzzle
+  const [currRun, setRun] = useState<Row[]>(run);
   const lastRow = getLastRow(run);
   const currState = getStateFromRow(lastRow);
   const [state, setState] = useState<State>(currState);
