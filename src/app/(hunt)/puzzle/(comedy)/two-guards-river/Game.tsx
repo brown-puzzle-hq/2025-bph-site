@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "@pixi/events";
 import { Stage, Sprite } from "@pixi/react";
+import type { EventMode } from "pixi.js";
 import { Rectangle } from "@pixi/math";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -25,13 +26,94 @@ import {
   Waves,
 } from "lucide-react";
 import { checkMoves } from "./actions";
-import Image from "next/image";
 import RIVER from "./river.png";
 import PLAYER from "./player.png";
 import GUARD from "./guard.png";
 import CABBAGE from "./cabbage.png";
 import DOOR from "./door.png";
 import BOAT from "./boat.png";
+
+interface AnimatedSpriteProps {
+  image: string;
+  x: number;
+  y: number;
+  scale: number;
+  eventMode?: EventMode;
+  hitArea?: Rectangle;
+  onPointerDown?: (event: any) => void;
+  onPointerOver?: (event: any) => void;
+  onPointerOut?: (event: any) => void;
+}
+
+const AnimatedSprite: React.FC<AnimatedSpriteProps> = ({
+  image,
+  x,
+  y,
+  scale,
+  eventMode,
+  hitArea,
+  onPointerDown,
+  onPointerOver,
+  onPointerOut,
+}) => {
+  const spriteRef = useRef<any>(null);
+  const prevPosition = useRef({ x, y });
+
+  useEffect(() => {
+    if (!spriteRef.current) return;
+
+    const startX = prevPosition.current.x;
+    const startY = prevPosition.current.y;
+    const targetX = x;
+    const targetY = y;
+
+    // Don't animate on first render
+    if (startX === targetX && startY === targetY) return;
+
+    let startTime: number | null = null;
+    const duration = 100;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      const easeProgress =
+        progress < 0.5
+          ? 2 * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+      if (spriteRef.current) {
+        spriteRef.current.x = startX + (targetX - startX) * easeProgress;
+        spriteRef.current.y = startY + (targetY - startY) * easeProgress;
+      }
+
+      if (progress < 1) {
+        const animationFrameId = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(animationFrameId);
+      } else {
+        prevPosition.current = { x: targetX, y: targetY };
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [x, y]);
+
+  return (
+    <Sprite
+      ref={spriteRef}
+      image={image}
+      x={prevPosition.current.x}
+      y={prevPosition.current.y}
+      scale={scale}
+      eventMode={eventMode}
+      hitArea={hitArea}
+      pointerdown={onPointerDown}
+      pointerover={onPointerOver}
+      pointerout={onPointerOut}
+    />
+  );
+};
 
 export type Item =
   | "guard_1"
@@ -82,36 +164,36 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
   >("uncollapsed");
 
   const onLeftCoordinates: Record<Item, Coordinates> = {
-    guard_1: { x: 50, y: 500 },
-    guard_2: { x: 150, y: 450 },
-    door_1: { x: 250, y: 425 },
-    door_2: { x: 350, y: 450 },
-    cabbage: { x: 450, y: 550 },
-    boat: { x: 250, y: 575 },
-    player: { x: 450, y: 500 },
+    door_1: { x: 250, y: 450 },
+    door_2: { x: 170, y: 480 },
+    guard_1: { x: 95, y: 500 },
+    guard_2: { x: 25, y: 560 },
+    cabbage: { x: 170, y: 600 },
+    boat: { x: 275, y: 600 },
+    player: { x: 405, y: 475 },
   };
 
   const onLeftBoatCoordinates: Record<Item, Coordinates> = {
-    guard_1: { x: 325, y: 525 },
-    guard_2: { x: 325, y: 525 },
-    door_1: { x: 325, y: 525 },
-    door_2: { x: 325, y: 525 },
-    cabbage: { x: 325, y: 625 },
+    door_1: { x: 330, y: 525 },
+    door_2: { x: 330, y: 525 },
+    guard_1: { x: 340, y: 460 },
+    guard_2: { x: 340, y: 460 },
+    cabbage: { x: 350, y: 620 },
     boat: { x: 0, y: 0 }, // This is not used
     player: { x: 0, y: 0 }, // This is not used
   };
 
   const onRightCoordinates: Record<Item, Coordinates> = {
-    guard_1: { x: 775, y: 250 },
-    guard_2: { x: 875, y: 200 },
-    door_1: { x: 975, y: 175 },
-    door_2: { x: 1075, y: 200 },
-    cabbage: { x: 1125, y: 375 },
-    boat: { x: 650, y: 450 },
-    player: { x: 850, y: 375 },
+    door_1: { x: 1075, y: 500 },
+    door_2: { x: 975, y: 500 },
+    guard_1: { x: 1025, y: 560 },
+    guard_2: { x: 925, y: 560 },
+    cabbage: { x: 1100, y: 675 },
+    boat: { x: 575, y: 600 },
+    player: { x: 705, y: 475 },
   };
 
-  const onRightBoatOffset: Coordinates = { x: 400, y: -125 };
+  const onRightBoatOffset: Coordinates = { x: 300, y: 0 };
 
   const startLocation: Record<Item, Location> = {
     guard_1: "left",
@@ -131,7 +213,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
     if (inBoat.includes(key)) {
       if (locations["boat"] === "left") {
         return {
-          x: onLeftBoatCoordinates[key].x + 100 * inBoat.indexOf(key),
+          x: onLeftBoatCoordinates[key].x + 145 * inBoat.indexOf(key),
           y: onLeftBoatCoordinates[key].y,
         };
       } else {
@@ -139,7 +221,7 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
           x:
             onLeftBoatCoordinates[key].x +
             onRightBoatOffset.x +
-            100 * inBoat.indexOf(key),
+            145 * inBoat.indexOf(key),
           y: onLeftBoatCoordinates[key].y + onRightBoatOffset.y,
         };
       }
@@ -495,89 +577,93 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
             className="rounded-md border-8 border-footer-bg"
             style={{ cursor }}
           >
-            <Sprite image={RIVER.src} scale={2 * SCALE} />
             <Sprite
-              image={PLAYER.src}
+              image={RIVER.src}
+              width={WIDTH * SCALE}
+              height={HEIGHT * SCALE}
+            />
+            <AnimatedSprite
+              image={BOAT.src}
               eventMode="static"
+              onPointerDown={(event) => onClickBoat(event.currentTarget)}
+              onPointerOver={(event) => onHover(event.currentTarget, "boat")}
+              onPointerOut={(event) => onHoverOut(event.currentTarget)}
+              x={getCoordinates("boat").x * SCALE}
+              y={getCoordinates("boat").y * SCALE}
+              scale={0.5 * SCALE}
+              hitArea={new Rectangle(90, 50, 575, 220)}
+            />
+            <AnimatedSprite
+              image={PLAYER.src}
+              eventMode="none"
               x={getCoordinates("player").x * SCALE}
               y={getCoordinates("player").y * SCALE}
-              scale={0.22 * SCALE}
+              scale={0.25 * SCALE}
             />
-            <Sprite
-              image={GUARD.src}
-              eventMode="dynamic"
-              pointerdown={(event) =>
-                onClickItem(event.currentTarget, "guard_1")
-              }
-              pointerover={(event) => onHover(event.currentTarget, "guard_1")}
-              pointerout={(event) => onHoverOut(event.currentTarget)}
-              key="guard_1"
-              x={getCoordinates("guard_1").x * SCALE}
-              y={getCoordinates("guard_1").y * SCALE}
-              scale={0.15 * SCALE}
-            />
-            <Sprite
-              image={GUARD.src}
-              eventMode="dynamic"
-              pointerdown={(event) =>
-                onClickItem(event.currentTarget, "guard_2")
-              }
-              pointerover={(event) => onHover(event.currentTarget, "guard_2")}
-              pointerout={(event) => onHoverOut(event.currentTarget)}
-              key="guard_2"
-              x={getCoordinates("guard_2").x * SCALE}
-              y={getCoordinates("guard_2").y * SCALE}
-              scale={0.15 * SCALE}
-            />
-            <Sprite
-              image={CABBAGE.src}
-              eventMode="dynamic"
-              pointerdown={(event) =>
-                onClickItem(event.currentTarget, "cabbage")
-              }
-              pointerover={(event) => onHover(event.currentTarget, "cabbage")}
-              pointerout={(event) => onHoverOut(event.currentTarget)}
-              key="cabbage"
-              x={getCoordinates("cabbage").x * SCALE}
-              y={getCoordinates("cabbage").y * SCALE}
-              scale={0.15 * SCALE}
-            />
-            <Sprite
+            <AnimatedSprite
               image={DOOR.src}
               eventMode="dynamic"
-              pointerdown={(event) =>
+              onPointerDown={(event) =>
                 onClickItem(event.currentTarget, "door_1")
               }
-              pointerover={(event) => onHover(event.currentTarget, "door_1")}
-              pointerout={(event) => onHoverOut(event.currentTarget)}
+              onPointerOver={(event) => onHover(event.currentTarget, "door_1")}
+              onPointerOut={(event) => onHoverOut(event.currentTarget)}
               key="door_1"
               x={getCoordinates("door_1").x * SCALE}
               y={getCoordinates("door_1").y * SCALE}
-              scale={0.4 * SCALE}
+              scale={0.2 * SCALE}
             />
-            <Sprite
+            <AnimatedSprite
               image={DOOR.src}
               eventMode="dynamic"
-              pointerdown={(event) =>
+              onPointerDown={(event) =>
                 onClickItem(event.currentTarget, "door_2")
               }
-              pointerover={(event) => onHover(event.currentTarget, "door_2")}
-              pointerout={(event) => onHoverOut(event.currentTarget)}
+              onPointerOver={(event) => onHover(event.currentTarget, "door_2")}
+              onPointerOut={(event) => onHoverOut(event.currentTarget)}
               key="door_2"
               x={getCoordinates("door_2").x * SCALE}
               y={getCoordinates("door_2").y * SCALE}
-              scale={0.4 * SCALE}
+              scale={0.2 * SCALE}
             />
-            <Sprite
-              image={BOAT.src}
-              eventMode="static"
-              pointerdown={(event) => onClickBoat(event.currentTarget)}
-              pointerover={(event) => onHover(event.currentTarget, "boat")}
-              pointerout={(event) => onHoverOut(event.currentTarget)}
-              x={getCoordinates("boat").x * SCALE}
-              y={getCoordinates("boat").y * SCALE}
-              scale={1.5 * SCALE}
-              hitArea={new Rectangle(20, 50, 260, 80)}
+            <AnimatedSprite
+              image={CABBAGE.src}
+              eventMode="dynamic"
+              onPointerDown={(event) =>
+                onClickItem(event.currentTarget, "cabbage")
+              }
+              onPointerOver={(event) => onHover(event.currentTarget, "cabbage")}
+              onPointerOut={(event) => onHoverOut(event.currentTarget)}
+              key="cabbage"
+              x={getCoordinates("cabbage").x * SCALE}
+              y={getCoordinates("cabbage").y * SCALE}
+              scale={0.1 * SCALE}
+            />
+            <AnimatedSprite
+              image={GUARD.src}
+              eventMode="dynamic"
+              onPointerDown={(event) =>
+                onClickItem(event.currentTarget, "guard_1")
+              }
+              onPointerOver={(event) => onHover(event.currentTarget, "guard_1")}
+              onPointerOut={(event) => onHoverOut(event.currentTarget)}
+              key="guard_1"
+              x={getCoordinates("guard_1").x * SCALE}
+              y={getCoordinates("guard_1").y * SCALE}
+              scale={0.25 * SCALE}
+            />
+            <AnimatedSprite
+              image={GUARD.src}
+              eventMode="dynamic"
+              onPointerDown={(event) =>
+                onClickItem(event.currentTarget, "guard_2")
+              }
+              onPointerOver={(event) => onHover(event.currentTarget, "guard_2")}
+              onPointerOut={(event) => onHoverOut(event.currentTarget)}
+              key="guard_2"
+              x={getCoordinates("guard_2").x * SCALE}
+              y={getCoordinates("guard_2").y * SCALE}
+              scale={0.25 * SCALE}
             />
           </Stage>
           {/* Draggable overlay */}

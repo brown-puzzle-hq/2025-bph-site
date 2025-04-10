@@ -4,7 +4,7 @@ import { useState, useEffect, startTransition } from "react";
 import { useSession } from "next-auth/react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
-import { EyeOff, RefreshCw, Waypoints } from "lucide-react";
+import { EyeOff, Key, KeyRound, RefreshCw, Waypoints } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { insertHintResponse } from "../../actions";
 import { toast } from "~/hooks/use-toast";
@@ -45,6 +45,8 @@ type Hint = {
     id: string;
     displayName: string;
     members: string;
+    interactionMode: string;
+    hasBox: boolean;
   };
   claimer: {
     id: string;
@@ -298,36 +300,40 @@ export default function AdminHintThread({
             >
               {hint.team.displayName} ({hint.team.id})
             </Link>
-            <div className="flex items-center text-blue-500">
-              [
+            <div className="flex items-center text-orange-500">
               <Link
                 href={`/admin/graph?team=${hint.team.id}`}
                 className="hover:opacity-85"
               >
                 <Waypoints className="size-4" />
               </Link>
-              ]
             </div>
           </div>
 
           <div className="flex items-center space-x-1">
             <span className="font-semibold">Puzzle:</span>
             <Link
-              href={`/puzzle/${hint.puzzle.id}`}
+              href={`/puzzle/${hint.puzzle.id}?interactionMode=${hint.team.interactionMode === "remote" && hint.team.hasBox ? "remote-box" : hint.team.interactionMode}`}
               className="text-blue-500 hover:underline"
               prefetch={false}
             >
               {hint.puzzle.name}
             </Link>
-            <div className="flex items-center text-blue-500">
-              [
+            <div className="flex items-center text-yellow-500">
+              <Link
+                href={`/puzzle/${hint.puzzle.id}/solution`}
+                className="hover:opacity-85"
+              >
+                <KeyRound className="size-4" />
+              </Link>
+            </div>
+            <div className="flex items-center text-orange-500">
               <Link
                 href={`/admin/graph?puzzle=${hint.puzzle.id}`}
                 className="hover:opacity-85"
               >
                 <Waypoints className="size-4" />
               </Link>
-              ]
             </div>
           </div>
 
@@ -476,14 +482,14 @@ export default function AdminHintThread({
                                   message: "",
                                 });
                               }}
-                              className="text-link hover:underline"
+                              className="text-blue-500 hover:underline"
                             >
                               Reply
                             </button>
                           ) : (
                             <button
                               onClick={() => setNewFollowUp(null)}
-                              className="text-link hover:underline"
+                              className="text-blue-500 hover:underline"
                             >
                               Cancel
                             </button>
@@ -506,7 +512,7 @@ export default function AdminHintThread({
                                     "response",
                                   )
                                 }
-                                className="text-link hover:underline"
+                                className="text-blue-500 hover:underline"
                               >
                                 Save
                               </button>
@@ -521,7 +527,7 @@ export default function AdminHintThread({
                                   type: "response",
                                 });
                               }}
-                              className="text-link hover:underline"
+                              className="text-blue-500 hover:underline"
                             >
                               Edit
                             </button>
@@ -599,7 +605,7 @@ export default function AdminHintThread({
                               "",
                             )
                           }
-                          className="text-link hover:underline"
+                          className="text-blue-500 hover:underline"
                         >
                           Claim
                         </button>
@@ -615,14 +621,14 @@ export default function AdminHintThread({
                               message: "",
                             });
                           }}
-                          className="text-link hover:underline"
+                          className="text-blue-500 hover:underline"
                         >
                           Reply
                         </button>
                       ) : (
                         <button
                           onClick={() => setNewFollowUp(null)}
-                          className="text-link hover:underline"
+                          className="text-blue-500 hover:underline"
                         >
                           Cancel
                         </button>
@@ -642,7 +648,7 @@ export default function AdminHintThread({
                                   "follow-up",
                                 )
                               }
-                              className="text-link hover:underline"
+                              className="text-blue-500 hover:underline"
                             >
                               Save
                             </button>
@@ -656,7 +662,7 @@ export default function AdminHintThread({
                                   type: "follow-up",
                                 });
                               }}
-                              className="text-link hover:underline"
+                              className="text-blue-500 hover:underline"
                             >
                               Edit
                             </button>

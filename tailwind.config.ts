@@ -42,56 +42,17 @@ export default {
         "partial-guess": colors.yellow[300],
         "incorrect-guess": colors.rose[300],
         error: colors.red[400],
-
-        // Colors
-        mahogany: {
-          "50": "#fff0f0",
-          "100": "#ffdddd",
-          "200": "#ffc1c1",
-          "300": "#ff9696",
-          "400": "#ff5a5a",
-          "500": "#ff2727",
-          "600": "#fb0707",
-          "700": "#d40101",
-          "800": "#ae0606",
-          "900": "#900c0c",
-          "950": "#4e0000",
-        },
-
-        crimson: {
-          "50": "#fff0f0",
-          "100": "#ffdddd",
-          "200": "#ffc0c0",
-          "300": "#ff9494",
-          "400": "#ff5758",
-          "500": "#ff2324",
-          "600": "#ec0001",
-          "700": "#d70001",
-          "800": "#b10304",
-          "900": "#920a0b",
-          "950": "#500000",
-        },
       },
       typography: ({ theme }: { theme: any }) => ({
-        DEFAULT: {
+        info: {
           css: {
-            p: {
-              marginTop: "0em",
-              marginBottom: "0.5em",
-            },
-            "h1, h2, h3, h4, h5, h6, li, blockquote": {
-              lineHeight: "1.5",
-              marginTop: "0em",
-              marginBottom: "0em",
-              wordBreak: "break-words",
-            },
-            ":last-child": {
-              marginBottom: "0em",
-            },
-            maxWidth: "100ch", // add required value here
+            "--tw-prose-body": theme("colors.main-text"),
+            "--tw-prose-headings": theme("colors.main-header"),
+            "--tw-prose-links": theme("colors.link"),
+            "--tw-prose-bold": theme("colors.main-header"),
           },
         },
-        custom: {
+        feedback: {
           css: {
             "--tw-prose-body": theme("colors.stone[100]"), // Light off-white for body text
             "--tw-prose-headings": theme("colors.stone[50]"), // Pure white for headings
@@ -122,10 +83,21 @@ export default {
             ":last-child": {
               marginBottom: "0em",
             },
-            maxWidth: "100ch", // add required value here
+            maxWidth: "100ch",
           },
         },
       }),
+      keyframes: {
+        shake: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "25%": { transform: "translateX(-3px)" },
+          "50%": { transform: "translateX(3px)" },
+          "75%": { transform: "translateX(-3px)" },
+        },
+      },
+      animation: {
+        shake: "shake 0.2s ease-in-out",
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],

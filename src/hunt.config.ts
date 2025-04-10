@@ -49,7 +49,7 @@ export const SEQUENCES: Sequence[] = [
     puzzles: [
       "youve-got-this-covered",
       "fractal-shanty",
-      "study-abroad",
+      "international-neighbors",
       "fridge-magnets",
     ],
   },
@@ -74,7 +74,7 @@ export const SEQUENCES: Sequence[] = [
     name: "CD",
     icon: "💿",
     puzzles: [
-      "lost-category",
+      "common-words",
       "youve-got-this-covered",
       "imagine",
       "the-compact-disc",
@@ -123,7 +123,7 @@ export const SEQUENCES: Sequence[] = [
   {
     name: "Time",
     icon: "⏰",
-    puzzles: ["filming-schedule", "hand-letters", "placeholder-ii"], // Need placeholder
+    puzzles: ["filming-schedule", "hand-letters", "like-clockwork"],
   },
 ];
 
@@ -233,11 +233,11 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "a-fistful-of-cards",
     "filming-schedule",
     "beads",
-    "lost-category",
+    "common-words",
   ],
   "a-fistful-of-cards-ii": ["heist-ii", "youve-got-this-covered"], // ten-guards-ten-doors
   beads: ["heist-ii", "a-fistful-of-cards-ii", "aha-erlebnis"], // ten-guards-ten-doors
-  "lost-category": [
+  "common-words": [
     "youve-got-this-covered",
     "a-fistful-of-cards-ii",
     "m-guards-n-doors-and-k-choices",
@@ -251,7 +251,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   "youve-got-this-covered": [
     "heist-ii",
     "beads",
-    "lost-category",
+    "common-words",
     "aha-erlebnis",
     "m-guards-n-doors-and-k-choices",
   ],
@@ -301,7 +301,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   ], // m-guards-n-doors-and-k-choices
   "boring-plot": ["bluenos-puzzle-box", "narcissism", "financial-crimes-3"],
   "whats-my-ride": ["bluenos-puzzle-box"],
-  piecemeal: ["once-upon-a-quote", "eye-of-the-storm", "narcissism"],
+  piecemeal: ["barbie", "eye-of-the-storm", "narcissism"],
   "eye-spy": ["bluenos-puzzle-box", "whats-my-ride", "imagine"],
   "identify-the-piece": ["the-snack-zone"],
   "eye-of-the-storm": ["boring-plot", "narcissism"],
@@ -311,7 +311,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "eye-spy",
   ],
   imagine: ["whats-my-ride"],
-  "once-upon-a-quote": ["boring-plot"],
+  "barbie": ["boring-plot"],
   "the-snack-zone": ["imagine"],
 
   // REALITY -> COMEDY
@@ -325,19 +325,19 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   "chain-letters": ["hand-letters", "heist-iii"],
   "a-fistful-of-cards-iii": [
     "the-guard-and-the-door",
-    "study-abroad",
+    "international-neighbors",
     "six-degrees",
   ], // opening-sequences
-  "hand-letters": ["study-abroad", "are-you-sure", "six-degrees"], // opening-sequences, chain-letters,
+  "hand-letters": ["international-neighbors", "are-you-sure", "six-degrees"], // opening-sequences, chain-letters,
   "heist-iii": ["are-you-sure"], // chain-letters
-  "study-abroad": [
+  "international-neighbors": [
     "a-fistful-of-cards-iii",
     "hand-letters",
     "are-you-sure",
     "the-guard-and-the-door",
     "six-degrees",
   ],
-  "are-you-sure": ["study-abroad", "hand-letters", "heist-iii"],
+  "are-you-sure": ["international-neighbors", "hand-letters", "heist-iii"],
   "six-degrees": [],
   "cutting-room-floor": [],
 
@@ -346,18 +346,18 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "financial-crimes-3",
     "genetic-counseling",
     // reality
-    "study-abroad",
+    "international-neighbors",
     "a-fistful-of-cards-iii",
-    // cerebral
+    // horror
     "secret-ingredient",
     "color-transfer",
     "the-compact-disc",
   ],
 
-  // CEREBRAL
+  // HORROR
   "red-blue": ["the-final-heist", "eye-to-eye", "fridge-magnets"], // the-guard-and-the-door
   "a-fistful-of-cards-iv": [
-    "placeholder-ii",
+    "like-clockwork",
     "eye-to-eye",
     "secret-ingredient",
     "color-transfer",
@@ -395,8 +395,8 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "the-final-heist",
     "red-blue",
   ],
-  "placeholder-i": ["placeholder-ii", "color-transfer", "secret-ingredient"],
-  "placeholder-ii": ["placeholder-i", "constellation", "a-fistful-of-cards-iv"],
+  "placeholder-i": ["like-clockwork", "color-transfer", "secret-ingredient"],
+  "like-clockwork": ["placeholder-i", "constellation", "a-fistful-of-cards-iv"],
 };
 
 export type Round = {
@@ -424,7 +424,7 @@ export const ROUNDS: Round[] = [
       "beads",
       "ten-guards-ten-doors",
       "a-fistful-of-cards-ii",
-      "lost-category",
+      "common-words",
       "youve-got-this-covered",
       "heist-ii",
     ],
@@ -446,7 +446,7 @@ export const ROUNDS: Round[] = [
     puzzles: [
       "boring-plot",
       "identify-the-piece",
-      "once-upon-a-quote",
+      "barbie",
       "imagine",
       "narcissism",
       "genetic-counseling",
@@ -469,13 +469,13 @@ export const ROUNDS: Round[] = [
       "chain-letters",
       "hand-letters",
       "one-guard-screen",
-      "study-abroad",
+      "international-neighbors",
       "a-fistful-of-cards-iii",
       "heist-iii",
     ],
   },
   {
-    name: "Cerebral",
+    name: "Horror",
     puzzles: [
       "cutting-room-floor",
       "color-transfer",
@@ -486,7 +486,7 @@ export const ROUNDS: Round[] = [
       "fridge-magnets",
       "red-blue",
       "secret-ingredient",
-      "placeholder-ii",
+      "like-clockwork",
       "constellation",
       "the-compact-disc",
       "the-final-heist",
@@ -500,18 +500,26 @@ export const ROUNDS: Round[] = [
  */
 
 /** Calculates the total number of hints given to a team */
-export function getTotalHints(teamId: string, role: string) {
+export function getTotalHints(role: string, interactionMode: string) {
   const initialNumberOfHints =
     role == "admin" || role == "testsolver" ? 1e6 : 1;
   const currentTime = new Date();
-  const timeDifference = currentTime.getTime() - IN_PERSON.START_TIME.getTime(); // In milliseconds
+  const timeDifference =
+    currentTime.getTime() -
+    (interactionMode === "in-person"
+      ? IN_PERSON.START_TIME.getTime()
+      : REMOTE.START_TIME.getTime()); // In milliseconds
   const rate = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
   return initialNumberOfHints + Math.max(Math.floor(timeDifference / rate), 0);
 }
 
 /** Calculates the total number of hints available to a team */
-export async function getNumberOfHintsRemaining(teamId: string, role: string) {
-  const totalHints = getTotalHints(teamId, role);
+export async function getNumberOfHintsRemaining(
+  teamId: string,
+  role: string,
+  interactionMode: string,
+) {
+  const totalHints = getTotalHints(role, interactionMode);
   const query = await db
     .select({ count: count() })
     .from(hints)
