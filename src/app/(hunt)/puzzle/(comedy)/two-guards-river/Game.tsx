@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, startTransition } from "react";
 import "@pixi/events";
 import { Stage, Sprite } from "@pixi/react";
 import type { EventMode } from "pixi.js";
@@ -20,6 +20,7 @@ import {
   DoorOpen,
   PanelLeft,
   PanelRight,
+  RefreshCw,
   Skull,
   Trophy,
   Undo2,
@@ -107,7 +108,7 @@ const AnimatedSprite: React.FC<AnimatedSpriteProps> = ({
       y={prevPosition.current.y}
       scale={scale}
       eventMode={eventMode}
-      hitArea={hitArea}
+      hitArea={hitArea ?? null}
       pointerdown={onPointerDown}
       pointerover={onPointerOver}
       pointerout={onPointerOut}
@@ -506,18 +507,21 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
   };
 
   const handleSubmission = async () => {
-    if (
-      correctDoor !== "uncollapsed" &&
-      locations[correctDoor] === locations["player"] &&
-      (await checkMoves(moves, isSolved))
-    ) {
-      setResult("Winning");
-    } else {
-      setLocations((prevLocations) => {
-        return { ...prevLocations, player: "dead" };
-      });
-      setResult("Losing");
-    }
+    setResult("Loading");
+    startTransition(async () => {
+      if (
+        correctDoor !== "uncollapsed" &&
+        locations[correctDoor] === locations["player"] &&
+        (await checkMoves(moves, isSolved))
+      ) {
+        setResult("Winning");
+      } else {
+        setLocations((prevLocations) => {
+          return { ...prevLocations, player: "dead" };
+        });
+        setResult("Losing");
+      }
+    });
   };
 
   return (
@@ -671,10 +675,12 @@ export default function Game({ isSolved }: { isSolved: boolean }) {
           {/* Result overlay */}
           {result && (
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              {result === "Winning" ? (
-                <Trophy className="h-1/2 w-1/2" />
+              {result === "Loading" ? (
+                <RefreshCw className="size-1/2 animate-spin" />
+              ) : result === "Winning" ? (
+                <Trophy className="size-1/2" />
               ) : (
-                <Skull className="h-1/2 w-1/2" />
+                <Skull className="size-1/2" />
               )}
             </div>
           )}

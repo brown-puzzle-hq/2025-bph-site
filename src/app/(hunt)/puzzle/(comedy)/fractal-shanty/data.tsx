@@ -13,8 +13,8 @@ export const puzzleId = "fractal-shanty";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
-  <div className="max-w-3xl space-y-4">
-    <p className="italic">These sailors don't follow orders.</p>
+  <div className="max-w-xl space-y-4">
+    <p className="w-full text-center italic">These sailors don't follow orders.</p>
     <Image className="mx-auto" src={FRACTAL} alt="" />
     <p>
     In the port the seagulls flew right round the masts of sloops and barques<br></br>
