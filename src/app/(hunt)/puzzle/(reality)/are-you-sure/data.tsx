@@ -82,11 +82,7 @@ export const inPersonBody = (
       <div key={`${i}`}>
         {prompts.map((prompt, j) => (
           <div className="flex space-x-4" key={`${i}-${j}`}>
-            <input
-              type="checkbox"
-              value=""
-              className="h-6 min-w-4 rounded-sm border-gray-300 bg-gray-100 text-blue-600"
-            />
+            <input type="checkbox" value="" className="h-6 min-w-4" />
             <p>{prompt}</p>
           </div>
         ))}
@@ -109,7 +105,10 @@ export const solutionBody = null;
  * The `copyText` should provide a convenient text representation of the puzzle
  * that can be copied to the clipboard. Set this to `null` to remove the copy button.
  */
-export const copyText = checkboxPrompts.reduce((acc, val) => acc + val.join("\n") + "\n\n", "");
+export const copyText = checkboxPrompts.reduce(
+  (acc, val) => acc + val.join("\n") + "\n\n",
+  "",
+);
 
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.
