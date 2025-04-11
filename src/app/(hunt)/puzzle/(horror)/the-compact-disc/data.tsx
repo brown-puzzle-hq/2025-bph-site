@@ -25,9 +25,6 @@ export const inPersonBody = (
     <div className="italic">
       You take a minute (or several) to listen to your CD.
     </div>
-    <div className="flex justify-center pt-1.5">
-      <Image src={Disc} alt="" width={500} height={500} />
-    </div>
   </div>
 );
 
@@ -41,9 +38,6 @@ export const remoteBoxBody = (
     </div>
     <div className="italic">
       You take a minute (or several) to listen to your CD.
-    </div>
-    <div className="flex justify-center pt-1.5">
-      <Image src={Disc} alt="" width={500} height={500} />
     </div>
   </div>
 );
