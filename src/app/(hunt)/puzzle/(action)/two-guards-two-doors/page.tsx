@@ -10,6 +10,7 @@ import PuzzleBody from "./PuzzleBody";
 const DOOR_RANGE = [1, 2, 3, 4, 5, 6];
 
 export type DecisionMapKey = 1 | 2 | 3 | 4 | 5 | 6;
+
 export type Decision = {
   decision: string;
   time: Date;
@@ -28,10 +29,21 @@ export default async function Page({
   const decisions = await db
     .select()
     .from(tgtd)
-    .where(and(eq(tgtd.teamId, teamId), lt(tgtd.time, new Date())));
+    .where(and(eq(tgtd.teamId, teamId)));
+
+  const decisionMap: Partial<Record<number, Decision>> = {};
+
+  for (const entry of decisions) {
+    if (
+      !decisionMap[entry.door] ||
+      entry.time > decisionMap[entry.door]!.time
+    ) {
+      decisionMap[entry.door] = entry;
+    }
+  }
 
   const currDecisions: DecisionMap = Object.fromEntries(
-    DOOR_RANGE.map((n) => [n, decisions.find((obj) => obj.door === n) ?? null]),
+    DOOR_RANGE.map((n) => [n, decisionMap[n] ?? null]),
   ) as DecisionMap;
 
   return (

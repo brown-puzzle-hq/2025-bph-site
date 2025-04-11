@@ -2,9 +2,6 @@
 import { useState } from "react";
 import { useToast } from "~/hooks/use-toast";
 
-// TODO: replace this
-import Countdown from "../../(adventure)/m-guards-n-doors-and-k-choices/Countdown";
-
 import Image from "next/image";
 import DoorImage from "./media/door.png";
 import GImage from "./media/g.png";
@@ -19,6 +16,9 @@ import HandImage from "./media/pointer.png";
 import { TGTDDecision } from "~/server/db/schema";
 import { DecisionMap, DecisionMapKey } from "./page";
 import { insertTGTDDecision } from "./actions";
+import Countdown from "./Countdown";
+
+const coolDownTime = 10 * 60 * 1000; // 10 minutes
 
 export default function PuzzleBody({
   decisionsMap,
@@ -26,15 +26,20 @@ export default function PuzzleBody({
   decisionsMap: DecisionMap;
 }) {
   const { toast } = useToast();
-
   const [currDecisions, setCurrDecisions] = useState<DecisionMap>(decisionsMap);
 
   const handleDoorClick = async (
     door: DecisionMapKey,
     decision: TGTDDecision,
   ) => {
-    if (currDecisions[door]) return;
+    // Check if the currDecision has passed yet
+    if (
+      currDecisions[door] &&
+      currDecisions[door].time.getTime() + coolDownTime > new Date().getTime()
+    )
+      return;
 
+    // Try to insert the decision
     const result = await insertTGTDDecision(door, decision);
 
     if (result?.error) {
@@ -43,15 +48,13 @@ export default function PuzzleBody({
         description: result.error,
         variant: "destructive",
       });
-
       if (result.decisionMap) setCurrDecisions(result.decisionMap);
-
       return;
     }
 
+    // Update the currDecision
     const newDecisions = { ...currDecisions };
-    if (!newDecisions[door])
-      newDecisions[door] = { time: new Date(), decision };
+    newDecisions[door] = { time: new Date(), decision };
     setCurrDecisions(newDecisions);
   };
 
@@ -82,20 +85,13 @@ export default function PuzzleBody({
 
       {/* Timer */}
       <div className="mb-5">
-        {currDecisions[1] && (
-          <Countdown
-            targetDate={
-              new Date(currDecisions[1].time.getTime() + 10 * 60 * 1000)
-            }
-            callBack={() => {
-              setCurrDecisions((prev) => {
-                const newMap = { ...prev };
-                newMap[1] = null;
-                return newMap;
-              });
-            }}
-          />
-        )}
+        <Countdown
+          targetDate={
+            currDecisions[1]
+              ? new Date(currDecisions[1].time.getTime() + 10 * 60 * 1000)
+              : null
+          }
+        />
       </div>
 
       <div className="relative flex min-w-[480px] items-center justify-center gap-20">
@@ -107,7 +103,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(1, "left")}
-            className={!currDecisions[1] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[1] ||
+              currDecisions[1].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[1]?.decision === "left" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -144,7 +146,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(1, "right")}
-            className={!currDecisions[1] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[1] ||
+              currDecisions[1].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[1]?.decision === "right" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -182,20 +190,13 @@ export default function PuzzleBody({
 
       {/* Timer */}
       <div className="mb-5">
-        {currDecisions[2] && (
-          <Countdown
-            targetDate={
-              new Date(currDecisions[2].time.getTime() + 10 * 60 * 1000)
-            }
-            callBack={() => {
-              setCurrDecisions((prev) => {
-                const newMap = { ...prev };
-                newMap[2] = null;
-                return newMap;
-              });
-            }}
-          />
-        )}
+        <Countdown
+          targetDate={
+            currDecisions[2]
+              ? new Date(currDecisions[2].time.getTime() + 10 * 60 * 1000)
+              : null
+          }
+        />
       </div>
 
       <div className="relative flex items-center justify-center gap-20">
@@ -207,7 +208,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(2, "left")}
-            className={!currDecisions[2] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[2] ||
+              currDecisions[2].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[2]?.decision === "left" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -244,7 +251,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(2, "right")}
-            className={!currDecisions[2] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[2] ||
+              currDecisions[2].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[2]?.decision === "right" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -280,20 +293,13 @@ export default function PuzzleBody({
 
       {/* Timer */}
       <div className="mb-5">
-        {currDecisions[3] && (
-          <Countdown
-            targetDate={
-              new Date(currDecisions[3].time.getTime() + 10 * 60 * 1000)
-            }
-            callBack={() => {
-              setCurrDecisions((prev) => {
-                const newMap = { ...prev };
-                newMap[3] = null;
-                return newMap;
-              });
-            }}
-          />
-        )}
+        <Countdown
+          targetDate={
+            currDecisions[3]
+              ? new Date(currDecisions[3].time.getTime() + 10 * 60 * 1000)
+              : null
+          }
+        />
       </div>
 
       <div className="relative flex items-center justify-center gap-20">
@@ -305,7 +311,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(3, "left")}
-            className={!currDecisions[3] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[3] ||
+              currDecisions[3].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[3]?.decision === "left" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -342,7 +354,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(3, "right")}
-            className={!currDecisions[3] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[3] ||
+              currDecisions[3].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[3]?.decision === "right" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -381,20 +399,13 @@ export default function PuzzleBody({
 
       {/* Timer */}
       <div className="mb-5">
-        {currDecisions[4] && (
-          <Countdown
-            targetDate={
-              new Date(currDecisions[4].time.getTime() + 10 * 60 * 1000)
-            }
-            callBack={() => {
-              setCurrDecisions((prev) => {
-                const newMap = { ...prev };
-                newMap[4] = null;
-                return newMap;
-              });
-            }}
-          />
-        )}
+        <Countdown
+          targetDate={
+            currDecisions[4]
+              ? new Date(currDecisions[4].time.getTime() + 10 * 60 * 1000)
+              : null
+          }
+        />
       </div>
 
       <div className="relative flex items-center justify-center gap-20">
@@ -406,7 +417,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(4, "left")}
-            className={!currDecisions[4] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[4] ||
+              currDecisions[4].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[4]?.decision === "left" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -443,7 +460,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(4, "right")}
-            className={!currDecisions[4] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[4] ||
+              currDecisions[4].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[4]?.decision === "right" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -484,20 +507,13 @@ export default function PuzzleBody({
 
       {/* Timer */}
       <div className="mb-5">
-        {currDecisions[5] && (
-          <Countdown
-            targetDate={
-              new Date(currDecisions[5].time.getTime() + 10 * 60 * 1000)
-            }
-            callBack={() => {
-              setCurrDecisions((prev) => {
-                const newMap = { ...prev };
-                newMap[5] = null;
-                return newMap;
-              });
-            }}
-          />
-        )}
+        <Countdown
+          targetDate={
+            currDecisions[5]
+              ? new Date(currDecisions[5].time.getTime() + 10 * 60 * 1000)
+              : null
+          }
+        />
       </div>
 
       <div className="relative flex items-center justify-center gap-20">
@@ -509,7 +525,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(5, "left")}
-            className={!currDecisions[5] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[5] ||
+              currDecisions[5].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[5]?.decision === "left" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -546,7 +568,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(5, "right")}
-            className={!currDecisions[5] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[5] ||
+              currDecisions[5].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[5]?.decision === "right" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -584,20 +612,13 @@ export default function PuzzleBody({
 
       {/* Timer */}
       <div className="mb-5">
-        {currDecisions[6] && (
-          <Countdown
-            targetDate={
-              new Date(currDecisions[6].time.getTime() + 10 * 60 * 1000)
-            }
-            callBack={() => {
-              setCurrDecisions((prev) => {
-                const newMap = { ...prev };
-                newMap[6] = null;
-                return newMap;
-              });
-            }}
-          />
-        )}
+        <Countdown
+          targetDate={
+            currDecisions[6]
+              ? new Date(currDecisions[6].time.getTime() + 10 * 60 * 1000)
+              : null
+          }
+        />
       </div>
 
       <div className="relative flex items-center justify-center gap-20">
@@ -609,7 +630,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(6, "left")}
-            className={!currDecisions[6] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[6] ||
+              currDecisions[6].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[6]?.decision === "left" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -646,7 +673,13 @@ export default function PuzzleBody({
             height={400}
             alt="Door"
             onClick={() => handleDoorClick(6, "right")}
-            className={!currDecisions[6] ? "hover:opacity-80" : ""}
+            className={
+              !currDecisions[6] ||
+              currDecisions[6].time.getTime() + coolDownTime <
+                new Date().getTime()
+                ? "hover:opacity-80"
+                : ""
+            }
           />
           {currDecisions[6]?.decision === "right" && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

@@ -1,18 +1,17 @@
 "use client";
 
 import { Hourglass } from "lucide-react";
-import { useState, useEffect, MouseEventHandler } from "react";
+import { useState, useEffect } from "react";
 
-export function Countdown({
-  targetDate,
-  callBack,
-}: {
-  targetDate: Date;
-  callBack: MouseEventHandler;
-}) {
+export default function Countdown({ targetDate }: { targetDate: Date | null }) {
   const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
 
-  function calculateTimeRemaining() {
+  function calculateTimeRemaining(): {
+    minutes: number;
+    seconds: number;
+  } {
+    if (!targetDate) return { minutes: 0, seconds: 0 };
+
     const now = new Date();
     const difference = targetDate.getTime() - now.getTime();
 
@@ -22,27 +21,20 @@ export function Countdown({
 
     const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
     return { minutes, seconds };
   }
 
+  // Create an interval which updates the time remaining every second
+  // Recalculate the interval every time the targetDate changes
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setTimeRemaining(calculateTimeRemaining());
+      const remaining = calculateTimeRemaining();
+      setTimeRemaining(remaining);
+      if (remaining.minutes === 0 && remaining.seconds === 0)
+        clearInterval(intervalId);
     }, 1000);
-
     return () => clearInterval(intervalId);
-  }, []);
-
-  if (timeRemaining.minutes === 0 && timeRemaining.seconds === 0)
-    return (
-      <button
-        onClick={callBack}
-        className="w-fit translate-y-1 rounded-md bg-orange-700 px-3 py-1.5 font-semibold hover:opacity-80"
-      >
-        Retry
-      </button>
-    );
+  }, [targetDate]);
 
   return (
     <div className="flex translate-y-2 space-x-2">
@@ -54,5 +46,3 @@ export function Countdown({
     </div>
   );
 }
-
-export default Countdown;
