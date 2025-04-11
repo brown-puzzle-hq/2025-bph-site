@@ -1,3 +1,6 @@
+import Image from "next/image";
+import ACTION from "./drop-the.jpg";
+
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
  * It should be equal to the name of the folder this file is currently under.
@@ -25,71 +28,8 @@ export const inPersonBody = (
         -- into your movie, but people are butting heads. What do they need?
       </i>
     </div>
-
-    <div className="mt-4 grid grid-cols-8 justify-center gap-1">
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white">
-        4
-      </div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white">
-        5
-      </div>
-    </div>
-    <div className="mt-4 grid grid-cols-7 justify-center gap-1">
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white">
-        10
-      </div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white">
-        6
-      </div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-    </div>
-    <div className="mt-4 grid grid-cols-6 justify-center gap-1">
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white">
-        7
-      </div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white">
-        8
-      </div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-    </div>
-    <div className="mt-4 grid grid-cols-5 justify-center gap-1">
-      <div className="flex h-10 w-10 items-center justify-center border border-white">
-        3
-      </div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white">
-        9
-      </div>
-    </div>
-    <div className="mt-4 grid grid-cols-4 justify-center gap-1">
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white">
-        2
-      </div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-    </div>
-    <div className="mt-4 grid grid-cols-3 justify-center gap-1">
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white">
-        1
-      </div>
-      <div className="flex h-10 w-10 items-center justify-center border border-white"></div>
+    <div className="items-center">
+      <Image src={ACTION} alt = "" className="rounded-lg"/>
     </div>
   </div>
 );
