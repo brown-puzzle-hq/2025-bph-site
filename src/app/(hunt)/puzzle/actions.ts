@@ -327,9 +327,8 @@ export async function handleSolve(
 export async function insertAnswerToken(eventId: string, guess: string) {
   // Check that the user is logged in
   const session = await auth();
-  if (!session?.user?.id) {
-    return { error: "Not logged in!" };
-  }
+  if (!session?.user?.id) return { error: "Not logged in!" };
+
   const teamId = session.user.id;
   const currDate = new Date();
 

@@ -109,7 +109,10 @@ export default async function Home() {
       session.user.interactionMode === "in-person" &&
       currDate > IN_PERSON.START_TIME;
 
-    availableEvents = await db.query.events.findMany();
+    // TODO: not a great way to order events
+    availableEvents = await db.query.events.findMany({
+      orderBy: (events, { asc }) => [asc(events.startTime)],
+    });
 
     finishedEvents = await db.query.answerTokens.findMany({
       where: eq(answerTokens.teamId, session.user?.id!),
