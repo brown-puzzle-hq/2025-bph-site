@@ -18,6 +18,29 @@ export const puzzleId = "chain-letters";
  * The body renders above the guess submission form. Put flavor text, images,
  * and interactive puzzle components here.
  */
+
+/**      Use this{" "}
+      <a
+        href="/api/puzzle/genetic-counseling"
+        className="text-link hover:underline"
+      >
+        data sheet
+      </a>
+      .
+    </p> */
+const body = (<div>
+  <p>
+    <i>The further a message travels, the harder it is to follow instructions.</i>
+  </p>
+    Download the puzzle{" "}
+        <a
+        href="/api/puzzle/chain-letters"
+        className="text-link hover:underline"
+      >
+        here.
+      </a>
+</div>);
+
 export const inPersonBody = (
   <div className="max-w-xl space-y-4 text-center">
     <p>
@@ -26,17 +49,7 @@ export const inPersonBody = (
         chain, please visit HQ in Friedman 208.
       </i>
     </p>
-    <p>
-      <i>Some people just can't follow simple instructions.</i>
-    </p>
-    <p>
-      <a
-        href="https://drive.google.com/file/d/1WC3lR93-eT8h33FBVRAMNAYvxofSd4W4/view?usp=sharing"
-        className="text-blue-200 hover:underline"
-      >
-        This is a link to download a JSON file.
-      </a>
-    </p>
+    {body}
   </div>
 );
 
@@ -47,17 +60,7 @@ export const remoteBoxBody = (
         This is a physical puzzle! You should use an object found in your box.
       </i>
     </p>
-    <p>
-      <i>Some people just can't follow simple instructions.</i>
-    </p>
-    <p>
-      <a
-        href="https://drive.google.com/file/d/1WC3lR93-eT8h33FBVRAMNAYvxofSd4W4/view?usp=sharing"
-        className="text-blue-200 hover:underline"
-      >
-        This is a link to download a JSON file.
-      </a>
-    </p>
+    {body}
   </div>
 );
 
@@ -75,17 +78,7 @@ export const remoteBody = (
         />
       ))}
     </div>
-    <p>
-      <i>Some people just can't follow simple instructions.</i>
-    </p>
-    <p>
-      <a
-        href="https://drive.google.com/file/d/1WC3lR93-eT8h33FBVRAMNAYvxofSd4W4/view?usp=sharing"
-        className="text-blue-200 hover:underline"
-      >
-        This is a link to download a JSON file.
-      </a>
-    </p>
+    {body}
   </div>
 );
 
