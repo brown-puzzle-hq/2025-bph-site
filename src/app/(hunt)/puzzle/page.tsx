@@ -6,9 +6,19 @@ import { eq, inArray } from "drizzle-orm";
 import { solves, puzzles, unlocks, answerTokens } from "~/server/db/schema";
 import { Round, ROUNDS } from "@/hunt.config";
 import dynamic from "next/dynamic";
+import { cache } from "react";
 
+// Cache database queries to improve performance
+const getCachedPuzzles = cache(async () => {
+  return db.query.puzzles.findMany({
+    columns: { id: true, name: true, answer: true },
+  });
+});
+
+// Use dynamic import with ssr: false to avoid document is not defined error
 const PuzzleListPage = dynamic(() => import("../components/PuzzleListPage"), {
   ssr: false,
+  loading: () => <div className="p-6 text-center">Loading puzzles...</div>,
 });
 
 export default async function Home() {
@@ -41,13 +51,10 @@ export default async function Home() {
       );
     } // Otherwise, let them see all of the puzzles
     else {
-      availablePuzzles = (
-        await db.query.puzzles.findMany({
-          columns: { id: true, name: true, answer: true },
-        })
-      ).map((puzzle) => ({ ...puzzle, unlockTime: null }));
-
-      solvedPuzzles = [];
+      availablePuzzles = (await getCachedPuzzles()).map((puzzle) => ({
+        ...puzzle,
+        unlockTime: null
+      }));
     }
   }
 
@@ -57,9 +64,9 @@ export default async function Home() {
     if (
       (session.user.role === "user" || session.user.role === "admin") &&
       currDate <
-        (session.user.interactionMode === "in-person"
-          ? IN_PERSON.START_TIME
-          : REMOTE.START_TIME)
+      (session.user.interactionMode === "in-person"
+        ? IN_PERSON.START_TIME
+        : REMOTE.START_TIME)
     ) {
       return (
         <div className="mb-12 px-4 pt-6 text-center">
@@ -69,17 +76,22 @@ export default async function Home() {
       );
     }
 
-    // Otherwise, always display the puzzles unlocked
-    let initialPuzzles = await db.query.puzzles.findMany({
-      columns: { id: true, name: true, answer: true },
-      where: inArray(puzzles.id, INITIAL_PUZZLES),
-    });
-
-    let unlockedPuzzles = await db.query.unlocks.findMany({
-      columns: { unlockTime: true },
-      where: eq(unlocks.teamId, session.user.id),
-      with: { puzzle: { columns: { id: true, name: true, answer: true } } },
-    });
+    // Run database queries concurrently for better performance
+    const [initialPuzzles, unlockedPuzzles, solvedPuzzlesResult] = await Promise.all([
+      db.query.puzzles.findMany({
+        columns: { id: true, name: true, answer: true },
+        where: inArray(puzzles.id, INITIAL_PUZZLES),
+      }),
+      db.query.unlocks.findMany({
+        columns: { unlockTime: true },
+        where: eq(unlocks.teamId, session.user.id),
+        with: { puzzle: { columns: { id: true, name: true, answer: true } } },
+      }),
+      db.query.solves.findMany({
+        columns: { puzzleId: true },
+        where: eq(solves.teamId, session.user.id),
+      }),
+    ]);
 
     availablePuzzles = [
       ...initialPuzzles.map((puzzle) => ({ ...puzzle, unlockTime: null })),
@@ -89,17 +101,15 @@ export default async function Home() {
       })),
     ];
 
-    solvedPuzzles = await db.query.solves.findMany({
-      columns: { puzzleId: true },
-      where: eq(solves.teamId, session.user.id),
-    });
+    solvedPuzzles = solvedPuzzlesResult;
   }
+
+  // Optimize data processing with Set for faster lookups
+  const availablePuzzleIds = new Set(availablePuzzles.map(p => p.id));
 
   const availableRounds: Round[] = ROUNDS.map((round) => ({
     name: round.name,
-    puzzles: round.puzzles.filter((puzzle) =>
-      availablePuzzles.some((ap) => ap.id === puzzle),
-    ),
+    puzzles: round.puzzles.filter((puzzle) => availablePuzzleIds.has(puzzle)),
   })).filter((round) => round.puzzles.length > 0);
 
   const canSeeEvents =
@@ -108,22 +118,15 @@ export default async function Home() {
       session.user.interactionMode === "in-person" &&
       currDate > IN_PERSON.START_TIME);
 
-  const availableEvents: {
-    id: string;
-    name: string;
-    answer: string;
-    description: string;
-    startTime: Date;
-  }[] = await db.query.events.findMany();
-
-  const finishedEvents: {
-    eventId: string;
-    puzzleId: string | null;
-  }[] = session?.user
-    ? await db.query.answerTokens.findMany({
+  // Fetch events data concurrently
+  const [availableEvents, finishedEvents] = await Promise.all([
+    db.query.events.findMany(),
+    session?.user ?
+      db.query.answerTokens.findMany({
         where: eq(answerTokens.teamId, session.user?.id!),
-      })
-    : [];
+      }) :
+      Promise.resolve([])
+  ]);
 
   return (
     <PuzzleListPage

@@ -8,6 +8,14 @@ import { getCookie, setCookie } from "typescript-cookie";
 import { cn } from "~/lib/utils";
 import dynamic from "next/dynamic";
 
+// Safe cookie handling
+const getSafeClientCookie = (name: string, defaultValue: string): string => {
+  if (typeof window === 'undefined') {
+    return defaultValue;
+  }
+  return getCookie(name) ?? defaultValue;
+};
+
 const Map = dynamic(() => import("./Map"), {
   ssr: false,
   loading: () => (
@@ -36,8 +44,16 @@ export default function PuzzleListPage({
   finishedEvents,
   hasEventInputBox,
 }: PuzzleListPageProps) {
-  const [activeTab, setActiveTab] = useState(() => getCookie("puzzle_view") ?? "map");
-  const [needMap, setNeedMap] = useState(activeTab === "map");
+  // Initialize state with default value, then update on client side
+  const [activeTab, setActiveTab] = useState("map");
+  const [needMap, setNeedMap] = useState(true);
+
+  // Effect to read cookie only on client-side
+  useEffect(() => {
+    const savedView = getSafeClientCookie("puzzle_view", "map");
+    setActiveTab(savedView);
+    setNeedMap(savedView === "map");
+  }, []);
 
   // Will crash on mobile if not memoized
   const memoizedMap = useMemo(
@@ -50,11 +66,13 @@ export default function PuzzleListPage({
   return (
     <div className="grid min-h-[calc(100vh-56px-32px)]">
       <Tabs
-        defaultValue={getCookie("puzzle_view") ?? "map"}
+        value={activeTab}
         onValueChange={(value) => {
           setActiveTab(value);
-          setNeedMap(true);
-          setCookie("puzzle_view", value);
+          setNeedMap(value === "map");
+          if (typeof window !== 'undefined') {
+            setCookie("puzzle_view", value);
+          }
         }}
         className="col-start-1 row-start-1"
       >

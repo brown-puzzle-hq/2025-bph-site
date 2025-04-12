@@ -1,22 +1,17 @@
 "use client";
 
+import { useEffect, useRef, useState, useMemo } from "react";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
-import { MapContainer, Marker, Tooltip, ImageOverlay } from "react-leaflet";
+import { MapContainer, ImageOverlay, useMap } from "react-leaflet";
 import L, { LatLngBounds } from "leaflet";
 import { Round, ROUNDS } from "@/hunt.config";
 
-function spriteExists(image_url: string | URL) {
-  // TODO: can remove later
-  return true;
-  var http = new XMLHttpRequest();
-  console.log(image_url + ": " + (http.status != 404));
-  http.open('HEAD', image_url, false);
-  http.send();
-  return http.status != 404;
-}
+// Sprite cache for better performance
+const spriteCache: Record<string, any> = {};
 
+// Puzzle positions - unchanged
 const positions: Record<string, L.LatLngExpression> = {
   "a-fistful-of-cards": [435, 309],
   "a-fistful-of-cards-ii": [540, 240],
@@ -63,7 +58,6 @@ const positions: Record<string, L.LatLngExpression> = {
   "red-blue": [460, 510],
   "secret-ingredient": [610, 570],
   "six-degrees": [522, 700],
-  // "six-degrees": [542, 700],
   "international-neighbors": [560, 780],
   "ten-guards-ten-doors": [480, 310],
   "the-compact-disc": [540, 620],
@@ -78,85 +72,254 @@ const positions: Record<string, L.LatLngExpression> = {
   "youve-got-this-covered": [600, 220],
 };
 
-type puzzleList = {
+// Type definitions
+type Puzzle = {
   unlockTime: Date | null;
   id: string;
   name: string;
   answer: string;
-}[];
+};
+
+type PuzzleList = Puzzle[];
+
+// Direct Leaflet marker implementation to ensure markers appear
+function PuzzleMarkers({
+  puzzles,
+  solvedPuzzleIds,
+}: {
+  puzzles: PuzzleList;
+  solvedPuzzleIds: Set<string>;
+}) {
+  const map = useMap();
+  const markersRef = useRef<L.Marker[]>([]);
+
+  // Clear any existing markers
+  useEffect(() => {
+    return () => {
+      if (markersRef.current) {
+        markersRef.current.forEach(marker => {
+          if (marker) {
+            marker.remove();
+          }
+        });
+        markersRef.current = [];
+      }
+    };
+  }, []);
+
+  // Add markers to the map
+  useEffect(() => {
+    // Clean up previous markers first
+    markersRef.current.forEach(marker => {
+      if (marker) {
+        marker.remove();
+      }
+    });
+    markersRef.current = [];
+
+    // Create new markers
+    puzzles.forEach(puzzle => {
+      const pos = positions[puzzle.id];
+      if (!pos) return;
+
+      try {
+        // Determine icon URL based on puzzle status
+        const iconUrl = solvedPuzzleIds.has(puzzle.id)
+          ? `/map/sprites-outlined/${puzzle.id}.png`
+          : `/map/sprites-outlined/${puzzle.id}.png`
+        // : `/map/sprites-outlined/puzzle.svg`;
+
+        // Create icon
+        const icon = new L.Icon({
+          iconUrl,
+          iconSize: [100, 100],
+          iconAnchor: [50, 100],
+        });
+
+        // Create and add marker
+        const marker = L.marker(pos, { icon })
+          .addTo(map)
+          .bindTooltip(puzzle.name)
+          .on('click', () => {
+            window.open(`puzzle/${puzzle.id}`, "_blank");
+          });
+
+        // Store for cleanup
+        markersRef.current.push(marker);
+      } catch (error) {
+        console.error(`Error creating marker for puzzle ${puzzle.id}:`, error);
+      }
+    });
+  }, [map, puzzles, solvedPuzzleIds]);
+
+  return null;
+}
+
+// Try WebGL markers using useEffect-based approach
+function WebGLMarkers({
+  puzzles,
+  solvedPuzzleIds,
+  enabled = false,  // Disabled by default until we debug issues
+}: {
+  puzzles: PuzzleList;
+  solvedPuzzleIds: Set<string>;
+  enabled?: boolean;
+}) {
+  const map = useMap();
+  const pixiContainerRef = useRef<any>(null);
+  const pixiLayerRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!enabled || !window.L || !(window.L as any).pixiOverlay) {
+      console.log('PixiOverlay not available or disabled');
+      return;
+    }
+
+    // If we have Leaflet and Pixi, try to set up the WebGL renderer
+    try {
+      // Use global PIXI from Leaflet.PixiOverlay
+      const PIXI = (window as any).PIXI;
+      if (!PIXI) {
+        console.error('PIXI not found in window object');
+        return;
+      }
+
+      // Create a new PIXI Application for rendering
+      const pixiContainer = new PIXI.Container();
+      pixiContainerRef.current = pixiContainer;
+
+      // Create and add the PixiOverlay
+      const pixiLayer = (L as any).pixiOverlay(function (utils: any) {
+        const zoom = map.getZoom();
+        const container = utils.getContainer();
+        const renderer = utils.getRenderer();
+        const project = utils.latLngToLayerPoint;
+
+        // Clear previous sprites
+        container.children.length = 0;
+
+        // Add sprites for each puzzle
+        puzzles.forEach((puzzle) => {
+          const pos = positions[puzzle.id];
+          if (!pos) return;
+
+          // Project the position to pixel coordinates
+          const point = project(pos);
+
+          // Create sprite
+          const isSolved = solvedPuzzleIds.has(puzzle.id);
+          const sprite = new PIXI.Sprite(
+            PIXI.Texture.from(isSolved
+              ? `/map/sprites-outlined/${puzzle.id}.png`
+              : `/map/sprites-outlined/${puzzle.id}.png`
+              // : `/map/sprites-outlined/puzzle.svg`
+            )
+          );
+
+          // Position and scale sprite
+          sprite.x = point.x;
+          sprite.y = point.y;
+          sprite.anchor.set(0.5, 1.0);
+          sprite.scale.set(0.5 + (zoom / 10));
+
+          container.addChild(sprite);
+        });
+
+        renderer.render(container);
+      });
+
+      pixiLayerRef.current = pixiLayer;
+      pixiLayer.addTo(map);
+
+    } catch (error) {
+      console.error('Error setting up PixiOverlay:', error);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (pixiLayerRef.current) {
+        try {
+          map.removeLayer(pixiLayerRef.current);
+        } catch (e) {
+          console.error('Error removing PixiLayer:', e);
+        }
+      }
+      pixiLayerRef.current = null;
+      pixiContainerRef.current = null;
+    };
+  }, [map, puzzles, solvedPuzzleIds, enabled]);
+
+  return null;
+}
 
 export default function Map({
   availablePuzzles,
   solvedPuzzles,
   availableRounds,
 }: {
-  availablePuzzles: puzzleList;
+  availablePuzzles: PuzzleList;
   solvedPuzzles: { puzzleId: string }[];
   availableRounds: Round[];
 }) {
   const bounds = new LatLngBounds([0, 0], [1000, 1000]);
-  const colorlayout = "/map/Layout.png"; //TODO: remove
+
+  // Memoize for better performance
+  const solvedPuzzleIds = useMemo(
+    () => new Set(solvedPuzzles.map(sp => sp.puzzleId)),
+    [solvedPuzzles]
+  );
+
+  // Memoize layouts
   const availableRoundNames = availableRounds.map(({ name }) => name);
-  const layouts = ROUNDS.reduce(
-    (acc, { name }) => {
-      acc[name] = availableRoundNames.includes(name)
-        ? `${name}.png`
-        : `${name}Gray.png`;
-      return acc;
-    },
-    {} as Record<string, string>,
+  const layouts = useMemo(
+    () => ROUNDS.reduce(
+      (acc, { name }) => {
+        acc[name] = availableRoundNames.includes(name)
+          ? `/${name}.png`
+          : `/${name}Gray.png`;
+        return acc;
+      },
+      {} as Record<string, string>
+    ),
+    [availableRoundNames]
   );
 
   return (
-    <>
-      <MapContainer
-        center={[500, 500]}
-        zoom={2}
-        minZoom={-1.25}
-        maxZoom={3.5}
-        maxBounds={bounds}
-        crs={L.CRS.Simple}
-        preferCanvas={true}
-        scrollWheelZoom={false}
-        markerZoomAnimation={true}
-        attributionControl={false}
-        style={{ background: "white", zIndex: 10 }}
-        className="h-[calc(100vh-56px-32px)] w-screen focus:outline-none"
-      >
-        <ImageOverlay url={colorlayout} bounds={bounds} /> {/*/TODO: remove */}
-        {/* <ImageOverlay url={layouts.Action!} bounds={bounds} />
-        <ImageOverlay url={layouts.Adventure!} bounds={bounds} />
-        <ImageOverlay url={layouts.Cerebral!} bounds={bounds} /> */}
-        <ImageOverlay url={layouts.Drama!} bounds={bounds} />
-        <ImageOverlay url={layouts.Reality!} bounds={bounds} />
-        <ImageOverlay url={layouts.Comedy!} bounds={bounds} />
-        {availablePuzzles.map((puzzle) => (
-          <Marker
-            key={puzzle.id}
-            position={positions[puzzle.id] ?? [180, 500]}
-            icon={
-              new L.Icon({
-                iconUrl: solvedPuzzles.some((sp) => sp.puzzleId === puzzle.id)
-                  ? spriteExists(`map/sprites-outlined/${puzzle.id}.png`)
-                    ? `map/sprites-outlined/${puzzle.id}.png` // TODO: format solved puzzles differently
-                    : `map/sprites-outlined/bookmark-check.svg`
-                  : spriteExists(`map/sprites-outlined/${puzzle.id}.png`)
-                    ? `map/sprites-outlined/${puzzle.id}.png`
-                    : `map/sprites-outlined/puzzle.svg`,
-                iconSize: [100, 100],
-                iconAnchor: [50, 100],
-              })
-            }
-            eventHandlers={{
-              click: () => window.open(`puzzle/${puzzle.id}`, "_blank"),
-            }}
-          >
-            <Tooltip direction="bottom">
-              {puzzle.name}
-            </Tooltip>
-          </Marker>
-        ))}
-      </MapContainer>
-    </>
+    <MapContainer
+      center={[500, 500]}
+      zoom={2}
+      minZoom={-1.25}
+      maxZoom={3.5}
+      maxBounds={bounds}
+      crs={L.CRS.Simple}
+      preferCanvas={true}
+      scrollWheelZoom={true}
+      markerZoomAnimation={false}
+      zoomAnimation={false}
+      fadeAnimation={false}
+      attributionControl={false}
+      style={{ background: "white", zIndex: 10 }}
+      className="h-[calc(100vh-56px-32px)] w-screen focus:outline-none"
+    >
+      {/* Background map layers */}
+      <ImageOverlay url="/map/Layout.png" bounds={bounds} />
+      <ImageOverlay url={layouts.Drama!} bounds={bounds} />
+      <ImageOverlay url={layouts.Reality!} bounds={bounds} />
+      <ImageOverlay url={layouts.Comedy!} bounds={bounds} />
+      <ImageOverlay url={layouts.Adventure!} bounds={bounds} />
+
+      {/* Use standard Leaflet markers first to guarantee they appear */}
+      <PuzzleMarkers
+        puzzles={availablePuzzles}
+        solvedPuzzleIds={solvedPuzzleIds}
+      />
+
+      {/* Keep the WebGL implementation but disable it for now */}
+      <WebGLMarkers
+        puzzles={availablePuzzles}
+        solvedPuzzleIds={solvedPuzzleIds}
+        enabled={false}
+      />
+    </MapContainer>
   );
 }
