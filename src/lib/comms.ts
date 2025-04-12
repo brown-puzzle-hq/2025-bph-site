@@ -8,12 +8,13 @@ export function extractEmails(memberString: string): string[] {
     .filter(Boolean);
 }
 
-type Channel = "general" | "feedback" | "dev";
+type Channel = "general" | "feedback" | "dev" | "guess";
 
 // TODO: change later
 const channelToWebhookURL: Record<Channel, string | undefined> = {
   general: process.env.DISCORD_WEBHOOK_URL,
   feedback: process.env.DISCORD_WEBHOOK_URL,
+  guess: process.env.DISCORD_WEBHOOK_URL,
   dev: process.env.DISCORD_WEBHOOK_URL,
 };
 
