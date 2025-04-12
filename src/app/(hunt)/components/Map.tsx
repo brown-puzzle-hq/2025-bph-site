@@ -45,7 +45,7 @@ const positions: Record<string, [number, number]> = {
   "galileo-was-wrong": [335, 460],
   "genetic-counseling": [620, 348],
   "hand-letters": [460, 270],
-  "heist": [390, 640],
+  "heist": [359, 608], //
   "heist-ii": [540, 850],
   "heist-iii": [440, 200],
   "identify-the-piece": [642, 610],
@@ -68,7 +68,7 @@ const positions: Record<string, [number, number]> = {
   "the-final-heist": [480, 450],
   "the-guard-and-the-door": [550, 350],
   "the-snack-zone": [636, 670],
-  "two-guards-river": [342, 660],
+  "two-guards-river": [346, 660], //
   "two-guards-two-doors": [262, 634], //
   "walk-of-fame": [265, 593], //
   "watching-between-the-lines": [260, 630],
