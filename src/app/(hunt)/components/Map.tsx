@@ -38,7 +38,7 @@ const positions: Record<string, L.LatLngExpression> = {
   "heist-iii": [440, 800],
   "identify-the-piece": [642, 390],
   imagine: [631, 270],
-  "common-words": [540, 315],
+  "lost-lyric": [540, 315],
   "m-guards-n-doors-and-k-choices": [658, 365],
   narcissism: [723, 550],
   "barbie": [695, 398],
