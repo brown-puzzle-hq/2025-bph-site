@@ -4,7 +4,8 @@ import { and, count, eq, ne } from "drizzle-orm";
 
 /** REGISTRATION AND HUNT START */
 export const REGISTRATION_START_TIME = new Date("2024-11-17T17:00:00.000Z");
-export const REGISTRATION_END_TIME = new Date("2027-11-24T17:00:00Z");
+// TODO: Check whether we should end registration at some point
+export const REGISTRATION_END_TIME = new Date("2030-11-24T17:00:00Z");
 
 export const IN_PERSON = {
   KICKOFF_DOOR_TIME: new Date("2025-04-12T15:30:00.000Z"),
@@ -19,6 +20,11 @@ export const REMOTE = {
   START_TIME: new Date("2025-04-19T16:00:00.000Z"),
   END_TIME: new Date("2025-04-25T16:00:00.000Z"),
   WRAPUP_TIME: new Date("2025-04-26T17:00:00Z"),
+};
+
+export type Round = {
+  name: string;
+  puzzles: string[];
 };
 
 type Sequence = {
@@ -74,7 +80,7 @@ export const SEQUENCES: Sequence[] = [
     name: "CD",
     icon: "💿",
     puzzles: [
-      "common-words",
+      "lost-lyric",
       "youve-got-this-covered",
       "imagine",
       "the-compact-disc",
@@ -87,7 +93,7 @@ export const SEQUENCES: Sequence[] = [
       "find-ben",
       "bluenos-puzzle-box",
       "the-snack-zone",
-      "color-transfer",
+      "color-wheel",
     ],
   },
   {
@@ -183,11 +189,11 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "a-fistful-of-cards",
     "filming-schedule",
     "beads",
-    "common-words",
+    "lost-lyric",
   ],
   "a-fistful-of-cards-ii": ["heist-ii", "youve-got-this-covered"], // ten-guards-ten-doors
   beads: ["heist-ii", "a-fistful-of-cards-ii", "aha-erlebnis"], // ten-guards-ten-doors
-  "common-words": [
+  "lost-lyric": [
     "youve-got-this-covered",
     "a-fistful-of-cards-ii",
     "m-guards-n-doors-and-k-choices",
@@ -201,7 +207,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   "youve-got-this-covered": [
     "heist-ii",
     "beads",
-    "common-words",
+    "lost-lyric",
     "aha-erlebnis",
     "m-guards-n-doors-and-k-choices",
   ],
@@ -264,7 +270,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "international-neighbours",
   ],
   imagine: ["whats-my-ride"],
-  "barbie": ["boring-plot"],
+  barbie: ["boring-plot"],
   "the-snack-zone": ["imagine"],
 
   // REALITY -> COMEDY
@@ -299,7 +305,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "drop-the",
     // horror
     "secret-ingredient",
-    "color-transfer",
+    "color-wheel",
     "the-compact-disc",
   ],
 
@@ -309,13 +315,13 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "like-clockwork",
     "eye-to-eye",
     "secret-ingredient",
-    "color-transfer",
+    "color-wheel",
     "cutting-room-floor",
   ], // the-guard-and-the-door
   "the-final-heist": [
     "fridge-magnets",
     "eye-to-eye",
-    "color-transfer",
+    "color-wheel",
     "red-blue",
   ], // the-guard-and-the-door
   "the-compact-disc": ["red-blue", "the-final-heist"], // the-guard-and-the-door
@@ -325,7 +331,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "secret-ingredient",
     "sound-of-music",
   ], // PLACEHOLDER I is blueberry
-  "color-transfer": [
+  "color-wheel": [
     "a-fistful-of-cards-iv",
     "sound-of-music",
     "the-final-heist",
@@ -344,13 +350,8 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "the-final-heist",
     "red-blue",
   ],
-  "sound-of-music": ["like-clockwork", "color-transfer", "secret-ingredient"],
+  "sound-of-music": ["like-clockwork", "color-wheel", "secret-ingredient"],
   "like-clockwork": ["sound-of-music", "constellation", "a-fistful-of-cards-iv"],
-};
-
-export type Round = {
-  name: string;
-  puzzles: string[];
 };
 
 export const ROUNDS: Round[] = [
@@ -373,7 +374,7 @@ export const ROUNDS: Round[] = [
       "beads",
       "ten-guards-ten-doors",
       "a-fistful-of-cards-ii",
-      "common-words",
+      "lost-lyric",
       "youve-got-this-covered",
       "heist-ii",
     ],
@@ -427,7 +428,7 @@ export const ROUNDS: Round[] = [
     name: "Horror",
     puzzles: [
       "cutting-room-floor",
-      "color-transfer",
+      "color-wheel",
       "the-guard-and-the-door",
       "a-fistful-of-cards-iv",
       "sound-of-music",
@@ -458,7 +459,7 @@ export function getTotalHints(role: string, interactionMode: string) {
     (interactionMode === "in-person"
       ? IN_PERSON.START_TIME.getTime()
       : REMOTE.START_TIME.getTime()); // In milliseconds
-  const rate = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+  const rate = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
   return initialNumberOfHints + Math.max(Math.floor(timeDifference / rate), 0);
 }
 

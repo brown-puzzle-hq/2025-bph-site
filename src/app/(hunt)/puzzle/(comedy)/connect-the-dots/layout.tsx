@@ -2,7 +2,7 @@ import { puzzleId, solutionBody } from "./data";
 import DefaultHeader from "@/puzzle/components/DefaultHeader";
 
 export const metadata = {
-  title: "Galileo Was Wrong - Brown Puzzlehunt"
+  title: "Connect the Dots - Brown Puzzlehunt",
 };
 
 export default async function RootLayout({
