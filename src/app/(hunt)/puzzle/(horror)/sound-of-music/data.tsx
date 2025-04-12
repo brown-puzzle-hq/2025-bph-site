@@ -1,28 +1,20 @@
-import Image from "next/image";
-import CLOCK from "./like_clockwork.svg";
-
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
  * It should be equal to the name of the folder this file is currently under.
  * Feel free to make this creative, because the route to the puzzle will be
  * example.com/puzzle/puzzleId.
  */
-export const puzzleId = "like-clockwork";
+export const puzzleId = "sound-of-music";
 
 /**
  * The body renders above the guess submission form. Put flavor text, images,
  * and interactive puzzle components here.
  */
-export const inPersonBody = (
-  <div className="flex max-w-3xl flex-col items-center space-y-6">
-    <b>This is a sequence metapuzzle. It uses feeders from the ⏰ sequence.</b>
-    <Image src={CLOCK} alt="" />
-  </div>
-);
+export const inPersonBody = <i>This is a placeholder.</i>;
 
 export const remoteBoxBody = inPersonBody;
 
-export const remoteBody = inPersonBody;
+export const remoteBody = null;
 
 /**
  * The `solutionBody` renders in the solution page.
