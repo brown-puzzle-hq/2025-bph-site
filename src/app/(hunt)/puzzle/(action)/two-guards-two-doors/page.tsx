@@ -1,7 +1,7 @@
 import DefaultPuzzlePage from "@/puzzle/components/DefaultPuzzlePage";
 import * as data from "./data";
 import { db } from "~/server/db";
-import { and, eq, lt } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { tgtd } from "~/server/db/schema";
 import { auth } from "~/server/auth/auth";
 import { redirect } from "next/navigation";

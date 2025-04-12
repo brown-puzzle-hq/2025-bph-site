@@ -107,18 +107,18 @@ export default function PuzzleBody({
               !currDecisions[1] ||
               currDecisions[1].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[1]?.decision === "left" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={GImage} width={80} height={80} alt="Letter G" />
             </div>
           )}
 
           {/* Hands */}
-          <div className="absolute -right-[50%] left-[150%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[50%] left-[150%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={350}
@@ -127,7 +127,7 @@ export default function PuzzleBody({
               className="rotate-[230deg] scale-[1.75]"
             />
           </div>
-          <div className="absolute -right-[50%] left-[150%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[50%] left-[150%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={150}
@@ -150,12 +150,12 @@ export default function PuzzleBody({
               !currDecisions[1] ||
               currDecisions[1].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[1]?.decision === "right" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={SImage} width={80} height={80} alt="Letter S" />
             </div>
           )}
@@ -212,18 +212,18 @@ export default function PuzzleBody({
               !currDecisions[2] ||
               currDecisions[2].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[2]?.decision === "left" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={TImage} width={80} height={80} alt="Letter T" />
             </div>
           )}
 
           {/* Hands */}
-          <div className="absolute -right-[50%] left-[150%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[50%] left-[150%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={350}
@@ -232,7 +232,7 @@ export default function PuzzleBody({
               className="rotate-[230deg] scale-[1.75]"
             />
           </div>
-          <div className="absolute -right-[50%] left-[150%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[50%] left-[150%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={150}
@@ -255,12 +255,12 @@ export default function PuzzleBody({
               !currDecisions[2] ||
               currDecisions[2].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[2]?.decision === "right" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={IImage} width={45} height={80} alt="Letter I" />
             </div>
           )}
@@ -315,18 +315,18 @@ export default function PuzzleBody({
               !currDecisions[3] ||
               currDecisions[3].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[3]?.decision === "left" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={MImage} width={90} height={80} alt="Letter M" />
             </div>
           )}
 
           {/* Hands */}
-          <div className="absolute -right-[70%] left-[170%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[70%] left-[170%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={350}
@@ -335,7 +335,7 @@ export default function PuzzleBody({
               className="rotate-[310deg] scale-[1.75]"
             />
           </div>
-          <div className="absolute -right-[70%] left-[170%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[70%] left-[170%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={150}
@@ -358,12 +358,12 @@ export default function PuzzleBody({
               !currDecisions[3] ||
               currDecisions[3].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[3]?.decision === "right" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={EImage} width={70} height={80} alt="Letter E" />
             </div>
           )}
@@ -421,18 +421,18 @@ export default function PuzzleBody({
               !currDecisions[4] ||
               currDecisions[4].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[4]?.decision === "left" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={RImage} width={80} height={80} alt="Letter R" />
             </div>
           )}
 
           {/* Hands */}
-          <div className="absolute -right-[70%] left-[170%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[70%] left-[170%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={350}
@@ -441,7 +441,7 @@ export default function PuzzleBody({
               className="rotate-[310deg] scale-[1.75]"
             />
           </div>
-          <div className="absolute -right-[70%] left-[170%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[70%] left-[170%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={150}
@@ -464,12 +464,12 @@ export default function PuzzleBody({
               !currDecisions[4] ||
               currDecisions[4].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[4]?.decision === "right" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={EImage} width={80} height={80} alt="Letter E" />
             </div>
           )}
@@ -529,18 +529,18 @@ export default function PuzzleBody({
               !currDecisions[5] ||
               currDecisions[5].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[5]?.decision === "left" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={RImage} width={80} height={80} alt="Letter R" />
             </div>
           )}
 
           {/* Hands */}
-          <div className="absolute -right-[70%] left-[170%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[70%] left-[170%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={350}
@@ -549,7 +549,7 @@ export default function PuzzleBody({
               className="rotate-[310deg] scale-[1.75]"
             />
           </div>
-          <div className="absolute -right-[70%] left-[170%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[70%] left-[170%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={150}
@@ -572,12 +572,12 @@ export default function PuzzleBody({
               !currDecisions[5] ||
               currDecisions[5].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[5]?.decision === "right" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={NImage} width={80} height={80} alt="Letter N" />
             </div>
           )}
@@ -634,18 +634,18 @@ export default function PuzzleBody({
               !currDecisions[6] ||
               currDecisions[6].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[6]?.decision === "left" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={SImage} width={80} height={80} alt="Letter S" />
             </div>
           )}
 
           {/* Hands */}
-          <div className="absolute -right-[50%] left-[150%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[50%] left-[150%] top-[60%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={350}
@@ -654,7 +654,7 @@ export default function PuzzleBody({
               className="rotate-[230deg] scale-[1.75]"
             />
           </div>
-          <div className="absolute -right-[50%] left-[150%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute -right-[50%] left-[150%] top-[85%] z-10 -ml-20 -translate-x-1/2 -translate-y-1/2">
             <Image
               src={HandImage}
               width={150}
@@ -677,12 +677,12 @@ export default function PuzzleBody({
               !currDecisions[6] ||
               currDecisions[6].time.getTime() + coolDownTime <
                 new Date().getTime()
-                ? "hover:opacity-80"
+                ? "hover:opacity-80 cursor-pointer"
                 : ""
             }
           />
           {currDecisions[6]?.decision === "right" && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image src={EImage} width={80} height={80} alt="Letter E" />
             </div>
           )}
