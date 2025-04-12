@@ -129,7 +129,6 @@ export const inPersonBody = (
       This is a physical puzzle! Please send someone from your team to Friedman
       208 to pick it up.
     </div>
-    {body}
   </div>
 );
 
@@ -139,7 +138,6 @@ export const remoteBoxBody = (
       This is a physical puzzle! You should have received some documents in your
       box.
     </div>
-    {body}
   </div>
 );
 
