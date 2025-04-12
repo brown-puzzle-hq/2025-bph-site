@@ -1,14 +1,14 @@
 "use client";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapIcon, RefreshCw, Table } from "lucide-react";
-import PuzzleTable from "../puzzle/components/PuzzleTable";
-import EventTable from "../puzzle/components/EventTable";
+import PuzzleTable from "./PuzzleTable";
+import EventTable from "./EventTable";
 import { useState, useMemo, useEffect } from "react";
 import { getCookie, setCookie } from "typescript-cookie";
 import { cn } from "~/lib/utils";
 import dynamic from "next/dynamic";
 
-const Map = dynamic(() => import("./Map"), {
+const Map = dynamic(() => import("../../components/Map"), {
   ssr: false,
   loading: () => (
     <div className="flex h-full w-full items-center justify-center">
@@ -36,7 +36,9 @@ export default function PuzzleListPage({
   finishedEvents,
   hasEventInputBox,
 }: PuzzleListPageProps) {
-  const [activeTab, setActiveTab] = useState(() => getCookie("puzzle_view") ?? "map");
+  const [activeTab, setActiveTab] = useState(
+    () => getCookie("puzzle_view") ?? "map",
+  );
   const [needMap, setNeedMap] = useState(activeTab === "map");
 
   // Will crash on mobile if not memoized

@@ -7,7 +7,7 @@ import { solves, puzzles, unlocks, answerTokens } from "~/server/db/schema";
 import { Round, ROUNDS } from "@/hunt.config";
 import dynamic from "next/dynamic";
 
-const PuzzleListPage = dynamic(() => import("../components/PuzzleListPage"), {
+const PuzzleListPage = dynamic(() => import("./components/PuzzleListPage"), {
   ssr: false,
 });
 
