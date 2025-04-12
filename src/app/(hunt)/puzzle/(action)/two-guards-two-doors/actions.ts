@@ -1,10 +1,10 @@
 "use server";
 
 import { db } from "~/server/db";
-import { eq, and, lt } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { tgtd, TGTDDecision } from "~/server/db/schema";
 import { auth } from "~/server/auth/auth";
-import { DecisionMap } from "./page";
+import { Decision, DecisionMap } from "./page";
 
 const DOOR_RANGE = [1, 2, 3, 4, 5, 6];
 const COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes
@@ -14,17 +14,25 @@ export async function insertTGTDDecision(door: number, decision: TGTDDecision) {
   const teamId = session?.user?.id;
   if (!teamId) return;
 
-  const getCurrentDecisionMap = async (): Promise<DecisionMap> => {
+  const getCurrentDecisionMap = async () => {
     const decisions = await db
       .select()
       .from(tgtd)
-      .where(and(eq(tgtd.teamId, teamId), lt(tgtd.time, new Date())));
+      .where(and(eq(tgtd.teamId, teamId)));
+
+    const decisionMap: Partial<Record<number, Decision>> = {};
+
+    for (const entry of decisions) {
+      if (
+        !decisionMap[entry.door] ||
+        entry.time > decisionMap[entry.door]!.time
+      ) {
+        decisionMap[entry.door] = entry;
+      }
+    }
 
     return Object.fromEntries(
-      DOOR_RANGE.map((n) => [
-        n,
-        decisions.find((entry) => entry.door === n) ?? null,
-      ]),
+      DOOR_RANGE.map((n) => [n, decisionMap[n] ?? null]),
     ) as DecisionMap;
   };
 

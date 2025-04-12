@@ -94,9 +94,14 @@ export default {
           "50%": { transform: "translateX(3px)" },
           "75%": { transform: "translateX(-3px)" },
         },
+        subtlePulse: {
+          "0%, 100%": { opacity: "0.9" },
+          "50%": { opacity: "0.7" },
+        },
       },
       animation: {
         shake: "shake 0.2s ease-in-out",
+        subtlePulse: "subtlePulse 2s ease-in-out infinite",
       },
     },
   },

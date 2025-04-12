@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "~/hooks/use-toast";
 
 import Image from "next/image";
@@ -17,6 +17,7 @@ import { TGTDDecision } from "~/server/db/schema";
 import { DecisionMap, DecisionMapKey } from "./page";
 import { insertTGTDDecision } from "./actions";
 import Countdown from "./Countdown";
+import { cn } from "~/lib/utils";
 
 const coolDownTime = 10 * 60 * 1000; // 10 minutes
 
@@ -27,11 +28,19 @@ export default function PuzzleBody({
 }) {
   const { toast } = useToast();
   const [currDecisions, setCurrDecisions] = useState<DecisionMap>(decisionsMap);
+  const [pendingConfirmation, setPendingConfirmation] = useState<{
+    door: DecisionMapKey;
+    decision: TGTDDecision;
+  } | null>(null);
 
   const handleDoorClick = async (
     door: DecisionMapKey,
     decision: TGTDDecision,
+    e: React.MouseEvent,
   ) => {
+    // Prevent the click from bubbling up to the document
+    e.stopPropagation();
+
     // Check if the currDecision has passed yet
     if (
       currDecisions[door] &&
@@ -39,24 +48,51 @@ export default function PuzzleBody({
     )
       return;
 
-    // Try to insert the decision
-    const result = await insertTGTDDecision(door, decision);
+    if (
+      pendingConfirmation &&
+      pendingConfirmation.door === door &&
+      pendingConfirmation.decision === decision
+    ) {
+      // Try to insert the decision
+      const result = await insertTGTDDecision(door, decision);
 
-    if (result?.error) {
+      if (result?.error) {
+        toast({
+          title: "Error",
+          description: result.error,
+          variant: "destructive",
+        });
+        if (result.decisionMap) setCurrDecisions(result.decisionMap);
+        return;
+      }
+
+      // Update the currDecision
+      const newDecisions = { ...currDecisions };
+      newDecisions[door] = { time: new Date(), decision };
+      setCurrDecisions(newDecisions);
+      setPendingConfirmation(null);
+    } else {
+      setPendingConfirmation({ door, decision });
+
       toast({
-        title: "Error",
-        description: result.error,
-        variant: "destructive",
+        title: "Click again to confirm",
+        description: "This scenario will enter a 10 minute cooldown.",
       });
-      if (result.decisionMap) setCurrDecisions(result.decisionMap);
-      return;
     }
-
-    // Update the currDecision
-    const newDecisions = { ...currDecisions };
-    newDecisions[door] = { time: new Date(), decision };
-    setCurrDecisions(newDecisions);
   };
+
+  useEffect(() => {
+    // Handler for clicks anywhere on the document
+    const handleGlobalClick = () => {
+      if (pendingConfirmation) {
+        setPendingConfirmation(null);
+      }
+    };
+    document.addEventListener("click", handleGlobalClick);
+    return () => {
+      document.removeEventListener("click", handleGlobalClick);
+    };
+  }, [pendingConfirmation, toast]);
 
   return (
     <div>
@@ -102,14 +138,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(1, "left")}
-            className={
+            onClick={(e) => handleDoorClick(1, "left", e)}
+            className={cn(
+              pendingConfirmation?.door === 1 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse",
               !currDecisions[1] ||
-              currDecisions[1].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[1].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[1]?.decision === "left" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -145,14 +183,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(1, "right")}
-            className={
+            onClick={(e) => handleDoorClick(1, "right", e)}
+            className={cn(
+              pendingConfirmation?.door === 1 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse",
               !currDecisions[1] ||
-              currDecisions[1].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[1].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[1]?.decision === "right" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -207,14 +247,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(2, "left")}
-            className={
+            onClick={(e) => handleDoorClick(2, "left", e)}
+            className={cn(
+              pendingConfirmation?.door === 2 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse",
               !currDecisions[2] ||
-              currDecisions[2].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[2].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[2]?.decision === "left" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -250,14 +292,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(2, "right")}
-            className={
+            onClick={(e) => handleDoorClick(2, "right", e)}
+            className={cn(
+              pendingConfirmation?.door === 2 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse",
               !currDecisions[2] ||
-              currDecisions[2].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[2].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[2]?.decision === "right" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -310,14 +354,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(3, "left")}
-            className={
+            onClick={(e) => handleDoorClick(3, "left", e)}
+            className={cn(
+              pendingConfirmation?.door === 3 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse",
               !currDecisions[3] ||
-              currDecisions[3].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[3].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[3]?.decision === "left" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -353,14 +399,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(3, "right")}
-            className={
+            onClick={(e) => handleDoorClick(3, "right", e)}
+            className={cn(
+              pendingConfirmation?.door === 3 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse",
               !currDecisions[3] ||
-              currDecisions[3].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[3].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[3]?.decision === "right" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -416,14 +464,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(4, "left")}
-            className={
+            onClick={(e) => handleDoorClick(4, "left", e)}
+            className={cn(
+              pendingConfirmation?.door === 4 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse",
               !currDecisions[4] ||
-              currDecisions[4].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[4].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[4]?.decision === "left" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -459,14 +509,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(4, "right")}
-            className={
+            onClick={(e) => handleDoorClick(4, "right", e)}
+            className={cn(
+              pendingConfirmation?.door === 4 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse",
               !currDecisions[4] ||
-              currDecisions[4].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[4].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[4]?.decision === "right" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -524,14 +576,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(5, "left")}
-            className={
+            onClick={(e) => handleDoorClick(5, "left", e)}
+            className={cn(
+              pendingConfirmation?.door === 5 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse",
               !currDecisions[5] ||
-              currDecisions[5].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[5].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[5]?.decision === "left" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -567,14 +621,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(5, "right")}
-            className={
+            onClick={(e) => handleDoorClick(5, "right", e)}
+            className={cn(
+              pendingConfirmation?.door === 5 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse",
               !currDecisions[5] ||
-              currDecisions[5].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[5].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[5]?.decision === "right" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -629,14 +685,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(6, "left")}
-            className={
+            onClick={(e) => handleDoorClick(6, "left", e)}
+            className={cn(
+              pendingConfirmation?.door === 6 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse",
               !currDecisions[6] ||
-              currDecisions[6].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[6].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[6]?.decision === "left" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -672,14 +730,16 @@ export default function PuzzleBody({
             width={200}
             height={400}
             alt="Door"
-            onClick={() => handleDoorClick(6, "right")}
-            className={
+            onClick={(e) => handleDoorClick(6, "right", e)}
+            className={cn(
+              pendingConfirmation?.door === 6 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse",
               !currDecisions[6] ||
-              currDecisions[6].time.getTime() + coolDownTime <
-                new Date().getTime()
-                ? "hover:opacity-80 cursor-pointer"
-                : ""
-            }
+                (currDecisions[6].time.getTime() + coolDownTime <
+                  new Date().getTime() &&
+                  "cursor-pointer hover:animate-none hover:opacity-80"),
+            )}
           />
           {currDecisions[6]?.decision === "right" && (
             <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
