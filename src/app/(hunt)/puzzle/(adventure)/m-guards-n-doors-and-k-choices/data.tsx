@@ -13,8 +13,8 @@ export const puzzleId = "m-guards-n-doors-and-k-choices";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
-  <div className="mx-auto max-w-3xl space-y-4 text-center italic">
-    This is an interaction puzzle! Please send one person on your team to the
+  <div className="mx-auto max-w-3xl space-y-4 text-center items-center italic">
+    This is an interactive puzzle! Please send one person on your team to the
     basement of Friedman at 2PM, 4PM, 6PM, 8PM, or 10PM on Saturday, and/or
     10AM, 12PM, 2PM, 4PM, or 6PM on Sunday.
   </div>
