@@ -8,7 +8,7 @@ export function extractEmails(memberString: string): string[] {
     .filter(Boolean);
 }
 
-type Channel = "general" | "feedback" | "dev" | "guess";
+type Channel = "general" | "feedback" | "dev" | "guess" | "finish";
 
 // TODO: change later
 const channelToWebhookURL: Record<Channel, string | undefined> = {
@@ -16,6 +16,7 @@ const channelToWebhookURL: Record<Channel, string | undefined> = {
   feedback: process.env.DISCORD_WEBHOOK_URL,
   guess: process.env.DISCORD_WEBHOOK_URL,
   dev: process.env.DISCORD_WEBHOOK_URL,
+  finish: process.env.DISCORD_WEBHOOK_URL,
 };
 
 export async function sendBotMessage(

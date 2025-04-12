@@ -67,6 +67,14 @@ export default function GuessForm({
           variant: "destructive",
         });
       }
+      if (result && result.hasFinishedHunt) {
+        toast({
+          className: "bg-emerald-300",
+          title: "Congratulations on completing BPH 2025 🥳!",
+          description:
+            "Please email HQ at brownpuzzlehq@gmail.com for runaround.",
+        });
+      }
       form.reset();
     });
   };

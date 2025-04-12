@@ -39,6 +39,7 @@ export type viewStatus = "success" | "not_authenticated" | "not_authorized";
 /** Checks whether the user can view the puzzle.
  * Admins can always view the puzzle, testsolvers can view the puzzle if it is unlocked,
  * and teams can view the puzzle if the hunt has started AND it is unlocked.
+ * Returns a viewStatus string.
  */
 export async function canViewPuzzle(
   puzzleId: string,
@@ -88,6 +89,7 @@ export async function canViewPuzzle(
 
 /** Checks whether the user can view the solution.
  *  Does not check whether the solution actually exists.
+ * Returns a viewStatus string.
  */
 export async function canViewSolution(
   puzzleId: string,
@@ -111,7 +113,8 @@ export async function canViewSolution(
   return solved ? "success" : "not_authorized";
 }
 
-/** Handles a guess for a puzzle. May call handleSolve. */
+/** Handles a guess for a puzzle. May call handleSolve.
+ * Returns a { error?: string, hasFinishedHunt?: boolean } */
 export async function handleGuess(puzzleId: string, guess: string) {
   // Check that the user is logged in
   const session = await auth();
@@ -205,7 +208,10 @@ export async function handleGuess(puzzleId: string, guess: string) {
     }
   }
 
-  // Insert the guess into the guess table
+  // Insert the guess into the guess table, handle the solve
+  // And check if the team has completed the hunt
+  var hasFinishedHunt = false;
+
   try {
     await db.transaction(async (tx) => {
       await tx.insert(guesses).values({
@@ -218,7 +224,9 @@ export async function handleGuess(puzzleId: string, guess: string) {
 
       // Handle the solve
       if (isCorrect) {
-        await handleSolve(tx, teamId, puzzleId, solveType);
+        const res = await handleSolve(tx, teamId, puzzleId, solveType);
+        // Check if the team has completed the hunt
+        if (res?.hasFinishedHunt) hasFinishedHunt = true;
       }
     });
   } catch (e) {
@@ -230,11 +238,20 @@ export async function handleGuess(puzzleId: string, guess: string) {
     return { error: "An unexpected error occurred. Please try again." };
   }
 
-  revalidatePath(`/puzzle/${puzzleId}`);
+  // Message the guess channel
+  await sendBotMessage(
+    `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${isCorrect ? (solveType === "guess" ? "✓" : "𝔼 → ✓") : "✕"}]`,
+    "guess",
+  );
 
-  // Send a message to the bot channel
-  const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${isCorrect ? (solveType === "guess" ? "✓" : "𝔼 → ✓") : "✕"}]`;
-  await sendBotMessage(guessMessage, "guess");
+  // If the team has finished the hunt, message the finish channel
+  if (hasFinishedHunt)
+    await sendBotMessage(
+      `🏆 **Hunt Finish** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId})`,
+      "finish",
+    );
+
+  revalidatePath(`/puzzle/${puzzleId}`);
 
   // Refund hints if the guess is correct
   if (isCorrect) {
@@ -254,7 +271,7 @@ export async function handleGuess(puzzleId: string, guess: string) {
       );
   }
 
-  return { error: null };
+  return { hasFinishedHunt };
 }
 
 /** Handles a solve for a puzzle */
@@ -284,7 +301,8 @@ export async function handleSolve(
     await tx.insert(unlocks).values(newUnlocks).onConflictDoNothing();
   }
 
-  // Check if the team has completed the six metas
+  // Check if the team has just completed the hunt
+  // by solving the six metas
   if (META_PUZZLES.includes(puzzleId)) {
     const query = await tx
       .select({ count: count() })
@@ -298,8 +316,11 @@ export async function handleSolve(
         .update(teams)
         .set({ finishTime: new Date() })
         .where(eq(teams.id, teamId));
+      return { hasFinishedHunt: true };
     }
   }
+
+  return { hasFinishedHunt: false };
 }
 
 /** Inserts an answer token into the token table */
