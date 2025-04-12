@@ -10,6 +10,7 @@ import CopyButton from "@/puzzle/components/CopyButton";
 import TokenRefresher from "@/puzzle/components/TokenRefresher";
 import { canViewPuzzle } from "@/puzzle/actions";
 import { NUMBER_OF_GUESSES_PER_PUZZLE, REMOTE } from "~/hunt.config";
+import { cn } from "~/lib/utils";
 
 export default async function DefaultPuzzlePage({
   puzzleId,
@@ -99,7 +100,6 @@ export default async function DefaultPuzzlePage({
   const numberOfGuessesLeft =
     NUMBER_OF_GUESSES_PER_PUZZLE -
     previousGuesses.filter(({ guess }) => !(guess in tasks)).length;
-
   var refresh = false;
   if (typeof session.user.hasBox === "undefined") {
     const user = await db.query.teams.findFirst({
@@ -139,6 +139,7 @@ export default async function DefaultPuzzlePage({
 
       <div className="no-scrollbar overflow-auto">
         <div className="mx-auto flex w-fit items-start justify-center space-x-2">
+          {copyText && <div className="min-w-6" />}
           <div className="w-fit">{puzzleBody}</div>
           {copyText && <CopyButton copyText={copyText} />}
         </div>
@@ -155,7 +156,7 @@ export default async function DefaultPuzzlePage({
         }
       })}
 
-      <div className="mx-auto mb-4 mt-6 max-w-3xl">
+      <div className={cn("mx-auto mb-4 mt-6 max-w-3xl", copyText && "px-8")}>
         <GuessForm
           puzzleId={puzzleId}
           numberOfGuessesLeft={numberOfGuessesLeft}

@@ -1,7 +1,7 @@
 "use client";
 
 import { Hourglass } from "lucide-react";
-import React, { useState, useEffect, MouseEventHandler } from "react";
+import { useState, useEffect, MouseEventHandler } from "react";
 
 export function Countdown({
   targetDate,

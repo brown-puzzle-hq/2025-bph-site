@@ -256,7 +256,7 @@ export const events = createTable("event", {
   id: varchar("id", { length: 255 }).primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   answer: varchar("answer", { length: 255 }).notNull(),
-  startTime: timestamp("start_time", { withTimezone: true }).notNull(),
+  startTime: varchar("start_time").notNull(),
   description: text("description").notNull(),
 });
 
@@ -430,3 +430,19 @@ export const mnk = createTable(
 
 export type MNKDecision = (typeof mnkDecisionEnum.enumValues)[number];
 export type MNKDecisionType = (typeof mnkDecisionTypeEnum.enumValues)[number];
+
+// Two Guards, Two Doors
+export const tgtdDecisionEnum = pgEnum("tgtd_decision", ["left", "right"]);
+
+export const tgtd = createTable("two_guards_two_doors", {
+  id: serial("id").primaryKey(),
+  teamId: varchar("team_id")
+    .notNull()
+    .references(() => teams.id, { onDelete: "cascade" }),
+  door: integer("door").notNull(), // 1-4
+  decision: tgtdDecisionEnum("decision").notNull(),
+  time: timestamp("time", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type TGTDDecision = (typeof tgtdDecisionEnum.enumValues)[number];
+export type TGTDEntry = InferSelectModel<typeof tgtd>;

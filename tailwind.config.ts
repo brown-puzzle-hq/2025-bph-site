@@ -52,7 +52,7 @@ export default {
             "--tw-prose-bold": theme("colors.main-header"),
           },
         },
-        feedback: {
+        "custom-colors": {
           css: {
             "--tw-prose-body": theme("colors.stone[100]"), // Light off-white for body text
             "--tw-prose-headings": theme("colors.stone[50]"), // Pure white for headings
@@ -70,6 +70,10 @@ export default {
             "--tw-prose-pre-bg": theme("colors.stone[800]"), // Dark gray background for code blocks
             "--tw-prose-th-borders": theme("colors.stone[300]"), // Faint borders for tables
             "--tw-prose-td-borders": theme("colors.stone[400]"), // Slightly darker borders
+          },
+        },
+        feedback: {
+          css: {
             p: {
               marginTop: "0em",
               marginBottom: "0.5em",
@@ -94,9 +98,14 @@ export default {
           "50%": { transform: "translateX(3px)" },
           "75%": { transform: "translateX(-3px)" },
         },
+        subtlePulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.6" },
+        },
       },
       animation: {
         shake: "shake 0.2s ease-in-out",
+        subtlePulse: "subtlePulse 1s ease-out infinite",
       },
     },
   },
