@@ -12,10 +12,10 @@ export const puzzleId = "filming-schedule";
  */
 export const inPersonBody = (
   <div className="mx-auto max-w-3xl space-y-4 text-center">
-    <p className="text-lg font-medium">
-      It's really hard to register and coordinate my Brown University courses
-      for this semester with this filming schedule.
-    </p>
+        <div className="pb-2.5 italic">
+        It's really hard to register and coordinate my Brown University courses
+        for this semester with this filming schedule.
+    </div>
     <ol className="list-inside list-decimal space-y-3 text-left">
       <li>
         <span className="font-semibold">EDUC 0610</span>

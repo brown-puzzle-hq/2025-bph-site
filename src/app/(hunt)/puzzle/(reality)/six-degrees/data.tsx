@@ -12,17 +12,15 @@ export const puzzleId = "six-degrees";
  */
 export const inPersonBody = (
   <div>
-    
-    <div className="mb-4 max-w-3xl text-center">
+    <div className="space-y-4 max-w-3xl text-center">
       <b>
-        This is a metapuzzle. It uses feeders from the{" "}
-        <span className="underline">REALITY</span> round.
+        This is a metapuzzle. It uses feeders from the Reality round.
       </b>
     </div>
-    <div className="mb-4 max-w-3xl text-center">
+    <div className="mb-4 max-w-3xl text-center italic">
       This puzzle has intermediate answer confirmation.
     </div>
-    <div className="mb-4 max-w-3xl">
+    <div className="mb-4 max-w-3xl text-center">
       <i>
         Your documentary is in trouble... your subjects are all paid actors! How
         can you fix your movie and save your leads' bacon?

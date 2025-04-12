@@ -29,24 +29,23 @@ export const puzzleId = "balloon-animals";
  */
 export const inPersonBody = (
   <div>
-    <div className="mb-6 max-w-3xl text-center">
-      <i>
+    <div className="max-w-3xl space-y-4 text-center">
+    <div className="mx-auto mb-6 max-w-3xl text-center italic">
         This is a physical puzzle! If your team has not already picked up your
         balloons, please visit HQ in Friedman 208.
-      </i>
     </div>
-    <div className="mb-4 max-w-3xl text-center">
-      <b>
-        This is a metapuzzle. It uses feeders from the{" "}
-        <span className="underline">COMEDY</span> round.
-      </b>
+    <hr className="my-6 mb-6 w-[848px] border-t border-white" />
+    <div className="font-bold">
+      This is a metapuzzle. It uses feeders from the Comedy round.
     </div>
-    <div className="max-w-3xl space-y-4 text-center">
-      <p>
-        Your circus movie is pretty good, but it requires more mainstream
+<div className="pb-2.5 italic">
+Your circus movie is pretty good, but it requires more mainstream
         appeal.
-      </p>
-      <p>What do you need?</p>
+        <br></br>
+        What do you need?
+    </div>
+        
+      
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
         {ITEMS.map(({ name, src, desc }, index) => (
           <div className="space-y-4" key={index}>

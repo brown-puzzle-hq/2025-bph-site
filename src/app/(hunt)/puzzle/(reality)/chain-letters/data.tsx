@@ -29,9 +29,10 @@ export const puzzleId = "chain-letters";
       .
     </p> */
 const body = (<div>
-  <p>
-    <i>The further a message travels, the harder it is to follow instructions.</i>
-  </p>
+  <div className="max-w-3xl space-y-4 text-center pb-2.5 italic"> 
+    The further a message travels, the harder it is to follow instructions.
+    </div>
+    
     Download the puzzle{" "}
         <a
         href="/api/puzzle/chain-letters"
@@ -42,14 +43,13 @@ const body = (<div>
 </div>);
 
 export const inPersonBody = (
-  <div className="max-w-xl space-y-4 text-center">
-    <p>
-      <i>
+  <div>
+  <div className="mx-auto mb-6 max-w-3xl text-center italic">
         This is a physical puzzle! If your team has not already picked up a
         chain, please visit HQ in Friedman 208.
-      </i>
-    </p>
-    {body}
+  </div>
+  <hr className="my-6 mb-6 w-[848px] border-t border-white" />
+  {body}
   </div>
 );
 

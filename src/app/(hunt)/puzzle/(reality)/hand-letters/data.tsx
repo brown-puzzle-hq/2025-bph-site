@@ -22,7 +22,7 @@ export const puzzleId = "hand-letters";
  */
 
 export const inPersonBody = (
-  <div className="max-w-3xl text-center">
+  <div className="max-w-3xl text-center space-y-10">
     <p className="mb-4 italic">
       I'm on this really exciting movie shoot, but I've become so crazed that
       whenever I look at the clocks, I think they're trying to give me a

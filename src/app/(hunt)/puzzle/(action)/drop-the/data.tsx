@@ -17,7 +17,7 @@ export const puzzleId = "drop-the";
 export const inPersonBody = (
   <div className="max-w-3xl space-y-4 text-center">
     <div className="font-bold">
-      This is a metapuzzle. It uses feeders from the <u>ACTION</u> round.
+      This is a metapuzzle. It uses feeders from the Action round.
     </div>
     <div className="pb-2.5 italic">
       You're trying to adapt these characters -- better known by other names --
@@ -37,12 +37,7 @@ export const remoteBody = inPersonBody;
  * The `solutionBody` renders in the solution page.
  * If there are no solutions available, set it null.
  */
-export const solutionBody = (
-  <div className="max-w-3xl text-center">
-    {" "}
-    This solution does not exist yet. Nag the triplets.{" "}
-  </div>
-);
+export const solutionBody = null;
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle

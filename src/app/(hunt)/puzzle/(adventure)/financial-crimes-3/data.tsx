@@ -124,20 +124,16 @@ export const body = (
 );
 
 export const inPersonBody = (
-  <div className="max-w-3xl">
-    <div className="mb-6">
+  <div className="mx-auto mb-6 max-w-3xl text-center italic">
       This is a physical puzzle! Please send someone from your team to Friedman
       208 to pick it up.
-    </div>
   </div>
 );
 
 export const remoteBoxBody = (
-  <div className="max-w-3xl">
-    <div className="mb-6">
+  <div className="mx-auto mb-6 max-w-3xl text-center italic">
       This is a physical puzzle! You should have received some documents in your
       box.
-    </div>
   </div>
 );
 
