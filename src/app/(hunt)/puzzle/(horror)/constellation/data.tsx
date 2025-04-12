@@ -1,7 +1,7 @@
 //TODO: make less jank
 
 import Image from "next/image";
-import CONS from "./constellations.png";
+import CONS from "./Constellation.svg";
 const SCALE = 0.5;
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
@@ -16,13 +16,15 @@ export const puzzleId = "constellation";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
+  <div className="flex items-center">
   <Image
     src={CONS}
     alt=""
     width={1638 * SCALE}
     height={1752 * SCALE}
-    className="mb-5"
+    className="mb-5 justify-center items-center align-center"
   />
+  </div>
 );
 
 export const remoteBoxBody = inPersonBody;
