@@ -554,12 +554,11 @@ export default function Map({
             {/* Adventure Layer (lowest) */}
             <Container>
               <Sprite
-                image="/map/Adventure.png"
+                image={availableRoundNames.includes("Adventure") ? "/map/Adventure.png" : "/map/AdventureGray.png"}
                 width={WIDTH}
                 height={HEIGHT}
                 x={0}
                 y={0}
-                alpha={availableRoundNames.includes("Adventure") ? 1 : 0.5}
                 onError={() => handleImageError("Adventure")}
               />
             </Container>
@@ -567,12 +566,11 @@ export default function Map({
             {/* RealityUnder Layer */}
             <Container>
               <Sprite
-                image="/map/RealityUnder.png"
+                image={isRealityAvailable ? "/map/RealityUnder.png" : "/map/RealityUnderGray.png"}
                 width={WIDTH}
                 height={HEIGHT}
                 x={0}
                 y={0}
-                alpha={isRealityAvailable ? 1 : 0.5}
                 onError={() => handleImageError("RealityUnder")}
               />
             </Container>
@@ -580,12 +578,11 @@ export default function Map({
             {/* Comedy Layer */}
             <Container>
               <Sprite
-                image="/map/Comedy.png"
+                image={availableRoundNames.includes("Comedy") ? "/map/Comedy.png" : "/map/ComedyGray.png"}
                 width={WIDTH}
                 height={HEIGHT}
                 x={0}
                 y={0}
-                alpha={availableRoundNames.includes("Comedy") ? 1 : 0.5}
                 onError={() => handleImageError("Comedy")}
               />
             </Container>
@@ -593,12 +590,11 @@ export default function Map({
             {/* Drama Layer */}
             <Container>
               <Sprite
-                image="/map/Drama.png"
+                image={availableRoundNames.includes("Drama") ? "/map/Drama.png" : "/map/DramaGray.png"}
                 width={WIDTH}
                 height={HEIGHT}
                 x={0}
                 y={0}
-                alpha={availableRoundNames.includes("Drama") ? 1 : 0.5}
                 onError={() => handleImageError("Drama")}
               />
             </Container>
@@ -606,12 +602,11 @@ export default function Map({
             {/* Horror Layer */}
             <Container>
               <Sprite
-                image="/map/Horror.png"
+                image={availableRoundNames.includes("Horror") ? "/map/Horror.png" : "/map/HorrorGray.png"}
                 width={WIDTH}
                 height={HEIGHT}
                 x={0}
                 y={0}
-                alpha={availableRoundNames.includes("Horror") ? 1 : 0.5}
                 onError={() => handleImageError("Horror")}
               />
             </Container>
@@ -619,12 +614,11 @@ export default function Map({
             {/* RealityOver Layer */}
             <Container>
               <Sprite
-                image="/map/RealityOver.png"
+                image={isRealityAvailable ? "/map/RealityOver.png" : "/map/RealityOverGray.png"}
                 width={WIDTH}
                 height={HEIGHT}
                 x={0}
                 y={0}
-                alpha={isRealityAvailable ? 1 : 0.5}
                 onError={() => handleImageError("RealityOver")}
               />
             </Container>
@@ -632,12 +626,11 @@ export default function Map({
             {/* Action Layer (highest) */}
             <Container>
               <Sprite
-                image="/map/Action.png"
+                image={availableRoundNames.includes("Action") ? "/map/Action.png" : "/map/ActionGray.png"}
                 width={WIDTH}
                 height={HEIGHT}
                 x={0}
                 y={0}
-                alpha={availableRoundNames.includes("Action") ? 1 : 0.5}
                 onError={() => handleImageError("Action")}
               />
             </Container>
