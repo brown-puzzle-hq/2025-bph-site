@@ -4,6 +4,7 @@ import { useCallback, useState, useEffect, useRef } from "react";
 import { Stage, Container, Sprite, useApp } from "@pixi/react";
 import { Round, ROUNDS } from "@/hunt.config";
 import { ZoomIn, ZoomOut } from "lucide-react";
+import "@pixi/events";
 
 type puzzleList = {
   unlockTime: Date | null;
@@ -100,10 +101,9 @@ const DraggableMap = ({ children }: { children: React.ReactNode }) => {
       const mouseX = event.clientX;
       const mouseY = event.clientY;
 
-      if (containerRef.current) {
+      if (container) {
         isDragging.current = true;
         lastPosition.current = { x: mouseX, y: mouseY };
-        containerRef.current.cursor = "grabbing";
       }
     };
 
@@ -126,7 +126,6 @@ const DraggableMap = ({ children }: { children: React.ReactNode }) => {
 
     const onDragEnd = () => {
       isDragging.current = false;
-      container.cursor = "grab";
     };
 
     // Setup wheel zoom
@@ -163,7 +162,6 @@ const DraggableMap = ({ children }: { children: React.ReactNode }) => {
 
     // Configure container for interactions
     container.eventMode = "static";
-    container.cursor = "grab";
 
     // Add event listeners
     const canvasElement = app.view as HTMLCanvasElement;
@@ -171,6 +169,7 @@ const DraggableMap = ({ children }: { children: React.ReactNode }) => {
     canvasElement.addEventListener("pointerdown", onDragStart);
     canvasElement.addEventListener("pointermove", onDragMove);
     canvasElement.addEventListener("pointerup", onDragEnd);
+    canvasElement.addEventListener("pointerout", onDragEnd);
 
     return () => {
       // Clean up event listeners
@@ -178,6 +177,7 @@ const DraggableMap = ({ children }: { children: React.ReactNode }) => {
       canvasElement.removeEventListener("pointerdown", onDragStart);
       canvasElement.removeEventListener("pointermove", onDragMove);
       canvasElement.removeEventListener("pointerup", onDragEnd);
+      canvasElement.removeEventListener("pointerout", onDragEnd);
     };
   }, [app]);
 
@@ -197,6 +197,7 @@ export default function Map({
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const [cleanClick, setCleanClick] = useState(false);
 
   // Map width and height (needed for proportions of map assets)
   const WIDTH = 1000;
@@ -246,6 +247,7 @@ export default function Map({
   // Track mouse position
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
+      setCleanClick(false);
       setMousePosition({ x: event.clientX, y: event.clientY });
     };
 
@@ -256,34 +258,21 @@ export default function Map({
     };
   }, []);
 
-  // Memoize event handlers to prevent recreating on each render
-  const handleMarkerClick = useCallback((puzzleId: string) => {
-    window.open(`puzzle/${puzzleId}`, "_blank");
-  }, []);
-
-  const handleMarkerHover = useCallback((puzzleName: string) => {
-    setHoveredPuzzle(puzzleName);
-  }, []);
-
-  const handleMarkerLeave = useCallback(() => {
-    setHoveredPuzzle(null);
-  }, []);
-
-  const handleZoomIn = useCallback(() => {
+  const handleZoomIn = () => {
     const canvasElement = document.querySelector("canvas");
     if (canvasElement) {
       const wheelEvent = new WheelEvent("wheel", { deltaY: -100 });
       canvasElement.dispatchEvent(wheelEvent);
     }
-  }, []);
+  };
 
-  const handleZoomOut = useCallback(() => {
+  const handleZoomOut = () => {
     const canvasElement = document.querySelector("canvas");
     if (canvasElement) {
       const wheelEvent = new WheelEvent("wheel", { deltaY: 100 });
       canvasElement.dispatchEvent(wheelEvent);
     }
-  }, []);
+  };
 
   return (
     <div
@@ -341,15 +330,21 @@ export default function Map({
                     image={spriteUrl}
                     x={position[0]}
                     y={position[1]}
-                    eventMode="static"
+                    interactive
                     cursor="pointer"
                     anchor={0.5}
-                    scale={.075}
+                    scale={0.075}
                     pointerdown={() => {
-                      handleMarkerClick(puzzle.id);
+                      setCleanClick(true);
                     }}
-                    pointerover={() => handleMarkerHover(puzzle.name)}
-                    pointerout={handleMarkerLeave}
+                    pointerup={() => {
+                      if (cleanClick) {
+                        setCleanClick(false);
+                        window.open(`puzzle/${puzzle.id}`, "_blank");
+                      }
+                    }}
+                    pointerover={() => setHoveredPuzzle(puzzle.name)}
+                    pointerout={() => setHoveredPuzzle(null)}
                   />
                 );
               })}
@@ -358,16 +353,16 @@ export default function Map({
         </Stage>
       )}
       {/* Zoom controls */}
-      <div className="absolute bottom-2 right-2 z-50 flex flex-col gap-2">
+      <div className="absolute bottom-10 right-2 z-50 flex flex-col gap-2">
         <button
           onClick={handleZoomIn}
-          className="rounded-md bg-black p-2 shadow-md hover:opacity-80"
+          className="rounded-md bg-main-bg p-2 shadow-md hover:bg-[#554370]"
         >
           <ZoomIn />
         </button>
         <button
           onClick={handleZoomOut}
-          className="rounded-md bg-black p-2 shadow-md hover:opacity-80"
+          className="rounded-md bg-main-bg p-2 shadow-md hover:bg-[#554370]"
         >
           <ZoomOut />
         </button>
