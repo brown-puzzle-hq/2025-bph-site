@@ -17,22 +17,24 @@ type Channel =
   | "team"
   | "dev";
 
-// TODO: change later
 const channelToWebhookURL: Record<Channel, string | undefined> = {
   general: process.env.DISCORD_WEBHOOK_URL,
-  hint: process.env.DISCORD_WEBHOOK_URL,
-  guess: process.env.DISCORD_WEBHOOK_URL,
-  finish: process.env.DISCORD_WEBHOOK_URL,
-  feedback: process.env.DISCORD_WEBHOOK_URL,
-  team: process.env.DISCORD_WEBHOOK_URL,
-  dev: process.env.DISCORD_WEBHOOK_URL,
+  hint: process.env.DISCORD_WEBHOOK_URL_HINT,
+  guess: process.env.DISCORD_WEBHOOK_URL_GUESS,
+  finish: process.env.DISCORD_WEBHOOK_URL_FINISH,
+  feedback: process.env.DISCORD_WEBHOOK_URL_FEEDBACK,
+  team: process.env.DISCORD_WEBHOOK_URL_TEAM,
+  dev: process.env.DISCORD_WEBHOOK_URL_DEV,
 };
 
 export async function sendBotMessage(
   message: string,
   channel: Channel = "general",
 ) {
-  const webhookURL = channelToWebhookURL[channel];
+  // Use the general channel if the other channels are not set
+  const webhookURL =
+    channelToWebhookURL[channel] || process.env.DISCORD_WEBHOOK_URL;
+
   // Disable the webhook by not including it in the env file
   if (!webhookURL) return;
 
