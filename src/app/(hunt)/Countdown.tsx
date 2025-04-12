@@ -34,7 +34,7 @@ export function Countdown({ targetDate }: { targetDate: Date }) {
     timeRemaining.days +
       timeRemaining.hours +
       timeRemaining.minutes +
-      timeRemaining.hours ===
+      timeRemaining.seconds ===
     0
   ) {
     return null;
