@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, startTransition } from "react";
 import { useToast } from "~/hooks/use-toast";
 
 import Image from "next/image";
@@ -32,6 +32,7 @@ export default function PuzzleBody({
     door: DecisionMapKey;
     decision: TGTDDecision;
   } | null>(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleDoorClick = async (
     door: DecisionMapKey,
@@ -53,24 +54,32 @@ export default function PuzzleBody({
       pendingConfirmation.door === door &&
       pendingConfirmation.decision === decision
     ) {
-      // Try to insert the decision
-      const result = await insertTGTDDecision(door, decision);
-
-      if (result?.error) {
-        toast({
-          title: "Error",
-          description: result.error,
-          variant: "destructive",
-        });
-        if (result.decisionMap) setCurrDecisions(result.decisionMap);
-        return;
-      }
-
       // Update the currDecision
-      const newDecisions = { ...currDecisions };
-      newDecisions[door] = { time: new Date(), decision };
-      setCurrDecisions(newDecisions);
+      setCurrDecisions((prev) => ({
+        ...prev,
+        [door]: { time: new Date(), decision },
+      }));
       setPendingConfirmation(null);
+
+      // Try to insert the decision
+      startTransition(async () => {
+        const result = await insertTGTDDecision(door, decision);
+
+        if (result?.error) {
+          toast({
+            title: "Error",
+            description: result.error,
+            variant: "destructive",
+          });
+          if (result.decisionMap) setCurrDecisions(result.decisionMap);
+          return;
+        }
+
+        setTimeout(
+          () => setRefreshTrigger((prev) => prev + 1),
+          coolDownTime + 1000,
+        );
+      });
     } else {
       setPendingConfirmation({ door, decision });
 
@@ -122,6 +131,7 @@ export default function PuzzleBody({
       {/* Timer */}
       <div className="mb-5">
         <Countdown
+          key={currDecisions[1]?.time?.getTime() ?? "no-decision"}
           targetDate={
             currDecisions[1]
               ? new Date(currDecisions[1].time.getTime() + coolDownTime)
@@ -140,13 +150,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(1, "left", e)}
             className={cn(
-              pendingConfirmation?.door === 1 &&
-                pendingConfirmation?.decision === "left" &&
-                "animate-subtlePulse",
               !currDecisions[1] ||
                 (currDecisions[1].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 1 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[1]?.decision === "left" && (
@@ -185,13 +196,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(1, "right", e)}
             className={cn(
-              pendingConfirmation?.door === 1 &&
-                pendingConfirmation?.decision === "right" &&
-                "animate-subtlePulse",
               !currDecisions[1] ||
                 (currDecisions[1].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 1 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[1]?.decision === "right" && (
@@ -231,6 +243,7 @@ export default function PuzzleBody({
       {/* Timer */}
       <div className="mb-5">
         <Countdown
+          key={currDecisions[2]?.time?.getTime() ?? "no-decision"}
           targetDate={
             currDecisions[2]
               ? new Date(currDecisions[2].time.getTime() + coolDownTime)
@@ -249,13 +262,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(2, "left", e)}
             className={cn(
-              pendingConfirmation?.door === 2 &&
-                pendingConfirmation?.decision === "left" &&
-                "animate-subtlePulse",
               !currDecisions[2] ||
                 (currDecisions[2].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 2 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[2]?.decision === "left" && (
@@ -294,13 +308,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(2, "right", e)}
             className={cn(
-              pendingConfirmation?.door === 2 &&
-                pendingConfirmation?.decision === "right" &&
-                "animate-subtlePulse",
               !currDecisions[2] ||
                 (currDecisions[2].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 2 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[2]?.decision === "right" && (
@@ -338,6 +353,7 @@ export default function PuzzleBody({
       {/* Timer */}
       <div className="mb-5">
         <Countdown
+          key={currDecisions[3]?.time?.getTime() ?? "no-decision"}
           targetDate={
             currDecisions[3]
               ? new Date(currDecisions[3].time.getTime() + coolDownTime)
@@ -356,13 +372,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(3, "left", e)}
             className={cn(
-              pendingConfirmation?.door === 3 &&
-                pendingConfirmation?.decision === "left" &&
-                "animate-subtlePulse",
               !currDecisions[3] ||
                 (currDecisions[3].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 3 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[3]?.decision === "left" && (
@@ -401,13 +418,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(3, "right", e)}
             className={cn(
-              pendingConfirmation?.door === 3 &&
-                pendingConfirmation?.decision === "right" &&
-                "animate-subtlePulse",
               !currDecisions[3] ||
                 (currDecisions[3].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 3 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[3]?.decision === "right" && (
@@ -448,6 +466,7 @@ export default function PuzzleBody({
       {/* Timer */}
       <div className="mb-5">
         <Countdown
+          key={currDecisions[4]?.time?.getTime() ?? "no-decision"}
           targetDate={
             currDecisions[4]
               ? new Date(currDecisions[4].time.getTime() + coolDownTime)
@@ -466,13 +485,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(4, "left", e)}
             className={cn(
-              pendingConfirmation?.door === 4 &&
-                pendingConfirmation?.decision === "left" &&
-                "animate-subtlePulse",
               !currDecisions[4] ||
                 (currDecisions[4].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 4 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[4]?.decision === "left" && (
@@ -511,13 +531,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(4, "right", e)}
             className={cn(
-              pendingConfirmation?.door === 4 &&
-                pendingConfirmation?.decision === "right" &&
-                "animate-subtlePulse",
               !currDecisions[4] ||
                 (currDecisions[4].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 4 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[4]?.decision === "right" && (
@@ -560,6 +581,7 @@ export default function PuzzleBody({
       {/* Timer */}
       <div className="mb-5">
         <Countdown
+          key={currDecisions[5]?.time?.getTime() ?? "no-decision"}
           targetDate={
             currDecisions[5]
               ? new Date(currDecisions[5].time.getTime() + coolDownTime)
@@ -578,13 +600,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(5, "left", e)}
             className={cn(
-              pendingConfirmation?.door === 5 &&
-                pendingConfirmation?.decision === "left" &&
-                "animate-subtlePulse",
               !currDecisions[5] ||
                 (currDecisions[5].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 5 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[5]?.decision === "left" && (
@@ -623,13 +646,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(5, "right", e)}
             className={cn(
-              pendingConfirmation?.door === 5 &&
-                pendingConfirmation?.decision === "right" &&
-                "animate-subtlePulse",
               !currDecisions[5] ||
                 (currDecisions[5].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 5 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[5]?.decision === "right" && (
@@ -669,6 +693,7 @@ export default function PuzzleBody({
       {/* Timer */}
       <div className="mb-5">
         <Countdown
+          key={currDecisions[6]?.time?.getTime() ?? "no-decision"}
           targetDate={
             currDecisions[6]
               ? new Date(currDecisions[6].time.getTime() + coolDownTime)
@@ -687,13 +712,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(6, "left", e)}
             className={cn(
-              pendingConfirmation?.door === 6 &&
-                pendingConfirmation?.decision === "left" &&
-                "animate-subtlePulse",
               !currDecisions[6] ||
                 (currDecisions[6].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 6 &&
+                pendingConfirmation?.decision === "left" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[6]?.decision === "left" && (
@@ -732,13 +758,14 @@ export default function PuzzleBody({
             alt="Door"
             onClick={(e) => handleDoorClick(6, "right", e)}
             className={cn(
-              pendingConfirmation?.door === 6 &&
-                pendingConfirmation?.decision === "right" &&
-                "animate-subtlePulse",
               !currDecisions[6] ||
                 (currDecisions[6].time.getTime() + coolDownTime <
                   new Date().getTime() &&
-                  "cursor-pointer hover:animate-none hover:opacity-80"),
+                  "cursor-pointer hover:opacity-90"),
+              pendingConfirmation?.door === 6 &&
+                pendingConfirmation?.decision === "right" &&
+                "animate-subtlePulse hover:animate-none hover:opacity-80",
+              `door-${refreshTrigger}`,
             )}
           />
           {currDecisions[6]?.decision === "right" && (

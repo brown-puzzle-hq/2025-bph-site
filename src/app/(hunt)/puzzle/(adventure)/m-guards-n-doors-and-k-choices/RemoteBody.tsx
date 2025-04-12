@@ -422,7 +422,7 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                     "grid enabled:hover:opacity-90 disabled:cursor-not-allowed",
                     pendingConfirmation?.decision === decision &&
                       pendingConfirmation.decisionType === "door" &&
-                      "animate-subtlePulse",
+                      "animate-subtlePulse enabled:hover:animate-none enabled:hover:opacity-80",
                   )}
                 >
                   <Image
@@ -489,7 +489,7 @@ export default function RemoteBody({ run }: { run: Row[] }) {
                       : pendingConfirmation?.decision ===
                           (decision === stayDoor ? "stay" : "switch") &&
                           pendingConfirmation.decisionType === "final" &&
-                          "animate-subtlePulse",
+                          "animate-subtlePulse enabled:hover:animate-none enabled:hover:opacity-80",
                   )}
                 >
                   <Image

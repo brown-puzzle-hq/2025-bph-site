@@ -101,7 +101,7 @@ export default {
       },
       animation: {
         shake: "shake 0.2s ease-in-out",
-        subtlePulse: "subtlePulse 1s ease-in-out infinite",
+        subtlePulse: "subtlePulse 1s ease-out infinite",
       },
     },
   },
