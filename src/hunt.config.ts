@@ -87,7 +87,7 @@ export const SEQUENCES: Sequence[] = [
       "find-ben",
       "bluenos-puzzle-box",
       "the-snack-zone",
-      "color-transfer",
+      "color-wheel",
     ],
   },
   {
@@ -295,7 +295,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "a-fistful-of-cards-iii",
     // horror
     "secret-ingredient",
-    "color-transfer",
+    "color-wheel",
     "the-compact-disc",
   ],
 
@@ -305,13 +305,13 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "like-clockwork",
     "eye-to-eye",
     "secret-ingredient",
-    "color-transfer",
+    "color-wheel",
     "cutting-room-floor",
   ], // the-guard-and-the-door
   "the-final-heist": [
     "fridge-magnets",
     "eye-to-eye",
-    "color-transfer",
+    "color-wheel",
     "red-blue",
   ], // the-guard-and-the-door
   "the-compact-disc": ["red-blue", "the-final-heist"], // the-guard-and-the-door
@@ -321,7 +321,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "secret-ingredient",
     "placeholder-i",
   ], // PLACEHOLDER I is blueberry
-  "color-transfer": [
+  "color-wheel": [
     "a-fistful-of-cards-iv",
     "placeholder-i",
     "the-final-heist",
@@ -340,7 +340,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "the-final-heist",
     "red-blue",
   ],
-  "placeholder-i": ["like-clockwork", "color-transfer", "secret-ingredient"],
+  "placeholder-i": ["like-clockwork", "color-wheel", "secret-ingredient"],
   "like-clockwork": ["placeholder-i", "constellation", "a-fistful-of-cards-iv"],
 };
 
@@ -423,7 +423,7 @@ export const ROUNDS: Round[] = [
     name: "Horror",
     puzzles: [
       "cutting-room-floor",
-      "color-transfer",
+      "color-wheel",
       "the-guard-and-the-door",
       "a-fistful-of-cards-iv",
       "placeholder-i",

@@ -18,7 +18,7 @@ const positions: Record<string, L.LatLngExpression> = {
   "bluenos-puzzle-box": [653, 305],
   "boring-plot": [735, 365],
   "chain-letters": [400, 700],
-  "color-transfer": [580, 560],
+  "color-wheel": [580, 560],
   constellation: [560, 390],
   "cutting-room-floor": [570, 490],
   "drop-the": [420, 413],
