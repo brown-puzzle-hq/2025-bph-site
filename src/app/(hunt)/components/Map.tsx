@@ -16,63 +16,64 @@ type puzzleList = {
 
 // Record of puzzle positions on the map
 const positions: Record<string, [number, number]> = {
-  "a-fistful-of-cards": [435, 309],
-  "a-fistful-of-cards-ii": [540, 240],
-  "a-fistful-of-cards-iii": [480, 650],
-  "a-fistful-of-cards-iv": [650, 473],
-  "aha-erlebnis": [470, 160],
-  "are-you-sure": [490, 880],
-  "balloon-animals": [290, 580],
-  beads: [490, 230],
-  "bluenos-puzzle-box": [653, 305],
-  "boring-plot": [720, 365],
-  "chain-letters": [400, 700],
-  "color-transfer": [580, 560],
-  constellation: [560, 390],
-  "cutting-room-floor": [560, 490],
-  "drop-the": [420, 413],
+  // Each puzzle ID should appear exactly once with the correct coordinates
+  "a-fistful-of-cards": [319, 553], //
+  "a-fistful-of-cards-ii": [320, 450],
+  "a-fistful-of-cards-iii": [480, 350],
+  "a-fistful-of-cards-iv": [650, 527],
+  "aha-erlebnis": [470, 840],
+  "are-you-sure": [490, 120],
+  "balloon-animals": [290, 420],
+  "barbie": [695, 602],
+  "beads": [490, 770],
+  "bluenos-puzzle-box": [653, 695],
+  "boring-plot": [720, 635],
+  "chain-letters": [400, 300],
+  "color-transfer": [580, 440],
+  "common-words": [540, 685],
+  "constellation": [560, 610],
+  "cutting-room-floor": [560, 510],
+  "drop-the": [420, 587],
   "eye-of-the-storm": [760, 500],
-  "eye-spy": [655, 705],
-  "eye-to-eye": [534, 440],
-  "filming-schedule": [440, 360],
-  "financial-crimes-3": [691, 600],
-  "find-ben": [380, 300],
-  "fractal-shanty": [235, 505],
-  "fridge-magnets": [517, 420],
-  "galileo-was-wrong": [335, 540],
-  "genetic-counseling": [620, 652],
-  "hand-letters": [460, 730],
-  heist: [390, 360],
-  "heist-ii": [540, 150],
-  "heist-iii": [440, 800],
-  "identify-the-piece": [642, 390],
-  imagine: [631, 270],
-  "common-words": [540, 315],
-  "m-guards-n-doors-and-k-choices": [658, 365],
-  narcissism: [723, 550],
-  barbie: [695, 398],
-  "one-guard-screen": [378, 600],
-  "opening-sequences": [430, 610],
-  peanuts: [382, 445],
-  piecemeal: [671, 435],
-  "placeholder-i": [670, 480],
-  "like-clockwork": [590, 400],
-  plagiarism: [335, 460],
-  "red-blue": [460, 510],
-  "secret-ingredient": [610, 570],
-  "six-degrees": [522, 700],
-  "international-neighbors": [560, 780],
-  "ten-guards-ten-doors": [480, 310],
-  "the-compact-disc": [540, 620],
-  "the-final-heist": [480, 550],
-  "the-guard-and-the-door": [550, 650],
-  "the-snack-zone": [636, 330],
-  "two-guards-river": [342, 340],
-  "two-guards-two-doors": [362, 262],
-  "walk-of-fame": [406, 260],
-  "watching-between-the-lines": [260, 370],
-  "whats-my-ride": [670, 280],
-  "youve-got-this-covered": [600, 220],
+  "eye-spy": [655, 295],
+  "eye-to-eye": [534, 560],
+  "filming-schedule": [440, 640],
+  "financial-crimes-3": [691, 400],
+  "find-ben": [320, 619], //
+  "fractal-shanty": [235, 495],
+  "fridge-magnets": [517, 580],
+  "galileo-was-wrong": [335, 460],
+  "genetic-counseling": [620, 348],
+  "hand-letters": [460, 270],
+  "heist": [390, 640],
+  "heist-ii": [540, 850],
+  "heist-iii": [440, 200],
+  "identify-the-piece": [642, 610],
+  "imagine": [631, 730],
+  "international-neighbors": [560, 220],
+  "like-clockwork": [590, 600],
+  "m-guards-n-doors-and-k-choices": [658, 635],
+  "narcissism": [723, 450],
+  "one-guard-screen": [378, 400],
+  "opening-sequences": [430, 390],
+  "peanuts": [382, 555],
+  "piecemeal": [671, 565],
+  "placeholder-i": [670, 520],
+  "plagiarism": [335, 540],
+  "red-blue": [460, 490],
+  "secret-ingredient": [610, 430],
+  "six-degrees": [522, 300],
+  "ten-guards-ten-doors": [480, 690],
+  "the-compact-disc": [540, 380],
+  "the-final-heist": [480, 450],
+  "the-guard-and-the-door": [550, 350],
+  "the-snack-zone": [636, 670],
+  "two-guards-river": [342, 660],
+  "two-guards-two-doors": [262, 634], //
+  "walk-of-fame": [265, 593], //
+  "watching-between-the-lines": [260, 630],
+  "whats-my-ride": [670, 720],
+  "youve-got-this-covered": [600, 780],
 };
 
 const DraggableMap = React.forwardRef<any, { children: React.ReactNode; initialX?: number; initialY?: number }>(
@@ -202,6 +203,19 @@ export default function Map({
   solvedPuzzles: { puzzleId: string }[];
   availableRounds: Round[];
 }) {
+  // Filter out duplicate puzzles from availablePuzzles
+  const uniquePuzzles = React.useMemo(() => {
+    const seen = new Set<string>();
+    return availablePuzzles.filter(puzzle => {
+      if (seen.has(puzzle.id)) {
+        console.warn(`Filtered out duplicate puzzle: ${puzzle.id} (${puzzle.name})`);
+        return false;
+      }
+      seen.add(puzzle.id);
+      return true;
+    });
+  }, [availablePuzzles]);
+
   const [hoveredPuzzle, setHoveredPuzzle] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
@@ -219,13 +233,13 @@ export default function Map({
 
   // Calculate initial map position based on available puzzles
   const calculateCentroid = () => {
-    if (availablePuzzles.length === 0) return { x: 0, y: 0 };
-    
+    if (uniquePuzzles.length === 0) return { x: 0, y: 0 };
+
     let sumX = 0;
     let sumY = 0;
     let count = 0;
-    
-    availablePuzzles.forEach(puzzle => {
+
+    uniquePuzzles.forEach(puzzle => {
       const position = positions[puzzle.id];
       if (position) {
         sumX += position[0];
@@ -233,13 +247,13 @@ export default function Map({
         count++;
       }
     });
-    
+
     if (count === 0) return { x: 0, y: 0 };
-    
+
     // Calculate the center of available puzzles
     const centerX = sumX / count;
     const centerY = sumY / count;
-    
+
     // Return offset needed to center this point on the screen
     return {
       x: stageSize.width / 2 - centerX * 2, // Scale of 2 is applied to container
@@ -253,13 +267,61 @@ export default function Map({
   // Create mapping of round name to image path - moved outside of render
   const layouts = ROUNDS.reduce(
     (acc, { name }) => {
+      // Skip Reality round since we'll handle it separately
+      if (name === "Reality") return acc;
+
       acc[name] = availableRoundNames.includes(name)
-        ? `${name}.png`
-        : `${name}Gray.png`;
+        ? `/map/${name}.png`
+        : `/map/${name}Gray.png`;
       return acc;
     },
     {} as Record<string, string>,
   );
+
+  // Check if Reality round is available
+  const isRealityAvailable = availableRoundNames.includes("Reality");
+
+  // Define layer order (from lowest to highest)
+  const layerOrder = ["Adventure", "Comedy", "Drama", "Horror", "Action"];
+
+  // For debugging
+  useEffect(() => {
+    console.log("Available rounds:", availableRoundNames);
+    console.log("Layout paths:", layouts);
+  }, [availableRoundNames, layouts]);
+
+  // Image loading error handling
+  const handleImageError = (roundName: string) => {
+    console.error(`Failed to load image for round: ${roundName}`);
+  };
+
+  // Function to check if an image exists
+  const checkImageExists = async (url: string): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = url;
+    });
+  };
+
+  // Validate image paths on mount
+  useEffect(() => {
+    const validateImages = async () => {
+      const rounds = ["Adventure", "Comedy", "Drama", "Horror", "Action", "RealityUnder", "RealityOver"];
+
+      for (const round of rounds) {
+        const exists = await checkImageExists(`/map/${round}.png`);
+        if (!exists) {
+          console.error(`Image not found: /map/${round}.png`);
+        } else {
+          console.log(`Image found: /map/${round}.png`);
+        }
+      }
+    };
+
+    validateImages();
+  }, []);
 
   // Update stage size when container size changes
   useEffect(() => {
@@ -310,14 +372,14 @@ export default function Map({
     }
 
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const filteredPuzzles = availablePuzzles.filter(
+    const filteredPuzzles = uniquePuzzles.filter(
       (puzzle) =>
         puzzle.name.toLowerCase().includes(lowerCaseSearchTerm) ||
         puzzle.id.toLowerCase().includes(lowerCaseSearchTerm),
     );
 
     setSearchResults(filteredPuzzles);
-  }, [searchTerm, availablePuzzles]);
+  }, [searchTerm, uniquePuzzles]);
 
   // Function to focus on a puzzle
   const focusOnPuzzle = (puzzleId: string) => {
@@ -353,6 +415,48 @@ export default function Map({
       canvasElement.dispatchEvent(wheelEvent);
     }
   };
+
+  // Add error handling for puzzle positions
+  useEffect(() => {
+    // Check for missing puzzle positions
+    availablePuzzles.forEach(puzzle => {
+      if (!positions[puzzle.id]) {
+        console.warn(`Missing position for puzzle: ${puzzle.id} (${puzzle.name})`);
+      }
+    });
+
+    // Check for duplicates in availablePuzzles
+    const puzzleIds = new Set<string>();
+    const duplicates = new Set<string>();
+
+    availablePuzzles.forEach(puzzle => {
+      if (puzzleIds.has(puzzle.id)) {
+        duplicates.add(puzzle.id);
+      } else {
+        puzzleIds.add(puzzle.id);
+      }
+    });
+
+    if (duplicates.size > 0) {
+      console.error('Duplicate puzzle IDs found:', Array.from(duplicates));
+    }
+  }, [availablePuzzles]);
+
+  // Log information about duplicate puzzles on mount
+  useEffect(() => {
+    if (availablePuzzles.length !== uniquePuzzles.length) {
+      console.error(
+        `Found ${availablePuzzles.length - uniquePuzzles.length} duplicate puzzles in availablePuzzles`
+      );
+    }
+
+    // Additional debugging for positions
+    uniquePuzzles.forEach(puzzle => {
+      if (!positions[puzzle.id]) {
+        console.warn(`Missing position for puzzle: ${puzzle.id} (${puzzle.name})`);
+      }
+    });
+  }, [availablePuzzles, uniquePuzzles]);
 
   return (
     <div
@@ -411,41 +515,123 @@ export default function Map({
             resolution: window.devicePixelRatio || 1,
           }}
         >
-          <DraggableMap 
+          <DraggableMap
             ref={pixiContainerRef}
             initialX={calculateCentroid().x}
             initialY={calculateCentroid().y}
           >
+            {/* Base Layer */}
             <Container>
               <Sprite
-                image="/map/Layout.png"
+                image="/map/BlankLayout.png"
                 width={WIDTH}
                 height={HEIGHT}
                 x={0}
                 y={0}
+                onError={() => handleImageError("BlankLayout")}
               />
-
-              {Object.entries(layouts).map(([name, path]) => (
-                <Sprite
-                  key={name}
-                  image={`/${path}`} // TODO: move into map folder
-                  width={WIDTH}
-                  height={HEIGHT}
-                  x={0}
-                  y={0}
-                />
-              ))}
             </Container>
 
+            {/* Adventure Layer (lowest) */}
             <Container>
-              {availablePuzzles.map((puzzle) => {
+              <Sprite
+                image="/map/Adventure.png"
+                width={WIDTH}
+                height={HEIGHT}
+                x={0}
+                y={0}
+                alpha={availableRoundNames.includes("Adventure") ? 1 : 0.5}
+                onError={() => handleImageError("Adventure")}
+              />
+            </Container>
+
+            {/* RealityUnder Layer */}
+            <Container>
+              <Sprite
+                image="/map/RealityUnder.png"
+                width={WIDTH}
+                height={HEIGHT}
+                x={0}
+                y={0}
+                alpha={isRealityAvailable ? 1 : 0.5}
+                onError={() => handleImageError("RealityUnder")}
+              />
+            </Container>
+
+            {/* Comedy Layer */}
+            <Container>
+              <Sprite
+                image="/map/Comedy.png"
+                width={WIDTH}
+                height={HEIGHT}
+                x={0}
+                y={0}
+                alpha={availableRoundNames.includes("Comedy") ? 1 : 0.5}
+                onError={() => handleImageError("Comedy")}
+              />
+            </Container>
+
+            {/* Drama Layer */}
+            <Container>
+              <Sprite
+                image="/map/Drama.png"
+                width={WIDTH}
+                height={HEIGHT}
+                x={0}
+                y={0}
+                alpha={availableRoundNames.includes("Drama") ? 1 : 0.5}
+                onError={() => handleImageError("Drama")}
+              />
+            </Container>
+
+            {/* Horror Layer */}
+            <Container>
+              <Sprite
+                image="/map/Horror.png"
+                width={WIDTH}
+                height={HEIGHT}
+                x={0}
+                y={0}
+                alpha={availableRoundNames.includes("Horror") ? 1 : 0.5}
+                onError={() => handleImageError("Horror")}
+              />
+            </Container>
+
+            {/* RealityOver Layer */}
+            <Container>
+              <Sprite
+                image="/map/RealityOver.png"
+                width={WIDTH}
+                height={HEIGHT}
+                x={0}
+                y={0}
+                alpha={isRealityAvailable ? 1 : 0.5}
+                onError={() => handleImageError("RealityOver")}
+              />
+            </Container>
+
+            {/* Action Layer (highest) */}
+            <Container>
+              <Sprite
+                image="/map/Action.png"
+                width={WIDTH}
+                height={HEIGHT}
+                x={0}
+                y={0}
+                alpha={availableRoundNames.includes("Action") ? 1 : 0.5}
+                onError={() => handleImageError("Action")}
+              />
+            </Container>
+
+            {/* Puzzle sprites layer - always on top */}
+            <Container>
+              {uniquePuzzles.map((puzzle) => {
                 const position = positions[puzzle.id] ?? [180, 500];
                 const isSolved = solvedPuzzles.some(
                   (sp) => sp.puzzleId === puzzle.id,
                 );
                 const spriteUrl = `map/sprites-outlined/${puzzle.id}.png`;
 
-                // TODO: style solved sprites differently? Alpha?
                 return (
                   <Sprite
                     key={puzzle.id}
@@ -467,6 +653,7 @@ export default function Map({
                     }}
                     pointerover={() => setHoveredPuzzle(puzzle.name)}
                     pointerout={() => setHoveredPuzzle(null)}
+                    onError={() => console.error(`Failed to load puzzle sprite: ${puzzle.id}`)}
                   />
                 );
               })}
