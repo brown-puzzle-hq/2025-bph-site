@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, Fragment } from "react";
+import { useState, useEffect } from "react";
 
 export function Countdown({ targetDate }: { targetDate: Date }) {
   const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
@@ -47,12 +47,6 @@ export function Countdown({ targetDate }: { targetDate: Date }) {
       {String(timeRemaining.minutes).padStart(2, "0")}:
       {String(timeRemaining.seconds).padStart(2, "0")} 'til hunt start ✨
     </div>
-
-    // <div>
-    //   ✨ {timeRemaining.days} days, {timeRemaining.hours} hours,{" "}
-    //   {timeRemaining.minutes} minutes, {timeRemaining.seconds} seconds until
-    //   hunt start ✨
-    // </div>
   );
 }
 
