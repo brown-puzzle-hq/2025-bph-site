@@ -329,7 +329,7 @@ export default function Map({
       className="relative h-[calc(100vh-56px-32px)] w-screen overflow-hidden"
     >
       {/* Search bar */}
-      <div className="absolute left-2 top-2 z-50 w-64">
+      <div className="absolute left-2 top-2 z-10 w-64">
         <div className="relative">
           <div className="flex h-10 items-center rounded-md bg-main-bg shadow-md">
             <input
@@ -440,7 +440,7 @@ export default function Map({
         </Stage>
       )}
       {/* Zoom controls */}
-      <div className="absolute bottom-2 right-2 z-50 flex flex-col gap-2">
+      <div className="absolute bottom-2 right-2 z-10 flex flex-col gap-2">
         <button
           onClick={handleZoomIn}
           className="rounded-md bg-main-bg p-2 shadow-md hover:bg-[#554370]"
@@ -457,7 +457,7 @@ export default function Map({
       {/* Tooltip for hovered puzzle */}
       {hoveredPuzzle && (
         <div
-          className="pointer-events-none absolute z-50 rounded bg-black/80 px-2 py-1 text-sm text-white"
+          className="pointer-events-none absolute z-10 rounded bg-black/80 px-2 py-1 text-sm text-white"
           style={{
             left: `${Math.min(window.innerWidth - 100, mousePosition.x + 2)}px`,
             top: `${Math.min(window.innerHeight - 50, mousePosition.y - 28 - 56)}px`,
