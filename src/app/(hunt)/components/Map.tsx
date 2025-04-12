@@ -12,7 +12,7 @@ function spriteExists(image_url: string | URL) {
   return true;
   var http = new XMLHttpRequest();
   console.log(image_url + ": " + (http.status != 404));
-  http.open('HEAD', image_url, false);
+  http.open("HEAD", image_url, false);
   http.send();
   return http.status != 404;
 }
@@ -52,7 +52,7 @@ const positions: Record<string, L.LatLngExpression> = {
   "common-words": [540, 315],
   "m-guards-n-doors-and-k-choices": [658, 365],
   narcissism: [723, 550],
-  "barbie": [695, 398],
+  barbie: [695, 398],
   "one-guard-screen": [378, 600],
   "opening-sequences": [430, 610],
   peanuts: [382, 445],
@@ -125,11 +125,11 @@ export default function Map({
       >
         <ImageOverlay url={colorlayout} bounds={bounds} /> {/*/TODO: remove */}
         {/* <ImageOverlay url={layouts.Action!} bounds={bounds} />
-        <ImageOverlay url={layouts.Adventure!} bounds={bounds} />
         <ImageOverlay url={layouts.Cerebral!} bounds={bounds} /> */}
         <ImageOverlay url={layouts.Drama!} bounds={bounds} />
         <ImageOverlay url={layouts.Reality!} bounds={bounds} />
         <ImageOverlay url={layouts.Comedy!} bounds={bounds} />
+        <ImageOverlay url={layouts.Adventure!} bounds={bounds} />
         {availablePuzzles.map((puzzle) => (
           <Marker
             key={puzzle.id}
@@ -151,9 +151,7 @@ export default function Map({
               click: () => window.open(`puzzle/${puzzle.id}`, "_blank"),
             }}
           >
-            <Tooltip direction="bottom">
-              {puzzle.name}
-            </Tooltip>
+            <Tooltip direction="bottom">{puzzle.name}</Tooltip>
           </Marker>
         ))}
       </MapContainer>
