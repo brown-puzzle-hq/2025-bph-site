@@ -125,11 +125,11 @@ export default function Map({
       >
         <ImageOverlay url={colorlayout} bounds={bounds} /> {/*/TODO: remove */}
         {/* <ImageOverlay url={layouts.Action!} bounds={bounds} />
-        <ImageOverlay url={layouts.Comedy!} bounds={bounds} />
         <ImageOverlay url={layouts.Adventure!} bounds={bounds} />
         <ImageOverlay url={layouts.Cerebral!} bounds={bounds} /> */}
         <ImageOverlay url={layouts.Drama!} bounds={bounds} />
         <ImageOverlay url={layouts.Reality!} bounds={bounds} />
+        <ImageOverlay url={layouts.Comedy!} bounds={bounds} />
         {availablePuzzles.map((puzzle) => (
           <Marker
             key={puzzle.id}
