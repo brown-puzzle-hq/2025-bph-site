@@ -14,22 +14,28 @@ type puzzleList = {
   answer: string;
 }[];
 
+const scaleFactor: Record<string, number> = {
+  "hesit-ii": 0.2,
+  "hesit-iii": 0.001,
+}
+
 // Record of puzzle positions on the map
 const positions: Record<string, [number, number]> = {
   // Each puzzle ID should appear exactly once with the correct coordinates
   "a-fistful-of-cards": [319, 553],
-  "a-fistful-of-cards-ii": [242, 455],
+  "a-fistful-of-cards-ii": [242, 452],
   "a-fistful-of-cards-iii": [676, 491],
   "a-fistful-of-cards-iv": [646, 434],
   "aha-erlebnis": [161, 526],
   "are-you-sure": [872, 498],
   "balloon-animals": [571, 687],
   "barbie": [405, 302],
-  "beads": [224, 505],
+  "beads": [224, 500],
   "bluenos-puzzle-box": [313, 336],
   "boring-plot": [372, 268],
   "chain-letters": [708, 575],
   "color-wheel": [503, 543],
+  "connect-the-dots": [538, 663],
   "lost-lyric": [303, 453],
   "constellation": [564, 414],
   "cutting-room-floor": [489, 428],
@@ -40,12 +46,11 @@ const positions: Record<string, [number, number]> = {
   "filming-schedule": [367, 543],
   "financial-crimes-3": [586, 295],
   "find-ben": [320, 619],
-  "fractal-shanty": [506, 760],
+  "fractal-shanty": [508, 755],
   "fridge-magnets": [478, 354],
-  "connect-the-dots": [541, 663],
   "genetic-counseling": [652, 379],
   "hand-letters": [755, 500],
-  "heist": [359, 608],
+  "heist": [359, 606],
   "heist-ii": [151, 456],
   "heist-iii": [819, 515],
   "identify-the-piece": [385, 353],
@@ -55,14 +60,14 @@ const positions: Record<string, [number, number]> = {
   "m-guards-n-doors-and-k-choices": [368, 343],
   "narcissism": [514, 281],
   "one-guard-screen": [600, 621],
-  "opening-sequences": [618, 559],
-  "peanuts": [451, 612],
+  "opening-sequences": [615, 559],
+  "peanuts": [458, 600],
   "piecemeal": [436, 323],
-  "placeholder-i": [614, 460],
   "plagiarism": [461, 664],
   "red-blue": [375, 409],
   "secret-ingredient": [550, 510],
   "six-degrees": [700, 465],
+  "sound-of-music": [620, 460],
   "ten-guards-ten-doors": [312, 519],
   "the-compact-disc": [455, 484],
   "the-final-heist": [365, 433],
@@ -71,9 +76,9 @@ const positions: Record<string, [number, number]> = {
   "two-guards-river": [346, 660],
   "two-guards-two-doors": [262, 634],
   "walk-of-fame": [270, 590],
-  "watching-between-the-lines": [369, 735],
+  "watching-between-the-lines": [369, 732],
   "whats-my-ride": [288, 320],
-  "youve-got-this-covered": [218, 391],
+  "youve-got-this-covered": [215, 385],
 };
 
 const DraggableMap = React.forwardRef<any, { children: React.ReactNode; initialX?: number; initialY?: number }>(
@@ -641,7 +646,7 @@ export default function Map({
                     interactive
                     cursor="pointer"
                     anchor={0.5}
-                    scale={0.075}
+                    scale={scaleFactor[puzzle.id] || 0.075}
                     pointerdown={() => {
                       setCleanClick(true);
                     }}
