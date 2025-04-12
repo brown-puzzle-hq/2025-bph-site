@@ -25,8 +25,8 @@ export async function insertFeedback(description: string, timestamp: Date) {
     return { error: "Failed to submit feedback." };
   }
 
-  // Message the feedback channel
-  const feedbackMessage = `📝 **Feedback** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}): ${description}`;
+  // Message the feedback channel and ping HQ
+  const feedbackMessage = `📝 **Feedback** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}): ${description} <@&900958940475559969>`;
   await sendBotMessage(feedbackMessage, "feedback");
   return { error: null };
 }

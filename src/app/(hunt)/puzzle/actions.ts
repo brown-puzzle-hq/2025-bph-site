@@ -240,10 +240,22 @@ export async function handleGuess(puzzleId: string, guess: string) {
   const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${isCorrect ? (solveType === "guess" ? "✓" : "𝔼 → ✓") : "✕"}]`;
   await sendBotMessage(guessMessage, "guess");
 
-  // If the team has finished the hunt, message the finish channel
+  // Message interaction channel about action meta solve and ping the lore role
+  if (isCorrect && puzzleId == "drop-the") {
+    const actionInteractionMessage = `💥 **Action Interaction** for [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) after [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}) <@&1201541948880736378>`;
+    await sendBotMessage(actionInteractionMessage, "interaction");
+  }
+
+  // Message interaction channel about horror guard and ping the lore role
+  if (isCorrect && puzzleId == "the-guard-and-the-door") {
+    const cerebralInteractionMessage = `👻 **Horror Interaction** for [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) after [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}) <@&1201541948880736378>`;
+    await sendBotMessage(cerebralInteractionMessage, "interaction");
+  }
+
+  // If the team has finished the hunt, message the finish channel and ping the lore role
   if (hasFinishedHunt) {
-    const finishMessage = `🏆 **Hunt Finish** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId})`;
-    await sendBotMessage(finishMessage, "finish");
+    const finishMessage = `🏆 **Hunt Finish** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) <@&900958940475559969>`;
+    await sendBotMessage(finishMessage, "interaction");
   }
 
   revalidatePath(`/puzzle/${puzzleId}`);

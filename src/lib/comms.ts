@@ -12,7 +12,7 @@ type Channel =
   | "general"
   | "hint"
   | "guess"
-  | "finish"
+  | "interaction"
   | "feedback"
   | "team"
   | "dev";
@@ -21,7 +21,7 @@ const channelToWebhookURL: Record<Channel, string | undefined> = {
   general: process.env.DISCORD_WEBHOOK_URL,
   hint: process.env.DISCORD_WEBHOOK_URL_HINT,
   guess: process.env.DISCORD_WEBHOOK_URL_GUESS,
-  finish: process.env.DISCORD_WEBHOOK_URL_FINISH,
+  interaction: process.env.DISCORD_WEBHOOK_URL_INTERACTION,
   feedback: process.env.DISCORD_WEBHOOK_URL_FEEDBACK,
   team: process.env.DISCORD_WEBHOOK_URL_TEAM,
   dev: process.env.DISCORD_WEBHOOK_URL_DEV,
