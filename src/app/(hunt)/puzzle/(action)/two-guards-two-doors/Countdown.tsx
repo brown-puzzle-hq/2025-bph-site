@@ -37,9 +37,11 @@ export default function Countdown({ targetDate }: { targetDate: Date | null }) {
   }, [targetDate]);
 
   return (
-    <div className="flex translate-y-2 space-x-2">
+    <div
+      className={`flex space-x-2 ${timeRemaining.minutes === 0 && timeRemaining.seconds === 0 ? "opacity-50" : ""}`}
+    >
       <Hourglass />
-      <p className="w-12 font-semibold">
+      <p className="w-12 font-medium">
         {String(timeRemaining.minutes).padStart(2, "0")}:
         {String(timeRemaining.seconds).padStart(2, "0")}
       </p>

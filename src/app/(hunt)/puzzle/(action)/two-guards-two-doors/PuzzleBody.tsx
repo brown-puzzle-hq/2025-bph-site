@@ -124,7 +124,7 @@ export default function PuzzleBody({
         <Countdown
           targetDate={
             currDecisions[1]
-              ? new Date(currDecisions[1].time.getTime() + 10 * 60 * 1000)
+              ? new Date(currDecisions[1].time.getTime() + coolDownTime)
               : null
           }
         />
@@ -233,7 +233,7 @@ export default function PuzzleBody({
         <Countdown
           targetDate={
             currDecisions[2]
-              ? new Date(currDecisions[2].time.getTime() + 10 * 60 * 1000)
+              ? new Date(currDecisions[2].time.getTime() + coolDownTime)
               : null
           }
         />
@@ -340,7 +340,7 @@ export default function PuzzleBody({
         <Countdown
           targetDate={
             currDecisions[3]
-              ? new Date(currDecisions[3].time.getTime() + 10 * 60 * 1000)
+              ? new Date(currDecisions[3].time.getTime() + coolDownTime)
               : null
           }
         />
@@ -450,7 +450,7 @@ export default function PuzzleBody({
         <Countdown
           targetDate={
             currDecisions[4]
-              ? new Date(currDecisions[4].time.getTime() + 10 * 60 * 1000)
+              ? new Date(currDecisions[4].time.getTime() + coolDownTime)
               : null
           }
         />
@@ -562,7 +562,7 @@ export default function PuzzleBody({
         <Countdown
           targetDate={
             currDecisions[5]
-              ? new Date(currDecisions[5].time.getTime() + 10 * 60 * 1000)
+              ? new Date(currDecisions[5].time.getTime() + coolDownTime)
               : null
           }
         />
@@ -671,7 +671,7 @@ export default function PuzzleBody({
         <Countdown
           targetDate={
             currDecisions[6]
-              ? new Date(currDecisions[6].time.getTime() + 10 * 60 * 1000)
+              ? new Date(currDecisions[6].time.getTime() + coolDownTime)
               : null
           }
         />
