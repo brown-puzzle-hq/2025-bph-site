@@ -1,5 +1,12 @@
 import Landing from "./Landing";
 
 export default async function Home() {
-  return <Landing />;
+  return (
+    <div>
+      <div>
+        lksdjflaksdjflaskdf asldkfjaslkdjf alkdsfjalskdjf laksdjflaskdfj
+      </div>
+      <Landing />
+    </div>
+  );
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 export function Countdown({ targetDate }: { targetDate: Date }) {
   const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
@@ -37,21 +37,22 @@ export function Countdown({ targetDate }: { targetDate: Date }) {
       timeRemaining.hours ===
     0
   ) {
-    return (
-      <div>
-        <p>The hunt has started!</p>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div>
-      <p>
-        {timeRemaining.days} days, {timeRemaining.hours} hours,{" "}
-        {timeRemaining.minutes} minutes, {timeRemaining.seconds} seconds until
-        the hunt starts.
-      </p>
+    <div className="hidden w-full font-mono text-sm lg:block">
+      ✨ {String(timeRemaining.days).padStart(2, "0")}:
+      {String(timeRemaining.hours).padStart(2, "0")}:
+      {String(timeRemaining.minutes).padStart(2, "0")}:
+      {String(timeRemaining.seconds).padStart(2, "0")} 'til hunt start ✨
     </div>
+
+    // <div>
+    //   ✨ {timeRemaining.days} days, {timeRemaining.hours} hours,{" "}
+    //   {timeRemaining.minutes} minutes, {timeRemaining.seconds} seconds until
+    //   hunt start ✨
+    // </div>
   );
 }
 
