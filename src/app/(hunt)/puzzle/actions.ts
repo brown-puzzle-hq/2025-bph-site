@@ -231,25 +231,20 @@ export async function handleGuess(puzzleId: string, guess: string) {
     });
   } catch (e) {
     const error = ensureError(e);
-    sendBotMessage(
-      `Error inserting solve for puzzle ${puzzleId} for team ${teamId}: ${error.message}`,
-      "dev",
-    );
+    const errorMessage = `Error inserting solve for puzzle ${puzzleId} for team ${teamId}: ${error.message}`;
+    sendBotMessage(errorMessage, "dev");
     return { error: "An unexpected error occurred. Please try again." };
   }
 
   // Message the guess channel
-  await sendBotMessage(
-    `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${isCorrect ? (solveType === "guess" ? "✓" : "𝔼 → ✓") : "✕"}]`,
-    "guess",
-  );
+  const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): \`${guess}\` [${isCorrect ? (solveType === "guess" ? "✓" : "𝔼 → ✓") : "✕"}]`;
+  await sendBotMessage(guessMessage, "guess");
 
   // If the team has finished the hunt, message the finish channel
-  if (hasFinishedHunt)
-    await sendBotMessage(
-      `🏆 **Hunt Finish** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId})`,
-      "finish",
-    );
+  if (hasFinishedHunt) {
+    const finishMessage = `🏆 **Hunt Finish** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId})`;
+    await sendBotMessage(finishMessage, "finish");
+  }
 
   revalidatePath(`/puzzle/${puzzleId}`);
 
@@ -357,9 +352,8 @@ export type MessageType = "request" | "response" | "follow-up";
 /** Inserts a hint request into the hint table */
 export async function insertHintRequest(puzzleId: string, hint: string) {
   const session = await auth();
-  if (!session?.user?.id) {
-    throw new Error("Not logged in");
-  }
+  if (!session?.user?.id) throw new Error("Not logged in");
+
   const teamId = session.user.id;
   const role = session.user.role;
   const interactionMode = session.user.interactionMode;
@@ -388,7 +382,7 @@ export async function insertHintRequest(puzzleId: string, hint: string) {
 
     if (result[0]) {
       const hintMessage = `🙏 **Hint** [request](https://www.brownpuzzlehunt.com/admin/hints/${result[0].id}) by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${hint} <@&1310029428864057504>`;
-      await sendBotMessage(hintMessage);
+      await sendBotMessage(hintMessage, "hint");
     }
 
     return result[0]?.id;
@@ -478,7 +472,7 @@ export async function insertFollowUp({
       // Otherwise, notify admin on Discord that there is a follow-up
       else if (message !== "[Claimed]") {
         const hintMessage = `🙏 **Hint** [follow-up](https://www.brownpuzzlehunt.com/admin/hints/${hintId}?reply=true) by [${teamDisplayName}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleName}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId}): ${message} <@&1310029428864057504>`;
-        await sendBotMessage(hintMessage);
+        await sendBotMessage(hintMessage, "hint");
       }
       return result[0].id;
     }

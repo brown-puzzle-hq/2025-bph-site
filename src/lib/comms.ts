@@ -8,15 +8,24 @@ export function extractEmails(memberString: string): string[] {
     .filter(Boolean);
 }
 
-type Channel = "general" | "feedback" | "dev" | "guess" | "finish";
+type Channel =
+  | "general"
+  | "hint"
+  | "guess"
+  | "finish"
+  | "feedback"
+  | "team"
+  | "dev";
 
 // TODO: change later
 const channelToWebhookURL: Record<Channel, string | undefined> = {
   general: process.env.DISCORD_WEBHOOK_URL,
-  feedback: process.env.DISCORD_WEBHOOK_URL,
+  hint: process.env.DISCORD_WEBHOOK_URL,
   guess: process.env.DISCORD_WEBHOOK_URL,
-  dev: process.env.DISCORD_WEBHOOK_URL,
   finish: process.env.DISCORD_WEBHOOK_URL,
+  feedback: process.env.DISCORD_WEBHOOK_URL,
+  team: process.env.DISCORD_WEBHOOK_URL,
+  dev: process.env.DISCORD_WEBHOOK_URL,
 };
 
 export async function sendBotMessage(
