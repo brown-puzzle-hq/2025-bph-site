@@ -7,12 +7,12 @@ import FLOWER from "./flower.png";
 import PLUTO from "./pluto.png";
 
 const ITEMS = [
-  { name: "Bat", src: BAT, desc: "big wings" },
-  { name: "Dog", src: DOG, desc: "back, neck" },
-  { name: "Fish", src: FISH, desc: "upper lip, tail" },
-  { name: "Flower", src: FLOWER, desc: "leaves" },
-  { name: "Monkey", src: MONKEY, desc: "neck, right ear" },
-  { name: "Pluto", src: PLUTO, desc: "back legs" },
+  { name: "Bat", src: BAT, desc: <div>It has majestic <u>big wings.</u></div>},
+  { name: "Dog", src: DOG, desc: <div>Be careful with its <u>back</u> and <u>neck.</u></div>},
+  { name: "Fish", src: FISH, desc: <div>I love its <u>upper lip</u> and <u>tail.</u></div>},
+  { name: "Flower", src: FLOWER, desc: <div>What pretty <u>leaves</u> it has!</div> },
+  { name: "Monkey", src: MONKEY, desc: <div>The monkey is ticklish on its <u>neck</u> and <u>right ear.</u></div> },
+  { name: "Pluto", src: PLUTO, desc: <div>Why doesn't he walk on his <u>hind legs?</u></div> },
 ];
 
 /**
@@ -52,7 +52,7 @@ export const inPersonBody = (
           <div className="space-y-4" key={index}>
             <p className="font-bold text-main-header">{name}</p>
             <Image src={src} alt="" className="rounded-lg" />
-            <p>{desc}</p>
+            {desc}
           </div>
         ))}
       </div>
@@ -84,7 +84,7 @@ export const remoteBoxBody = (
           <div className="space-y-4" key={index}>
             <p className="font-bold text-main-header">{name}</p>
             <Image src={src} alt="" className="rounded-lg" />
-            <p>{desc}</p>
+            {desc}
           </div>
         ))}
       </div>
@@ -111,7 +111,7 @@ export const remoteBody = (
           <div className="space-y-4" key={index}>
             <p className="font-bold text-main-header">{name}</p>
             <Image src={src} alt="" className="rounded-lg" />
-            <p>{desc}</p>
+            {desc}
           </div>
         ))}
       </div>
