@@ -16,15 +16,20 @@ export const puzzleId = "constellation";
  * and interactive puzzle components here.
  */
 export const inPersonBody = (
-  <div className="flex items-center">
-  <Image
+  <div className="max-w-3xl space-y-4 text-center items-center">
+    <p>
+      <b>
+        This is a sequence metapuzzle. It uses feeders from the ⭐ sequence.
+      </b>
+    </p>
+    <Image
     src={CONS}
     alt=""
     width={1638 * SCALE}
     height={1752 * SCALE}
-    className="mb-5 justify-center items-center align-center"
+    className="mb-5 align-center"
   />
-  </div>
+    </div>
 );
 
 export const remoteBoxBody = inPersonBody;
