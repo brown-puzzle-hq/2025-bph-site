@@ -37,7 +37,7 @@ export const inPersonBody = (
         personality!
       </i>
     </p>
-    <div className="text-center mx-auto grid w-60 grid-cols-[12] gap-0 pb-4">
+    <div className="text-center mx-auto grid w-0 grid-cols-[22] gap-0 pb-4">
       {Array.from({ length: 22 }).map((_, i) => (
         <div
           key={i}
