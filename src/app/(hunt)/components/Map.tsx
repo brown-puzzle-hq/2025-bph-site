@@ -286,7 +286,10 @@ export default function Map({
   }, []);
 
   return (
-    <div ref={containerRef} className="relative h-[calc(100vh-56px-32px)] w-screen overflow-hidden focus:outline-none">
+    <div
+      ref={containerRef}
+      className="h-[calc(100vh-56px-32px)] w-screen overflow-hidden"
+    >
       {stageSize.width > 0 && stageSize.height > 0 && (
         <Stage
           width={stageSize.width}
@@ -294,10 +297,7 @@ export default function Map({
           options={{
             backgroundColor: 0xffffff,
             resolution: window.devicePixelRatio || 1,
-            antialias: true,
-            eventMode: "static",
           }}
-          className="overflow-hidden"
         >
           <DraggableMap>
             <Container>
@@ -336,21 +336,21 @@ export default function Map({
                     : `/map/sprites/done/puzzle.svg`;
 
                 return (
-                  <Container
+                  <Sprite
                     key={puzzle.id}
+                    image={spriteUrl}
                     x={position[0]}
                     y={position[1]}
                     eventMode="static"
                     cursor="pointer"
-                    pointerdown={(e) => {
-                      e.stopPropagation();
+                    anchor={0.5}
+                    scale={.075}
+                    pointerdown={() => {
                       handleMarkerClick(puzzle.id);
                     }}
                     pointerover={() => handleMarkerHover(puzzle.name)}
                     pointerout={handleMarkerLeave}
-                  >
-                    <Sprite image={spriteUrl} anchor={0.5} scale={0.1} />
-                  </Container>
+                  />
                 );
               })}
             </Container>
@@ -358,7 +358,7 @@ export default function Map({
         </Stage>
       )}
       {/* Zoom controls */}
-      <div className="absolute bottom-4 right-4 z-50 flex flex-col gap-2">
+      <div className="absolute bottom-2 right-2 z-50 flex flex-col gap-2">
         <button
           onClick={handleZoomIn}
           className="rounded-md bg-black p-2 shadow-md hover:opacity-80"
