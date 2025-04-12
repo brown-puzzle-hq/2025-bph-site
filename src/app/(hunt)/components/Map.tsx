@@ -75,8 +75,8 @@ const positions: Record<string, [number, number]> = {
   "youve-got-this-covered": [600, 220],
 };
 
-const DraggableMap = React.forwardRef<any, { children: React.ReactNode }>(
-  ({ children }, ref) => {
+const DraggableMap = React.forwardRef<any, { children: React.ReactNode; initialX?: number; initialY?: number }>(
+  ({ children, initialX = 0, initialY = 0 }, ref) => {
     const app = useApp();
     const containerRef = useRef<any>(null);
     const isDragging = useRef(false);
@@ -99,8 +99,9 @@ const DraggableMap = React.forwardRef<any, { children: React.ReactNode }>(
 
       const container = containerRef.current;
 
-      container.x = 0;
-      container.y = 0;
+      // Initialize position with provided coordinates
+      container.x = initialX;
+      container.y = initialY;
       container.scale.set(2);
       scale.current = 2;
 
@@ -186,7 +187,7 @@ const DraggableMap = React.forwardRef<any, { children: React.ReactNode }>(
         canvasElement.removeEventListener("pointerup", onDragEnd);
         canvasElement.removeEventListener("pointerout", onDragEnd);
       };
-    }, [app]);
+    }, [app, initialX, initialY]);
 
     return <Container ref={containerRef}>{children}</Container>;
   },
@@ -215,6 +216,36 @@ export default function Map({
   // Map width and height (needed for proportions of map assets)
   const WIDTH = 1000;
   const HEIGHT = 1000;
+
+  // Calculate initial map position based on available puzzles
+  const calculateCentroid = () => {
+    if (availablePuzzles.length === 0) return { x: 0, y: 0 };
+    
+    let sumX = 0;
+    let sumY = 0;
+    let count = 0;
+    
+    availablePuzzles.forEach(puzzle => {
+      const position = positions[puzzle.id];
+      if (position) {
+        sumX += position[0];
+        sumY += position[1];
+        count++;
+      }
+    });
+    
+    if (count === 0) return { x: 0, y: 0 };
+    
+    // Calculate the center of available puzzles
+    const centerX = sumX / count;
+    const centerY = sumY / count;
+    
+    // Return offset needed to center this point on the screen
+    return {
+      x: stageSize.width / 2 - centerX * 2, // Scale of 2 is applied to container
+      y: stageSize.height / 2 - centerY * 2
+    };
+  };
 
   // Get available round names - moved outside of render to avoid recalculations every render
   const availableRoundNames = availableRounds.map(({ name }) => name);
@@ -380,7 +411,11 @@ export default function Map({
             resolution: window.devicePixelRatio || 1,
           }}
         >
-          <DraggableMap ref={pixiContainerRef}>
+          <DraggableMap 
+            ref={pixiContainerRef}
+            initialX={calculateCentroid().x}
+            initialY={calculateCentroid().y}
+          >
             <Container>
               <Sprite
                 image="/map/Layout.png"
