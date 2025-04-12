@@ -3,6 +3,7 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import { Stage, Container, Sprite, useApp } from "@pixi/react";
 import { Round, ROUNDS } from "@/hunt.config";
+import { ZoomIn, ZoomOut } from "lucide-react";
 
 type puzzleList = {
   unlockTime: Date | null;
@@ -90,19 +91,14 @@ const DraggableMap = ({ children }: { children: React.ReactNode }) => {
 
     const container = containerRef.current;
 
-    // Set initial position and scale - start with a slight zoom in
     container.x = 0;
     container.y = 0;
-    container.scale.set(1.2);
-    scale.current = 1.2;
+    container.scale.set(2);
+    scale.current = 2;
 
-    // Setup event listeners for drag
     const onDragStart = (event: PointerEvent) => {
-      const canvas = event.currentTarget as HTMLCanvasElement;
-      const bounds = canvas.getBoundingClientRect();
-
-      const mouseX = event.clientX - bounds.left;
-      const mouseY = event.clientY - bounds.top;
+      const mouseX = event.clientX;
+      const mouseY = event.clientY;
 
       if (containerRef.current) {
         isDragging.current = true;
@@ -113,12 +109,10 @@ const DraggableMap = ({ children }: { children: React.ReactNode }) => {
 
     const onDragMove = (event: PointerEvent) => {
       if (isDragging.current) {
-        const canvas = event.currentTarget as HTMLCanvasElement;
         const container = containerRef.current;
-        const bounds = canvas.getBoundingClientRect();
 
-        const mouseX = event.clientX - bounds.left;
-        const mouseY = event.clientY - bounds.top;
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
 
         const dx = mouseX - lastPosition.current.x;
         const dy = mouseY - lastPosition.current.y;
@@ -170,30 +164,20 @@ const DraggableMap = ({ children }: { children: React.ReactNode }) => {
     // Configure container for interactions
     container.eventMode = "static";
     container.cursor = "grab";
-    container.interactive = true;
 
     // Add event listeners
-    // container.on("pointerdown", onDragStart);
-    // app.stage.on("pointermove", onDragMove);
-    // app.stage.on("pointerup", onDragEnd);
-    // app.stage.on("pointerupoutside", onDragEnd);
-
-    // Add wheel listener to the canvas
     const canvasElement = app.view as HTMLCanvasElement;
     canvasElement.addEventListener("wheel", onWheel);
-
     canvasElement.addEventListener("pointerdown", onDragStart);
     canvasElement.addEventListener("pointermove", onDragMove);
     canvasElement.addEventListener("pointerup", onDragEnd);
-    canvasElement.addEventListener("pointerupoutside", onDragEnd);
 
     return () => {
       // Clean up event listeners
-      // container.off("pointerdown", onDragStart);
-      // app.stage.off("pointermove", onDragMove);
-      // app.stage.off("pointerup", onDragEnd);
-      // app.stage.off("pointerupoutside", onDragEnd);
       canvasElement.removeEventListener("wheel", onWheel);
+      canvasElement.removeEventListener("pointerdown", onDragStart);
+      canvasElement.removeEventListener("pointermove", onDragMove);
+      canvasElement.removeEventListener("pointerup", onDragEnd);
     };
   }, [app]);
 
@@ -211,8 +195,10 @@ export default function Map({
 }) {
   const [hoveredPuzzle, setHoveredPuzzle] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Map width and height
+  // Map width and height (needed for proportions of map assets)
   const WIDTH = 1000;
   const HEIGHT = 1000;
 
@@ -229,6 +215,33 @@ export default function Map({
     },
     {} as Record<string, string>,
   );
+
+  // Update stage size when container size changes
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const updateSize = () => {
+      if (containerRef.current) {
+        setStageSize({
+          width: containerRef.current.clientWidth,
+          height: containerRef.current.clientHeight,
+        });
+      }
+    };
+
+    // Initial size
+    updateSize();
+
+    // Update on resize
+    const resizeObserver = new ResizeObserver(updateSize);
+    resizeObserver.observe(containerRef.current);
+
+    return () => {
+      if (containerRef.current) {
+        resizeObserver.unobserve(containerRef.current);
+      }
+    };
+  }, []);
 
   // Track mouse position
   useEffect(() => {
@@ -256,7 +269,6 @@ export default function Map({
     setHoveredPuzzle(null);
   }, []);
 
-  // Memoize the zoom button handlers
   const handleZoomIn = useCallback(() => {
     const canvasElement = document.querySelector("canvas");
     if (canvasElement) {
@@ -274,130 +286,92 @@ export default function Map({
   }, []);
 
   return (
-    <div className="relative h-[calc(100vh-56px-32px)] w-screen overflow-hidden focus:outline-none">
-      <Stage
-        width={WIDTH}
-        height={HEIGHT}
-        options={{
-          backgroundColor: 0xffffff,
-          resolution: window.devicePixelRatio || 1,
-          antialias: true,
-          eventMode: "static",
-        }}
-        className="overflow-hidden"
-      >
-        <DraggableMap>
-          {/* Background layout images with lower z-index */}
-          <Container zIndex={0}>
-            <Sprite
-              image="/map/Layout.png"
-              width={WIDTH}
-              height={HEIGHT}
-              x={0}
-              y={0}
-            />
-
-            {Object.entries(layouts).map(([name, path]) => (
+    <div ref={containerRef} className="relative h-[calc(100vh-56px-32px)] w-screen overflow-hidden focus:outline-none">
+      {stageSize.width > 0 && stageSize.height > 0 && (
+        <Stage
+          width={stageSize.width}
+          height={stageSize.height}
+          options={{
+            backgroundColor: 0xffffff,
+            resolution: window.devicePixelRatio || 1,
+            antialias: true,
+            eventMode: "static",
+          }}
+          className="overflow-hidden"
+        >
+          <DraggableMap>
+            <Container>
               <Sprite
-                key={name}
-                image={`/${path}`} // TODO: move into map folder
+                image="/map/Layout.png"
                 width={WIDTH}
                 height={HEIGHT}
                 x={0}
                 y={0}
               />
-            ))}
-          </Container>
 
-          {/* Puzzle markers with higher z-index */}
-          <Container zIndex={1}>
-            {availablePuzzles.map((puzzle) => {
-              const position = positions[puzzle.id] ?? [180, 500];
-              const isSolved = solvedPuzzles.some(
-                (sp) => sp.puzzleId === puzzle.id,
-              );
-              const spriteUrl = spriteExists(
-                `map/sprites-outlined/${puzzle.id}.png`,
-              )
-                ? `/map/sprites-outlined/${puzzle.id}.png`
-                : isSolved
-                  ? `/map/sprites-outlined/bookmark-check.svg`
-                  : `/map/sprites/done/puzzle.svg`;
+              {Object.entries(layouts).map(([name, path]) => (
+                <Sprite
+                  key={name}
+                  image={`/${path}`} // TODO: move into map folder
+                  width={WIDTH}
+                  height={HEIGHT}
+                  x={0}
+                  y={0}
+                />
+              ))}
+            </Container>
 
-              return (
-                <Container
-                  key={puzzle.id}
-                  x={position[0]}
-                  y={position[1]}
-                  eventMode="static"
-                  cursor="pointer"
-                  pointerdown={(e) => {
-                    e.stopPropagation();
-                    handleMarkerClick(puzzle.id);
-                  }}
-                  pointerover={() => handleMarkerHover(puzzle.name)}
-                  pointerout={handleMarkerLeave}
-                >
-                  <Sprite
-                    image={spriteUrl}
-                    anchor={0.5}
-                    scale={isSolved ? 0.15 : 0.12}
-                    alpha={isSolved ? 0.8 : 1}
-                  />
-                </Container>
-              );
-            })}
-          </Container>
-        </DraggableMap>
-      </Stage>
+            <Container>
+              {availablePuzzles.map((puzzle) => {
+                const position = positions[puzzle.id] ?? [180, 500];
+                const isSolved = solvedPuzzles.some(
+                  (sp) => sp.puzzleId === puzzle.id,
+                );
+                const spriteUrl = spriteExists(
+                  `map/sprites-outlined/${puzzle.id}.png`,
+                )
+                  ? `/map/sprites-outlined/${puzzle.id}.png`
+                  : isSolved
+                    ? `/map/sprites-outlined/bookmark-check.svg`
+                    : `/map/sprites/done/puzzle.svg`;
 
+                return (
+                  <Container
+                    key={puzzle.id}
+                    x={position[0]}
+                    y={position[1]}
+                    eventMode="static"
+                    cursor="pointer"
+                    pointerdown={(e) => {
+                      e.stopPropagation();
+                      handleMarkerClick(puzzle.id);
+                    }}
+                    pointerover={() => handleMarkerHover(puzzle.name)}
+                    pointerout={handleMarkerLeave}
+                  >
+                    <Sprite image={spriteUrl} anchor={0.5} scale={0.1} />
+                  </Container>
+                );
+              })}
+            </Container>
+          </DraggableMap>
+        </Stage>
+      )}
       {/* Zoom controls */}
       <div className="absolute bottom-4 right-4 z-50 flex flex-col gap-2">
         <button
           onClick={handleZoomIn}
-          className="rounded-full bg-white p-2 shadow-md transition-colors hover:bg-gray-100"
-          aria-label="Zoom In"
+          className="rounded-md bg-black p-2 shadow-md hover:opacity-80"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            <line x1="11" y1="8" x2="11" y2="14"></line>
-            <line x1="8" y1="11" x2="14" y2="11"></line>
-          </svg>
+          <ZoomIn />
         </button>
         <button
           onClick={handleZoomOut}
-          className="rounded-full bg-white p-2 shadow-md transition-colors hover:bg-gray-100"
-          aria-label="Zoom Out"
+          className="rounded-md bg-black p-2 shadow-md hover:opacity-80"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            <line x1="8" y1="11" x2="14" y2="11"></line>
-          </svg>
+          <ZoomOut />
         </button>
       </div>
-
       {/* Tooltip for hovered puzzle */}
       {hoveredPuzzle && (
         <div
@@ -410,11 +384,6 @@ export default function Map({
           {hoveredPuzzle}
         </div>
       )}
-
-      {/* Help text */}
-      <div className="absolute bottom-4 left-4 z-50 rounded-md bg-white bg-opacity-75 p-2 text-sm">
-        <p>Drag to pan. Scroll to zoom.</p>
-      </div>
     </div>
   );
 }
