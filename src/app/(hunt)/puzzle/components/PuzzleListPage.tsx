@@ -32,7 +32,7 @@ export type AvailableEvent = {
   name: string;
   answer: string;
   description: string;
-  startTime: Date;
+  startTime: string;
 };
 
 export type FinishedEvent = {
