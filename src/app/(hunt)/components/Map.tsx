@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Stage, Container, Sprite, useApp } from "@pixi/react";
 import { Round, ROUNDS } from "@/hunt.config";
 import { ZoomIn, ZoomOut } from "lucide-react";
+import React from "react";
 import "@pixi/events";
 
 type puzzleList = {
@@ -12,12 +13,6 @@ type puzzleList = {
   name: string;
   answer: string;
 }[];
-
-// Function to check if a sprite image exists
-function spriteExists(image_url: string | URL) {
-  // TODO: can remove later
-  return true;
-}
 
 // Record of puzzle positions on the map
 const positions: Record<string, [number, number]> = {
@@ -80,109 +75,122 @@ const positions: Record<string, [number, number]> = {
   "youve-got-this-covered": [600, 220],
 };
 
-const DraggableMap = ({ children }: { children: React.ReactNode }) => {
-  const app = useApp();
-  const containerRef = useRef<any>(null);
-  const isDragging = useRef(false);
-  const lastPosition = useRef({ x: 0, y: 0 });
-  const scale = useRef(1);
+const DraggableMap = React.forwardRef<any, { children: React.ReactNode }>(
+  ({ children }, ref) => {
+    const app = useApp();
+    const containerRef = useRef<any>(null);
+    const isDragging = useRef(false);
+    const lastPosition = useRef({ x: 0, y: 0 });
+    const scale = useRef(2);
 
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const container = containerRef.current;
-
-    container.x = 0;
-    container.y = 0;
-    container.scale.set(2);
-    scale.current = 2;
-
-    const onDragStart = (event: PointerEvent) => {
-      const mouseX = event.clientX;
-      const mouseY = event.clientY;
-
-      if (container) {
-        isDragging.current = true;
-        lastPosition.current = { x: mouseX, y: mouseY };
+    // Forward the containerRef to the parent component through the ref
+    useEffect(() => {
+      if (ref && containerRef.current) {
+        if (typeof ref === "function") {
+          ref(containerRef.current);
+        } else {
+          ref.current = containerRef.current;
+        }
       }
-    };
+    }, [ref, containerRef.current]);
 
-    const onDragMove = (event: PointerEvent) => {
-      if (isDragging.current) {
-        const container = containerRef.current;
+    useEffect(() => {
+      if (!containerRef.current) return;
 
+      const container = containerRef.current;
+
+      container.x = 0;
+      container.y = 0;
+      container.scale.set(2);
+      scale.current = 2;
+
+      const onDragStart = (event: PointerEvent) => {
         const mouseX = event.clientX;
         const mouseY = event.clientY;
 
-        const dx = mouseX - lastPosition.current.x;
-        const dy = mouseY - lastPosition.current.y;
-
-        container.x += dx;
-        container.y += dy;
-
-        lastPosition.current = { x: mouseX, y: mouseY };
-      }
-    };
-
-    const onDragEnd = () => {
-      isDragging.current = false;
-    };
-
-    // Setup wheel zoom
-    const onWheel = (event: WheelEvent) => {
-      event.preventDefault();
-
-      // Calculate zoom direction
-      const zoomDirection = event.deltaY < 0 ? 1 : -1;
-      const zoomFactor = 0.1;
-      const newScale = Math.max(
-        0.5,
-        Math.min(3, scale.current + zoomDirection * zoomFactor),
-      );
-
-      // Get mouse position relative to the stage
-      const rect = (app.view as HTMLCanvasElement).getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-
-      // Calculate mouse position relative to container before scaling
-      const pointBeforeScale = {
-        x: (x - container.x) / scale.current,
-        y: (y - container.y) / scale.current,
+        if (container) {
+          isDragging.current = true;
+          lastPosition.current = { x: mouseX, y: mouseY };
+        }
       };
 
-      // Update scale
-      container.scale.set(newScale);
-      scale.current = newScale;
+      const onDragMove = (event: PointerEvent) => {
+        if (isDragging.current) {
+          const container = containerRef.current;
 
-      // Calculate the new position to keep mouse in same place
-      container.x = x - pointBeforeScale.x * newScale;
-      container.y = y - pointBeforeScale.y * newScale;
-    };
+          const mouseX = event.clientX;
+          const mouseY = event.clientY;
 
-    // Configure container for interactions
-    container.eventMode = "static";
+          const dx = mouseX - lastPosition.current.x;
+          const dy = mouseY - lastPosition.current.y;
 
-    // Add event listeners
-    const canvasElement = app.view as HTMLCanvasElement;
-    canvasElement.addEventListener("wheel", onWheel);
-    canvasElement.addEventListener("pointerdown", onDragStart);
-    canvasElement.addEventListener("pointermove", onDragMove);
-    canvasElement.addEventListener("pointerup", onDragEnd);
-    canvasElement.addEventListener("pointerout", onDragEnd);
+          container.x += dx;
+          container.y += dy;
 
-    return () => {
-      // Clean up event listeners
-      canvasElement.removeEventListener("wheel", onWheel);
-      canvasElement.removeEventListener("pointerdown", onDragStart);
-      canvasElement.removeEventListener("pointermove", onDragMove);
-      canvasElement.removeEventListener("pointerup", onDragEnd);
-      canvasElement.removeEventListener("pointerout", onDragEnd);
-    };
-  }, [app]);
+          lastPosition.current = { x: mouseX, y: mouseY };
+        }
+      };
 
-  return <Container ref={containerRef}>{children}</Container>;
-};
+      const onDragEnd = () => {
+        isDragging.current = false;
+      };
+
+      // Setup wheel zoom
+      const onWheel = (event: WheelEvent) => {
+        event.preventDefault();
+
+        // Calculate zoom direction
+        const zoomDirection = event.deltaY < 0 ? 1 : -1;
+        const zoomFactor = 0.05;
+        const newScale = Math.max(
+          1.5,
+          Math.min(5, scale.current + zoomDirection * zoomFactor),
+        );
+
+        // Get mouse position relative to the stage
+        const rect = (app.view as HTMLCanvasElement).getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        // Calculate mouse position relative to container before scaling
+        const pointBeforeScale = {
+          x: (x - container.x) / scale.current,
+          y: (y - container.y) / scale.current,
+        };
+
+        // Update scale
+        container.scale.set(newScale);
+        scale.current = newScale;
+
+        // Calculate the new position to keep mouse in same place
+        container.x = x - pointBeforeScale.x * newScale;
+        container.y = y - pointBeforeScale.y * newScale;
+      };
+
+      // Configure container for interactions
+      container.eventMode = "static";
+
+      // Add event listeners
+      const canvasElement = app.view as HTMLCanvasElement;
+      canvasElement.addEventListener("wheel", onWheel);
+      canvasElement.addEventListener("pointerdown", onDragStart);
+      canvasElement.addEventListener("pointermove", onDragMove);
+      canvasElement.addEventListener("pointerup", onDragEnd);
+      canvasElement.addEventListener("pointerout", onDragEnd);
+
+      return () => {
+        // Clean up event listeners
+        canvasElement.removeEventListener("wheel", onWheel);
+        canvasElement.removeEventListener("pointerdown", onDragStart);
+        canvasElement.removeEventListener("pointermove", onDragMove);
+        canvasElement.removeEventListener("pointerup", onDragEnd);
+        canvasElement.removeEventListener("pointerout", onDragEnd);
+      };
+    }, [app]);
+
+    return <Container ref={containerRef}>{children}</Container>;
+  },
+);
 
 export default function Map({
   availablePuzzles,
@@ -198,6 +206,11 @@ export default function Map({
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const [cleanClick, setCleanClick] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<typeof availablePuzzles>(
+    [],
+  );
+  const pixiContainerRef = useRef<any>(null);
 
   // Map width and height (needed for proportions of map assets)
   const WIDTH = 1000;
@@ -258,6 +271,42 @@ export default function Map({
     };
   }, []);
 
+  // Handle search functionality
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      setSearchResults([]);
+      return;
+    }
+
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    const filteredPuzzles = availablePuzzles.filter(
+      (puzzle) =>
+        puzzle.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+        puzzle.id.toLowerCase().includes(lowerCaseSearchTerm),
+    );
+
+    setSearchResults(filteredPuzzles);
+  }, [searchTerm, availablePuzzles]);
+
+  // Function to focus on a puzzle
+  const focusOnPuzzle = (puzzleId: string) => {
+    if (!pixiContainerRef.current) return;
+
+    const position = positions[puzzleId];
+    if (!position) return;
+
+    const [x, y] = position;
+    const container = pixiContainerRef.current;
+
+    // Center the puzzle on screen
+    const scale = container.scale.x;
+    container.x = stageSize.width / 2 - x * scale;
+    container.y = stageSize.height / 2 - y * scale;
+
+    // Clear search after focusing
+    setSearchTerm("");
+  };
+
   const handleZoomIn = () => {
     const canvasElement = document.querySelector("canvas");
     if (canvasElement) {
@@ -277,8 +326,51 @@ export default function Map({
   return (
     <div
       ref={containerRef}
-      className="h-[calc(100vh-56px-32px)] w-screen overflow-hidden"
+      className="relative h-[calc(100vh-56px-32px)] w-screen overflow-hidden"
     >
+      {/* Search bar */}
+      <div className="absolute left-2 top-2 z-50 w-64">
+        <div className="relative">
+          <div className="flex h-10 items-center rounded-md bg-main-bg shadow-md">
+            <input
+              type="text"
+              placeholder="Search puzzles..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="ml-1 w-full rounded-md border-0 bg-transparent p-2 text-sm text-white placeholder:text-white/50 focus:outline-none"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="mr-2.5 text-white/70 hover:text-white"
+              >
+                ×
+              </button>
+            )}
+          </div>
+
+          {/* Search results dropdown */}
+          {searchResults.length > 0 && (
+            <div className="absolute mt-1 max-h-60 w-full space-y-2 overflow-auto rounded-md bg-main-bg/90 p-2 shadow-lg">
+              {searchResults.map((puzzle) => (
+                <button
+                  key={puzzle.id}
+                  onClick={() => focusOnPuzzle(puzzle.id)}
+                  className="ml-1 flex w-full items-center text-left text-sm text-white hover:text-opacity-80"
+                >
+                  <span className="truncate">{puzzle.name}</span>
+                  {solvedPuzzles.some((sp) => sp.puzzleId === puzzle.id) && (
+                    <span className="ml-auto mr-1 text-xs text-green-400">
+                      ✓
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
       {stageSize.width > 0 && stageSize.height > 0 && (
         <Stage
           width={stageSize.width}
@@ -288,7 +380,7 @@ export default function Map({
             resolution: window.devicePixelRatio || 1,
           }}
         >
-          <DraggableMap>
+          <DraggableMap ref={pixiContainerRef}>
             <Container>
               <Sprite
                 image="/map/Layout.png"
@@ -316,14 +408,9 @@ export default function Map({
                 const isSolved = solvedPuzzles.some(
                   (sp) => sp.puzzleId === puzzle.id,
                 );
-                const spriteUrl = spriteExists(
-                  `map/sprites-outlined/${puzzle.id}.png`,
-                )
-                  ? `/map/sprites-outlined/${puzzle.id}.png`
-                  : isSolved
-                    ? `/map/sprites-outlined/bookmark-check.svg`
-                    : `/map/sprites/done/puzzle.svg`;
+                const spriteUrl = `map/sprites-outlined/${puzzle.id}.png`;
 
+                // TODO: style solved sprites differently? Alpha?
                 return (
                   <Sprite
                     key={puzzle.id}
@@ -353,7 +440,7 @@ export default function Map({
         </Stage>
       )}
       {/* Zoom controls */}
-      <div className="absolute bottom-10 right-2 z-50 flex flex-col gap-2">
+      <div className="absolute bottom-2 right-2 z-50 flex flex-col gap-2">
         <button
           onClick={handleZoomIn}
           className="rounded-md bg-main-bg p-2 shadow-md hover:bg-[#554370]"
@@ -370,10 +457,10 @@ export default function Map({
       {/* Tooltip for hovered puzzle */}
       {hoveredPuzzle && (
         <div
-          className="pointer-events-none absolute z-50 rounded bg-black px-2 py-1 text-white"
+          className="pointer-events-none absolute z-50 rounded bg-black/80 px-2 py-1 text-sm text-white"
           style={{
-            left: `${Math.min(window.innerWidth - 100, mousePosition.x + 10)}px`,
-            top: `${Math.min(window.innerHeight - 50, mousePosition.y + 10)}px`,
+            left: `${Math.min(window.innerWidth - 100, mousePosition.x + 2)}px`,
+            top: `${Math.min(window.innerHeight - 50, mousePosition.y - 28 - 56)}px`,
           }}
         >
           {hoveredPuzzle}
