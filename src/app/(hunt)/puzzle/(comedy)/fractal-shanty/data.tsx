@@ -21,7 +21,7 @@ export const inPersonBody = (
     Molly stole one in the ruckus and she called it Karl Marx
     </div><div className="border-4 border-white p-4">
     It shattered into pieces, and the world went down in flame<br></br>
-    A pirate, a port, a philosopher - alright, they start the same.
+    An outlaw, a port, a philosopher - alright, they start the same.
     </div><div className="border-4 border-white p-4">
     Jimmy paced along the deck, looking right into the gale<br></br>
     "In my twenty years of living, I have never stabbed a whale!"
