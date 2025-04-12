@@ -30,7 +30,7 @@ const positions: Record<string, L.LatLngExpression> = {
   "find-ben": [380, 300],
   "fractal-shanty": [235, 505],
   "fridge-magnets": [517, 420],
-  "galileo-was-wrong": [335, 540],
+  "connect-the-dots": [335, 540],
   "genetic-counseling": [620, 652],
   "hand-letters": [460, 730],
   heist: [390, 360],

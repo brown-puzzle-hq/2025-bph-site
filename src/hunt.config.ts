@@ -105,7 +105,7 @@ export const SEQUENCES: Sequence[] = [
     icon: "⭐",
     puzzles: [
       "walk-of-fame",
-      "galileo-was-wrong",
+      "connect-the-dots",
       "whats-my-ride",
       "constellation",
     ],
@@ -210,10 +210,10 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
     "plagiarism",
     "watching-between-the-lines",
   ],
-  peanuts: ["galileo-was-wrong", "one-guard-screen"], // two-guards-river
-  plagiarism: ["galileo-was-wrong", "fractal-shanty"], // two-guards-river
+  peanuts: ["connect-the-dots", "one-guard-screen"], // two-guards-river
+  plagiarism: ["connect-the-dots", "fractal-shanty"], // two-guards-river
   "watching-between-the-lines": ["fractal-shanty"], // two-guards-river
-  "galileo-was-wrong": [
+  "connect-the-dots": [
     "peanuts",
     "plagiarism",
     "fractal-shanty",
@@ -223,10 +223,10 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
   "fractal-shanty": [
     "watching-between-the-lines",
     "plagiarism",
-    "galileo-was-wrong",
+    "connect-the-dots",
     "balloon-animals",
   ],
-  "balloon-animals": ["galileo-was-wrong", "fractal-shanty"],
+  "balloon-animals": ["connect-the-dots", "fractal-shanty"],
 
   // DRAMA -> Adventure
   "m-guards-n-doors-and-k-choices": [
@@ -261,7 +261,7 @@ export const PUZZLE_UNLOCK_MAP: Record<string, string[]> = {
 
   // REALITY -> COMEDY
   "one-guard-screen": [
-    "galileo-was-wrong",
+    "connect-the-dots",
     "fractal-shanty",
     "opening-sequences",
     "chain-letters",
@@ -379,7 +379,7 @@ export const ROUNDS: Round[] = [
     puzzles: [
       "balloon-animals",
       "two-guards-river",
-      "galileo-was-wrong",
+      "connect-the-dots",
       "fractal-shanty",
       "watching-between-the-lines",
       "peanuts",
