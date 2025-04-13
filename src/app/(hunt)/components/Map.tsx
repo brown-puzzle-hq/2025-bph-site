@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { Stage, Container, Sprite, useApp } from "@pixi/react";
-import { Round } from "@/hunt.config";
+import { Round, ROUNDS } from "@/hunt.config";
 import React from "react";
 import "@pixi/events";
 
@@ -15,8 +15,6 @@ type puzzleList = {
 // Map width and height (needed for proportions of map assets)
 const WIDTH = 1000;
 const HEIGHT = 1000;
-
-const rounds = ["Action", "Adventure", "Comedy", "Drama", "Horror", "Reality"];
 
 const scaleFactor: Record<string, number> = {
   "heist-ii": 3,
@@ -354,10 +352,13 @@ export default function Map({
 
   // Get available round names
   const availableRoundNames = availableRounds.map(({ name }) => name);
-  const layoutFile = "/map/" + 
-    rounds
+  const allRoundNames = ROUNDS.map(({ name }) => name);
+  const layoutFile =
+    "/map/" +
+    allRoundNames
       .map((name) => (availableRoundNames.includes(name) ? 1 : 0))
-      .join("") + ".png";
+      .join("") +
+    ".png";
 
   // Update stage size when container size changes
   useEffect(() => {
