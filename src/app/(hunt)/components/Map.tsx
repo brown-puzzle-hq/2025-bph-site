@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Stage, Container, Sprite, useApp } from "@pixi/react";
 import { Round } from "@/hunt.config";
-import { ZoomIn, ZoomOut } from "lucide-react";
 import React from "react";
 import "@pixi/events";
 
@@ -18,8 +17,17 @@ const WIDTH = 1000;
 const HEIGHT = 1000;
 
 const scaleFactor: Record<string, number> = {
-  "hesit-ii": 0.2,
-  "hesit-iii": 0.001,
+  "heist-ii": 3,
+  "heist-iii": 0.5,
+  "the-final-heist": 0.5,
+  narcissism: 1.4,
+  "m-guards-n-doors-and-k-choices": 1.5,
+  "one-guard-screen": 1.5,
+  "ten-guards-ten-doors": 1.5,
+  "the-guard-and-the-door": 1.5,
+  "two-guards-river": 1.5,
+  "two-guards-two-doors": 1.5,
+  "a-fistful-of-cards-ii": 1.2,
 };
 
 // Record of puzzle positions on the map
@@ -111,15 +119,6 @@ const DraggableMap = React.forwardRef<
         ref(containerRef.current);
       } else {
         ref.current = containerRef.current;
-      }
-
-      // Expose animation methods and state to the parent through the ref
-      if (containerRef.current) {
-        containerRef.current.targetScale = targetScale;
-        containerRef.current.targetX = targetX;
-        containerRef.current.targetY = targetY;
-        containerRef.current.scale = scale;
-        containerRef.current.startZoomAnimation = startZoomAnimation;
       }
     }
   }, [ref, containerRef.current]);
@@ -433,7 +432,6 @@ export default function Map({
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -474,64 +472,6 @@ export default function Map({
 
     // Clear search after focusing
     setSearchTerm("");
-  };
-
-  const handleZoomIn = () => {
-    if (!pixiContainerRef.current) return;
-
-    const container = pixiContainerRef.current;
-    const currentScale = container.scale.x;
-
-    // Calculate the new target scale (same increment as wheel event)
-    const newScale = Math.max(0.8, Math.min(5, currentScale * 1.5));
-
-    // Calculate the center of the viewport
-    const centerX = stageSize.width / 2;
-    const centerY = stageSize.height / 2;
-
-    // Calculate the world point at the center of the viewport
-    const pointBeforeScale = {
-      x: (centerX - container.x) / currentScale,
-      y: (centerY - container.y) / currentScale,
-    };
-
-    // Update container's animation targets
-    container.targetScale.current = newScale;
-    container.scale.current = newScale;
-    container.targetX.current = centerX - pointBeforeScale.x * newScale;
-    container.targetY.current = centerY - pointBeforeScale.y * newScale;
-
-    // Start the animation
-    container.startZoomAnimation();
-  };
-
-  const handleZoomOut = () => {
-    if (!pixiContainerRef.current) return;
-
-    const container = pixiContainerRef.current;
-    const currentScale = container.scale.x;
-
-    // Calculate the new target scale (same decrement as wheel event)
-    const newScale = Math.max(0.8, Math.min(5, currentScale / 1.5));
-
-    // Calculate the center of the viewport
-    const centerX = stageSize.width / 2;
-    const centerY = stageSize.height / 2;
-
-    // Calculate the world point at the center of the viewport
-    const pointBeforeScale = {
-      x: (centerX - container.x) / currentScale,
-      y: (centerY - container.y) / currentScale,
-    };
-
-    // Update container's animation targets
-    container.targetScale.current = newScale;
-    container.scale.current = newScale;
-    container.targetX.current = centerX - pointBeforeScale.x * newScale;
-    container.targetY.current = centerY - pointBeforeScale.y * newScale;
-
-    // Start the animation
-    container.startZoomAnimation();
   };
 
   return (
@@ -582,7 +522,7 @@ export default function Map({
         </div>
       </div>
 
-      {(stageSize.width > 0 && stageSize.height > 0) ? (
+      {stageSize.width > 0 && stageSize.height > 0 && (
         <Stage
           width={stageSize.width}
           height={stageSize.height}
@@ -631,7 +571,7 @@ export default function Map({
                     interactive
                     cursor="pointer"
                     anchor={0.5}
-                    scale={scaleFactor[puzzle.id] || 0.075}
+                    scale={0.075 * (scaleFactor[puzzle.id] || 1)}
                     pointerdown={() => {
                       setCleanClick(true);
                     }}
@@ -649,27 +589,7 @@ export default function Map({
             </Container>
           </DraggableMap>
         </Stage>
-      ) : (
-        // Fallback: Show a loading indicator while waiting for size measurement
-        <div className="flex h-full w-full items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-main-bg border-t-white"></div>
-        </div>
       )}
-      {/* Zoom controls */}
-      <div className="absolute bottom-2 right-2 z-10 flex flex-col gap-2">
-        <button
-          onClick={handleZoomIn}
-          className="rounded-md bg-main-bg p-2 shadow-md hover:bg-[#554370]"
-        >
-          <ZoomIn />
-        </button>
-        <button
-          onClick={handleZoomOut}
-          className="rounded-md bg-main-bg p-2 shadow-md hover:bg-[#554370]"
-        >
-          <ZoomOut />
-        </button>
-      </div>
       {/* Tooltip for hovered puzzle */}
       {hoveredPuzzle && (
         <div
