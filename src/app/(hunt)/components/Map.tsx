@@ -319,6 +319,7 @@ export default function Map({
     [],
   );
   const pixiContainerRef = useRef<any>(null);
+  const [visibleLayers, setVisibleLayers] = useState(1);
 
   // Calculate initial map position based on available puzzles
   const calculateCentroid = () => {
@@ -372,6 +373,16 @@ export default function Map({
     },
     { name: "Action", isAvailable: availableRoundNames.includes("Action") },
   ];
+
+  useEffect(() => {
+    let layers = 1;
+    const interval = setInterval(() => {
+      layers++;
+      setVisibleLayers(layers);
+      console.log(layers);
+      if (layers >= mapLayers.length + 1) clearInterval(interval);
+    }, 250);
+  }, []);
 
   // Update stage size when container size changes
   useEffect(() => {
@@ -513,7 +524,7 @@ export default function Map({
             initialY={calculateCentroid().y}
           >
             {/* Map Layers */}
-            {mapLayers.map((layer) => (
+            {mapLayers.slice(0, visibleLayers).map((layer) => (
               <Container key={layer.name}>
                 <Sprite
                   image={
@@ -530,39 +541,41 @@ export default function Map({
             ))}
 
             {/* Puzzle sprites layer - always on top */}
-            <Container>
-              {uniquePuzzles.map((puzzle) => {
-                const position = positions[puzzle.id] ?? [180, 500];
-                const isSolved = solvedPuzzles.some(
-                  (sp) => sp.puzzleId === puzzle.id,
-                );
-                const spriteUrl = `map/sprites-outlined/${puzzle.id}.png`;
+            {visibleLayers > mapLayers.length && (
+              <Container>
+                {uniquePuzzles.map((puzzle) => {
+                  const position = positions[puzzle.id] ?? [180, 500];
+                  const isSolved = solvedPuzzles.some(
+                    (sp) => sp.puzzleId === puzzle.id,
+                  );
+                  const spriteUrl = `map/sprites-outlined/${puzzle.id}.png`;
 
-                return (
-                  <Sprite
-                    key={puzzle.id}
-                    image={spriteUrl}
-                    x={position[0]}
-                    y={position[1]}
-                    interactive
-                    cursor="pointer"
-                    anchor={0.5}
-                    scale={0.075 * (scaleFactor[puzzle.id] || 1)}
-                    pointerdown={() => {
-                      setCleanClick(true);
-                    }}
-                    pointerup={() => {
-                      if (cleanClick) {
-                        setCleanClick(false);
-                        window.open(`puzzle/${puzzle.id}`, "_blank");
-                      }
-                    }}
-                    pointerover={() => setHoveredPuzzle(puzzle.name)}
-                    pointerout={() => setHoveredPuzzle(null)}
-                  />
-                );
-              })}
-            </Container>
+                  return (
+                    <Sprite
+                      key={puzzle.id}
+                      image={spriteUrl}
+                      x={position[0]}
+                      y={position[1]}
+                      eventMode="static"
+                      cursor="pointer"
+                      anchor={0.5}
+                      scale={0.075 * (scaleFactor[puzzle.id] || 1)}
+                      pointerdown={() => {
+                        setCleanClick(true);
+                      }}
+                      pointerup={() => {
+                        if (cleanClick) {
+                          setCleanClick(false);
+                          window.open(`puzzle/${puzzle.id}`, "_blank");
+                        }
+                      }}
+                      pointerover={() => setHoveredPuzzle(puzzle.name)}
+                      pointerout={() => setHoveredPuzzle(null)}
+                    />
+                  );
+                })}
+              </Container>
+            )}
           </DraggableMap>
         </Stage>
       )}
