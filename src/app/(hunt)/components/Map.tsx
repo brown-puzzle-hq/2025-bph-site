@@ -105,8 +105,6 @@ const DraggableMap = React.forwardRef<
   const isDragging = useRef(false);
   const lastPosition = useRef({ x: 0, y: 0 });
   const scale = useRef(2);
-
-  // Animation references
   const zoomAnimationId = useRef<number | null>(null);
   const targetScale = useRef(2);
   const targetX = useRef(initialX);
@@ -140,14 +138,12 @@ const DraggableMap = React.forwardRef<
     const xStep = (targetX.current - currentX) * 0.15;
     const yStep = (targetY.current - currentY) * 0.15;
 
-    // Check if we're close enough to target to end animation
     const isComplete =
       Math.abs(scaleStep) < 0.001 &&
       Math.abs(xStep) < 0.5 &&
       Math.abs(yStep) < 0.5;
 
     if (isComplete) {
-      // Set exact final values and end animation
       container.scale.set(targetScale.current);
       container.x = targetX.current;
       container.y = targetY.current;
@@ -155,23 +151,18 @@ const DraggableMap = React.forwardRef<
       return;
     }
 
-    // Apply the animation step
     container.scale.set(currentScale + scaleStep);
     container.x = currentX + xStep;
     container.y = currentY + yStep;
 
-    // Continue animation
     zoomAnimationId.current = requestAnimationFrame(animateZoom);
   };
 
   // Start the animation loop if not already running
   const startZoomAnimation = () => {
-    // Cancel any running animation
     if (zoomAnimationId.current !== null) {
       cancelAnimationFrame(zoomAnimationId.current);
     }
-
-    // Start new animation
     zoomAnimationId.current = requestAnimationFrame(animateZoom);
   };
 
@@ -359,11 +350,8 @@ export default function Map({
     };
   };
 
-  // Get available round names - moved outside of render to avoid recalculations every render
+  // Get available round names
   const availableRoundNames = availableRounds.map(({ name }) => name);
-
-  // Check if Reality round is available
-  const isRealityAvailable = availableRoundNames.includes("Reality");
 
   // Define map layers configuration
   const mapLayers = [
@@ -373,28 +361,16 @@ export default function Map({
     },
     {
       name: "RealityUnder",
-      isAvailable: isRealityAvailable,
+      isAvailable: availableRoundNames.includes("Reality"),
     },
-    {
-      name: "Comedy",
-      isAvailable: availableRoundNames.includes("Comedy"),
-    },
-    {
-      name: "Drama",
-      isAvailable: availableRoundNames.includes("Drama"),
-    },
-    {
-      name: "Horror",
-      isAvailable: availableRoundNames.includes("Horror"),
-    },
+    { name: "Comedy", isAvailable: availableRoundNames.includes("Comedy") },
+    { name: "Drama", isAvailable: availableRoundNames.includes("Drama") },
+    { name: "Horror", isAvailable: availableRoundNames.includes("Horror") },
     {
       name: "RealityOver",
-      isAvailable: isRealityAvailable,
+      isAvailable: availableRoundNames.includes("Reality"),
     },
-    {
-      name: "Action",
-      isAvailable: availableRoundNames.includes("Action"),
-    },
+    { name: "Action", isAvailable: availableRoundNames.includes("Action") },
   ];
 
   // Update stage size when container size changes
