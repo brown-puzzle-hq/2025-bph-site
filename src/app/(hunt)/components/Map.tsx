@@ -98,6 +98,12 @@ const DraggableMap = React.forwardRef<
   const lastPosition = useRef({ x: 0, y: 0 });
   const scale = useRef(2);
 
+  // Animation references
+  const zoomAnimationId = useRef<number | null>(null);
+  const targetScale = useRef(2);
+  const targetX = useRef(initialX);
+  const targetY = useRef(initialY);
+
   // Forward the containerRef to the parent component through the ref
   useEffect(() => {
     if (ref && containerRef.current) {
@@ -106,8 +112,69 @@ const DraggableMap = React.forwardRef<
       } else {
         ref.current = containerRef.current;
       }
+
+      // Expose animation methods and state to the parent through the ref
+      if (containerRef.current) {
+        containerRef.current.targetScale = targetScale;
+        containerRef.current.targetX = targetX;
+        containerRef.current.targetY = targetY;
+        containerRef.current.scale = scale;
+        containerRef.current.startZoomAnimation = startZoomAnimation;
+      }
     }
   }, [ref, containerRef.current]);
+
+  // Animation function for smooth zooming
+  const animateZoom = (timestamp: number) => {
+    if (!containerRef.current) {
+      zoomAnimationId.current = null;
+      return;
+    }
+
+    const container = containerRef.current;
+    const currentScale = container.scale.x;
+    const currentX = container.x;
+    const currentY = container.y;
+
+    // Calculate step based on difference (easing)
+    const scaleStep = (targetScale.current - currentScale) * 0.15;
+    const xStep = (targetX.current - currentX) * 0.15;
+    const yStep = (targetY.current - currentY) * 0.15;
+
+    // Check if we're close enough to target to end animation
+    const isComplete =
+      Math.abs(scaleStep) < 0.001 &&
+      Math.abs(xStep) < 0.5 &&
+      Math.abs(yStep) < 0.5;
+
+    if (isComplete) {
+      // Set exact final values and end animation
+      container.scale.set(targetScale.current);
+      container.x = targetX.current;
+      container.y = targetY.current;
+      zoomAnimationId.current = null;
+      return;
+    }
+
+    // Apply the animation step
+    container.scale.set(currentScale + scaleStep);
+    container.x = currentX + xStep;
+    container.y = currentY + yStep;
+
+    // Continue animation
+    zoomAnimationId.current = requestAnimationFrame(animateZoom);
+  };
+
+  // Start the animation loop if not already running
+  const startZoomAnimation = () => {
+    // Cancel any running animation
+    if (zoomAnimationId.current !== null) {
+      cancelAnimationFrame(zoomAnimationId.current);
+    }
+
+    // Start new animation
+    zoomAnimationId.current = requestAnimationFrame(animateZoom);
+  };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -119,6 +186,9 @@ const DraggableMap = React.forwardRef<
     container.y = initialY;
     container.scale.set(2);
     scale.current = 2;
+    targetScale.current = 2;
+    targetX.current = initialX;
+    targetY.current = initialY;
 
     const onDragStart = (event: PointerEvent) => {
       const mouseX = event.clientX;
@@ -127,6 +197,12 @@ const DraggableMap = React.forwardRef<
       if (container) {
         isDragging.current = true;
         lastPosition.current = { x: mouseX, y: mouseY };
+
+        // Cancel any ongoing zoom animation when starting to drag
+        if (zoomAnimationId.current !== null) {
+          cancelAnimationFrame(zoomAnimationId.current);
+          zoomAnimationId.current = null;
+        }
       }
     };
 
@@ -142,6 +218,10 @@ const DraggableMap = React.forwardRef<
 
         container.x += dx;
         container.y += dy;
+
+        // Update target position while dragging
+        targetX.current = container.x;
+        targetY.current = container.y;
 
         lastPosition.current = { x: mouseX, y: mouseY };
       }
@@ -163,6 +243,10 @@ const DraggableMap = React.forwardRef<
         Math.min(5, scale.current + zoomDirection * zoomFactor),
       );
 
+      // Store the new scale target
+      targetScale.current = newScale;
+      scale.current = newScale;
+
       // Get mouse position relative to the stage
       const rect = (app.view as HTMLCanvasElement).getBoundingClientRect();
       const x = event.clientX - rect.left;
@@ -170,17 +254,16 @@ const DraggableMap = React.forwardRef<
 
       // Calculate mouse position relative to container before scaling
       const pointBeforeScale = {
-        x: (x - container.x) / scale.current,
-        y: (y - container.y) / scale.current,
+        x: (x - container.x) / container.scale.x,
+        y: (y - container.y) / container.scale.y,
       };
 
-      // Update scale
-      container.scale.set(newScale);
-      scale.current = newScale;
-
       // Calculate the new position to keep mouse in same place
-      container.x = x - pointBeforeScale.x * newScale;
-      container.y = y - pointBeforeScale.y * newScale;
+      targetX.current = x - pointBeforeScale.x * newScale;
+      targetY.current = y - pointBeforeScale.y * newScale;
+
+      // Start the animation for smooth transition
+      startZoomAnimation();
     };
 
     // Configure container for interactions
@@ -201,6 +284,11 @@ const DraggableMap = React.forwardRef<
       canvasElement.removeEventListener("pointermove", onDragMove);
       canvasElement.removeEventListener("pointerup", onDragEnd);
       canvasElement.removeEventListener("pointerout", onDragEnd);
+
+      // Cancel any ongoing animation
+      if (zoomAnimationId.current !== null) {
+        cancelAnimationFrame(zoomAnimationId.current);
+      }
     };
   }, [app, initialX, initialY]);
 
@@ -345,6 +433,7 @@ export default function Map({
     };
 
     window.addEventListener("mousemove", handleMouseMove);
+    
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -388,19 +477,61 @@ export default function Map({
   };
 
   const handleZoomIn = () => {
-    const canvasElement = document.querySelector("canvas");
-    if (canvasElement) {
-      const wheelEvent = new WheelEvent("wheel", { deltaY: -100 });
-      canvasElement.dispatchEvent(wheelEvent);
-    }
+    if (!pixiContainerRef.current) return;
+
+    const container = pixiContainerRef.current;
+    const currentScale = container.scale.x;
+
+    // Calculate the new target scale (same increment as wheel event)
+    const newScale = Math.max(0.8, Math.min(5, currentScale * 1.5));
+
+    // Calculate the center of the viewport
+    const centerX = stageSize.width / 2;
+    const centerY = stageSize.height / 2;
+
+    // Calculate the world point at the center of the viewport
+    const pointBeforeScale = {
+      x: (centerX - container.x) / currentScale,
+      y: (centerY - container.y) / currentScale,
+    };
+
+    // Update container's animation targets
+    container.targetScale.current = newScale;
+    container.scale.current = newScale;
+    container.targetX.current = centerX - pointBeforeScale.x * newScale;
+    container.targetY.current = centerY - pointBeforeScale.y * newScale;
+
+    // Start the animation
+    container.startZoomAnimation();
   };
 
   const handleZoomOut = () => {
-    const canvasElement = document.querySelector("canvas");
-    if (canvasElement) {
-      const wheelEvent = new WheelEvent("wheel", { deltaY: 100 });
-      canvasElement.dispatchEvent(wheelEvent);
-    }
+    if (!pixiContainerRef.current) return;
+
+    const container = pixiContainerRef.current;
+    const currentScale = container.scale.x;
+
+    // Calculate the new target scale (same decrement as wheel event)
+    const newScale = Math.max(0.8, Math.min(5, currentScale / 1.5));
+
+    // Calculate the center of the viewport
+    const centerX = stageSize.width / 2;
+    const centerY = stageSize.height / 2;
+
+    // Calculate the world point at the center of the viewport
+    const pointBeforeScale = {
+      x: (centerX - container.x) / currentScale,
+      y: (centerY - container.y) / currentScale,
+    };
+
+    // Update container's animation targets
+    container.targetScale.current = newScale;
+    container.scale.current = newScale;
+    container.targetX.current = centerX - pointBeforeScale.x * newScale;
+    container.targetY.current = centerY - pointBeforeScale.y * newScale;
+
+    // Start the animation
+    container.startZoomAnimation();
   };
 
   return (
@@ -451,7 +582,7 @@ export default function Map({
         </div>
       </div>
 
-      {stageSize.width > 0 && stageSize.height > 0 && (
+      {(stageSize.width > 0 && stageSize.height > 0) ? (
         <Stage
           width={stageSize.width}
           height={stageSize.height}
@@ -518,6 +649,11 @@ export default function Map({
             </Container>
           </DraggableMap>
         </Stage>
+      ) : (
+        // Fallback: Show a loading indicator while waiting for size measurement
+        <div className="flex h-full w-full items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-main-bg border-t-white"></div>
+        </div>
       )}
       {/* Zoom controls */}
       <div className="absolute bottom-2 right-2 z-10 flex flex-col gap-2">
