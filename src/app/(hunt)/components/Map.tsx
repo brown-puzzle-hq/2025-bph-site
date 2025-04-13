@@ -354,7 +354,7 @@ export default function Map({
   const availableRoundNames = availableRounds.map(({ name }) => name);
   const allRoundNames = ROUNDS.map(({ name }) => name);
   const layoutFile =
-    "/map/" +
+    "/map/layout/" +
     allRoundNames
       .map((name) => (availableRoundNames.includes(name) ? 1 : 0))
       .join("") +
@@ -516,7 +516,7 @@ export default function Map({
                 const isSolved = solvedPuzzles.some(
                   (sp) => sp.puzzleId === puzzle.id,
                 );
-                const spriteUrl = `map/sprites-outlined/${puzzle.id}.png`;
+                const spriteUrl = `/map/sprites-outlined/${puzzle.id}.png`;
 
                 return (
                   <Sprite
