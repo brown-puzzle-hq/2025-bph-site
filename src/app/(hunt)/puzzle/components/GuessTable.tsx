@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { guesses } from "~/server/db/schema";
 import { FormattedTime } from "~/lib/time";
+import { Icon, Info } from "lucide-react";
 
 export default function GuessTable({
   puzzleAnswer,
@@ -31,9 +32,12 @@ export default function GuessTable({
                     <p className="font-medium text-correct-guess">CORRECT</p>
                   ) : partialSolutions[guess.guess] ? (
                     <div className="group relative">
-                      <p className="font-medium text-partial-guess hover:cursor-help">
-                        PARTIAL
-                      </p>
+                      <div className="flex items-center space-x-1 hover:cursor-help">
+                        <p className="font-medium text-partial-guess hover:cursor-help">
+                          PARTIAL
+                        </p>
+                        <Info className="size-4 text-partial-guess hover:cursor-help" />
+                      </div>
                       <span className="pointer-events-none absolute -bottom-7 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-tooltip-bg px-2 py-1 text-xs font-medium text-main-text opacity-0 group-hover:opacity-100">
                         <div className="absolute -top-1 left-1/2 h-0 w-0 -translate-x-1/2 border-b-4 border-l-4 border-r-4 border-transparent border-b-tooltip-bg" />
                         {partialSolutions[guess.guess]}
