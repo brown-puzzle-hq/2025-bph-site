@@ -140,7 +140,7 @@ export const remoteBoxBody = (
 export const remoteBody = (
   <div className="max-w-3xl">
     <div className="mb-4">
-      In-person solvers and box purchasers received two documents along with the
+      In-person solvers and box purchasers were given two documents along with the
       puzzle. You may need to print them and cut along black lines; they are the
       following two images:
     </div>
