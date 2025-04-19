@@ -35,11 +35,11 @@ import {
 
 import { getCookie, setCookie } from "typescript-cookie";
 import {
-  ActualInteractionMode,
+  type ActualInteractionMode,
   actualInteractionModeValues,
   roleEnum,
 } from "~/server/db/schema";
-import { EditedTeam, Role, updateTeam } from "../../actions";
+import { type EditedTeam, type Role, updateTeam } from "../../actions";
 import { cn } from "~/lib/utils";
 import { Checkbox } from "~/components/ui/checkbox";
 
@@ -80,10 +80,14 @@ export function TeamTable<TData, TValue>({
   columns,
   data,
 }: TeamTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     { id: "createTime", desc: true },
   ]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [interactionModeFilters, setInteractionModeFilters] = useState<
+    ActualInteractionMode[]
+  >([]);
+
   const [isCompact, setIsCompact] = useState(true);
   useEffect(() => {
     setIsCompact(getCookie("compact") !== "false");
@@ -116,6 +120,17 @@ export function TeamTable<TData, TValue>({
       ],
     },
     pageCount: Math.ceil(data.length / pageSize),
+    filterFns: {
+      interactionModeFilter: (
+        row,
+        id,
+        filterValue: ActualInteractionMode[],
+      ) => {
+        if (filterValue.length === 0) return true;
+        const mode = row.getValue(id) as ActualInteractionMode;
+        return filterValue.includes(mode);
+      },
+    },
   });
 
   const [editedRows, setEditedRows] = useState<Record<string, ClientEditedRow>>(
@@ -125,6 +140,27 @@ export function TeamTable<TData, TValue>({
   useEffect(() => {
     console.log("editedRows", editedRows);
   }, [editedRows]);
+
+  useEffect(() => {
+    if (interactionModeFilters.length === 0) {
+      setColumnFilters(
+        columnFilters.filter((filter) => filter.id !== "actualInteractionMode"),
+      );
+    } else {
+      setColumnFilters((prev) => {
+        const filtered = prev.filter(
+          (filter) => filter.id !== "actualInteractionMode",
+        );
+        return [
+          ...filtered,
+          {
+            id: "actualInteractionMode",
+            value: interactionModeFilters,
+          },
+        ];
+      });
+    }
+  }, [interactionModeFilters]);
 
   function handleEditRow<F extends keyof ClientEditableFields>(
     teamId: string,
@@ -217,19 +253,49 @@ export function TeamTable<TData, TValue>({
 
           {/* Filter by interactionMode */}
           <div className="flex items-center space-x-2 pb-4">
-            <div className="flex space-x-2 text-sm">
+            <div className="flex items-center space-x-2 text-sm">
               <div>in-person</div>
-              <Checkbox />
+              <Checkbox
+                checked={interactionModeFilters.includes("in-person")}
+                onCheckedChange={(checked) => {
+                  setInteractionModeFilters((prev) =>
+                    checked
+                      ? [...prev, "in-person"]
+                      : prev.filter((mode) => mode !== "in-person"),
+                  );
+                }}
+                className="border-neutral-500 data-[state=checked]:bg-white data-[state=checked]:text-neutral-500"
+              />
             </div>
 
-            <div className="flex space-x-2 text-sm">
+            <div className="flex items-center space-x-2 text-sm">
               <div>remote</div>
-              <Checkbox />
+              <Checkbox
+                checked={interactionModeFilters.includes("remote")}
+                onCheckedChange={(checked) => {
+                  setInteractionModeFilters((prev) =>
+                    checked
+                      ? [...prev, "remote"]
+                      : prev.filter((mode) => mode !== "remote"),
+                  );
+                }}
+                className="border-neutral-500 data-[state=checked]:bg-white data-[state=checked]:text-neutral-500"
+              />
             </div>
 
-            <div className="flex space-x-2 text-sm">
+            <div className="flex items-center space-x-2 text-sm">
               <div>remote-box</div>
-              <Checkbox />
+              <Checkbox
+                checked={interactionModeFilters.includes("remote-box")}
+                onCheckedChange={(checked) => {
+                  setInteractionModeFilters((prev) =>
+                    checked
+                      ? [...prev, "remote-box"]
+                      : prev.filter((mode) => mode !== "remote-box"),
+                  );
+                }}
+                className="border-neutral-500 data-[state=checked]:bg-white data-[state=checked]:text-neutral-500"
+              />
             </div>
           </div>
 
