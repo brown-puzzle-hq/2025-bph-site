@@ -244,6 +244,10 @@ const DraggableMap = React.forwardRef<
       const onWheel = (event: WheelEvent) => {
         event.preventDefault();
 
+        if (container.zoomAnimationId) {
+          cancelAnimationFrame(container.zoomAnimationId);
+        }
+
         const zoomFactor = 1.005; // smaller base for finer control
         const scaleMultiplier = Math.pow(zoomFactor, -event.deltaY);
         const newScale = Math.max(
@@ -339,7 +343,6 @@ export default function Map({
   );
   const pixiContainerRef = useRef<any>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const [initialView, setInitialView] = useState({ x: 0, y: 0, scale: 2 });
 
   // Calculate initial map position and zoom based on available puzzles
   const calculateInitialView = () => {
@@ -400,11 +403,7 @@ export default function Map({
     };
   };
 
-  // Store initialView in state when dependencies change
-  useEffect(() => {
-    const view = calculateInitialView();
-    setInitialView(view);
-  }, [stageSize.width, stageSize.height, uniquePuzzles]);
+  const initialView = calculateInitialView();
 
   // Get available round names
   const availableRoundNames = availableRounds.map(({ name }) => name);
