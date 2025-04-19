@@ -52,13 +52,14 @@ export const solutionBody = null;
  * The `copyText` should provide a convenient text representation of the puzzle
  * that can be copied to the clipboard. Set this to `null` to remove the copy button.
  */
-export const copyText = null; /*`ANP	ATP	5. CHA	DER [3]	DST	EBR
+export const boxCopyText = null; 
+export const remoteCopyText = `ANP	ATP	5. CHA	DER [3]	DST	EBR
 ELT [5]	8. FRA	7. GRE	INA	KIN [7]	11. LIN
 LT [6]	9. LUC	LYB	MIN	N [7]	NG [11]
 NKL	NPE	OCK [7]	OPY [5]	OWN [10]	PEN [6]
 4. PEP	PER	10. PIG	RLI	RMS	ROE
 ROW	2. SAL	6. SCH	1. SNO	TPA	TRO
-TTY [10]	UMP	USV	3. WOO	YVA	`;*/
+TTY [10]	UMP	USV	3. WOO	YVA	`;
 
 /**
  * The `partialSolutions` object is used to prompt solutions with significant progress.

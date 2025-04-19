@@ -26,7 +26,7 @@ export const inPersonBody = (
 );
 
 export const remoteBoxBody = (
-  <div>
+  <div className="space-y-4">
     <div className="max-w-3xl text-center">
       <i>
         This is a physical puzzle! You should have received it in your box.
@@ -34,6 +34,7 @@ export const remoteBoxBody = (
         materials.
       </i>
     </div>
+    <hr className="my-6 mb-6 border-t border-white" />
     <div className="border-4 border-white p-4 h-32"></div>
   </div>
 );
