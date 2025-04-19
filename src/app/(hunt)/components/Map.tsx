@@ -103,193 +103,204 @@ const DraggableMap = React.forwardRef<
     onPointerOutCallback: () => void;
     initialX?: number;
     initialY?: number;
+    initialScale?: number;
   }
->(({ children, onPointerOutCallback, initialX = 0, initialY = 0 }, ref) => {
-  const app = useApp();
-  const containerRef = useRef<any>(null);
-  const isDragging = useRef(false);
-  const lastPosition = useRef({ x: 0, y: 0 });
-  const zoomAnimationId = useRef<number | null>(null);
-  // const targetScale = useRef(2);
-  const targetX = useRef(initialX);
-  const targetY = useRef(initialY);
+>(
+  (
+    {
+      children,
+      onPointerOutCallback,
+      initialX = 0,
+      initialY = 0,
+      initialScale = 2,
+    },
+    ref,
+  ) => {
+    const app = useApp();
+    const containerRef = useRef<any>(null);
+    const isDragging = useRef(false);
+    const lastPosition = useRef({ x: 0, y: 0 });
+    const zoomAnimationId = useRef<number | null>(null);
+    const targetX = useRef(initialX);
+    const targetY = useRef(initialY);
 
-  // Forward the containerRef to the parent component through the ref
-  useEffect(() => {
-    if (ref && containerRef.current) {
-      if (typeof ref === "function") {
-        ref(containerRef.current);
-      } else {
-        ref.current = containerRef.current;
-      }
-    }
-  }, [ref, containerRef.current]);
-
-  // Animation function for smooth zooming
-  const animateZoom = () => {
-    if (!containerRef.current) {
-      zoomAnimationId.current = null;
-      return;
-    }
-
-    const container = containerRef.current;
-    const currentScale = container.scale.x;
-    const currentX = container.x;
-    const currentY = container.y;
-
-    // Calculate step based on difference (easing)
-    const scaleStep = (container.targetScale - currentScale) * 0.15;
-    const xStep = (targetX.current - currentX) * 0.15;
-    const yStep = (targetY.current - currentY) * 0.15;
-
-    const isComplete =
-      Math.abs(scaleStep) < 0.001 &&
-      Math.abs(xStep) < 0.5 &&
-      Math.abs(yStep) < 0.5;
-
-    if (isComplete) {
-      container.scale.set(container.targetScale);
-      container.x = targetX.current;
-      container.y = targetY.current;
-      zoomAnimationId.current = null;
-      return;
-    }
-
-    container.scale.set(currentScale + scaleStep);
-    container.x = currentX + xStep;
-    container.y = currentY + yStep;
-
-    zoomAnimationId.current = requestAnimationFrame(animateZoom);
-  };
-
-  // Start the animation loop if not already running
-  const startZoomAnimation = () => {
-    if (zoomAnimationId.current !== null) {
-      cancelAnimationFrame(zoomAnimationId.current);
-    }
-    zoomAnimationId.current = requestAnimationFrame(animateZoom);
-  };
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const container = containerRef.current;
-
-    // Initialize position with provided coordinates
-    container.x = initialX;
-    container.y = initialY;
-    container.scale.set(2);
-    container.targetScale = 2;
-    targetX.current = initialX;
-    targetY.current = initialY;
-
-    const onDragStart = (event: PointerEvent) => {
-      const mouseX = event.clientX;
-      const mouseY = event.clientY;
-
-      if (container) {
-        isDragging.current = true;
-        lastPosition.current = { x: mouseX, y: mouseY };
-
-        // Cancel any ongoing zoom animation when starting to drag
-        if (zoomAnimationId.current !== null) {
-          cancelAnimationFrame(zoomAnimationId.current);
-          zoomAnimationId.current = null;
+    // Forward the containerRef to the parent component through the ref
+    useEffect(() => {
+      if (ref && containerRef.current) {
+        if (typeof ref === "function") {
+          ref(containerRef.current);
+        } else {
+          ref.current = containerRef.current;
         }
       }
-    };
+    }, [ref, containerRef.current]);
 
-    const onDragMove = (event: PointerEvent) => {
-      if (isDragging.current) {
-        const container = containerRef.current;
-
-        const mouseX = event.clientX;
-        const mouseY = event.clientY;
-
-        const dx = mouseX - lastPosition.current.x;
-        const dy = mouseY - lastPosition.current.y;
-
-        container.x += dx;
-        container.y += dy;
-
-        // Update target position while dragging
-        targetX.current = container.x;
-        targetY.current = container.y;
-
-        lastPosition.current = { x: mouseX, y: mouseY };
+    // Animation function for smooth zooming
+    const animateZoom = () => {
+      if (!containerRef.current) {
+        zoomAnimationId.current = null;
+        return;
       }
+
+      const container = containerRef.current;
+      const currentScale = container.scale.x;
+      const currentX = container.x;
+      const currentY = container.y;
+
+      // Calculate step based on difference (easing)
+      const scaleStep = (container.targetScale - currentScale) * 0.15;
+      const xStep = (targetX.current - currentX) * 0.15;
+      const yStep = (targetY.current - currentY) * 0.15;
+
+      const isComplete =
+        Math.abs(scaleStep) < 0.001 &&
+        Math.abs(xStep) < 0.5 &&
+        Math.abs(yStep) < 0.5;
+
+      if (isComplete) {
+        container.scale.set(container.targetScale);
+        container.x = targetX.current;
+        container.y = targetY.current;
+        zoomAnimationId.current = null;
+        return;
+      }
+
+      container.scale.set(currentScale + scaleStep);
+      container.x = currentX + xStep;
+      container.y = currentY + yStep;
+
+      zoomAnimationId.current = requestAnimationFrame(animateZoom);
     };
 
-    const onDragEnd = () => {
-      isDragging.current = false;
-    };
-
-    const onPointerOut = () => {
-      onDragEnd();
-      onPointerOutCallback();
-    };
-
-    // Setup wheel zoom
-    const onWheel = (event: WheelEvent) => {
-      event.preventDefault();
-
-      const zoomFactor = 1.005; // smaller base for finer control
-      const scaleMultiplier = Math.pow(zoomFactor, -event.deltaY);
-      const newScale = Math.max(
-        0.8,
-        Math.min(5, container.targetScale * scaleMultiplier),
-      );
-
-      // Store the new scale target
-      container.targetScale = newScale;
-
-      // Get mouse position relative to the stage
-      const rect = (app.view as HTMLCanvasElement).getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-
-      // Calculate mouse position relative to container before scaling
-      const pointBeforeScale = {
-        x: (x - container.x) / container.scale.x,
-        y: (y - container.y) / container.scale.y,
-      };
-
-      // Calculate the new position to keep mouse in same place
-      targetX.current = x - pointBeforeScale.x * newScale;
-      targetY.current = y - pointBeforeScale.y * newScale;
-
-      // Start the animation for smooth transition
-      startZoomAnimation();
-    };
-
-    // Configure container for interactions
-    container.eventMode = "static";
-
-    // Add event listeners
-    const canvasElement = app.view as HTMLCanvasElement;
-    canvasElement.addEventListener("wheel", onWheel);
-    canvasElement.addEventListener("pointerdown", onDragStart);
-    canvasElement.addEventListener("pointermove", onDragMove);
-    canvasElement.addEventListener("pointerup", onDragEnd);
-    canvasElement.addEventListener("pointerout", onPointerOut);
-
-    return () => {
-      // Clean up event listeners
-      canvasElement.removeEventListener("wheel", onWheel);
-      canvasElement.removeEventListener("pointerdown", onDragStart);
-      canvasElement.removeEventListener("pointermove", onDragMove);
-      canvasElement.removeEventListener("pointerup", onDragEnd);
-      canvasElement.removeEventListener("pointerout", onPointerOut);
-
-      // Cancel any ongoing animation
+    // Start the animation loop if not already running
+    const startZoomAnimation = () => {
       if (zoomAnimationId.current !== null) {
         cancelAnimationFrame(zoomAnimationId.current);
       }
+      zoomAnimationId.current = requestAnimationFrame(animateZoom);
     };
-  }, [app, initialX, initialY]);
 
-  return <Container ref={containerRef}>{children}</Container>;
-});
+    useEffect(() => {
+      if (!containerRef.current) return;
+
+      const container = containerRef.current;
+
+      // Initialize position with provided coordinates and scale
+      container.x = initialX;
+      container.y = initialY;
+      container.scale.set(initialScale);
+      container.targetScale = initialScale;
+      targetX.current = initialX;
+      targetY.current = initialY;
+
+      const onDragStart = (event: PointerEvent) => {
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+
+        if (container) {
+          isDragging.current = true;
+          lastPosition.current = { x: mouseX, y: mouseY };
+
+          // Cancel any ongoing zoom animation when starting to drag
+          if (zoomAnimationId.current !== null) {
+            cancelAnimationFrame(zoomAnimationId.current);
+            zoomAnimationId.current = null;
+          }
+        }
+      };
+
+      const onDragMove = (event: PointerEvent) => {
+        if (isDragging.current) {
+          const container = containerRef.current;
+
+          const mouseX = event.clientX;
+          const mouseY = event.clientY;
+
+          const dx = mouseX - lastPosition.current.x;
+          const dy = mouseY - lastPosition.current.y;
+
+          container.x += dx;
+          container.y += dy;
+
+          // Update target position while dragging
+          targetX.current = container.x;
+          targetY.current = container.y;
+
+          lastPosition.current = { x: mouseX, y: mouseY };
+        }
+      };
+
+      const onDragEnd = () => {
+        isDragging.current = false;
+      };
+
+      const onPointerOut = () => {
+        onDragEnd();
+        onPointerOutCallback();
+      };
+
+      // Setup wheel zoom
+      const onWheel = (event: WheelEvent) => {
+        event.preventDefault();
+
+        const zoomFactor = 1.005; // smaller base for finer control
+        const scaleMultiplier = Math.pow(zoomFactor, -event.deltaY);
+        const newScale = Math.max(
+          0.8,
+          Math.min(5, container.targetScale * scaleMultiplier),
+        );
+
+        // Store the new scale target
+        container.targetScale = newScale;
+
+        // Get mouse position relative to the stage
+        const rect = (app.view as HTMLCanvasElement).getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        // Calculate mouse position relative to container before scaling
+        const pointBeforeScale = {
+          x: (x - container.x) / container.scale.x,
+          y: (y - container.y) / container.scale.y,
+        };
+
+        // Calculate the new position to keep mouse in same place
+        targetX.current = x - pointBeforeScale.x * newScale;
+        targetY.current = y - pointBeforeScale.y * newScale;
+
+        // Start the animation for smooth transition
+        startZoomAnimation();
+      };
+
+      // Configure container for interactions
+      container.eventMode = "static";
+
+      // Add event listeners
+      const canvasElement = app.view as HTMLCanvasElement;
+      canvasElement.addEventListener("wheel", onWheel);
+      canvasElement.addEventListener("pointerdown", onDragStart);
+      canvasElement.addEventListener("pointermove", onDragMove);
+      canvasElement.addEventListener("pointerup", onDragEnd);
+      canvasElement.addEventListener("pointerout", onPointerOut);
+
+      return () => {
+        // Clean up event listeners
+        canvasElement.removeEventListener("wheel", onWheel);
+        canvasElement.removeEventListener("pointerdown", onDragStart);
+        canvasElement.removeEventListener("pointermove", onDragMove);
+        canvasElement.removeEventListener("pointerup", onDragEnd);
+        canvasElement.removeEventListener("pointerout", onPointerOut);
+
+        // Cancel any ongoing animation
+        if (zoomAnimationId.current !== null) {
+          cancelAnimationFrame(zoomAnimationId.current);
+        }
+      };
+    }, [app, initialX, initialY]);
+
+    return <Container ref={containerRef}>{children}</Container>;
+  },
+);
 
 export default function Map({
   availablePuzzles,
@@ -328,35 +339,66 @@ export default function Map({
   const pixiContainerRef = useRef<any>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Calculate initial map position based on available puzzles
-  const calculateCentroid = () => {
-    if (uniquePuzzles.length === 0) return { x: 0, y: 0 };
+  // Calculate initial map position and zoom based on available puzzles
+  const calculateInitialView = () => {
+    if (uniquePuzzles.length === 0) return { x: 0, y: 0, scale: 2 }; // Default scale
 
-    let sumX = 0;
-    let sumY = 0;
-    let count = 0;
+    // Find the bounds of all available puzzles
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity;
+    let validPuzzleCount = 0;
 
     uniquePuzzles.forEach((puzzle) => {
       const position = positions[puzzle.id];
       if (position) {
-        sumX += position[0];
-        sumY += position[1];
-        count++;
+        minX = Math.min(minX, position[0]);
+        minY = Math.min(minY, position[1]);
+        maxX = Math.max(maxX, position[0]);
+        maxY = Math.max(maxY, position[1]);
+        validPuzzleCount++;
       }
     });
 
-    if (count === 0) return { x: 0, y: 0 };
+    // If no valid positions found, return default
+    if (validPuzzleCount === 0) return { x: 0, y: 0, scale: 2 };
 
-    // Calculate the center of available puzzles
-    const centerX = sumX / count;
-    const centerY = sumY / count;
+    // Add padding to ensure puzzles aren't at the very edge
+    const PADDING = 30; // pixels in puzzle-space
+    minX -= PADDING;
+    minY -= PADDING;
+    maxX += PADDING;
+    maxY += PADDING;
 
-    // Return offset needed to center this point on the screen
+    // Calculate center point
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+
+    // Calculate scale needed to fit all puzzles
+    // We need to find a scale where the puzzle bounds fit within the stage
+    const puzzleWidth = maxX - minX;
+    const puzzleHeight = maxY - minY;
+
+    // Calculate scale based on available stage dimensions
+    const scaleX = stageSize.width / puzzleWidth;
+    const scaleY = stageSize.height / puzzleHeight;
+
+    // Use the smaller scale to ensure all puzzles are visible
+    const scale = Math.min(scaleX, scaleY);
+
+    // Limit scale to reasonable bounds
+    const boundedScale = Math.max(0.8, Math.min(scale, 5));
+
+    // Calculate position offset to center the view
     return {
-      x: stageSize.width / 2 - centerX * 2, // Scale of 2 is applied to container
-      y: stageSize.height / 2 - centerY * 2,
+      x: stageSize.width / 2 - centerX * boundedScale,
+      y: stageSize.height / 2 - centerY * boundedScale,
+      scale: boundedScale,
     };
   };
+
+  const initialView = calculateInitialView();
 
   // Get available round names
   const availableRoundNames = availableRounds.map(({ name }) => name);
@@ -585,8 +627,9 @@ export default function Map({
               pointerDownPosition.current = null;
               setHoveredPuzzle(null);
             }}
-            initialX={calculateCentroid().x}
-            initialY={calculateCentroid().y}
+            initialX={initialView.x}
+            initialY={initialView.y}
+            initialScale={initialView.scale}
           >
             <Container>
               <Sprite
