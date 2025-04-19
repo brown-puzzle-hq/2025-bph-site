@@ -28,43 +28,44 @@ export const puzzleId = "chain-letters";
       </a>
       .
     </p> */
-const body = (<div className="space-y-4">
-  <div className="max-w-3xl text-center italic"> 
-    The further a message travels, the harder it is to follow its instructions.
+const physicalBody = (
+  <div className="space-y-4">
+    <div className="max-w-3xl text-center italic">
+      The further a message travels, the harder it is to follow its
+      instructions.
     </div>
-    
+
     <div>The first bead in the chain is blue.</div>
 
     <div>
-    Download the puzzle{" "}
-        <a
-        href="/api/puzzle/chain-letters"
-        className="text-link hover:underline"
-      >
+      Download the puzzle{" "}
+      <a href="/api/puzzle/chain-letters" className="text-link hover:underline">
         here.
       </a>
-      </div>
-</div>);
+    </div>
+  </div>
+);
 
 export const inPersonBody = (
   <div>
-  <div className="mx-auto mb-6 max-w-3xl text-center italic">
-        This is a physical puzzle! If your team has not already picked up a
-        chain, please visit HQ in Friedman 208.
-  </div>
-  <hr className="my-6 mb-6 w-full border-t border-white" />
-  {body}
+    <div className="mx-auto mb-6 max-w-3xl text-center italic">
+      This is a physical puzzle! If your team has not already picked up a chain,
+      please visit HQ in Friedman 208.
+    </div>
+    <hr className="my-6 mb-6 w-full border-t border-white" />
+    {physicalBody}
   </div>
 );
 
 export const remoteBoxBody = (
-  <div className="max-w-xl space-y-4 text-center">
+  <div className="max-w-3xl space-y-4 text-center">
     <p>
       <i>
         This is a physical puzzle! You should use an object found in your box.
       </i>
     </p>
-    {body}
+    <hr className="my-6 mb-6 w-full border-t border-white" />
+    {physicalBody}
   </div>
 );
 
@@ -82,7 +83,22 @@ export const remoteBody = (
         />
       ))}
     </div>
-    {body}
+    <div className="space-y-4">
+      <div className="max-w-3xl text-center italic">
+        The further a message travels, the harder it is to follow its
+        instructions.
+      </div>
+
+      <div>
+        Download the puzzle{" "}
+        <a
+          href="/api/puzzle/chain-letters"
+          className="text-link hover:underline"
+        >
+          here.
+        </a>
+      </div>
+    </div>
   </div>
 );
 
