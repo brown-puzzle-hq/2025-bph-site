@@ -94,8 +94,8 @@ export default async function DefaultPuzzlePage({
   //    b. If the puzzle is an INITIAL_PUZZLE, then take MIN(teamCreateTime, huntStartTime)
   var unlockTime;
   if (!session.user) unlockTime = new Date();
-  if (session.user.role === "admin") unlockTime = new Date(0);
-  if (INITIAL_PUZZLES.includes(puzzleId)) {
+  else if (session.user.role === "admin") unlockTime = new Date(0);
+  else if (INITIAL_PUZZLES.includes(puzzleId)) {
     const teamCreateTime =
       (
         await db.query.teams.findFirst({
