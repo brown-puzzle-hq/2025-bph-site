@@ -688,7 +688,7 @@ export default function Map({
                 const isSolved = solvedPuzzles.some(
                   (sp) => sp.puzzleId === puzzle.id,
                 );
-                const spriteUrl = `/map/sprites-outlined/${puzzle.id}.png`;
+                const spriteUrl = `/map/sprites-finalized/${puzzle.id}.png`;
 
                 return (
                   <Sprite

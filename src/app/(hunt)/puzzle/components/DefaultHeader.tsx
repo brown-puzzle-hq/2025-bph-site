@@ -4,7 +4,6 @@ import { db } from "~/server/db";
 import { puzzles } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
-import Image from "next/image";
 import { canViewPuzzle, canViewSolution } from "../actions";
 import { SEQUENCES } from "~/hunt.config";
 import { Triangle } from "lucide-react";
@@ -46,17 +45,12 @@ export default async function DefaultHeader({
   if (!puzzle) redirect("/puzzle");
 
   return (
-    <div className="flex w-full max-w-3xl flex-col items-center">
+    <div className="mb-8 flex w-full max-w-3xl flex-col items-center space-y-4">
       {/* Sprite */}
-      <Image
-        src={`/map/sprites-outlined/${puzzleId}.png`}
-        alt="Sprite"
-        width={100}
-        height={100}
-      />
+      <img src={`/map/sprites-finalized/${puzzleId}.png`} className="h-24" />
 
       {/* Subtitle links below */}
-      <div className="mb-4 flex w-full flex-col items-center text-center">
+      <div className="flex w-full flex-col items-center text-center">
         <h1>{puzzle.name}</h1>
         <div className="space-x-2 text-sm">
           <Link
@@ -89,7 +83,7 @@ export default async function DefaultHeader({
         </div>
       </div>
 
-      <div className="mb-8 flex flex-col items-start space-y-3 sm:flex-row sm:items-start sm:space-x-2 sm:space-y-0">
+      <div className="flex flex-col items-start space-y-3 sm:flex-row sm:items-start sm:space-x-2 sm:space-y-0">
         {sequences.map((seq) => (
           <div key={seq.name} className="flex space-x-2">
             {seq.puzzles.map((puzzId) =>
