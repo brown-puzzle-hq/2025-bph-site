@@ -489,7 +489,7 @@ export default function Page() {
             <TOCSection sectionId={6} tocTitle="How do hints work?">
               <h2>How do hints work? </h2>
               <p>
-                When puzzles drop, teams will gain one hint request every three
+                When puzzles drop, teams will gain one hint request every six
                 hours, which you can use to ask for help on any puzzle. This can
                 be something like a nudge in the right direction (i.e. you give
                 us your progress on the puzzle and we will try to get you
