@@ -330,6 +330,7 @@ export default function Map({
     [],
   );
   const pixiContainerRef = useRef<any>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Calculate initial map position based on available puzzles
   const calculateCentroid = () => {
@@ -428,6 +429,22 @@ export default function Map({
     setSearchResults(filteredPuzzles);
   }, [searchTerm, uniquePuzzles]);
 
+  // Add keyboard shortcut listener for Command+F / Ctrl+F
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === "f") {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   // Function to focus on a puzzle
   const focusOnPuzzle = (puzzleId: string) => {
     if (!pixiContainerRef.current) return;
@@ -509,10 +526,21 @@ export default function Map({
         <div className="relative">
           <div className="flex h-10 items-center rounded-md bg-footer-bg shadow-md">
             <input
+              ref={searchInputRef}
               type="text"
-              placeholder="Search puzzles..."
+              placeholder="Search puzzles... (⇧⌘F)"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  if (searchResults.length === 1) {
+                    e.currentTarget.blur();
+                    focusOnPuzzle(searchResults[0]!.id);
+                  } else {
+                    e.currentTarget.select();
+                  }
+                }
+              }}
               className="ml-1 w-full rounded-md border-0 bg-transparent p-2 text-sm text-white placeholder:text-white/70 focus:outline-none"
             />
             {searchTerm && (
