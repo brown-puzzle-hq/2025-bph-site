@@ -64,8 +64,11 @@ export const remoteBoxBody = (
     <p>
       <i>
         This is a physical puzzle! You should use an object found in your box.
+        Contact brownpuzzlehq@gmail.com with any questions about your box or its
+        materials.
       </i>
     </p>
+    <hr className="my-6 mb-6 w-full border-t border-white" />
     <p>
       <b>
         This is a sequence metapuzzle. It uses feeders from the ⛓️ sequence.
@@ -95,6 +98,7 @@ export const remoteBody = (
         />
       ))}
     </div>
+    <hr className="my-6 mb-6 w-full border-t border-white" />
     <p>
       <b>
         This is a sequence metapuzzle. It uses feeders from the ⛓️ sequence.

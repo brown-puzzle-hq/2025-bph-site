@@ -133,7 +133,7 @@ export const inPersonBody = (
 export const remoteBoxBody = (
   <div className="mx-auto mb-6 max-w-3xl text-center italic">
       This is a physical puzzle! You should have received some documents in your
-      box.
+      box. Contact brownpuzzlehq@gmail.com with any questions about your box or its materials.
   </div>
 );
 
@@ -148,6 +148,7 @@ export const remoteBody = (
       <Image className="w-full sm:w-1/2 sm:pr-3" src={IDS} alt="" />
       <Image className="w-full sm:w-1/2 sm:pl-3" src={RECEIPTS} alt="" />
     </div>
+    <hr className="my-6 mb-6 w-full border-t border-white" />
     {body}
   </div>
 );

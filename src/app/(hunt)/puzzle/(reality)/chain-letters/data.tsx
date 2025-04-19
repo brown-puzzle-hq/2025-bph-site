@@ -62,6 +62,8 @@ export const remoteBoxBody = (
     <p>
       <i>
         This is a physical puzzle! You should use an object found in your box.
+        Contact brownpuzzlehq@gmail.com with any questions about your box or its
+        materials.
       </i>
     </p>
     <hr className="my-6 mb-6 w-full border-t border-white" />
@@ -83,6 +85,7 @@ export const remoteBody = (
         />
       ))}
     </div>
+    <hr className="my-6 mb-6 w-full border-t border-white" />
     <div className="space-y-4">
       <div className="max-w-3xl text-center italic">
         The further a message travels, the harder it is to follow its

@@ -39,6 +39,8 @@ export const remoteBoxBody = (
     <p>
       <i>
         This is a physical puzzle! You should use an object found in your box.
+        Contact brownpuzzlehq@gmail.com with any questions about your box or its
+        materials.
       </i>
     </p>
     <div className="flex justify-center pt-1.5">
@@ -61,6 +63,7 @@ export const remoteBody = (
         />
       ))}
     </div>
+    <hr className="my-6 mb-6 w-full border-t border-white" />
     <div className="flex justify-center pt-1.5">
       <Image src={BEADS} alt="beads" />
     </div>

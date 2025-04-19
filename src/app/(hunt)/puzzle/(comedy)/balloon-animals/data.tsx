@@ -64,6 +64,8 @@ export const remoteBoxBody = (
     <div className="mb-4 max-w-3xl text-center">
       <i>
         This is a physical puzzle! You should use an object found in your box.
+        Contact brownpuzzlehq@gmail.com with any questions about your box or its
+        materials.
       </i>
     </div>
     <hr className="my-6 mb-6 w-full border-t border-white" />
