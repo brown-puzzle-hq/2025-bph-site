@@ -19,7 +19,7 @@ export const puzzleId = "hand-letters";
  * The body renders above the guess submission form. Put flavor text, images,
  * and interactive puzzle components here.
  */
-/* copytext, Dhaka ambiguous ponta delgada*/
+
 export const inPersonBody = (
   <div className="max-w-3xl text-center space-y-10">
     <p className="mb-4 italic">
