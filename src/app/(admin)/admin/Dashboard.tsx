@@ -1,6 +1,4 @@
-import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -306,8 +304,8 @@ export async function Dashboard() {
               <CardTitle>Hint Leaderboard</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-2">
-              <ScrollArea className="lg:max-h-[75vh]">
-                {hintLeaderboard.map((user, index) => (
+              <ScrollArea className="no-scrollbar lg:max-h-[75vh]">
+                {hintLeaderboard.map((user) => (
                   <div className="mb-2 flex items-center gap-4" key={user.id}>
                     <Avatar className="flex h-9 w-9">
                       {/* <AvatarImage src="/avatars/01.png" alt="Avatar" /> */}
