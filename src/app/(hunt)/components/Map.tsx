@@ -18,6 +18,7 @@ type puzzleList = {
 const WIDTH = 1000;
 const HEIGHT = 1000;
 const CLICK_TOLERANCE = 5;
+const TARGETPUZZLESCALE = 3;
 
 const scaleFactor: Record<string, number> = {
   "heist-ii": 3,
@@ -437,10 +438,62 @@ export default function Map({
     const [x, y] = position;
     const container = pixiContainerRef.current;
 
-    // Center the puzzle on screen
-    const scale = container.scale.x;
-    container.x = stageSize.width / 2 - x * scale;
-    container.y = stageSize.height / 2 - y * scale;
+    // Update the target position and scale in the container ref
+    container.targetX = stageSize.width / 2 - x * TARGETPUZZLESCALE;
+    container.targetY = stageSize.height / 2 - y * TARGETPUZZLESCALE;
+    container.targetScale = TARGETPUZZLESCALE;
+
+    // Start the animation
+    if (container.zoomAnimationId) {
+      cancelAnimationFrame(container.zoomAnimationId);
+    }
+
+    // Animation timing variables
+    const duration = 800; // Duration in ms
+    const startTime = performance.now();
+    const startX = container.x;
+    const startY = container.y;
+    const startScale = container.scale.x;
+    const deltaX = container.targetX - startX;
+    const deltaY = container.targetY - startY;
+    const deltaScale = container.targetScale - startScale;
+
+    // Cubic ease in-out function: t*t*t (t < 0.5) : 1-(1-t)*(1-t)*(1-t)
+    const easeInOutCubic = (t: number): number => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    };
+
+    const animate = (timestamp: number) => {
+      // Calculate progress (0 to 1)
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Apply easing to the progress
+      const easedProgress = easeInOutCubic(progress);
+
+      // Calculate new position and scale
+      const newX = startX + deltaX * easedProgress;
+      const newY = startY + deltaY * easedProgress;
+      const newScale = startScale + deltaScale * easedProgress;
+
+      // Apply new position and scale
+      container.scale.set(newScale);
+      container.x = newX;
+      container.y = newY;
+
+      // Continue animation if not complete
+      if (progress < 1) {
+        container.zoomAnimationId = requestAnimationFrame(animate);
+      } else {
+        // Ensure we land exactly on target values
+        container.scale.set(container.targetScale);
+        container.x = container.targetX;
+        container.y = container.targetY;
+        container.zoomAnimationId = null;
+      }
+    };
+
+    container.zoomAnimationId = requestAnimationFrame(animate);
 
     // Clear search after focusing
     setSearchTerm("");
@@ -474,7 +527,7 @@ export default function Map({
 
           {/* Search results dropdown */}
           {searchResults.length > 0 && (
-            <div className="absolute mt-1 max-h-60 w-full space-y-2 overflow-auto rounded-md bg-main-bg/90 p-2 shadow-lg">
+            <div className="no-scrollbar absolute mt-1 max-h-[calc(100vh-56px-32px-40px-20px)] w-full space-y-2 overflow-auto rounded-md bg-main-bg/90 p-2 shadow-lg">
               {searchResults.map((puzzle) => (
                 <button
                   key={puzzle.id}
@@ -507,6 +560,7 @@ export default function Map({
             ref={pixiContainerRef}
             onPointerOutCallback={() => {
               pointerDownPosition.current = null;
+              setHoveredPuzzle(null);
             }}
             initialX={calculateCentroid().x}
             initialY={calculateCentroid().y}
