@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect, useRef } from "react";
 import { Stage, Container, Sprite, useApp } from "@pixi/react";
 import { Round, ROUNDS } from "@/hunt.config";
@@ -98,10 +99,11 @@ const DraggableMap = React.forwardRef<
   any,
   {
     children: React.ReactNode;
+    onPointerOutCallback: () => void;
     initialX?: number;
     initialY?: number;
   }
->(({ children, initialX = 0, initialY = 0 }, ref) => {
+>(({ children, onPointerOutCallback, initialX = 0, initialY = 0 }, ref) => {
   const app = useApp();
   const containerRef = useRef<any>(null);
   const isDragging = useRef(false);
@@ -223,6 +225,11 @@ const DraggableMap = React.forwardRef<
       isDragging.current = false;
     };
 
+    const onPointerOut = () => {
+      onDragEnd();
+      onPointerOutCallback();
+    };
+
     // Setup wheel zoom
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
@@ -267,7 +274,7 @@ const DraggableMap = React.forwardRef<
     canvasElement.addEventListener("pointerdown", onDragStart);
     canvasElement.addEventListener("pointermove", onDragMove);
     canvasElement.addEventListener("pointerup", onDragEnd);
-    canvasElement.addEventListener("pointerout", onDragEnd);
+    canvasElement.addEventListener("pointerout", onPointerOut);
 
     return () => {
       // Clean up event listeners
@@ -275,7 +282,7 @@ const DraggableMap = React.forwardRef<
       canvasElement.removeEventListener("pointerdown", onDragStart);
       canvasElement.removeEventListener("pointermove", onDragMove);
       canvasElement.removeEventListener("pointerup", onDragEnd);
-      canvasElement.removeEventListener("pointerout", onDragEnd);
+      canvasElement.removeEventListener("pointerout", onPointerOut);
 
       // Cancel any ongoing animation
       if (zoomAnimationId.current !== null) {
@@ -498,6 +505,9 @@ export default function Map({
         >
           <DraggableMap
             ref={pixiContainerRef}
+            onPointerOutCallback={() => {
+              pointerDownPosition.current = null;
+            }}
             initialX={calculateCentroid().x}
             initialY={calculateCentroid().y}
           >
@@ -566,8 +576,9 @@ export default function Map({
                       pointerDownPosition.current = null;
                     }}
                     pointerout={() => {
-                      pointerDownPosition.current = null;
-                      setHoveredPuzzle(null);
+                      if (!pointerDownPosition.current) {
+                        setHoveredPuzzle(null);
+                      }
                     }}
                     pointerover={() => setHoveredPuzzle(puzzle.name)}
                   />
@@ -580,10 +591,10 @@ export default function Map({
       {/* Tooltip for hovered puzzle */}
       {hoveredPuzzle && (
         <div
-          className="pointer-events-none absolute z-10 rounded bg-black/80 px-2 py-1 text-sm text-white"
+          className="pointer-events-none absolute z-10 text-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white"
           style={{
-            left: `${Math.min(window.innerWidth - 100, mousePosition.x + 2)}px`,
-            top: `${Math.min(window.innerHeight - 50, mousePosition.y - 28 - 56)}px`,
+            left: `${mousePosition.x + 2}px`,
+            top: `${mousePosition.y - 28 - 56}px`,
           }}
         >
           {hoveredPuzzle}
