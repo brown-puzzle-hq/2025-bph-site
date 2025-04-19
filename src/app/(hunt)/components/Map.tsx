@@ -109,9 +109,8 @@ const DraggableMap = React.forwardRef<
   const containerRef = useRef<any>(null);
   const isDragging = useRef(false);
   const lastPosition = useRef({ x: 0, y: 0 });
-  const scale = useRef(2);
   const zoomAnimationId = useRef<number | null>(null);
-  const targetScale = useRef(2);
+  // const targetScale = useRef(2);
   const targetX = useRef(initialX);
   const targetY = useRef(initialY);
 
@@ -127,7 +126,7 @@ const DraggableMap = React.forwardRef<
   }, [ref, containerRef.current]);
 
   // Animation function for smooth zooming
-  const animateZoom = (timestamp: number) => {
+  const animateZoom = () => {
     if (!containerRef.current) {
       zoomAnimationId.current = null;
       return;
@@ -139,7 +138,7 @@ const DraggableMap = React.forwardRef<
     const currentY = container.y;
 
     // Calculate step based on difference (easing)
-    const scaleStep = (targetScale.current - currentScale) * 0.15;
+    const scaleStep = (container.targetScale - currentScale) * 0.15;
     const xStep = (targetX.current - currentX) * 0.15;
     const yStep = (targetY.current - currentY) * 0.15;
 
@@ -149,7 +148,7 @@ const DraggableMap = React.forwardRef<
       Math.abs(yStep) < 0.5;
 
     if (isComplete) {
-      container.scale.set(targetScale.current);
+      container.scale.set(container.targetScale);
       container.x = targetX.current;
       container.y = targetY.current;
       zoomAnimationId.current = null;
@@ -180,8 +179,7 @@ const DraggableMap = React.forwardRef<
     container.x = initialX;
     container.y = initialY;
     container.scale.set(2);
-    scale.current = 2;
-    targetScale.current = 2;
+    container.targetScale = 2;
     targetX.current = initialX;
     targetY.current = initialY;
 
@@ -235,17 +233,15 @@ const DraggableMap = React.forwardRef<
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
 
-      // Calculate zoom direction
-      const zoomDirection = event.deltaY < 0 ? 1 : -1;
-      const zoomFactor = 0.07;
+      const zoomFactor = 1.005; // smaller base for finer control
+      const scaleMultiplier = Math.pow(zoomFactor, -event.deltaY);
       const newScale = Math.max(
         0.8,
-        Math.min(5, scale.current + zoomDirection * zoomFactor),
+        Math.min(5, container.targetScale * scaleMultiplier),
       );
 
       // Store the new scale target
-      targetScale.current = newScale;
-      scale.current = newScale;
+      container.targetScale = newScale;
 
       // Get mouse position relative to the stage
       const rect = (app.view as HTMLCanvasElement).getBoundingClientRect();
@@ -532,13 +528,11 @@ export default function Map({
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  if (searchResults.length === 1) {
-                    e.currentTarget.blur();
-                    focusOnPuzzle(searchResults[0]!.id);
-                  } else {
-                    e.currentTarget.select();
-                  }
+                if (e.key === "Escape") {
+                  e.currentTarget.blur();
+                } else if (e.key === "Enter" && searchResults.length !== 0) {
+                  e.currentTarget.blur();
+                  focusOnPuzzle(searchResults[0]!.id);
                 }
               }}
               className="ml-1 w-full rounded-md border-0 bg-transparent p-2 text-sm text-white placeholder:text-white/70 focus:outline-none"
@@ -582,6 +576,7 @@ export default function Map({
           options={{
             backgroundAlpha: 0,
             resolution: window.devicePixelRatio || 1,
+            antialias: true,
           }}
         >
           <DraggableMap
