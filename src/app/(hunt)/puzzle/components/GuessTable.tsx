@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { guesses } from "~/server/db/schema";
 import { FormattedTime } from "~/lib/time";
 import { getCookie, setCookie } from "typescript-cookie";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function GuessTable({
   puzzleAnswer,
