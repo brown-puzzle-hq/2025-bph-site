@@ -116,6 +116,7 @@ export async function Dashboard() {
   /* Activity Table (chunk 4) */
   const data: Record<number, ActivityItem> = {};
   const startDate = IN_PERSON.START_TIME;
+  // Current time clamped between IN_PERSON.START_TIME and REMOTE.END_TIME
   const endDate = new Date(
     Math.min(
       REMOTE.END_TIME.getTime(),
