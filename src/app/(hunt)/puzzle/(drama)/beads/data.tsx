@@ -41,9 +41,6 @@ export const remoteBoxBody = (
         This is a physical puzzle! You should use an object found in your box.
       </i>
     </p>
-    <p>
-      <i>You've had me bending double from your curses!</i>
-    </p>
     <div className="flex justify-center pt-1.5">
       <Image src={BEADS} alt="beads" />
     </div>
@@ -64,9 +61,6 @@ export const remoteBody = (
         />
       ))}
     </div>
-    <p>
-      <i>You've had me bending double from your curses!</i>
-    </p>
     <div className="flex justify-center pt-1.5">
       <Image src={BEADS} alt="beads" />
     </div>
