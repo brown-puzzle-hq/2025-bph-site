@@ -4,6 +4,7 @@ import { Stage, Container, Sprite, useApp } from "@pixi/react";
 import { Round, ROUNDS } from "@/hunt.config";
 import React from "react";
 import "@pixi/events";
+import { FederatedPointerEvent } from "pixi.js";
 
 type puzzleList = {
   unlockTime: Date | null;
@@ -15,6 +16,7 @@ type puzzleList = {
 // Map width and height (needed for proportions of map assets)
 const WIDTH = 1000;
 const HEIGHT = 1000;
+const CLICK_TOLERANCE = 5;
 
 const scaleFactor: Record<string, number> = {
   "heist-ii": 3,
@@ -313,7 +315,8 @@ export default function Map({
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
-  const [cleanClick, setCleanClick] = useState(false);
+  const pointerDownPosition = useRef<{ x: number; y: number } | null>(null);
+  const movedBeyondTolerance = useRef(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<typeof availablePuzzles>(
     [],
@@ -390,7 +393,6 @@ export default function Map({
   // Track mouse position
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
-      setCleanClick(false);
       setMousePosition({ x: event.clientX, y: event.clientY });
     };
 
@@ -528,21 +530,46 @@ export default function Map({
                     cursor="pointer"
                     anchor={0.5}
                     scale={0.075 * (scaleFactor[puzzle.id] || 1)}
-                    pointerdown={() => {
-                      setCleanClick(true);
+                    pointerdown={(event: FederatedPointerEvent) => {
+                      pointerDownPosition.current = {
+                        x: event.global.x,
+                        y: event.global.y,
+                      };
+                      movedBeyondTolerance.current = false;
                     }}
-                    pointerup={(event) => {
-                      if (cleanClick) {
-                        setCleanClick(false);
+                    pointermove={(event: FederatedPointerEvent) => {
+                      if (
+                        pointerDownPosition.current &&
+                        !movedBeyondTolerance.current
+                      ) {
+                        const dx =
+                          event.global.x - pointerDownPosition.current.x;
+                        const dy =
+                          event.global.y - pointerDownPosition.current.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance > CLICK_TOLERANCE) {
+                          movedBeyondTolerance.current = true;
+                        }
+                      }
+                    }}
+                    pointerup={(event: FederatedPointerEvent) => {
+                      if (
+                        pointerDownPosition.current &&
+                        !movedBeyondTolerance.current
+                      ) {
                         if (event.metaKey || event.ctrlKey) {
                           window.open(`puzzle/${puzzle.id}`, "_blank");
                         } else {
                           window.location.href = `puzzle/${puzzle.id}`;
                         }
                       }
+                      pointerDownPosition.current = null;
+                    }}
+                    pointerout={() => {
+                      pointerDownPosition.current = null;
+                      setHoveredPuzzle(null);
                     }}
                     pointerover={() => setHoveredPuzzle(puzzle.name)}
-                    pointerout={() => setHoveredPuzzle(null)}
                   />
                 );
               })}
