@@ -149,10 +149,7 @@ export function TeamTable<TData, TValue>({
   );
 
   useEffect(() => {
-    console.log("editedRows", editedRows);
-  }, [editedRows]);
-
-  useEffect(() => {
+    setEditedRows({});
     if (interactionModeFilters.length === 0) {
       setColumnFilters(
         columnFilters.filter((filter) => filter.id !== "actualInteractionMode"),
@@ -239,7 +236,6 @@ export function TeamTable<TData, TValue>({
       }
     }
 
-    console.log("editedTeams", editedTeams);
     await updateTeam(editedTeams);
     // TODO: avoid flash some other way
     setTimeout(() => setEditedRows({}), 30);
