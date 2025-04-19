@@ -18,6 +18,22 @@ export const puzzleId = "red-blue";
  * The body renders above the guess submission form. Put flavor text, images,
  * and interactive puzzle components here.
  */
+
+const puzzleBody = (
+  <div className="mx-auto w-10 justify-center gap-0">
+    {Array.from({ length: 22 }).map((_, i) => (
+      <div
+        key={i}
+        className={`aspect-square ${i == 4 || i == 10 || i == 16 ? "" : i >= 17 ? "bg-neutral-600" : "bg-neutral-400"} ${
+          i == 4 || i == 10 || i == 16
+            ? ""
+            : "border-1 border border-white ring-1 ring-white"
+        }`}
+      />
+    ))}
+  </div>
+);
+
 export const inPersonBody = (
   <div>
     <div className="mx-auto mb-6 max-w-3xl text-center italic">
@@ -25,7 +41,7 @@ export const inPersonBody = (
       please visit HQ in Friedman 208.
     </div>
     <hr className="my-6 mb-6 w-full border-t border-white" />
-    <div className="space-y-4 text-center flex flex-col justify-center">
+    <div className="flex flex-col justify-center space-y-4 text-center">
       <p>
         <b>
           This is a sequence metapuzzle. It uses feeders from the ⛓️ sequence.
@@ -38,18 +54,7 @@ export const inPersonBody = (
         </i>
       </p>
       <div>The first bead in the chain is blue.</div>
-    <div className="flex w-full">
-    <div className="mx-auto w-10 gap-0 justify-center">
-        {Array.from({ length: 22 }).map((_, i) => (
-          <div
-            key={i}
-            className={`aspect-square ${(i == 4 || i == 10 || i == 16) ? "" : i >= 17 ? "bg-neutral-600" : "bg-neutral-400"} ${
-              (i == 4 || i == 10 || i == 16) ? "" : "border-1 border border-white ring-1 ring-white"
-            }`}
-          />
-        ))}
-        </div>
-    </div>
+      <div className="flex w-full">{puzzleBody}</div>
     </div>
   </div>
 );
@@ -72,16 +77,7 @@ export const remoteBoxBody = (
         personality!
       </i>
     </p>
-    <div className="mx-auto grid w-60 grid-cols-5 gap-0 pb-4">
-      {Array.from({ length: 20 }).map((_, i) => (
-        <div
-          key={i}
-          className={`aspect-square ${
-            i === 4 ? "" : "border-1 border border-white ring-1 ring-white"
-          }`}
-        />
-      ))}
-    </div>
+    {puzzleBody}
   </div>
 );
 
@@ -110,16 +106,7 @@ export const remoteBody = (
         personality!
       </i>
     </p>
-    <div className="mx-auto grid w-60 grid-cols-5 gap-0 pb-4">
-      {Array.from({ length: 20 }).map((_, i) => (
-        <div
-          key={i}
-          className={`aspect-square ${i == 4 ? "" : i >= 15 ? "bg-neutral-600" : "bg-neutral-400"} ${
-            i === 4 ? "" : "border-1 border border-white ring-1 ring-white"
-          }`}
-        />
-      ))}
-    </div>
+    {puzzleBody}
   </div>
 );
 
