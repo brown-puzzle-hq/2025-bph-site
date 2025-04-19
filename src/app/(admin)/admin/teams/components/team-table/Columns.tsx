@@ -1,6 +1,15 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDown, ArrowUp, ArrowDown, Trophy } from "lucide-react";
+import { teams } from "~/server/db/schema";
+import {
+  ChevronsUpDown,
+  ArrowUp,
+  ArrowDown,
+  Check,
+  X,
+  Waypoints,
+  Trophy
+} from "lucide-react";
 import { FormattedTime } from "~/lib/time";
 import { ActualInteractionMode } from "~/server/db/schema";
 
@@ -47,12 +56,18 @@ export const columns: ColumnDef<TeamTableRow>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="w-44 truncate">
+      <div className="flex w-[200px] items-center space-x-1">
         <a
-          className="text-blue-500 hover:underline"
-          href={`/admin/graph?team=${row.getValue("id")}`}
+          className="truncate text-blue-500 hover:underline"
+          href={`/teams/${row.getValue("id")}`}
         >
           {row.getValue("id")}
+        </a>
+        <a
+          href={`/admin/graph?team=${row.getValue("id")}`}
+          className="hover:opacity-85"
+        >
+          <Waypoints className="size-4 text-orange-500" />
         </a>
       </div>
     ),
