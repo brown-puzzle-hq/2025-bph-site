@@ -3,7 +3,7 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { guesses } from "~/server/db/schema";
 import { FormattedTime } from "~/lib/time";
-import { getCookie, setCookie, removeCookie } from "typescript-cookie";
+import { getCookie, setCookie } from "typescript-cookie";
 import { useState, useEffect } from "react";
 
 export default function GuessTable({
@@ -17,10 +17,9 @@ export default function GuessTable({
   partialSolutions: Record<string, string>;
   tasks: Record<string, React.ReactNode>;
 }) {
-  const [knowsHover, setKnowsHover] = useState(true);
+  const [hasHovered, setHasHovered] = useState(true);
   useEffect(() => {
-    removeCookie("knowsHover");
-    setKnowsHover(getCookie("knowsHover") === "true");
+    setHasHovered(getCookie("hasHovered") === "true");
   }, []);
   return (
     <div>
@@ -42,12 +41,12 @@ export default function GuessTable({
                     <div
                       className="group relative"
                       onMouseOver={() => {
-                        setKnowsHover(true);
-                        setCookie("knowsHover", true);
+                        setHasHovered(true);
+                        setCookie("hasHovered", "true");
                       }}
                     >
                       <p
-                        className={`${!knowsHover && "animate-subtlePulse"} font-medium text-partial-guess hover:cursor-help`}
+                        className={`${!hasHovered && "animate-subtlePulse"} font-medium text-partial-guess hover:cursor-help`}
                       >
                         PARTIAL
                       </p>
