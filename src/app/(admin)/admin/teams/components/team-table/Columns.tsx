@@ -1,14 +1,11 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { teams } from "~/server/db/schema";
 import {
   ChevronsUpDown,
   ArrowUp,
   ArrowDown,
-  Check,
-  X,
   Waypoints,
-  Trophy
+  Trophy,
 } from "lucide-react";
 import { FormattedTime } from "~/lib/time";
 import { ActualInteractionMode } from "~/server/db/schema";
@@ -27,7 +24,7 @@ export type TeamTableRow = {
 export const columns: ColumnDef<TeamTableRow>[] = [
   {
     accessorKey: "rank",
-    header: ({}) => <Trophy className="size-4" />,
+    header: ({}) => <Trophy className="mx-auto size-4" />,
     cell: ({ row }) => {
       const rank: number = row.getValue("rank");
       return <p className="text-center">{rank ?? "-"}</p>;

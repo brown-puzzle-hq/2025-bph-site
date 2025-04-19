@@ -252,7 +252,7 @@ export function TeamTable<TData, TValue>({
     <>
       <div className="w-screen px-4 xl:px-12">
         {/* Controls */}
-        <div className="flex items-center justify-between space-x-2 pb-2 text-neutral-500">
+        <div className="grid w-full grid-cols-2 pb-2 text-neutral-500 sm:grid-cols-3">
           {/* Filter teams */}
           <div className="flex items-center space-x-2">
             <Filter className="size-5" />
@@ -266,55 +266,49 @@ export function TeamTable<TData, TValue>({
           </div>
 
           {/* Filter by interactionMode */}
-          <div className="flex items-center space-x-2 pb-4">
-            <div className="flex items-center space-x-2 text-sm">
-              <div>in-person</div>
-              <Checkbox
-                checked={interactionModeFilters.includes("in-person")}
-                onCheckedChange={(checked) => {
-                  setInteractionModeFilters((prev) =>
-                    checked
-                      ? [...prev, "in-person"]
-                      : prev.filter((mode) => mode !== "in-person"),
-                  );
-                }}
-                className="border-neutral-500 data-[state=checked]:bg-white data-[state=checked]:text-neutral-500"
-              />
-            </div>
+          <div className="mx-auto hidden items-center space-x-2 text-nowrap text-sm font-medium sm:flex">
+            <p>In Person</p>
+            <Checkbox
+              checked={interactionModeFilters.includes("in-person")}
+              onCheckedChange={(checked) => {
+                setInteractionModeFilters((prev) =>
+                  checked
+                    ? [...prev, "in-person"]
+                    : prev.filter((mode) => mode !== "in-person"),
+                );
+              }}
+              className="border-[1.5px] border-neutral-500 data-[state=checked]:bg-white data-[state=checked]:text-neutral-500"
+            />
 
-            <div className="flex items-center space-x-2 text-sm">
-              <div>remote</div>
-              <Checkbox
-                checked={interactionModeFilters.includes("remote")}
-                onCheckedChange={(checked) => {
-                  setInteractionModeFilters((prev) =>
-                    checked
-                      ? [...prev, "remote"]
-                      : prev.filter((mode) => mode !== "remote"),
-                  );
-                }}
-                className="border-neutral-500 data-[state=checked]:bg-white data-[state=checked]:text-neutral-500"
-              />
-            </div>
+            <p>Remote</p>
+            <Checkbox
+              checked={interactionModeFilters.includes("remote")}
+              onCheckedChange={(checked) => {
+                setInteractionModeFilters((prev) =>
+                  checked
+                    ? [...prev, "remote"]
+                    : prev.filter((mode) => mode !== "remote"),
+                );
+              }}
+              className="border-[1.5px] border-neutral-500 data-[state=checked]:bg-white data-[state=checked]:text-neutral-500"
+            />
 
-            <div className="flex items-center space-x-2 text-sm">
-              <div>remote-box</div>
-              <Checkbox
-                checked={interactionModeFilters.includes("remote-box")}
-                onCheckedChange={(checked) => {
-                  setInteractionModeFilters((prev) =>
-                    checked
-                      ? [...prev, "remote-box"]
-                      : prev.filter((mode) => mode !== "remote-box"),
-                  );
-                }}
-                className="border-neutral-500 data-[state=checked]:bg-white data-[state=checked]:text-neutral-500"
-              />
-            </div>
+            <p>Remote Box</p>
+            <Checkbox
+              checked={interactionModeFilters.includes("remote-box")}
+              onCheckedChange={(checked) => {
+                setInteractionModeFilters((prev) =>
+                  checked
+                    ? [...prev, "remote-box"]
+                    : prev.filter((mode) => mode !== "remote-box"),
+                );
+              }}
+              className="border-[1.5px] border-neutral-500 data-[state=checked]:bg-white data-[state=checked]:text-neutral-500"
+            />
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center space-x-2">
+          <div className="ml-auto flex items-center space-x-2">
             <button
               className="hover:opacity-70"
               onClick={() => {
