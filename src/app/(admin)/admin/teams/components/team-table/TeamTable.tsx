@@ -81,12 +81,17 @@ export function TeamTable<TData, TValue>({
   data,
 }: TeamTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "createTime", desc: true },
+    { id: "rank", desc: false },
   ]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
+    {
+      id: "actualInteractionMode",
+      value: ["remote", "remote-box"],
+    },
+  ]);
   const [interactionModeFilters, setInteractionModeFilters] = useState<
     ActualInteractionMode[]
-  >([]);
+  >(["remote", "remote-box"]);
 
   const [isCompact, setIsCompact] = useState(true);
   useEffect(() => {
@@ -114,8 +119,14 @@ export function TeamTable<TData, TValue>({
       },
       sorting: [
         {
-          id: "createTime",
-          desc: true,
+          id: "rank",
+          desc: false,
+        },
+      ],
+      columnFilters: [
+        {
+          id: "actualInteractionMode",
+          value: ["remote", "remote-box"],
         },
       ],
     },
