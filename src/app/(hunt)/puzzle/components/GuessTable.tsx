@@ -17,10 +17,9 @@ export default function GuessTable({
   partialSolutions: Record<string, string>;
   tasks: Record<string, React.ReactNode>;
 }) {
-  const [hasHovered, setHasHovered] = useState(true);
-  useEffect(() => {
-    setHasHovered(getCookie("hasHovered") === "true");
-  }, []);
+  const [hasHovered, setHasHovered] = useState(
+    () => getCookie("hasHovered") === "true",
+  );
   return (
     <div>
       <Table className="mb-12 table-fixed md:table-auto">
