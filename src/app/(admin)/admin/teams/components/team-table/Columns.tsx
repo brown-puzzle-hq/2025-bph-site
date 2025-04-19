@@ -1,6 +1,6 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { ChevronsUpDown, ArrowUp, ArrowDown, Trophy } from "lucide-react";
 import { FormattedTime } from "~/lib/time";
 import { ActualInteractionMode } from "~/server/db/schema";
 
@@ -18,18 +18,7 @@ export type TeamTableRow = {
 export const columns: ColumnDef<TeamTableRow>[] = [
   {
     accessorKey: "rank",
-    header: ({ column }) => (
-      <div className="flex w-20 items-center space-x-2">
-        <p>Rank</p>
-        {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="size-4" />
-        ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="size-4" />
-        ) : (
-          <ChevronsUpDown className="size-4" />
-        )}
-      </div>
-    ),
+    header: ({}) => <Trophy className="size-4" />,
     cell: ({ row }) => {
       const rank: number = row.getValue("rank");
       return <p className="text-center">{rank ?? "-"}</p>;
