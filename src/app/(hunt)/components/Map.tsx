@@ -6,6 +6,7 @@ import { Round, ROUNDS } from "@/hunt.config";
 import React from "react";
 import "@pixi/events";
 import { FederatedPointerEvent } from "pixi.js";
+import { ScanSearch } from "lucide-react";
 
 type puzzleList = {
   unlockTime: Date | null;
@@ -338,6 +339,7 @@ export default function Map({
   );
   const pixiContainerRef = useRef<any>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [initialView, setInitialView] = useState({ x: 0, y: 0, scale: 2 });
 
   // Calculate initial map position and zoom based on available puzzles
   const calculateInitialView = () => {
@@ -398,7 +400,11 @@ export default function Map({
     };
   };
 
-  const initialView = calculateInitialView();
+  // Store initialView in state when dependencies change
+  useEffect(() => {
+    const view = calculateInitialView();
+    setInitialView(view);
+  }, [stageSize.width, stageSize.height, uniquePuzzles]);
 
   // Get available round names
   const availableRoundNames = availableRounds.map(({ name }) => name);
@@ -483,20 +489,21 @@ export default function Map({
     };
   }, []);
 
-  // Function to focus on a puzzle
-  const focusOnPuzzle = (puzzleId: string) => {
+  // Shared animation function for both focusing on puzzles and resetting view
+  const animateToPosition = (
+    targetX: number,
+    targetY: number,
+    targetScale: number,
+    clearSearch: boolean = false,
+  ) => {
     if (!pixiContainerRef.current) return;
 
-    const position = positions[puzzleId];
-    if (!position) return;
-
-    const [x, y] = position;
     const container = pixiContainerRef.current;
 
     // Update the target position and scale in the container ref
-    container.targetX = stageSize.width / 2 - x * TARGETPUZZLESCALE;
-    container.targetY = stageSize.height / 2 - y * TARGETPUZZLESCALE;
-    container.targetScale = TARGETPUZZLESCALE;
+    container.targetX = targetX;
+    container.targetY = targetY;
+    container.targetScale = targetScale;
 
     // Start the animation
     if (container.zoomAnimationId) {
@@ -504,7 +511,7 @@ export default function Map({
     }
 
     // Animation timing variables
-    const duration = 800; // Duration in ms
+    const duration = 650; // Duration in ms
     const startTime = performance.now();
     const startX = container.x;
     const startY = container.y;
@@ -550,8 +557,33 @@ export default function Map({
 
     container.zoomAnimationId = requestAnimationFrame(animate);
 
-    // Clear search after focusing
-    setSearchTerm("");
+    // Clear search if needed
+    if (clearSearch) {
+      setSearchTerm("");
+    }
+  };
+
+  // Function to focus on a puzzle
+  const focusOnPuzzle = (puzzleId: string) => {
+    if (!pixiContainerRef.current) return;
+
+    const position = positions[puzzleId];
+    if (!position) return;
+
+    const [x, y] = position;
+
+    // Calculate target position and scale
+    const targetX = stageSize.width / 2 - x * TARGETPUZZLESCALE;
+    const targetY = stageSize.height / 2 - y * TARGETPUZZLESCALE;
+
+    // Animate to the puzzle position
+    animateToPosition(targetX, targetY, TARGETPUZZLESCALE, true);
+  };
+
+  // Function to reset the view to the initial position and scale
+  const resetView = () => {
+    // Animate back to the initial view
+    animateToPosition(initialView.x, initialView.y, initialView.scale);
   };
 
   return (
@@ -560,24 +592,25 @@ export default function Map({
       className="relative h-[calc(100vh-56px-32px)] w-screen overflow-hidden"
     >
       {/* Search bar */}
-      <div className="absolute left-2 top-2 z-10 w-64">
-        <div className="relative">
+      <div className="absolute left-2 top-2 z-10 flex w-72 space-x-2">
+        <div className="relative w-full">
           <div className="flex h-10 items-center rounded-md bg-footer-bg shadow-md">
             <input
               ref={searchInputRef}
               type="text"
-              placeholder="Search puzzles... (⇧⌘F)"
+              placeholder="Search puzzles (⇧⌘F)"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Escape") {
+                  setSearchTerm("");
                   e.currentTarget.blur();
                 } else if (e.key === "Enter" && searchResults.length !== 0) {
                   e.currentTarget.blur();
                   focusOnPuzzle(searchResults[0]!.id);
                 }
               }}
-              className="ml-1 w-full rounded-md border-0 bg-transparent p-2 text-sm text-white placeholder:text-white/70 focus:outline-none"
+              className="ml-1 w-full rounded-md border-0 bg-transparent p-2 text-sm text-white placeholder:text-white/50 focus:outline-none"
             />
             {searchTerm && (
               <button
@@ -591,7 +624,7 @@ export default function Map({
 
           {/* Search results dropdown */}
           {searchResults.length > 0 && (
-            <div className="no-scrollbar absolute mt-1 max-h-[calc(100vh-56px-32px-40px-20px)] w-full space-y-2 overflow-auto rounded-md bg-main-bg/90 p-2 shadow-lg">
+            <div className="no-scrollbar absolute mt-0.5 max-h-[calc(100vh-56px-32px-40px-18px)] w-full space-y-2 overflow-auto rounded-md bg-main-bg/90 p-2 shadow-lg">
               {searchResults.map((puzzle) => (
                 <button
                   key={puzzle.id}
@@ -609,6 +642,14 @@ export default function Map({
             </div>
           )}
         </div>
+
+        {/* Reset view button */}
+        <button
+          onClick={resetView}
+          className="rounded-md bg-footer-bg p-2 hover:bg-[#352349]"
+        >
+          <ScanSearch />
+        </button>
       </div>
 
       {stageSize.width > 0 && stageSize.height > 0 && (
