@@ -218,12 +218,19 @@ export function TeamTable<TData, TValue>({
     const editedTeams: Record<string, EditedTeam> = {};
     for (const teamId in editedRows) {
       for (const field in editedRows[teamId]) {
-        const { new: newValue } = editedRows[teamId][field];
+        const editedField =
+          editedRows[teamId][field as keyof ClientEditableFields];
+        if (!editedField) continue;
+
+        const { new: newValue } = editedField;
 
         if (field === "actualInteractionMode") {
           editedTeams[teamId] = {
             ...editedTeams[teamId],
-            interactionMode: newValue === "remote-box" ? "remote" : newValue,
+            interactionMode:
+              newValue === "remote-box" || newValue === "remote"
+                ? "remote"
+                : "in-person",
             hasBox: newValue === "remote-box",
           };
           continue;
