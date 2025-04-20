@@ -418,6 +418,7 @@ export default function Map({
   );
   const pixiContainerRef = useRef<any>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   // Calculate initial map position and zoom based on available puzzles
   const calculateInitialView = () => {
@@ -532,7 +533,7 @@ export default function Map({
 
   // Handle search functionality
   useEffect(() => {
-    if (searchTerm.trim() === "") {
+    if (searchTerm.trim() === "" && !isSearchFocused) {
       setSearchResults([]);
       return;
     }
@@ -545,7 +546,7 @@ export default function Map({
     );
 
     setSearchResults(filteredPuzzles);
-  }, [searchTerm, uniquePuzzles]);
+  }, [searchTerm, uniquePuzzles, isSearchFocused]);
 
   // Add keyboard shortcut listener for Command+F / Ctrl+F
   useEffect(() => {
@@ -676,6 +677,8 @@ export default function Map({
               placeholder="Search puzzles (⇧⌘F)"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
               onKeyDown={(e) => {
                 if (e.key === "Escape") {
                   setSearchTerm("");
@@ -804,6 +807,7 @@ export default function Map({
                         pointerDownPosition.current &&
                         !movedBeyondTolerance.current
                       ) {
+                        setFocusedPuzzle(null);
                         if (event.metaKey || event.ctrlKey) {
                           window.open(`puzzle/${puzzle.id}`, "_blank");
                         } else {
