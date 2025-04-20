@@ -241,7 +241,11 @@ const DraggableMap = React.forwardRef<
   any,
   {
     children: React.ReactNode;
-    onPointerOutCallback: () => void;
+    setHoveredPuzzle: any;
+    setMousePosition: any;
+    setFocusedPuzzle: any;
+    pointerDownPosition: any;
+    movedBeyondTolerance: any;
     initialX?: number;
     initialY?: number;
     initialScale?: number;
@@ -250,7 +254,11 @@ const DraggableMap = React.forwardRef<
   (
     {
       children,
-      onPointerOutCallback,
+      setHoveredPuzzle,
+      setMousePosition,
+      setFocusedPuzzle,
+      pointerDownPosition,
+      movedBeyondTolerance,
       initialX = 0,
       initialY = 0,
       initialScale = 2,
@@ -262,8 +270,6 @@ const DraggableMap = React.forwardRef<
     const isDragging = useRef(false);
     const lastPosition = useRef({ x: 0, y: 0 });
     const zoomAnimationId = useRef<number | null>(null);
-    const targetX = useRef(initialX);
-    const targetY = useRef(initialY);
 
     // Forward the containerRef to the parent component through the ref
     useEffect(() => {
@@ -290,8 +296,8 @@ const DraggableMap = React.forwardRef<
 
       // Calculate step based on difference (easing)
       const scaleStep = (container.targetScale - currentScale) * 0.15;
-      const xStep = (targetX.current - currentX) * 0.15;
-      const yStep = (targetY.current - currentY) * 0.15;
+      const xStep = (container.targetX - currentX) * 0.15;
+      const yStep = (container.targetY - currentY) * 0.15;
 
       const isComplete =
         Math.abs(scaleStep) < 0.001 &&
@@ -300,8 +306,8 @@ const DraggableMap = React.forwardRef<
 
       if (isComplete) {
         container.scale.set(container.targetScale);
-        container.x = targetX.current;
-        container.y = targetY.current;
+        container.x = container.targetX;
+        container.y = container.targetY;
         zoomAnimationId.current = null;
         return;
       }
@@ -331,8 +337,8 @@ const DraggableMap = React.forwardRef<
       container.y = initialY;
       container.scale.set(initialScale);
       container.targetScale = initialScale;
-      targetX.current = initialX;
-      targetY.current = initialY;
+      container.targetX = initialX;
+      container.targetY = initialY;
 
       const onDragStart = (event: PointerEvent) => {
         if (event.button !== 0) {
@@ -346,6 +352,8 @@ const DraggableMap = React.forwardRef<
         if (container) {
           isDragging.current = true;
           lastPosition.current = { x: mouseX, y: mouseY };
+          pointerDownPosition.current = { x: mouseX, y: mouseY };
+          movedBeyondTolerance.current = false;
 
           // Cancel any ongoing zoom animation when starting to drag
           if (zoomAnimationId.current !== null) {
@@ -356,11 +364,13 @@ const DraggableMap = React.forwardRef<
       };
 
       const onDragMove = (event: PointerEvent) => {
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+
+        setMousePosition({ x: mouseX, y: mouseY });
+
         if (isDragging.current) {
           const container = containerRef.current;
-
-          const mouseX = event.clientX;
-          const mouseY = event.clientY;
 
           const dx = mouseX - lastPosition.current.x;
           const dy = mouseY - lastPosition.current.y;
@@ -369,20 +379,33 @@ const DraggableMap = React.forwardRef<
           container.y += dy;
 
           // Update target position while dragging
-          targetX.current = container.x;
-          targetY.current = container.y;
+          container.targetX = container.x;
+          container.targetY = container.y;
 
           lastPosition.current = { x: mouseX, y: mouseY };
+        }
+
+        if (pointerDownPosition.current && !movedBeyondTolerance.current) {
+          const dx = mouseX - pointerDownPosition.current.x;
+          const dy = mouseY - pointerDownPosition.current.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance > CLICK_TOLERANCE) {
+            movedBeyondTolerance.current = true;
+          }
         }
       };
 
       const onDragEnd = () => {
         isDragging.current = false;
+        if (!movedBeyondTolerance.current) {
+          setFocusedPuzzle(null);
+        }
+        pointerDownPosition.current = null;
       };
 
       const onPointerOut = () => {
         onDragEnd();
-        onPointerOutCallback();
+        setHoveredPuzzle(null);
       };
 
       // Setup wheel zoom
@@ -415,8 +438,8 @@ const DraggableMap = React.forwardRef<
         };
 
         // Calculate the new position to keep mouse in same place
-        targetX.current = x - pointBeforeScale.x * newScale;
-        targetY.current = y - pointBeforeScale.y * newScale;
+        container.targetX = x - pointBeforeScale.x * newScale;
+        container.targetY = y - pointBeforeScale.y * newScale;
 
         // Start the animation for smooth transition
         startZoomAnimation();
@@ -593,34 +616,6 @@ export default function Map({
 
   // Keyboard and mouse listeners
   useEffect(() => {
-    const handleMouseDown = (event: MouseEvent) => {
-      if (event.button !== 0) {
-        event.stopPropagation();
-        return;
-      }
-      pointerDownPosition.current = {
-        x: event.clientX,
-        y: event.clientY,
-      };
-      movedBeyondTolerance.current = false;
-    };
-    const handleMouseMove = (event: MouseEvent) => {
-      setMousePosition({ x: event.clientX, y: event.clientY });
-      if (pointerDownPosition.current && !movedBeyondTolerance.current) {
-        const dx = event.clientX - pointerDownPosition.current.x;
-        const dy = event.clientY - pointerDownPosition.current.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance > CLICK_TOLERANCE) {
-          movedBeyondTolerance.current = true;
-        }
-      }
-    };
-    const handleMouseUp = () => {
-      if (!movedBeyondTolerance.current) {
-        setFocusedPuzzle(null);
-      }
-      pointerDownPosition.current = null;
-    };
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === "f") {
         e.preventDefault();
@@ -630,15 +625,9 @@ export default function Map({
       }
     };
 
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
@@ -840,10 +829,11 @@ export default function Map({
         >
           <DraggableMap
             ref={pixiContainerRef}
-            onPointerOutCallback={() => {
-              pointerDownPosition.current = null;
-              setHoveredPuzzle(null);
-            }}
+            setHoveredPuzzle={setHoveredPuzzle}
+            setMousePosition={setMousePosition}
+            setFocusedPuzzle={setFocusedPuzzle}
+            pointerDownPosition={pointerDownPosition}
+            movedBeyondTolerance={movedBeyondTolerance}
             initialX={initialView.x}
             initialY={initialView.y}
             initialScale={initialView.scale}
