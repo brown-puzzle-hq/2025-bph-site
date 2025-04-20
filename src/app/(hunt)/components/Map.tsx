@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Stage, Container, Sprite, useApp } from "@pixi/react";
 import { META_PUZZLES, Round, ROUNDS } from "@/hunt.config";
 import React from "react";
@@ -97,24 +97,95 @@ const positions: Record<string, [number, number]> = {
   "youve-got-this-covered": [215, 385],
 };
 
+function easeOutBack(x: number): number {
+  const c1 = 1.70158;
+  const c3 = c1 + 1;
+
+  return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+}
+
+// Animation hook for pin drop effect
+const usePinAnimation = (puzzleId: string | null) => {
+  const [scale, setScale] = useState(0.01);
+  const startTimeRef = useRef<number | null>(null);
+  const requestRef = useRef<number | null>(null);
+  const puzzleIdRef = useRef<string | null>(null);
+
+  // Animation constants
+  const duration = 400; // Duration in ms
+
+  // Animation function
+  const animate = useCallback((timestamp: number) => {
+    if (startTimeRef.current === null) {
+      startTimeRef.current = timestamp;
+    }
+
+    const elapsed = timestamp - startTimeRef.current;
+    const progress = Math.min(elapsed / duration, 1); // Normalized 0 → 1
+
+    // Use easeOutBack for smooth overshoot
+    const eased = easeOutBack(progress);
+
+    // Interpolate from 0.01 to 0.25 with overshoot
+    const startScale = 0.01;
+    const endScale = 0.133;
+    const overshootScale = endScale * 1.2; // Optional overshoot target (20% bigger)
+
+    // Compute scale based on eased progress
+    const scale = startScale + (overshootScale - startScale) * eased;
+
+    setScale(scale);
+
+    if (progress < 1) {
+      requestRef.current = requestAnimationFrame(animate);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Reset animation
+    if (!puzzleId) {
+      if (requestRef.current !== null) {
+        cancelAnimationFrame(requestRef.current);
+        requestRef.current = null;
+      }
+      setScale(0.01);
+      startTimeRef.current = null;
+    } else {
+      puzzleIdRef.current = puzzleId;
+      requestRef.current = requestAnimationFrame(animate);
+    }
+  }, [puzzleId, animate]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (requestRef.current !== null) {
+        cancelAnimationFrame(requestRef.current);
+      }
+    };
+  }, []);
+
+  return { scale };
+};
+
 const dimensions: Record<string, [number, number]> = {
   "a-fistful-of-cards": [303, 202],
   "a-fistful-of-cards-ii": [139, 296],
   "a-fistful-of-cards-iii": [320, 205],
   "a-fistful-of-cards-iv": [195, 310],
-  "aha-erlebnis": [800, 150], // Modified for pin placement
+  "aha-erlebnis": [800, 100], // Modified for pin placement
   "are-you-sure": [269, 150],
-  "balloon-animals": [700, 1150], // Modified for pin placement
+  "balloon-animals": [700, 1100], // Modified for pin placement
   barbie: [283, 234],
   beads: [414, 284],
   "bluenos-puzzle-box": [274, 318],
-  "boring-plot": [650, 750], // Modified for pin placement
+  "boring-plot": [650, 700], // Modified for pin placement
   "chain-letters": [258, 204],
   "color-wheel": [296, 287],
   "connect-the-dots": [149, 250],
   constellation: [253, 158],
-  "cutting-room-floor": [750, 850],
-  "drop-the": [400, 1375], // Modified for pin placement
+  "cutting-room-floor": [750, 800], // Modified for pin placement
+  "drop-the": [400, 1325], // Modified for pin placement
   "eye-of-the-storm": [320, 320],
   "eye-spy": [232, 216],
   "eye-to-eye": [274, 233],
@@ -142,7 +213,7 @@ const dimensions: Record<string, [number, number]> = {
   plagiarism: [263, 243],
   "red-blue": [231, 313],
   "secret-ingredient": [211, 245],
-  "six-degrees": [450, 750],
+  "six-degrees": [450, 700], // Modified for pin placement
   "sound-of-music": [276, 251],
   "ten-guards-ten-doors": [150, 240],
   "the-compact-disc": [291, 319],
@@ -420,6 +491,8 @@ export default function Map({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
+  const pinAnimation = usePinAnimation(focusedPuzzle);
+
   // Calculate initial map position and zoom based on available puzzles
   const calculateInitialView = () => {
     if (uniquePuzzles.length === 0) return { x: 0, y: 0, scale: 2 }; // Default scale
@@ -664,11 +737,12 @@ export default function Map({
   // Function to focus on a puzzle
   const focusOnPuzzle = (puzzleId: string) => {
     if (!pixiContainerRef.current) return;
+    setHoveredPuzzle(null);
 
     const position = positions[puzzleId];
     if (!position) return;
 
-    setFocusedPuzzle(puzzleId);
+    setFocusedPuzzle(null);
     const [x, y] = position;
 
     // Calculate target position and scale
@@ -677,6 +751,7 @@ export default function Map({
 
     // Animate to the puzzle position
     animateToPosition(targetX, targetY, TARGETPUZZLESCALE, true);
+    setTimeout(() => setFocusedPuzzle(puzzleId), 400);
   };
 
   // Function to reset the view to the initial position and scale
@@ -729,7 +804,7 @@ export default function Map({
               {searchResults.map((puzzle) => (
                 <button
                   key={puzzle.id}
-                  onClick={() => focusOnPuzzle(puzzle.id)}
+                  onMouseDown={() => focusOnPuzzle(puzzle.id)}
                   className="ml-1 flex w-full items-center text-left text-sm text-white hover:text-opacity-80"
                 >
                   <span className="truncate">{puzzle.name}</span>
@@ -813,7 +888,7 @@ export default function Map({
                         setHoveredPuzzle(null);
                       }
                     }}
-                    pointerover={() => setHoveredPuzzle(puzzle.name)}
+                    pointermove={() => setHoveredPuzzle(puzzle.name)}
                   />
                 );
               })}
@@ -863,7 +938,7 @@ export default function Map({
                 }
                 y={
                   (positions[focusedPuzzle] ?? [180, 500])[1] -
-                  3 -
+                  5 -
                   ((dimensions[focusedPuzzle] ?? [0, 0])[1] *
                     0.075 *
                     (scaleFactor[focusedPuzzle] || 1)) /
@@ -871,7 +946,7 @@ export default function Map({
                 }
                 eventMode="none"
                 anchor={0.5}
-                scale={0.25}
+                scale={pinAnimation.scale}
               />
             )}
           </DraggableMap>
