@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Stage, Container, Sprite, useApp } from "@pixi/react";
-import { META_PUZZLES, Round, ROUNDS } from "@/hunt.config";
 import React from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import PIXI from "pixi.js";
+import { Stage, Container, Sprite, useApp } from "@pixi/react";
 import "@pixi/events";
-import { FederatedPointerEvent } from "pixi.js";
+import { META_PUZZLES, Round, ROUNDS } from "@/hunt.config";
 import { ScanSearch } from "lucide-react";
 
 type puzzleList = {
@@ -238,14 +238,17 @@ const customOffset: Record<string, [number, number]> = {
 };
 
 const DraggableMap = React.forwardRef<
-  any,
+  PIXI.Container,
   {
     children: React.ReactNode;
-    setHoveredPuzzle: any;
-    setMousePosition: any;
-    setFocusedPuzzle: any;
-    pointerDownPosition: any;
-    movedBeyondTolerance: any;
+    setHoveredPuzzle: (puzzle: string | null) => void;
+    setMousePosition: (position: { x: number; y: number }) => void;
+    setFocusedPuzzle: (puzzle: string | null) => void;
+    pointerDownPosition: React.MutableRefObject<{
+      x: number;
+      y: number;
+    } | null>;
+    movedBeyondTolerance: React.MutableRefObject<boolean>;
     initialX?: number;
     initialY?: number;
     initialScale?: number;
@@ -865,7 +868,7 @@ export default function Map({
                     cursor="pointer"
                     anchor={0.5}
                     scale={0.075 * (scaleFactor[puzzle.id] || 1)}
-                    pointerup={(event: FederatedPointerEvent) => {
+                    pointerup={(event: PIXI.FederatedPointerEvent) => {
                       if (!movedBeyondTolerance.current) {
                         if (event.metaKey || event.ctrlKey) {
                           window.open(`puzzle/${puzzle.id}`, "_blank");
