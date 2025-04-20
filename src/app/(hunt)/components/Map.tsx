@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Stage, Container, Sprite, useApp } from "@pixi/react";
-import { Round, ROUNDS } from "@/hunt.config";
+import { META_PUZZLES, Round, ROUNDS } from "@/hunt.config";
 import React from "react";
 import "@pixi/events";
 import { FederatedPointerEvent } from "pixi.js";
@@ -52,7 +52,6 @@ const positions: Record<string, [number, number]> = {
   "chain-letters": [708, 575],
   "color-wheel": [523, 490],
   "connect-the-dots": [538, 663],
-  "lost-lyric": [306, 446],
   constellation: [540, 365],
   "cutting-room-floor": [489, 428],
   "drop-the": [408, 560],
@@ -73,6 +72,7 @@ const positions: Record<string, [number, number]> = {
   imagine: [275, 369],
   "international-neighbours": [788, 434],
   "like-clockwork": [565, 377],
+  "lost-lyric": [306, 446],
   "m-guards-n-doors-and-k-choices": [355, 325],
   narcissism: [514, 281],
   "one-guard-screen": [600, 621],
@@ -95,6 +95,75 @@ const positions: Record<string, [number, number]> = {
   "watching-between-the-lines": [369, 732],
   "whats-my-ride": [288, 320],
   "youve-got-this-covered": [215, 385],
+};
+
+const dimensions: Record<string, [number, number]> = {
+  "a-fistful-of-cards": [303, 202],
+  "a-fistful-of-cards-ii": [139, 296],
+  "a-fistful-of-cards-iii": [320, 205],
+  "a-fistful-of-cards-iv": [195, 310],
+  "aha-erlebnis": [800, 150], // Modified for pin placement
+  "are-you-sure": [269, 150],
+  "balloon-animals": [700, 1150], // Modified for pin placement
+  barbie: [283, 234],
+  beads: [414, 284],
+  "bluenos-puzzle-box": [274, 318],
+  "boring-plot": [650, 750], // Modified for pin placement
+  "chain-letters": [258, 204],
+  "color-wheel": [296, 287],
+  "connect-the-dots": [149, 250],
+  constellation: [253, 158],
+  "cutting-room-floor": [750, 850],
+  "drop-the": [400, 1375], // Modified for pin placement
+  "eye-of-the-storm": [320, 320],
+  "eye-spy": [232, 216],
+  "eye-to-eye": [274, 233],
+  "filming-schedule": [273, 224],
+  "financial-crimes-3": [298, 283],
+  "find-ben": [300, 296],
+  "fractal-shanty": [282, 219],
+  "fridge-magnets": [186, 252],
+  "genetic-counseling": [271, 216],
+  "hand-letters": [225, 320],
+  "heist-ii": [100, 100],
+  "heist-iii": [680, 730],
+  heist: [217, 175],
+  "identify-the-piece": [320, 256],
+  imagine: [242, 313],
+  "international-neighbours": [314, 304],
+  "like-clockwork": [266, 278],
+  "lost-lyric": [292, 318],
+  "m-guards-n-doors-and-k-choices": [150, 240],
+  narcissism: [173, 245],
+  "one-guard-screen": [150, 240],
+  "opening-sequences": [208, 310],
+  peanuts: [320, 303],
+  piecemeal: [248, 362],
+  plagiarism: [263, 243],
+  "red-blue": [231, 313],
+  "secret-ingredient": [211, 245],
+  "six-degrees": [450, 750],
+  "sound-of-music": [276, 251],
+  "ten-guards-ten-doors": [150, 240],
+  "the-compact-disc": [291, 319],
+  "the-final-heist": [680, 730],
+  "the-guard-and-the-door": [150, 240],
+  "the-snack-zone": [276, 241],
+  "two-guards-river": [150, 240],
+  "two-guards-two-doors": [150, 240],
+  "walk-of-fame": [226, 203],
+  "watching-between-the-lines": [274, 268],
+  "whats-my-ride": [306, 291],
+  "youve-got-this-covered": [251, 345],
+};
+
+const customOffset: Record<string, [number, number]> = {
+  "drop-the": [75, 500],
+  "aha-erlebnis": [50, 0],
+  "balloon-animals": [50, 0],
+  "boring-plot": [150, 0],
+  "six-degrees": [50, 150],
+  "cutting-room-floor": [50, 0],
 };
 
 const DraggableMap = React.forwardRef<
@@ -337,6 +406,7 @@ export default function Map({
   }, [availablePuzzles]);
 
   const [hoveredPuzzle, setHoveredPuzzle] = useState<string | null>(null);
+  const [focusedPuzzle, setFocusedPuzzle] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -574,6 +644,7 @@ export default function Map({
     const position = positions[puzzleId];
     if (!position) return;
 
+    setFocusedPuzzle(puzzleId);
     const [x, y] = position;
 
     // Calculate target position and scale
@@ -686,13 +757,10 @@ export default function Map({
               />
             </Container>
 
-            {/* Puzzle sprites layer - always on top */}
+            {/* Puzzle sprites layer */}
             <Container>
               {uniquePuzzles.map((puzzle) => {
                 const position = positions[puzzle.id] ?? [180, 500];
-                const isSolved = solvedPuzzles.some(
-                  (sp) => sp.puzzleId === puzzle.id,
-                );
                 const spriteUrl = `/map/sprites-finalized/${puzzle.id}.png`;
 
                 return (
@@ -754,6 +822,62 @@ export default function Map({
                 );
               })}
             </Container>
+
+            {/* Solved check layer */}
+            <Container>
+              {solvedPuzzles.map((puzzle) => {
+                const position = positions[puzzle.puzzleId] ?? [180, 500];
+                const dims = customOffset[puzzle.puzzleId] ??
+                  dimensions[puzzle.puzzleId] ?? [0, 0];
+
+                return (
+                  <Sprite
+                    key={puzzle.puzzleId}
+                    image={
+                      META_PUZZLES.includes(puzzle.puzzleId)
+                        ? "/map/star.svg"
+                        : "/map/circle-check.svg"
+                    }
+                    x={
+                      position[0] -
+                      2 +
+                      (dims[0] * 0.075 * (scaleFactor[puzzle.puzzleId] || 1)) /
+                        2
+                    }
+                    y={
+                      position[1] -
+                      2 +
+                      (dims[1] * 0.075 * (scaleFactor[puzzle.puzzleId] || 1)) /
+                        2
+                    }
+                    anchor={0.5}
+                    scale={0.175}
+                  />
+                );
+              })}
+            </Container>
+
+            {/* Focused puzzle marker */}
+            {focusedPuzzle && (
+              <Sprite
+                image={`/map/map-pin.svg`}
+                x={
+                  (positions[focusedPuzzle] ?? [180, 500])[0] +
+                  (focusedPuzzle === "boring-plot" ? 3 : 0)
+                }
+                y={
+                  (positions[focusedPuzzle] ?? [180, 500])[1] -
+                  2 -
+                  ((dimensions[focusedPuzzle] ?? [0, 0])[1] *
+                    0.075 *
+                    (scaleFactor[focusedPuzzle] || 1)) /
+                    2
+                }
+                eventMode="none"
+                anchor={0.5}
+                scale={0.25}
+              />
+            )}
           </DraggableMap>
         </Stage>
       )}
