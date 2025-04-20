@@ -518,16 +518,55 @@ export default function Map({
     };
   }, []);
 
-  // Track mouse position
+  // Keyboard and mouse listeners
   useEffect(() => {
+    const handleMouseDown = (event: MouseEvent) => {
+      if (event.button !== 0) {
+        event.stopPropagation();
+        return;
+      }
+      pointerDownPosition.current = {
+        x: event.clientX,
+        y: event.clientY,
+      };
+      movedBeyondTolerance.current = false;
+    };
     const handleMouseMove = (event: MouseEvent) => {
       setMousePosition({ x: event.clientX, y: event.clientY });
+      if (pointerDownPosition.current && !movedBeyondTolerance.current) {
+        const dx = event.clientX - pointerDownPosition.current.x;
+        const dy = event.clientY - pointerDownPosition.current.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance > CLICK_TOLERANCE) {
+          movedBeyondTolerance.current = true;
+        }
+      }
+    };
+    const handleMouseUp = () => {
+      if (!movedBeyondTolerance.current) {
+        setFocusedPuzzle(null);
+      }
+      pointerDownPosition.current = null;
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === "f") {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      } else if (e.key === "Escape") {
+        setFocusedPuzzle(null);
+      }
     };
 
+    window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
+      window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
@@ -547,22 +586,6 @@ export default function Map({
 
     setSearchResults(filteredPuzzles);
   }, [searchTerm, uniquePuzzles, isSearchFocused]);
-
-  // Add keyboard shortcut listener for Command+F / Ctrl+F
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === "f") {
-        e.preventDefault();
-        searchInputRef.current?.focus();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
 
   // Shared animation function for both focusing on puzzles and resetting view
   const animateToPosition = (
@@ -776,45 +799,14 @@ export default function Map({
                     cursor="pointer"
                     anchor={0.5}
                     scale={0.075 * (scaleFactor[puzzle.id] || 1)}
-                    pointerdown={(event: FederatedPointerEvent) => {
-                      if (event.button !== 0) {
-                        event.stopPropagation();
-                        return;
-                      }
-                      pointerDownPosition.current = {
-                        x: event.global.x,
-                        y: event.global.y,
-                      };
-                      movedBeyondTolerance.current = false;
-                    }}
-                    pointermove={(event: FederatedPointerEvent) => {
-                      if (
-                        pointerDownPosition.current &&
-                        !movedBeyondTolerance.current
-                      ) {
-                        const dx =
-                          event.global.x - pointerDownPosition.current.x;
-                        const dy =
-                          event.global.y - pointerDownPosition.current.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        if (distance > CLICK_TOLERANCE) {
-                          movedBeyondTolerance.current = true;
-                        }
-                      }
-                    }}
                     pointerup={(event: FederatedPointerEvent) => {
-                      if (
-                        pointerDownPosition.current &&
-                        !movedBeyondTolerance.current
-                      ) {
-                        setFocusedPuzzle(null);
+                      if (!movedBeyondTolerance.current) {
                         if (event.metaKey || event.ctrlKey) {
                           window.open(`puzzle/${puzzle.id}`, "_blank");
                         } else {
                           window.location.href = `puzzle/${puzzle.id}`;
                         }
                       }
-                      pointerDownPosition.current = null;
                     }}
                     pointerout={() => {
                       if (!pointerDownPosition.current) {
@@ -871,7 +863,7 @@ export default function Map({
                 }
                 y={
                   (positions[focusedPuzzle] ?? [180, 500])[1] -
-                  2 -
+                  3 -
                   ((dimensions[focusedPuzzle] ?? [0, 0])[1] *
                     0.075 *
                     (scaleFactor[focusedPuzzle] || 1)) /
