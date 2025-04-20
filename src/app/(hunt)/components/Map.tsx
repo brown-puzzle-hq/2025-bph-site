@@ -789,12 +789,13 @@ export default function Map({
 
           {/* Search results dropdown */}
           {searchResults.length > 0 && (
-            <div className="no-scrollbar absolute mt-0.5 max-h-[calc(100vh-56px-32px-40px-18px)] w-full space-y-2 overflow-auto rounded-md bg-main-bg/90 p-2 shadow-lg">
+            <div className="no-scrollbar absolute mt-0.5 max-h-[calc(100vh-56px-32px-40px-18px)] w-full overflow-auto rounded-md bg-main-bg/90 p-2 shadow-lg">
               {searchResults.map((puzzle) => (
                 <button
                   key={puzzle.id}
                   onMouseDown={() => focusOnPuzzle(puzzle.id)}
-                  className="ml-1 flex w-full items-center text-left text-sm text-white hover:text-opacity-80"
+                  onMouseMove={() => setHoveredPuzzle(null)}
+                  className="ml-1 flex w-full items-center py-1 text-left text-sm text-white hover:text-opacity-80"
                 >
                   <span className="truncate">{puzzle.name}</span>
                   {solvedPuzzles.some((sp) => sp.puzzleId === puzzle.id) && (
