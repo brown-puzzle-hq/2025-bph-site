@@ -8,7 +8,6 @@ import { Triangle } from "lucide-react";
 import Image from "next/image";
 import DOOR from "./door.svg";
 import { cn } from "~/lib/utils";
-import { getCookie, setCookie } from "typescript-cookie";
 
 type Row = {
   run: number;
@@ -165,28 +164,6 @@ const getStateFromRow = (row: Row | null): State => {
   };
 };
 
-export function runToCookie(rows: Row[]): string {
-  const simplified = rows.map((row) => ({
-    ...row,
-    time: row.time.toISOString(),
-  }));
-  return encodeURIComponent(JSON.stringify(simplified));
-}
-
-export function cookieToRun(cookie: string | undefined): Row[] | undefined {
-  if (!cookie) return undefined;
-  try {
-    const parsed = JSON.parse(decodeURIComponent(cookie));
-    return parsed.map((item: any) => ({
-      ...item,
-      time: new Date(item.time),
-    })) as Row[];
-  } catch (err) {
-    console.error("Invalid cookie format", err);
-    return undefined;
-  }
-}
-
 type RemoteBodyProps =
   | { loggedIn: true; run: Row[] }
   | { loggedIn: false; run?: undefined };
@@ -196,7 +173,7 @@ export default function RemoteBody({ run, loggedIn }: RemoteBodyProps) {
 
   // Keep track of the current run
   // Initialize the current state of the puzzle
-  const initialRun = loggedIn ? run : (cookieToRun(getCookie("mnk")) ?? []);
+  const initialRun = loggedIn ? run : [];
   const [currRun, setRun] = useState<Row[]>(initialRun);
   const lastRow = getLastRow(initialRun);
   const currState = getStateFromRow(lastRow);
@@ -220,9 +197,8 @@ export default function RemoteBody({ run, loggedIn }: RemoteBodyProps) {
     decision: MNKDecision,
     decisionType: MNKDecisionType,
   ) => {
-    // If not logged in, check the cookie
+    // If not logged in, just check the state
     if (!loggedIn) {
-      const currRun = cookieToRun(getCookie("mnk"));
       const newRow = {
         run: state.run,
         scenario: state.scenario,
@@ -230,11 +206,6 @@ export default function RemoteBody({ run, loggedIn }: RemoteBodyProps) {
         decisionType,
         time: new Date(),
       };
-
-      if (!currRun) {
-        setCookie("mnk", runToCookie([newRow]));
-        return { error: null, row: newRow, lastRun: null };
-      }
 
       // Check cooldown
       const lastFinalDecision = currRun.find(
@@ -248,7 +219,6 @@ export default function RemoteBody({ run, loggedIn }: RemoteBodyProps) {
           error:
             "You must wait 30 minutes before playing the interaction again.",
         };
-
       return { error: null, row: newRow, lastRun: null };
     }
 
