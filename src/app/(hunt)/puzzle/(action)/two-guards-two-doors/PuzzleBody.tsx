@@ -14,24 +14,58 @@ import RImage from "./media/r.png";
 import NImage from "./media/n.png";
 import HandImage from "./media/pointer.png";
 import { TGTDDecision } from "~/server/db/schema";
-import { DecisionMap, DecisionMapKey } from "./page";
-import { insertTGTDDecision } from "./actions";
+import { Decision, DecisionMap, DecisionMapKey } from "./page";
 import Countdown from "./Countdown";
 import { cn } from "~/lib/utils";
+import { getCookie, setCookie } from "typescript-cookie";
+import { insertTGTDDecision } from "./actions";
 
 const coolDownTime = 10 * 60 * 1000; // 10 minutes
 
+export function decisionToCookie(decision: Decision): string {
+  return `${decision.decision},${decision.time.toISOString()}`;
+}
+
+export function cookieToDecision(
+  cookie: string | undefined,
+): Decision | undefined {
+  if (!cookie) return undefined;
+  const [decision, timeString] = cookie.split(",");
+  if (!decision || !timeString) return undefined;
+  const time = new Date(timeString);
+  if (isNaN(time.getTime())) return undefined;
+  return { decision, time };
+}
+
+type PuzzleBodyProps =
+  | { loggedIn: true; decisionsMap: DecisionMap }
+  | { loggedIn: false; decisionsMap?: undefined };
+
 export default function PuzzleBody({
   decisionsMap,
-}: {
-  decisionsMap: DecisionMap;
-}) {
+  loggedIn,
+}: PuzzleBodyProps) {
   const { toast } = useToast();
-  const [currDecisions, setCurrDecisions] = useState<DecisionMap>(decisionsMap);
+
+  // Set the initital state of the decisions
+  const initialDecision: DecisionMap = loggedIn
+    ? decisionsMap
+    : {
+        1: cookieToDecision(getCookie("1")) ?? null,
+        2: cookieToDecision(getCookie("2")) ?? null,
+        3: cookieToDecision(getCookie("3")) ?? null,
+        4: cookieToDecision(getCookie("4")) ?? null,
+        5: cookieToDecision(getCookie("5")) ?? null,
+        6: cookieToDecision(getCookie("6")) ?? null,
+      };
+  const [currDecisions, setCurrDecisions] =
+    useState<DecisionMap>(initialDecision);
+
   const [pendingConfirmation, setPendingConfirmation] = useState<{
     door: DecisionMapKey;
     decision: TGTDDecision;
   } | null>(null);
+
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleDoorClick = async (
@@ -61,7 +95,28 @@ export default function PuzzleBody({
       }));
       setPendingConfirmation(null);
 
-      // Try to insert the decision
+      // If not logged in, check the cookie
+      if (!loggedIn) {
+        const key = door.toString();
+        const currDecision = cookieToDecision(getCookie(key));
+        if (
+          !currDecision ||
+          currDecision.time.getTime() + coolDownTime < new Date().getTime()
+        ) {
+          setCookie(key, decisionToCookie({ time: new Date(), decision }));
+          return;
+        }
+
+        toast({
+          title: "Error",
+          description:
+            "You must wait 10 minutes before playing the interaction again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // If logged in, check the database
       startTransition(async () => {
         const result = await insertTGTDDecision(door, decision);
 
@@ -107,7 +162,8 @@ export default function PuzzleBody({
     <div>
       {/* DOORS SET 1 */}
       <div className="mb-6 max-w-3xl text-center">
-      Warning! This puzzle contains choices that your team will not be able to change for a certain time period.
+        Warning! This puzzle contains choices that your team will not be able to
+        change for a certain time period.
       </div>
       <hr className="my-6 mb-6 w-full border-t border-white" />
       <div className="mb-5 max-w-3xl">
