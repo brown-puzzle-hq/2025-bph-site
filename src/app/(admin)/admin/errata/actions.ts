@@ -67,8 +67,6 @@ export async function insertErratum(puzzleId: string, description: string) {
     extractEmails(team.members),
   );
 
-  console.log(emails);
-
   sendEmail(
     ["brownpuzzlehq@gmail.com"],
     `Erratum Issued [${puzzleName}]`,
