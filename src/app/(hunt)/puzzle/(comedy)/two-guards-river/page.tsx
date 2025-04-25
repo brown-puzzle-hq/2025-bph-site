@@ -109,6 +109,7 @@ async function DefaultPuzzlePage({
 
       <div className="no-scrollbar overflow-auto">
         <div className="mx-auto flex w-fit items-start justify-center space-x-2">
+          {copyText && <div className="min-w-6" />}
           <div className="w-fit">{puzzleBody(isSolved)}</div>
           {copyText && <CopyButton copyText={copyText} />}
         </div>
