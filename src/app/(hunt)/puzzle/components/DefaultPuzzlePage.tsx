@@ -60,30 +60,6 @@ export default async function DefaultPuzzlePage({
       redirect("/puzzle");
   }
 
-  // If user is not logged in, show puzzle without errata or guesses
-  if (!session?.user?.id) {
-    return (
-      <div className="mb-8 w-full px-4">
-        <div className="no-scrollbar overflow-auto">
-          <div className="mx-auto flex w-fit items-start justify-center space-x-2">
-            {copyText && <div className="min-w-6" />}
-            <div className="w-fit">{remoteBody}</div>
-            {copyText && <CopyButton copyText={copyText} />}
-          </div>
-        </div>
-
-        {Object.keys(tasks).map((task) => {
-          return (
-            <div key={task}>
-              <hr className="mx-auto my-6 max-w-3xl" />
-              <div className="mx-auto w-fit">{tasks[task]}</div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-
   // Puzzle answer
   const puzzleAnswer = (await db.query.puzzles.findFirst({
     where: eq(puzzles.id, puzzleId),
