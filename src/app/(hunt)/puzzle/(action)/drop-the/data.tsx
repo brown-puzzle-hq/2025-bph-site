@@ -51,13 +51,13 @@ const aliases = ["PUNISHER", "PROWLER", "LEADER", "THING", "HULK", "RAY"].map(
 );
 const highlightedIndices = [[6, 7], [2, 5], [3, 4], [0, 4], [2], [1]];
 export const solutionBody = (
-  <div className="flex max-w-3xl flex-col items-center space-y-4 text-center">
-    <div>Each of the feeder answers is the last name of a superhero.</div>
-    <div>
+  <div className="max-w-3xl space-y-4">
+    <div>Each of the feeder answers is the last name of a superhero.
+    
       As clued by the title, each of these superheros has an alias that
       canonically starts with "The":
     </div>
-
+    <div className="flex flex-col items-center">
     <table className="items-center border border-white pb-4 text-xs leading-none sm:text-base">
       <thead>
         <tr className="font-bold text-white">
@@ -92,11 +92,12 @@ export const solutionBody = (
         </tr>
       </tbody>
     </table>
+    </div>
 
     <div>
       Dropping the "The" and filling in the aliases into the given grid yields:
     </div>
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center">
       {aliases.map((row, i) => (
         <div
           key={i}
@@ -120,7 +121,8 @@ export const solutionBody = (
     </div>
     <div>
       Ordering the highlighted letters by the numbers they were given with, we
-      obtain our final answer.
+      obtain our final answer, {" "}
+      <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">ALTERED EGO.</span>
     </div>
   </div>
 );
