@@ -45,20 +45,20 @@ export default async function DefaultSolutionPage({
 
   return (
     <div className="mb-12 w-full space-y-4 px-4">
-      <div className="flex items-center justify-center gap-1 text-sm font-medium">
+      <div className="flex items-center justify-center gap-1 text-lg font-medium">
         Answer:
         <p className="rounded-md bg-main-text px-1 py-0.5 transition-all duration-300 hover:bg-inherit">
           {puzzleAnswer}
         </p>
-      </div>
-      <div className="no-scrollbar overflow-auto">
-        <div className="mx-auto w-fit">{solutionBody}</div>
       </div>
       {authors && (
         <div className="flex items-center justify-center italic">
           Written by {authors}.
         </div>
       )}
+      <div className="no-scrollbar overflow-auto">
+        <div className="mx-auto w-fit">{solutionBody}</div>
+      </div>
     </div>
   );
 }
