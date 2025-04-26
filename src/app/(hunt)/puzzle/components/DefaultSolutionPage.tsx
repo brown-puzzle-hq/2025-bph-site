@@ -12,7 +12,7 @@ export default async function DefaultSolutionPage({
 }: {
   puzzleId: string;
   solutionBody: React.ReactNode;
-  authors: string;
+  authors: string | null;
 }) {
   // Check if user can view solution
   const session = await auth();
