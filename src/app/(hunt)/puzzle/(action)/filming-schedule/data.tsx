@@ -12,9 +12,9 @@ export const puzzleId = "filming-schedule";
  */
 export const inPersonBody = (
   <div className="mx-auto max-w-3xl space-y-4 text-center">
-        <div className="pb-2.5 italic">
-        It's really hard to register and coordinate my Brown University courses
-        for this semester with this filming schedule.
+    <div className="pb-2.5 italic">
+      It's really hard to register and coordinate my Brown University courses
+      for this semester with this filming schedule.
     </div>
     <ol className="list-inside list-decimal space-y-3 text-left">
       <li>
@@ -84,8 +84,8 @@ export const remoteBody = inPersonBody;
 export const solutionBody = (
   <div className="max-w-3xl space-y-4 text-left">
     <p>
-      Solving the puzzle involves identifying these pairs of words differing by one letter, finding the
-      letter, and putting those letters together.
+      Solving the puzzle involves identifying these pairs of words differing by
+      one letter, finding the letter, and putting those letters together.
     </p>
     <p>
       To start, each indented item in the list refers to a book, with one word
@@ -128,7 +128,9 @@ export const solutionBody = (
         <tr className="font-bold text-white">
           <th className="w-1/3 p-2 outline outline-white">Book word</th>
           <th className="w-1/3 p-2 outline outline-white">Course title word</th>
-          <th className="w-1/3 p-2 outline outline-white">Changed letter in course title</th>
+          <th className="w-1/3 p-2 outline outline-white">
+            Changed letter in course title
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -167,9 +169,10 @@ export const solutionBody = (
 
     <div>
       The new letters in the course titles spell out our answer,{" "}
-      <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">BANNER.</span>
+      <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
+        BANNER.
+      </span>
     </div>
-          
   </div>
 );
 

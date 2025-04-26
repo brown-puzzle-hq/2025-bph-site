@@ -52,46 +52,46 @@ const aliases = ["PUNISHER", "PROWLER", "LEADER", "THING", "HULK", "RAY"].map(
 const highlightedIndices = [[6, 7], [2, 5], [3, 4], [0, 4], [2], [1]];
 export const solutionBody = (
   <div className="max-w-3xl space-y-4">
-    <div>Each of the feeder answers is the last name of a superhero.
-    
-      As clued by the title, each of these superheros has an alias that
-      canonically starts with "The":
+    <div>
+      Each of the feeder answers is the last name of a superhero. As clued by
+      the title, each of these superheros has an alias that canonically starts
+      with "The":
     </div>
     <div className="flex flex-col items-center">
-    <table className="items-center border border-white pb-4 text-xs leading-none sm:text-base">
-      <thead>
-        <tr className="font-bold text-white">
-          <th className="w-1/2 p-2 outline outline-white">Superhero name</th>
-          <th className="w-1/2 p-2 outline outline-white">Alias</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td className="p-2 outline outline-white">Bruce BANNER</td>
-          <td className="p-2 outline outline-white">The HULK</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">Hobie BROWN</td>
-          <td className="p-2 outline outline-white">The PROWLER</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">Frank CASTLE</td>
-          <td className="p-2 outline outline-white">The PUNISHER</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">Lucian GATES</td>
-          <td className="p-2 outline outline-white">The RAY</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">Ben GRIMM</td>
-          <td className="p-2 outline outline-white">The THING</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">Samuel STERNS</td>
-          <td className="p-2 outline outline-white">The LEADER</td>
-        </tr>
-      </tbody>
-    </table>
+      <table className="items-center border border-white pb-4 text-xs leading-none sm:text-base">
+        <thead>
+          <tr className="font-bold text-white">
+            <th className="w-1/2 p-2 outline outline-white">Superhero name</th>
+            <th className="w-1/2 p-2 outline outline-white">Alias</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="p-2 outline outline-white">Bruce BANNER</td>
+            <td className="p-2 outline outline-white">The HULK</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">Hobie BROWN</td>
+            <td className="p-2 outline outline-white">The PROWLER</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">Frank CASTLE</td>
+            <td className="p-2 outline outline-white">The PUNISHER</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">Lucian GATES</td>
+            <td className="p-2 outline outline-white">The RAY</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">Ben GRIMM</td>
+            <td className="p-2 outline outline-white">The THING</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">Samuel STERNS</td>
+            <td className="p-2 outline outline-white">The LEADER</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div>
@@ -121,8 +121,10 @@ export const solutionBody = (
     </div>
     <div>
       Ordering the highlighted letters by the numbers they were given with, we
-      obtain our final answer, {" "}
-      <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">ALTERED EGO.</span>
+      obtain our final answer,{" "}
+      <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
+        ALTERED EGO.
+      </span>
     </div>
   </div>
 );
