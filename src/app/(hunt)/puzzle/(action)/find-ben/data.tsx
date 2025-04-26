@@ -51,7 +51,10 @@ export const solutionBody = (
       <li>Find the original frame.</li>
       <li>
         Reverse image search or watch the surrounding footage to determine that
-        the structure behind Ben is Odawara Castle.
+        the structure behind Ben is{" "}
+        <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
+          Odawara Castle.
+        </span>
       </li>
       <li>
         The answer is thus{" "}
