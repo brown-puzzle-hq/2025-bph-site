@@ -1,5 +1,6 @@
 import Image from "next/image";
 import DROP from "./drop-the.jpg";
+import { cn } from "~/lib/utils";
 
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
@@ -89,9 +90,13 @@ export const solutionBody = (
     </div>
     <div className="flex flex-col items-center justify-center">
       {aliases.map((row, i) => (
-        <div className={`grid grid-cols-${row.length} w-fit text-center`}>
+        <div
+          key={i}
+          className={cn("grid w-fit text-center", `grid-cols-${row.length}`)}
+        >
           {row.map((letter, j) => (
             <div
+              key={j}
               className={
                 "flex h-10 w-10 items-center justify-center border border-white" +
                 (highlightedIndices[i]?.includes(j)
@@ -105,7 +110,10 @@ export const solutionBody = (
         </div>
       ))}
     </div>
-    <div>Ordering the highlighted letters by the numbers they were given with, we obtain our final answer.</div>
+    <div>
+      Ordering the highlighted letters by the numbers they were given with, we
+      obtain our final answer.
+    </div>
   </div>
 );
 
