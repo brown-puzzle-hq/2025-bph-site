@@ -1315,53 +1315,65 @@ export default async function Home() {
           </TableRow>
         </TableBody>
       </Table>
-      {/* shortest guesses */}
+      {/* one-letter guesses */}
       <Table className="mx-auto w-fit">
         <TableHeader>
           <TableRow className="hover:bg-inherit">
-            <TableHead className="text-main-header">guess</TableHead>
-            <TableHead className="text-main-header">length</TableHead>
+            <TableHead className="text-main-header">I</TableHead>
+            <TableHead className="text-main-header">O</TableHead>
+            <TableHead className="text-main-header">R</TableHead>
+            <TableHead className="text-main-header">A</TableHead>
+            <TableHead className="text-main-header">U</TableHead>
+            <TableHead className="text-main-header">E</TableHead>
+            <TableHead className="text-main-header">B</TableHead>
+            <TableHead className="text-main-header">C</TableHead>
+            <TableHead className="text-main-header">D</TableHead>
+            <TableHead className="text-main-header">V</TableHead>
+            <TableHead className="text-main-header">G</TableHead>
+            <TableHead className="text-main-header">H</TableHead>
+            <TableHead className="text-main-header">M</TableHead>
+            <TableHead className="text-main-header">Y</TableHead>
+            <TableHead className="text-main-header">S</TableHead>
+            <TableHead className="text-main-header">X</TableHead>
+            <TableHead className="text-main-header">K</TableHead>
+            <TableHead className="text-main-header">N</TableHead>
+            <TableHead className="text-main-header">F</TableHead>
+            <TableHead className="text-main-header">J</TableHead>
+            <TableHead className="text-main-header">L</TableHead>
+            <TableHead className="text-main-header">P</TableHead>
+            <TableHead className="text-main-header">Q</TableHead>
+            <TableHead className="text-main-header">T</TableHead>
+            <TableHead className="text-main-header">W</TableHead>
+            <TableHead className="text-main-header">Z</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="pointer-events-none">
-          <TableRow>
-            <TableCell>K</TableCell>
+          <TableRow className="hover:bg-inherit">
+            <TableCell>13</TableCell>
+            <TableCell>9</TableCell>
+            <TableCell>8</TableCell>
+            <TableCell>8</TableCell>
+            <TableCell>7</TableCell>
+            <TableCell>4</TableCell>
+            <TableCell>4</TableCell>
+            <TableCell>4</TableCell>
+            <TableCell>4</TableCell>
+            <TableCell>3</TableCell>
+            <TableCell>3</TableCell>
+            <TableCell>3</TableCell>
+            <TableCell>2</TableCell>
+            <TableCell>2</TableCell>
+            <TableCell>2</TableCell>
+            <TableCell>2</TableCell>
+            <TableCell>2</TableCell>
+            <TableCell>2</TableCell>
+            <TableCell>2</TableCell>
             <TableCell>1</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>I</TableCell>
             <TableCell>1</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>J</TableCell>
             <TableCell>1</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>H</TableCell>
             <TableCell>1</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>R</TableCell>
             <TableCell>1</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>L</TableCell>
             <TableCell>1</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>O</TableCell>
-            <TableCell>1</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>K</TableCell>
-            <TableCell>1</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>A</TableCell>
-            <TableCell>1</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>O</TableCell>
             <TableCell>1</TableCell>
           </TableRow>
         </TableBody>
