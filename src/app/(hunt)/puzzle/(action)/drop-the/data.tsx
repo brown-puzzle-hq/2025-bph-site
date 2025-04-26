@@ -1,6 +1,14 @@
 import Image from "next/image";
 import DROP from "./drop-the.jpg";
-import { cn } from "~/lib/utils";
+
+const GRIDCOLS: Record<number, string> = {
+  3: "grid-cols-3",
+  4: "grid-cols-4",
+  5: "grid-cols-5",
+  6: "grid-cols-6",
+  7: "grid-cols-7",
+  8: "grid-cols-8",
+};
 
 /**
  * The puzzle ID is used to uniquely identify the puzzle in the database.
@@ -92,7 +100,7 @@ export const solutionBody = (
       {aliases.map((row, i) => (
         <div
           key={i}
-          className={cn("grid w-fit text-center", `grid-cols-${row.length}`)}
+          className={`grid w-fit text-center ${GRIDCOLS[row.length]}`}
         >
           {row.map((letter, j) => (
             <div
