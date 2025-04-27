@@ -24,7 +24,7 @@ export default function Page() {
         <div className="hidden h-screen p-8 md:block md:w-1/3 lg:w-1/4">
           <TableOfContents />
         </div>
-        <div className="flex w-full px-4 md:w-2/3 lg:w-1/2">
+        <div className="flex w-full px-4">
           <article className="prose prose-info w-full max-w-none">
             <h1>Wrapup</h1>
             <TOCSection sectionId={0} tocTitle="Placeholder" isFirst>
@@ -36,874 +36,880 @@ export default function Page() {
             <TOCSection sectionId={2} tocTitle="Statistics">
               <h2>Statistics</h2>
               {/* QUICK STATS */}
-              <Table className="w-fit">
+              <h3>Summary</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
                     <TableHead className="text-main-header"></TableHead>
                     <TableHead className="text-main-header">
-                      in-person
+                      In Person
                     </TableHead>
                     <TableHead className="text-main-header">
-                      remote-box
+                      Remote Box
                     </TableHead>
-                    <TableHead className="text-main-header">remote</TableHead>
-                    <TableHead className="text-main-header">total</TableHead>
+                    <TableHead className="text-main-header">Remote</TableHead>
+                    <TableHead className="text-main-header">Total</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
                   <TableRow>
-                    <TableHead className="text-main-header">teams</TableHead>
-                    <TableCell>40</TableCell>
-                    <TableCell>49</TableCell>
-                    <TableCell>271</TableCell>
-                    <TableCell>360</TableCell>
+                    <TableHead className="text-main-header">Teams</TableHead>
+                    <TableCell className="text-center">40</TableCell>
+                    <TableCell className="text-center">49</TableCell>
+                    <TableCell className="text-center">271</TableCell>
+                    <TableCell className="text-center">360</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableHead className="text-main-header">
-                      finishers
+                      Finishers
                     </TableHead>
-                    <TableCell>12</TableCell>
-                    <TableCell>27</TableCell>
-                    <TableCell>47</TableCell>
-                    <TableCell>86</TableCell>
+                    <TableCell className="text-center">12</TableCell>
+                    <TableCell className="text-center">27</TableCell>
+                    <TableCell className="text-center">47</TableCell>
+                    <TableCell className="text-center">86</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableHead className="text-main-header">
-                      action meta solves
+                      Action Meta Solves
                     </TableHead>
-                    <TableCell>29</TableCell>
-                    <TableCell>38</TableCell>
-                    <TableCell>139</TableCell>
-                    <TableCell>206</TableCell>
+                    <TableCell className="text-center">29</TableCell>
+                    <TableCell className="text-center">38</TableCell>
+                    <TableCell className="text-center">139</TableCell>
+                    <TableCell className="text-center">206</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableHead className="text-main-header">
-                      participants
+                      Participants
                     </TableHead>
-                    <TableCell>247</TableCell>
-                    <TableCell>129</TableCell>
-                    <TableCell>487</TableCell>
-                    <TableCell>863</TableCell>
+                    <TableCell className="text-center">247</TableCell>
+                    <TableCell className="text-center">129</TableCell>
+                    <TableCell className="text-center">487</TableCell>
+                    <TableCell className="text-center">863</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableHead className="text-main-header">
-                      hints asked
-                    </TableHead>
-                    <TableCell>163</TableCell>
-                    <TableCell>205</TableCell>
-                    <TableCell>908</TableCell>
-                    <TableCell>1276</TableCell>
+                    <TableHead className="text-main-header">Hints</TableHead>
+                    <TableCell className="text-center">163</TableCell>
+                    <TableCell className="text-center">205</TableCell>
+                    <TableCell className="text-center">908</TableCell>
+                    <TableCell className="text-center">1276</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableHead className="text-main-header">guesses</TableHead>
-                    <TableCell>3751</TableCell>
-                    <TableCell>8172</TableCell>
-                    <TableCell>23521</TableCell>
-                    <TableCell>35444</TableCell>
+                    <TableHead className="text-main-header">Guesses</TableHead>
+                    <TableCell className="text-center">3751</TableCell>
+                    <TableCell className="text-center">8172</TableCell>
+                    <TableCell className="text-center">23521</TableCell>
+                    <TableCell className="text-center">35444</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableHead className="text-main-header">solves</TableHead>
-                    <TableCell>1118</TableCell>
-                    <TableCell>1936</TableCell>
-                    <TableCell>5343</TableCell>
-                    <TableCell>8397</TableCell>
+                    <TableHead className="text-main-header">Solves</TableHead>
+                    <TableCell className="text-center">1118</TableCell>
+                    <TableCell className="text-center">1936</TableCell>
+                    <TableCell className="text-center">5343</TableCell>
+                    <TableCell className="text-center">8397</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
               {/* TEAM STATS */}
               {/* fewest guesses */}
-              <Table className="w-fit">
+              <h3>Fewest Guesses</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
                     <TableHead className="text-main-header">
-                      display_name
+                      Display Name
                     </TableHead>
                     <TableHead className="text-main-header">
-                      guess_count
+                      Guess Count*
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
                   <TableRow>
                     <TableCell>Casabllama</TableCell>
-                    <TableCell>59</TableCell>
+                    <TableCell className="text-center">59</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>The Wob Blizzards</TableCell>
-                    <TableCell>105</TableCell>
+                    <TableCell className="text-center">105</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       The Greater Embarrassment Community Theater
                     </TableCell>
-                    <TableCell>105</TableCell>
+                    <TableCell className="text-center">105</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Living Off Hope</TableCell>
-                    <TableCell>115</TableCell>
+                    <TableCell className="text-center">115</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Husky Hunters</TableCell>
-                    <TableCell>124</TableCell>
+                    <TableCell className="text-center">124</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Cardinality</TableCell>
-                    <TableCell>129</TableCell>
+                    <TableCell className="text-center">129</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>plugh</TableCell>
-                    <TableCell>139</TableCell>
+                    <TableCell className="text-center">139</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Theatre Screen's Bright Illumination</TableCell>
-                    <TableCell>143</TableCell>
+                    <TableCell className="text-center">143</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Lefty</TableCell>
-                    <TableCell>146</TableCell>
+                    <TableCell className="text-center">146</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>come back to us later</TableCell>
-                    <TableCell>146</TableCell>
+                    <TableCell className="text-center">146</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
+              <p className="text-sm text-main-header">
+                *Includes PARTIALs and TASKs. Casabllama's solve was essentially
+                flawless.
+              </p>
               {/* most guesses */}
-              <Table className="w-fit">
+              <h3>Most Guesses</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
                     <TableHead className="text-main-header">
-                      display_name
+                      Display Name
                     </TableHead>
                     <TableHead className="text-main-header">
-                      guess_count
+                      Guess Count
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
                   <TableRow>
                     <TableCell>🍓➡️🐢</TableCell>
-                    <TableCell>689</TableCell>
+                    <TableCell className="text-center">689</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Hunters Around The World</TableCell>
-                    <TableCell>684</TableCell>
+                    <TableCell className="text-center">684</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Cacheiras</TableCell>
-                    <TableCell>591</TableCell>
+                    <TableCell className="text-center">591</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>希望404</TableCell>
-                    <TableCell>469</TableCell>
+                    <TableCell className="text-center">469</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Les Gaulois</TableCell>
-                    <TableCell>460</TableCell>
+                    <TableCell className="text-center">460</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       AHAMILTON RB.GY/TC4L8X CCAPAC APU #1 FAN + friends
                     </TableCell>
-                    <TableCell>420</TableCell>
+                    <TableCell className="text-center">420</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the riddlers</TableCell>
-                    <TableCell>419</TableCell>
+                    <TableCell className="text-center">419</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Puzzle Solution Doxxers</TableCell>
-                    <TableCell>414</TableCell>
+                    <TableCell className="text-center">414</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Amateur Hour</TableCell>
-                    <TableCell>399</TableCell>
+                    <TableCell className="text-center">399</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>何以为我</TableCell>
-                    <TableCell>393</TableCell>
+                    <TableCell className="text-center">393</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
               {/* fewest hints */}
-              <Table className="w-fit">
+              <h3>Fewest Hints</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
                     <TableHead className="text-main-header">
-                      display_name
+                      Display Name
                     </TableHead>
                     <TableHead className="text-main-header">
-                      hint_count
+                      Hint Count
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
                   <TableRow>
                     <TableCell>chat</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>C-t Fillers</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Casabllama</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Please Clap</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Double Award Nominee</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Living Off Hope</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Cardinality</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Ultimate Brownies</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Red Carpet Herrings 🎏</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Dreamer Spinning Suspended Disbelief</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       ⡫ I GUESS WE CAN'T ALL SIT NEXT TO EACH OTHER
                     </TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>SeptaCube</TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>simplicissimus</TableCell>
-                    <TableCell>1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Tricksters</TableCell>
-                    <TableCell>1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Mobius Strippers</TableCell>
-                    <TableCell>1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
               {/* most hints */}
-              <Table className="w-fit">
+              <h3>Most Hints</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
                     <TableHead className="text-main-header">
-                      display_name
+                      Display Name
                     </TableHead>
                     <TableHead className="text-main-header">
-                      hint_count
+                      Hint Count
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
                   <TableRow>
                     <TableCell>Alteleid</TableCell>
-                    <TableCell>24</TableCell>
+                    <TableCell className="text-center">24</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>何以为我</TableCell>
-                    <TableCell>21</TableCell>
+                    <TableCell className="text-center">21</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>More About Vikings</TableCell>
-                    <TableCell>21</TableCell>
+                    <TableCell className="text-center">21</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Turtle Power</TableCell>
-                    <TableCell>20</TableCell>
+                    <TableCell className="text-center">20</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Hunters Around The World</TableCell>
-                    <TableCell>20</TableCell>
+                    <TableCell className="text-center">20</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Livin’ Covida Loca</TableCell>
-                    <TableCell>19</TableCell>
+                    <TableCell className="text-center">19</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Hong Kong Guy My</TableCell>
-                    <TableCell>19</TableCell>
+                    <TableCell className="text-center">19</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       Intervarsi-Teammate: Slowdown Showtime!
                     </TableCell>
-                    <TableCell>18</TableCell>
+                    <TableCell className="text-center">18</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Team Conundrum</TableCell>
-                    <TableCell>18</TableCell>
+                    <TableCell className="text-center">18</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Team Peggle</TableCell>
-                    <TableCell>18</TableCell>
+                    <TableCell className="text-center">18</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
               {/* most hints + follow-ups */}
-              <Table className="w-fit">
+              <h3>Most Hints + Follow-Ups</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
                     <TableHead className="text-main-header">
-                      display_name
+                      Display Name
                     </TableHead>
                     <TableHead className="text-main-header">
-                      total_hint_count
+                      Total Hint Count
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
                   <TableRow>
                     <TableCell>Hunters Around The World</TableCell>
-                    <TableCell>58</TableCell>
+                    <TableCell className="text-center">58</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Alteleid</TableCell>
-                    <TableCell>53</TableCell>
+                    <TableCell className="text-center">53</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Livin’ Covida Loca</TableCell>
-                    <TableCell>43</TableCell>
+                    <TableCell className="text-center">43</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the riddlers</TableCell>
-                    <TableCell>42</TableCell>
+                    <TableCell className="text-center">42</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Puzzle Solution Doxxers</TableCell>
-                    <TableCell>36</TableCell>
+                    <TableCell className="text-center">36</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>helppuzzles</TableCell>
-                    <TableCell>35</TableCell>
+                    <TableCell className="text-center">35</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>何以为我</TableCell>
-                    <TableCell>34</TableCell>
+                    <TableCell className="text-center">34</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Hong Kong Guy My</TableCell>
-                    <TableCell>32</TableCell>
+                    <TableCell className="text-center">32</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Maxwell Rose</TableCell>
-                    <TableCell>32</TableCell>
+                    <TableCell className="text-center">32</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>stɹeɪjə maɪt</TableCell>
-                    <TableCell>30</TableCell>
+                    <TableCell className="text-center">30</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
               {/* PUZZLE STATS */}
               {/* primary stats */}
-              <Table className="w-fit">
+              <h3>Puzzle Statistics</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
+                    <TableHead className="text-main-header">Puzzle</TableHead>
+                    <TableHead className="text-main-header">Guesses</TableHead>
+                    <TableHead className="text-main-header">Solves</TableHead>
                     <TableHead className="text-main-header">
-                      puzzle_id
+                      Backsolves
                     </TableHead>
-                    <TableHead className="text-main-header">guesses</TableHead>
-                    <TableHead className="text-main-header">solves</TableHead>
+                    <TableHead className="text-main-header">Hints</TableHead>
                     <TableHead className="text-main-header">
-                      backsolves
-                    </TableHead>
-                    <TableHead className="text-main-header">hints</TableHead>
-                    <TableHead className="text-main-header">
-                      hints + follow-ups
+                      Hints + Follow-Ups
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
                   <TableRow>
                     <TableCell>a-fistful-of-cards</TableCell>
-                    <TableCell>350</TableCell>
-                    <TableCell>212</TableCell>
-                    <TableCell>85</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell>5</TableCell>
+                    <TableCell className="text-center">350</TableCell>
+                    <TableCell className="text-center">212</TableCell>
+                    <TableCell className="text-center">85</TableCell>
+                    <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">5</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>a-fistful-of-cards-ii</TableCell>
-                    <TableCell>190</TableCell>
-                    <TableCell>158</TableCell>
-                    <TableCell>17</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>2</TableCell>
+                    <TableCell className="text-center">190</TableCell>
+                    <TableCell className="text-center">158</TableCell>
+                    <TableCell className="text-center">17</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>a-fistful-of-cards-iii</TableCell>
-                    <TableCell>184</TableCell>
-                    <TableCell>131</TableCell>
-                    <TableCell>15</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>2</TableCell>
+                    <TableCell className="text-center">184</TableCell>
+                    <TableCell className="text-center">131</TableCell>
+                    <TableCell className="text-center">15</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>a-fistful-of-cards-iv</TableCell>
-                    <TableCell>420</TableCell>
-                    <TableCell>95</TableCell>
-                    <TableCell>12</TableCell>
-                    <TableCell>23</TableCell>
-                    <TableCell>33</TableCell>
+                    <TableCell className="text-center">420</TableCell>
+                    <TableCell className="text-center">95</TableCell>
+                    <TableCell className="text-center">12</TableCell>
+                    <TableCell className="text-center">23</TableCell>
+                    <TableCell className="text-center">33</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>aha-erlebnis</TableCell>
-                    <TableCell>637</TableCell>
-                    <TableCell>138</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>35</TableCell>
-                    <TableCell>54</TableCell>
+                    <TableCell className="text-center">637</TableCell>
+                    <TableCell className="text-center">138</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">35</TableCell>
+                    <TableCell className="text-center">54</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>are-you-sure</TableCell>
-                    <TableCell>229</TableCell>
-                    <TableCell>145</TableCell>
-                    <TableCell>4</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>1</TableCell>
+                    <TableCell className="text-center">229</TableCell>
+                    <TableCell className="text-center">145</TableCell>
+                    <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>balloon-animals</TableCell>
-                    <TableCell>412</TableCell>
-                    <TableCell>179</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>10</TableCell>
-                    <TableCell>15</TableCell>
+                    <TableCell className="text-center">412</TableCell>
+                    <TableCell className="text-center">179</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">10</TableCell>
+                    <TableCell className="text-center">15</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>barbie</TableCell>
-                    <TableCell>230</TableCell>
-                    <TableCell>118</TableCell>
-                    <TableCell>19</TableCell>
-                    <TableCell>38</TableCell>
-                    <TableCell>58</TableCell>
+                    <TableCell className="text-center">230</TableCell>
+                    <TableCell className="text-center">118</TableCell>
+                    <TableCell className="text-center">19</TableCell>
+                    <TableCell className="text-center">38</TableCell>
+                    <TableCell className="text-center">58</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>beads</TableCell>
-                    <TableCell>579</TableCell>
-                    <TableCell>151</TableCell>
-                    <TableCell>27</TableCell>
-                    <TableCell>72</TableCell>
-                    <TableCell>112</TableCell>
+                    <TableCell className="text-center">579</TableCell>
+                    <TableCell className="text-center">151</TableCell>
+                    <TableCell className="text-center">27</TableCell>
+                    <TableCell className="text-center">72</TableCell>
+                    <TableCell className="text-center">112</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>bluenos-puzzle-box</TableCell>
-                    <TableCell>321</TableCell>
-                    <TableCell>124</TableCell>
-                    <TableCell>8</TableCell>
-                    <TableCell>14</TableCell>
-                    <TableCell>23</TableCell>
+                    <TableCell className="text-center">321</TableCell>
+                    <TableCell className="text-center">124</TableCell>
+                    <TableCell className="text-center">8</TableCell>
+                    <TableCell className="text-center">14</TableCell>
+                    <TableCell className="text-center">23</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>boring-plot</TableCell>
-                    <TableCell>191</TableCell>
-                    <TableCell>94</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>45</TableCell>
-                    <TableCell>72</TableCell>
+                    <TableCell className="text-center">191</TableCell>
+                    <TableCell className="text-center">94</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">45</TableCell>
+                    <TableCell className="text-center">72</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>chain-letters</TableCell>
-                    <TableCell>216</TableCell>
-                    <TableCell>136</TableCell>
-                    <TableCell>15</TableCell>
-                    <TableCell>23</TableCell>
-                    <TableCell>37</TableCell>
+                    <TableCell className="text-center">216</TableCell>
+                    <TableCell className="text-center">136</TableCell>
+                    <TableCell className="text-center">15</TableCell>
+                    <TableCell className="text-center">23</TableCell>
+                    <TableCell className="text-center">37</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>color-wheel</TableCell>
-                    <TableCell>338</TableCell>
-                    <TableCell>83</TableCell>
-                    <TableCell>11</TableCell>
-                    <TableCell>37</TableCell>
-                    <TableCell>56</TableCell>
+                    <TableCell className="text-center">338</TableCell>
+                    <TableCell className="text-center">83</TableCell>
+                    <TableCell className="text-center">11</TableCell>
+                    <TableCell className="text-center">37</TableCell>
+                    <TableCell className="text-center">56</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>connect-the-dots</TableCell>
-                    <TableCell>788</TableCell>
-                    <TableCell>194</TableCell>
-                    <TableCell>15</TableCell>
-                    <TableCell>37</TableCell>
-                    <TableCell>51</TableCell>
+                    <TableCell className="text-center">788</TableCell>
+                    <TableCell className="text-center">194</TableCell>
+                    <TableCell className="text-center">15</TableCell>
+                    <TableCell className="text-center">37</TableCell>
+                    <TableCell className="text-center">51</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>constellation</TableCell>
-                    <TableCell>472</TableCell>
-                    <TableCell>93</TableCell>
-                    <TableCell>3</TableCell>
-                    <TableCell>29</TableCell>
-                    <TableCell>39</TableCell>
+                    <TableCell className="text-center">472</TableCell>
+                    <TableCell className="text-center">93</TableCell>
+                    <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">29</TableCell>
+                    <TableCell className="text-center">39</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>cutting-room-floor</TableCell>
-                    <TableCell>400</TableCell>
-                    <TableCell>86</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>43</TableCell>
-                    <TableCell>62</TableCell>
+                    <TableCell className="text-center">400</TableCell>
+                    <TableCell className="text-center">86</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">43</TableCell>
+                    <TableCell className="text-center">62</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>drop-the</TableCell>
-                    <TableCell>297</TableCell>
-                    <TableCell>206</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell>8</TableCell>
+                    <TableCell className="text-center">297</TableCell>
+                    <TableCell className="text-center">206</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>eye-of-the-storm</TableCell>
-                    <TableCell>184</TableCell>
-                    <TableCell>127</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>30</TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">184</TableCell>
+                    <TableCell className="text-center">127</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">30</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>eye-spy</TableCell>
-                    <TableCell>4431</TableCell>
-                    <TableCell>108</TableCell>
-                    <TableCell>15</TableCell>
-                    <TableCell>16</TableCell>
-                    <TableCell>21</TableCell>
+                    <TableCell className="text-center">4431</TableCell>
+                    <TableCell className="text-center">108</TableCell>
+                    <TableCell className="text-center">15</TableCell>
+                    <TableCell className="text-center">16</TableCell>
+                    <TableCell className="text-center">21</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>eye-to-eye</TableCell>
-                    <TableCell>124</TableCell>
-                    <TableCell>97</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>3</TableCell>
-                    <TableCell>6</TableCell>
+                    <TableCell className="text-center">124</TableCell>
+                    <TableCell className="text-center">97</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">6</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>filming-schedule</TableCell>
-                    <TableCell>337</TableCell>
-                    <TableCell>241</TableCell>
-                    <TableCell>7</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell>5</TableCell>
+                    <TableCell className="text-center">337</TableCell>
+                    <TableCell className="text-center">241</TableCell>
+                    <TableCell className="text-center">7</TableCell>
+                    <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">5</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>financial-crimes-3</TableCell>
-                    <TableCell>272</TableCell>
-                    <TableCell>112</TableCell>
-                    <TableCell>13</TableCell>
-                    <TableCell>12</TableCell>
-                    <TableCell>17</TableCell>
+                    <TableCell className="text-center">272</TableCell>
+                    <TableCell className="text-center">112</TableCell>
+                    <TableCell className="text-center">13</TableCell>
+                    <TableCell className="text-center">12</TableCell>
+                    <TableCell className="text-center">17</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>find-ben</TableCell>
-                    <TableCell>603</TableCell>
-                    <TableCell>232</TableCell>
-                    <TableCell>22</TableCell>
-                    <TableCell>7</TableCell>
-                    <TableCell>8</TableCell>
+                    <TableCell className="text-center">603</TableCell>
+                    <TableCell className="text-center">232</TableCell>
+                    <TableCell className="text-center">22</TableCell>
+                    <TableCell className="text-center">7</TableCell>
+                    <TableCell className="text-center">8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>fractal-shanty</TableCell>
-                    <TableCell>396</TableCell>
-                    <TableCell>163</TableCell>
-                    <TableCell>70</TableCell>
-                    <TableCell>31</TableCell>
-                    <TableCell>53</TableCell>
+                    <TableCell className="text-center">396</TableCell>
+                    <TableCell className="text-center">163</TableCell>
+                    <TableCell className="text-center">70</TableCell>
+                    <TableCell className="text-center">31</TableCell>
+                    <TableCell className="text-center">53</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>fridge-magnets</TableCell>
-                    <TableCell>207</TableCell>
-                    <TableCell>93</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>3</TableCell>
-                    <TableCell>4</TableCell>
+                    <TableCell className="text-center">207</TableCell>
+                    <TableCell className="text-center">93</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">4</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>genetic-counseling</TableCell>
-                    <TableCell>193</TableCell>
-                    <TableCell>111</TableCell>
-                    <TableCell>15</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>3</TableCell>
+                    <TableCell className="text-center">193</TableCell>
+                    <TableCell className="text-center">111</TableCell>
+                    <TableCell className="text-center">15</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>hand-letters</TableCell>
-                    <TableCell>167</TableCell>
-                    <TableCell>143</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>4</TableCell>
-                    <TableCell>6</TableCell>
+                    <TableCell className="text-center">167</TableCell>
+                    <TableCell className="text-center">143</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">6</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>heist</TableCell>
-                    <TableCell>405</TableCell>
-                    <TableCell>235</TableCell>
-                    <TableCell>60</TableCell>
-                    <TableCell>14</TableCell>
-                    <TableCell>16</TableCell>
+                    <TableCell className="text-center">405</TableCell>
+                    <TableCell className="text-center">235</TableCell>
+                    <TableCell className="text-center">60</TableCell>
+                    <TableCell className="text-center">14</TableCell>
+                    <TableCell className="text-center">16</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>heist-ii</TableCell>
-                    <TableCell>184</TableCell>
-                    <TableCell>164</TableCell>
-                    <TableCell>6</TableCell>
-                    <TableCell>4</TableCell>
-                    <TableCell>5</TableCell>
+                    <TableCell className="text-center">184</TableCell>
+                    <TableCell className="text-center">164</TableCell>
+                    <TableCell className="text-center">6</TableCell>
+                    <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">5</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>heist-iii</TableCell>
-                    <TableCell>186</TableCell>
-                    <TableCell>143</TableCell>
-                    <TableCell>10</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell>8</TableCell>
+                    <TableCell className="text-center">186</TableCell>
+                    <TableCell className="text-center">143</TableCell>
+                    <TableCell className="text-center">10</TableCell>
+                    <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>identify-the-piece</TableCell>
-                    <TableCell>4249</TableCell>
-                    <TableCell>131</TableCell>
-                    <TableCell>6</TableCell>
-                    <TableCell>30</TableCell>
-                    <TableCell>51</TableCell>
+                    <TableCell className="text-center">4249</TableCell>
+                    <TableCell className="text-center">131</TableCell>
+                    <TableCell className="text-center">6</TableCell>
+                    <TableCell className="text-center">30</TableCell>
+                    <TableCell className="text-center">51</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>imagine</TableCell>
-                    <TableCell>332</TableCell>
-                    <TableCell>108</TableCell>
-                    <TableCell>12</TableCell>
-                    <TableCell>34</TableCell>
-                    <TableCell>45</TableCell>
+                    <TableCell className="text-center">332</TableCell>
+                    <TableCell className="text-center">108</TableCell>
+                    <TableCell className="text-center">12</TableCell>
+                    <TableCell className="text-center">34</TableCell>
+                    <TableCell className="text-center">45</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>international-neighbours</TableCell>
-                    <TableCell>769</TableCell>
-                    <TableCell>117</TableCell>
-                    <TableCell>61</TableCell>
-                    <TableCell>64</TableCell>
-                    <TableCell>104</TableCell>
+                    <TableCell className="text-center">769</TableCell>
+                    <TableCell className="text-center">117</TableCell>
+                    <TableCell className="text-center">61</TableCell>
+                    <TableCell className="text-center">64</TableCell>
+                    <TableCell className="text-center">104</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>like-clockwork</TableCell>
-                    <TableCell>495</TableCell>
-                    <TableCell>93</TableCell>
-                    <TableCell>3</TableCell>
-                    <TableCell>53</TableCell>
-                    <TableCell>71</TableCell>
+                    <TableCell className="text-center">495</TableCell>
+                    <TableCell className="text-center">93</TableCell>
+                    <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">53</TableCell>
+                    <TableCell className="text-center">71</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>lost-lyric</TableCell>
-                    <TableCell>355</TableCell>
-                    <TableCell>157</TableCell>
-                    <TableCell>28</TableCell>
-                    <TableCell>39</TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">355</TableCell>
+                    <TableCell className="text-center">157</TableCell>
+                    <TableCell className="text-center">28</TableCell>
+                    <TableCell className="text-center">39</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>m-guards-n-doors-and-k-choices</TableCell>
-                    <TableCell>707</TableCell>
-                    <TableCell>156</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>9</TableCell>
-                    <TableCell>13</TableCell>
+                    <TableCell className="text-center">707</TableCell>
+                    <TableCell className="text-center">156</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">9</TableCell>
+                    <TableCell className="text-center">13</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>narcissism</TableCell>
-                    <TableCell>360</TableCell>
-                    <TableCell>147</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>1</TableCell>
+                    <TableCell className="text-center">360</TableCell>
+                    <TableCell className="text-center">147</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>one-guard-screen</TableCell>
-                    <TableCell>540</TableCell>
-                    <TableCell>177</TableCell>
-                    <TableCell>4</TableCell>
-                    <TableCell>126</TableCell>
-                    <TableCell>159</TableCell>
+                    <TableCell className="text-center">540</TableCell>
+                    <TableCell className="text-center">177</TableCell>
+                    <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">126</TableCell>
+                    <TableCell className="text-center">159</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>opening-sequences</TableCell>
-                    <TableCell>700</TableCell>
-                    <TableCell>143</TableCell>
-                    <TableCell>11</TableCell>
-                    <TableCell>15</TableCell>
-                    <TableCell>24</TableCell>
+                    <TableCell className="text-center">700</TableCell>
+                    <TableCell className="text-center">143</TableCell>
+                    <TableCell className="text-center">11</TableCell>
+                    <TableCell className="text-center">15</TableCell>
+                    <TableCell className="text-center">24</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>peanuts</TableCell>
-                    <TableCell>302</TableCell>
-                    <TableCell>224</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell>7</TableCell>
+                    <TableCell className="text-center">302</TableCell>
+                    <TableCell className="text-center">224</TableCell>
+                    <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>piecemeal</TableCell>
-                    <TableCell>274</TableCell>
-                    <TableCell>149</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>28</TableCell>
-                    <TableCell>36</TableCell>
+                    <TableCell className="text-center">274</TableCell>
+                    <TableCell className="text-center">149</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">28</TableCell>
+                    <TableCell className="text-center">36</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>plagiarism</TableCell>
-                    <TableCell>726</TableCell>
-                    <TableCell>221</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>14</TableCell>
-                    <TableCell>15</TableCell>
+                    <TableCell className="text-center">726</TableCell>
+                    <TableCell className="text-center">221</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">14</TableCell>
+                    <TableCell className="text-center">15</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>red-blue</TableCell>
-                    <TableCell>382</TableCell>
-                    <TableCell>88</TableCell>
-                    <TableCell>9</TableCell>
-                    <TableCell>33</TableCell>
-                    <TableCell>55</TableCell>
+                    <TableCell className="text-center">382</TableCell>
+                    <TableCell className="text-center">88</TableCell>
+                    <TableCell className="text-center">9</TableCell>
+                    <TableCell className="text-center">33</TableCell>
+                    <TableCell className="text-center">55</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>secret-ingredient</TableCell>
-                    <TableCell>190</TableCell>
-                    <TableCell>121</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>3</TableCell>
+                    <TableCell className="text-center">190</TableCell>
+                    <TableCell className="text-center">121</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>six-degrees</TableCell>
-                    <TableCell>5307</TableCell>
-                    <TableCell>128</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>26</TableCell>
-                    <TableCell>32</TableCell>
+                    <TableCell className="text-center">5307</TableCell>
+                    <TableCell className="text-center">128</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">26</TableCell>
+                    <TableCell className="text-center">32</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>sound-of-music</TableCell>
-                    <TableCell>152</TableCell>
-                    <TableCell>98</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>4</TableCell>
-                    <TableCell>5</TableCell>
+                    <TableCell className="text-center">152</TableCell>
+                    <TableCell className="text-center">98</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">5</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>ten-guards-ten-doors</TableCell>
-                    <TableCell>953</TableCell>
-                    <TableCell>208</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>37</TableCell>
-                    <TableCell>52</TableCell>
+                    <TableCell className="text-center">953</TableCell>
+                    <TableCell className="text-center">208</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">37</TableCell>
+                    <TableCell className="text-center">52</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-compact-disc</TableCell>
-                    <TableCell>534</TableCell>
-                    <TableCell>87</TableCell>
-                    <TableCell>24</TableCell>
-                    <TableCell>40</TableCell>
-                    <TableCell>66</TableCell>
+                    <TableCell className="text-center">534</TableCell>
+                    <TableCell className="text-center">87</TableCell>
+                    <TableCell className="text-center">24</TableCell>
+                    <TableCell className="text-center">40</TableCell>
+                    <TableCell className="text-center">66</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-final-heist</TableCell>
-                    <TableCell>214</TableCell>
-                    <TableCell>93</TableCell>
-                    <TableCell>6</TableCell>
-                    <TableCell>7</TableCell>
-                    <TableCell>7</TableCell>
+                    <TableCell className="text-center">214</TableCell>
+                    <TableCell className="text-center">93</TableCell>
+                    <TableCell className="text-center">6</TableCell>
+                    <TableCell className="text-center">7</TableCell>
+                    <TableCell className="text-center">7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-guard-and-the-door</TableCell>
-                    <TableCell>778</TableCell>
-                    <TableCell>138</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>51</TableCell>
-                    <TableCell>79</TableCell>
+                    <TableCell className="text-center">778</TableCell>
+                    <TableCell className="text-center">138</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">51</TableCell>
+                    <TableCell className="text-center">79</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-snack-zone</TableCell>
-                    <TableCell>156</TableCell>
-                    <TableCell>136</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>2</TableCell>
+                    <TableCell className="text-center">156</TableCell>
+                    <TableCell className="text-center">136</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>two-guards-river</TableCell>
-                    <TableCell>246</TableCell>
-                    <TableCell>246</TableCell>
-                    <TableCell>0</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>3</TableCell>
+                    <TableCell className="text-center">246</TableCell>
+                    <TableCell className="text-center">246</TableCell>
+                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>two-guards-two-doors</TableCell>
-                    <TableCell>782</TableCell>
-                    <TableCell>286</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>2</TableCell>
+                    <TableCell className="text-center">782</TableCell>
+                    <TableCell className="text-center">286</TableCell>
+                    <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>walk-of-fame</TableCell>
-                    <TableCell>889</TableCell>
-                    <TableCell>184</TableCell>
-                    <TableCell>67</TableCell>
-                    <TableCell>50</TableCell>
-                    <TableCell>62</TableCell>
+                    <TableCell className="text-center">889</TableCell>
+                    <TableCell className="text-center">184</TableCell>
+                    <TableCell className="text-center">67</TableCell>
+                    <TableCell className="text-center">50</TableCell>
+                    <TableCell className="text-center">62</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>watching-between-the-lines</TableCell>
-                    <TableCell>458</TableCell>
-                    <TableCell>158</TableCell>
-                    <TableCell>43</TableCell>
-                    <TableCell>35</TableCell>
-                    <TableCell>41</TableCell>
+                    <TableCell className="text-center">458</TableCell>
+                    <TableCell className="text-center">158</TableCell>
+                    <TableCell className="text-center">43</TableCell>
+                    <TableCell className="text-center">35</TableCell>
+                    <TableCell className="text-center">41</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>whats-my-ride</TableCell>
-                    <TableCell>362</TableCell>
-                    <TableCell>131</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>8</TableCell>
-                    <TableCell>9</TableCell>
+                    <TableCell className="text-center">362</TableCell>
+                    <TableCell className="text-center">131</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">8</TableCell>
+                    <TableCell className="text-center">9</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>youve-got-this-covered</TableCell>
-                    <TableCell>289</TableCell>
-                    <TableCell>160</TableCell>
-                    <TableCell>22</TableCell>
-                    <TableCell>3</TableCell>
-                    <TableCell>4</TableCell>
+                    <TableCell className="text-center">289</TableCell>
+                    <TableCell className="text-center">160</TableCell>
+                    <TableCell className="text-center">22</TableCell>
+                    <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">4</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
               {/* secondary stats */}
-              <Table className="w-fit">
+              <h3>Common Incorrect Answers</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
+                    <TableHead className="text-main-header">Puzzle</TableHead>
                     <TableHead className="text-main-header">
-                      puzzle_id
+                      Top Incorrect
                     </TableHead>
                     <TableHead className="text-main-header">
-                      top_incorrect
-                    </TableHead>
-                    <TableHead className="text-main-header">
-                      relative_frequency
+                      Relative Frequency
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -911,313 +917,310 @@ export default function Page() {
                   <TableRow>
                     <TableCell>identify-the-piece</TableCell>
                     <TableCell>LITTLEFUGUE</TableCell>
-                    <TableCell>116.0</TableCell>
+                    <TableCell className="text-center">116.0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>imagine</TableCell>
                     <TableCell>APOLOGIZE</TableCell>
-                    <TableCell>108.3</TableCell>
+                    <TableCell className="text-center">108.3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>eye-spy</TableCell>
                     <TableCell>PROVIDENCE</TableCell>
-                    <TableCell>96.3</TableCell>
+                    <TableCell className="text-center">96.3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>six-degrees</TableCell>
                     <TableCell>DANIELRADCLIFFE</TableCell>
-                    <TableCell>90.6</TableCell>
+                    <TableCell className="text-center">90.6</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>narcissism</TableCell>
                     <TableCell>SUPERIOR</TableCell>
-                    <TableCell>90.5</TableCell>
+                    <TableCell className="text-center">90.5</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>connect-the-dots</TableCell>
                     <TableCell>SHAPES</TableCell>
-                    <TableCell>89.7</TableCell>
+                    <TableCell className="text-center">89.7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>aha-erlebnis</TableCell>
                     <TableCell>GEFUHLPROOF</TableCell>
-                    <TableCell>86.2</TableCell>
+                    <TableCell className="text-center">86.2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>plagiarism</TableCell>
                     <TableCell>CHILLEST</TableCell>
-                    <TableCell>73.8</TableCell>
+                    <TableCell className="text-center">73.8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>m-guards-n-doors-and-k-choices</TableCell>
                     <TableCell>PULLEYS</TableCell>
-                    <TableCell>52.6</TableCell>
+                    <TableCell className="text-center">52.6</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>international-neighbours</TableCell>
                     <TableCell>FAVORITE</TableCell>
-                    <TableCell>51.3</TableCell>
+                    <TableCell className="text-center">51.3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-final-heist</TableCell>
                     <TableCell>BLIND</TableCell>
-                    <TableCell>43.0</TableCell>
+                    <TableCell className="text-center">43.0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>two-guards-two-doors</TableCell>
                     <TableCell>STEERS</TableCell>
-                    <TableCell>38.8</TableCell>
+                    <TableCell className="text-center">38.8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>ten-guards-ten-doors</TableCell>
                     <TableCell>SIX</TableCell>
-                    <TableCell>35.6</TableCell>
+                    <TableCell className="text-center">35.6</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>whats-my-ride</TableCell>
                     <TableCell>APOLLO</TableCell>
-                    <TableCell>33.6</TableCell>
+                    <TableCell className="text-center">33.6</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>opening-sequences</TableCell>
                     <TableCell>PAWNTOFF</TableCell>
-                    <TableCell>28.7</TableCell>
+                    <TableCell className="text-center">28.7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>like-clockwork</TableCell>
                     <TableCell>ORANGE</TableCell>
-                    <TableCell>26.9</TableCell>
+                    <TableCell className="text-center">26.9</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>cutting-room-floor</TableCell>
                     <TableCell>BILLY</TableCell>
-                    <TableCell>26.7</TableCell>
+                    <TableCell className="text-center">26.7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>lost-lyric</TableCell>
                     <TableCell>SUNDAY</TableCell>
-                    <TableCell>25.5</TableCell>
+                    <TableCell className="text-center">25.5</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>find-ben</TableCell>
                     <TableCell>MUSEUM</TableCell>
-                    <TableCell>25.4</TableCell>
+                    <TableCell className="text-center">25.4</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>red-blue</TableCell>
                     <TableCell>DATE</TableCell>
-                    <TableCell>25.0</TableCell>
+                    <TableCell className="text-center">25.0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-compact-disc</TableCell>
                     <TableCell>KUWAIT</TableCell>
-                    <TableCell>21.8</TableCell>
+                    <TableCell className="text-center">21.8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>beads</TableCell>
                     <TableCell>PRESS</TableCell>
-                    <TableCell>19.2</TableCell>
+                    <TableCell className="text-center">19.2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>walk-of-fame</TableCell>
                     <TableCell>CRUZ</TableCell>
-                    <TableCell>16.3</TableCell>
+                    <TableCell className="text-center">16.3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-guard-and-the-door</TableCell>
                     <TableCell>ACTOR</TableCell>
-                    <TableCell>15.9</TableCell>
+                    <TableCell className="text-center">15.9</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>one-guard-screen</TableCell>
                     <TableCell>DOUBLESLIT</TableCell>
-                    <TableCell>15.8</TableCell>
+                    <TableCell className="text-center">15.8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>youve-got-this-covered</TableCell>
                     <TableCell>DAY</TableCell>
-                    <TableCell>15.0</TableCell>
+                    <TableCell className="text-center">15.0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>boring-plot</TableCell>
                     <TableCell>EXTRACTION</TableCell>
-                    <TableCell>13.8</TableCell>
+                    <TableCell className="text-center">13.8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>color-wheel</TableCell>
                     <TableCell>FENNEL</TableCell>
-                    <TableCell>13.3</TableCell>
+                    <TableCell className="text-center">13.3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>watching-between-the-lines</TableCell>
                     <TableCell>BATESEED</TableCell>
-                    <TableCell>12.7</TableCell>
+                    <TableCell className="text-center">12.7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>barbie</TableCell>
                     <TableCell>CHATTYKATHY</TableCell>
-                    <TableCell>11.9</TableCell>
+                    <TableCell className="text-center">11.9</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>fridge-magnets</TableCell>
                     <TableCell>DIREAP</TableCell>
-                    <TableCell>10.8</TableCell>
+                    <TableCell className="text-center">10.8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>sound-of-music</TableCell>
                     <TableCell>CYANOCOCCUSNINE</TableCell>
-                    <TableCell>10.2</TableCell>
+                    <TableCell className="text-center">10.2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>constellation</TableCell>
                     <TableCell>DURIAN</TableCell>
-                    <TableCell>9.7</TableCell>
+                    <TableCell className="text-center">9.7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>chain-letters</TableCell>
                     <TableCell>THEGATHERINGSTORM</TableCell>
-                    <TableCell>8.8</TableCell>
+                    <TableCell className="text-center">8.8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>piecemeal</TableCell>
                     <TableCell>TEXTALIEN</TableCell>
-                    <TableCell>8.7</TableCell>
+                    <TableCell className="text-center">8.7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>heist</TableCell>
                     <TableCell>FLOORPLANBROWN</TableCell>
-                    <TableCell>8.5</TableCell>
+                    <TableCell className="text-center">8.5</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>a-fistful-of-cards-iv</TableCell>
                     <TableCell>ORANGE</TableCell>
-                    <TableCell>8.4</TableCell>
+                    <TableCell className="text-center">8.4</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>balloon-animals</TableCell>
                     <TableCell>REALPOPMUSIC</TableCell>
-                    <TableCell>8.4</TableCell>
+                    <TableCell className="text-center">8.4</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>filming-schedule</TableCell>
                     <TableCell>BANNED</TableCell>
-                    <TableCell>5.8</TableCell>
+                    <TableCell className="text-center">5.8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>a-fistful-of-cards</TableCell>
                     <TableCell>GRI</TableCell>
-                    <TableCell>5.7</TableCell>
+                    <TableCell className="text-center">5.7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>eye-to-eye</TableCell>
                     <TableCell>MIRRORS</TableCell>
-                    <TableCell>5.2</TableCell>
+                    <TableCell className="text-center">5.2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>secret-ingredient</TableCell>
                     <TableCell>OASISSAND</TableCell>
-                    <TableCell>5.0</TableCell>
+                    <TableCell className="text-center">5.0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>drop-the</TableCell>
                     <TableCell>OLDERIDEAS</TableCell>
-                    <TableCell>4.9</TableCell>
+                    <TableCell className="text-center">4.9</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>fractal-shanty</TableCell>
                     <TableCell>MERFOLK</TableCell>
-                    <TableCell>4.3</TableCell>
+                    <TableCell className="text-center">4.3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>bluenos-puzzle-box</TableCell>
                     <TableCell>WHEELING</TableCell>
-                    <TableCell>4.0</TableCell>
+                    <TableCell className="text-center">4.0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>genetic-counseling</TableCell>
                     <TableCell>JOLENE</TableCell>
-                    <TableCell>3.6</TableCell>
+                    <TableCell className="text-center">3.6</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>financial-crimes-3</TableCell>
                     <TableCell>ACTORSEQUITYPRIVATEFIRM</TableCell>
-                    <TableCell>3.6</TableCell>
+                    <TableCell className="text-center">3.6</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>a-fistful-of-cards-ii</TableCell>
                     <TableCell>SPRING</TableCell>
-                    <TableCell>3.2</TableCell>
+                    <TableCell className="text-center">3.2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>eye-of-the-storm</TableCell>
                     <TableCell>TROPICS</TableCell>
-                    <TableCell>3.1</TableCell>
+                    <TableCell className="text-center">3.1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>peanuts</TableCell>
                     <TableCell>PROTOHUMAN</TableCell>
-                    <TableCell>2.7</TableCell>
+                    <TableCell className="text-center">2.7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>heist-ii</TableCell>
                     <TableCell>SPRING</TableCell>
-                    <TableCell>2.4</TableCell>
+                    <TableCell className="text-center">2.4</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>a-fistful-of-cards-iii</TableCell>
                     <TableCell>FIGHTLE</TableCell>
-                    <TableCell>2.3</TableCell>
+                    <TableCell className="text-center">2.3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>hand-letters</TableCell>
                     <TableCell>LUNULE</TableCell>
-                    <TableCell>2.1</TableCell>
+                    <TableCell className="text-center">2.1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>are-you-sure</TableCell>
                     <TableCell>COMBINATION</TableCell>
-                    <TableCell>2.1</TableCell>
+                    <TableCell className="text-center">2.1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-snack-zone</TableCell>
                     <TableCell>SAUVINGNON</TableCell>
-                    <TableCell>1.5</TableCell>
+                    <TableCell className="text-center">1.5</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>heist-iii</TableCell>
                     <TableCell>IMPOSSIBLE</TableCell>
-                    <TableCell>1.4</TableCell>
+                    <TableCell className="text-center">1.4</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
               {/* MISCELLANEOUS STATS */}
               {/* first solves */}
-              <Table className="w-fit">
+              <h3>First Solves</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
+                    <TableHead className="text-main-header"></TableHead>
+                    <TableHead className="text-main-header">Puzzle</TableHead>
                     <TableHead className="text-main-header">
-                      interaction_type
+                      Display Name
                     </TableHead>
                     <TableHead className="text-main-header">
-                      puzzle_id
-                    </TableHead>
-                    <TableHead className="text-main-header">
-                      display_name
-                    </TableHead>
-                    <TableHead className="text-main-header">
-                      solve_duration
+                      Time After Start
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
                   <TableRow>
-                    <TableCell>in-person</TableCell>
+                    <TableCell>In Person</TableCell>
                     <TableCell>walk-of-fame</TableCell>
                     <TableCell>meowmeow</TableCell>
                     <TableCell>0m 14.178s</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell>remote-box</TableCell>
+                    <TableCell>Remote Box</TableCell>
                     <TableCell>two-guards-two-doors</TableCell>
                     <TableCell>
                       ✈✈✈ galactic procrastinators ✈✈✈
@@ -1225,7 +1228,7 @@ export default function Page() {
                     <TableCell>5m 0.897s</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell>remote</TableCell>
+                    <TableCell>Remote</TableCell>
                     <TableCell>two-guards-two-doors</TableCell>
                     <TableCell>Theatre Screen's Bright Illumination</TableCell>
                     <TableCell>7m 20.635s</TableCell>
@@ -1233,11 +1236,12 @@ export default function Page() {
                 </TableBody>
               </Table>
               {/* longest guesses */}
-              <Table className="w-fit">
+              <h3>Longest Guesses</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
-                    <TableHead className="text-main-header">guess</TableHead>
-                    <TableHead className="text-main-header">length</TableHead>
+                    <TableHead className="text-main-header">Guess</TableHead>
+                    <TableHead className="text-main-header">Length</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
@@ -1245,159 +1249,162 @@ export default function Page() {
                     <TableCell>
                       THISISJUSTANAAOCTAVEASTHEBASSPARTANDITSBEENSHORTENEDABUNCHANDTHEREABIGGAPHEREIDKWHATELSEYOUWANT
                     </TableCell>
-                    <TableCell>95</TableCell>
+                    <TableCell className="text-center">95</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       OOOOOOOOOOOAAAAEAAIAUJOOOOOOOOOOOOOAAEOAAUUAEEEEEEEEEAAAAEAEIEAJOOOOOOOOOOEEEEOAAAAAAAA
                     </TableCell>
-                    <TableCell>87</TableCell>
+                    <TableCell className="text-center">87</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       ASIFWALTZBYGEORDIEGREEPLISTENTOTHENEWSOUNDTODAYTHEBESTALBUMOFTWENTYTWENTYFOUR
                     </TableCell>
-                    <TableCell>77</TableCell>
+                    <TableCell className="text-center">77</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       FUNFACTTHERAFSTARTEDTHECARROTSMYTHWHENWHATTHEIRPILOTSACTUALLYHADWASRADAR
                     </TableCell>
-                    <TableCell>72</TableCell>
+                    <TableCell className="text-center">72</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       HTTPSWWWBROWNPUZZLEHUNTCOMNEXTIMAGEURLFNEXTFSTATICFMEDIAFSNACKBEJPGWQ
                     </TableCell>
-                    <TableCell>69</TableCell>
+                    <TableCell className="text-center">69</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       AARGHWHICHISTHERIGHTSHAKESPEARESOURCETHATMATCHESYOURLINENUMBERS
                     </TableCell>
-                    <TableCell>63</TableCell>
+                    <TableCell className="text-center">63</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       SINKCALPUREVLIGOLINDIGOLINDIHWOLPRELACKNIDNIGOLINKCALISETILE
                     </TableCell>
-                    <TableCell>60</TableCell>
+                    <TableCell className="text-center">60</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       ATLEASTWITHTHEPREVIOUSONEYOUCANGETITFROMNUTRIMATICWITHETUDES
                     </TableCell>
-                    <TableCell>60</TableCell>
+                    <TableCell className="text-center">60</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       WHEREDIDICOMEFROMWHEREDIDIGOWHEREDIDICOMEFROMCOTTONEYEDJOE
                     </TableCell>
-                    <TableCell>58</TableCell>
+                    <TableCell className="text-center">58</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       WAITISITJUSTNORMALMONTYHALLANDWEDONTCAREABOUTTHEBULLCRAP
                     </TableCell>
-                    <TableCell>56</TableCell>
+                    <TableCell className="text-center">56</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       IDKWHATTHISPUZZLEISABOUTBUTILOVETHELONGESTJOHNSYAY
                     </TableCell>
-                    <TableCell>50</TableCell>
+                    <TableCell className="text-center">50</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       THERESNOPUZZLEHEREJUSTFUCKINGFLAVORTEXTWHATTHEFUCK
                     </TableCell>
-                    <TableCell>50</TableCell>
+                    <TableCell className="text-center">50</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       IFYOUWANTMETOSTOPSENDMEADMITSPROCYONINPUZZLEWORLD
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>
                       LETSWATCHEXPERTSTRYTOPUZZLEATSOMERIDDLESINADESERT
                     </TableCell>
-                    <TableCell>49</TableCell>
+                    <TableCell className="text-center">49</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
               {/* one-letter guesses */}
-              <Table className="w-fit">
+              <h3>One-Letter Guesses</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
-                    <TableHead className="text-main-header">I</TableHead>
+                    <TableHead className="text-center text-main-header">
+                      I
+                    </TableHead>
                     <TableHead className="text-main-header">O</TableHead>
                     <TableHead className="text-main-header">R</TableHead>
                     <TableHead className="text-main-header">A</TableHead>
@@ -1427,83 +1434,84 @@ export default function Page() {
                 </TableHeader>
                 <TableBody className="pointer-events-none">
                   <TableRow className="hover:bg-inherit">
-                    <TableCell>13</TableCell>
-                    <TableCell>9</TableCell>
-                    <TableCell>8</TableCell>
-                    <TableCell>8</TableCell>
-                    <TableCell>7</TableCell>
-                    <TableCell>4</TableCell>
-                    <TableCell>4</TableCell>
-                    <TableCell>4</TableCell>
-                    <TableCell>4</TableCell>
-                    <TableCell>3</TableCell>
-                    <TableCell>3</TableCell>
-                    <TableCell>3</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>1</TableCell>
+                    <TableCell className="text-center">13</TableCell>
+                    <TableCell className="text-center">9</TableCell>
+                    <TableCell className="text-center">8</TableCell>
+                    <TableCell className="text-center">8</TableCell>
+                    <TableCell className="text-center">7</TableCell>
+                    <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
               {/* shortest hints */}
-              <Table className="w-fit">
+              <h3>Shortest Hint Requests</h3>
+              <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
-                    <TableHead className="text-main-header">request</TableHead>
-                    <TableHead className="text-main-header">length</TableHead>
+                    <TableHead className="text-main-header">Request</TableHead>
+                    <TableHead className="text-main-header">Length</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
                   <TableRow>
                     <TableCell></TableCell>
-                    <TableCell>0</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>jk\n</TableCell>
-                    <TableCell>3</TableCell>
+                    <TableCell className="text-center">3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>GIARRE</TableCell>
-                    <TableCell>6</TableCell>
+                    <TableCell className="text-center">6</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>no clue</TableCell>
-                    <TableCell>7</TableCell>
+                    <TableCell className="text-center">7</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>CHILLEST</TableCell>
-                    <TableCell>8</TableCell>
+                    <TableCell className="text-center">8</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Hint on start</TableCell>
-                    <TableCell>13</TableCell>
+                    <TableCell className="text-center">13</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>ignore this\n\n</TableCell>
-                    <TableCell>13</TableCell>
+                    <TableCell className="text-center">13</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>What does BLUENO mean?</TableCell>
-                    <TableCell>23</TableCell>
+                    <TableCell className="text-center">23</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>is it related to course timings?\n</TableCell>
-                    <TableCell>33</TableCell>
+                    <TableCell className="text-center">33</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>We're not sure where to start here</TableCell>
-                    <TableCell>34</TableCell>
+                    <TableCell className="text-center">34</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
