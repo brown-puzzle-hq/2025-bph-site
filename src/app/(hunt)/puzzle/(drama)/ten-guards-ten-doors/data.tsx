@@ -298,7 +298,7 @@ export const solutionBody = (
 /**
  * The `authors` string renders below the `solutionBody`.
  */
-export const authors = null;
+export const authors = "Nate Chinman, Nicholas Cressman, and Jack de Haan";
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
