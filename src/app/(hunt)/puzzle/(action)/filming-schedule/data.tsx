@@ -122,50 +122,49 @@ export const solutionBody = (
       History of School Desegregation.” Since "hoard" is in the book title, the
       matching word must be "Board."
     </p>
-
-    <table className="items-center border border-white pb-4 text-xs leading-none sm:text-base">
-      <thead>
-        <tr className="font-bold text-white">
-          <th className="w-1/3 p-2 outline outline-white">Book word</th>
-          <th className="w-1/3 p-2 outline outline-white">Course title word</th>
-          <th className="w-1/3 p-2 outline outline-white">
-            Changed letter in course title
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td className="p-2 outline outline-white">HOARD</td>
-          <td className="p-2 outline outline-white">BOARD</td>
-          <td className="p-2 outline outline-white">B</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">WHET</td>
-          <td className="p-2 outline outline-white">WHAT</td>
-          <td className="p-2 outline outline-white">A</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">VIRGIL</td>
-          <td className="p-2 outline outline-white">VIRGIN</td>
-          <td className="p-2 outline outline-white">N</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">HOVEL</td>
-          <td className="p-2 outline outline-white">NOVEL</td>
-          <td className="p-2 outline outline-white">N</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">RACK</td>
-          <td className="p-2 outline outline-white">RACE</td>
-          <td className="p-2 outline outline-white">E</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">DECENT</td>
-          <td className="p-2 outline outline-white">RECENT</td>
-          <td className="p-2 outline outline-white">R</td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="flex flex-col items-center">
+      <table className="items-center border border-white pb-4 text-xs leading-none sm:text-base">
+        <thead>
+          <tr className="font-bold text-white">
+            <th className="p-2 outline outline-white">Book word</th>
+            <th className="p-2 outline outline-white">Course title word</th>
+            <th className="p-2 outline outline-white">New letter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="p-2 outline outline-white">HOARD</td>
+            <td className="p-2 outline outline-white">BOARD</td>
+            <td className="p-2 outline outline-white">B</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">WHET</td>
+            <td className="p-2 outline outline-white">WHAT</td>
+            <td className="p-2 outline outline-white">A</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">VIRGIL</td>
+            <td className="p-2 outline outline-white">VIRGIN</td>
+            <td className="p-2 outline outline-white">N</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">HOVEL</td>
+            <td className="p-2 outline outline-white">NOVEL</td>
+            <td className="p-2 outline outline-white">N</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">RACK</td>
+            <td className="p-2 outline outline-white">RACE</td>
+            <td className="p-2 outline outline-white">E</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">DECENT</td>
+            <td className="p-2 outline outline-white">RECENT</td>
+            <td className="p-2 outline outline-white">R</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div>
       The new letters in the course titles spell out our answer,{" "}

@@ -94,54 +94,59 @@ export const solutionBody = (
       After ordering by marked arm (clockwise, starting from the top) and
       indexing, we get:
     </div>
-    <table className="items-center border border-white pb-4 text-xs leading-none sm:text-base">
-      <thead>
-        <tr className="font-bold text-white">
-          <th className="w-1/4 p-2 outline outline-white">Symbol</th>
-          <th className="w-1/4 p-2 outline outline-white">Star</th>
-          <th className="w-1/6 p-2 outline outline-white">Marked Letter</th>
-          <th className="w-1/6 p-2 outline outline-white">Order</th>
-          <th className="w-1/6 p-2 outline outline-white">Extracted Letter</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td className="p-2 outline outline-white">LA Dodgers logo</td>
-          <td className="p-2 outline outline-white">Los Angeles Dodgers</td>
-          <td className="p-2 outline outline-white">6</td>
-          <td className="p-2 outline outline-white">1</td>
-          <td className="p-2 outline outline-white">G</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">Seal of the City of LA</td>
-          <td className="p-2 outline outline-white">Mayor Tom Bradley</td>
-          <td className="p-2 outline outline-white">2</td>
-          <td className="p-2 outline outline-white">2</td>
-          <td className="p-2 outline outline-white">A</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">Satellite dish</td>
-          <td className="p-2 outline outline-white">KTLA</td>
-          <td className="p-2 outline outline-white">2</td>
-          <td className="p-2 outline outline-white">3</td>
-          <td className="p-2 outline outline-white">T</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">Phonograph</td>
-          <td className="p-2 outline outline-white">The Recording Academy</td>
-          <td className="p-2 outline outline-white">3</td>
-          <td className="p-2 outline outline-white">4</td>
-          <td className="p-2 outline outline-white">E</td>
-        </tr>
-        <tr>
-          <td className="p-2 outline outline-white">Building</td>
-          <td className="p-2 outline outline-white">Los Angeles Times</td>
-          <td className="p-2 outline outline-white">3</td>
-          <td className="p-2 outline outline-white">5</td>
-          <td className="p-2 outline outline-white">S</td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="flex flex-col items-center">
+      <table className="items-center border border-white pb-4 text-xs leading-none sm:text-base">
+        <thead>
+          <tr className="font-bold text-white">
+            <th className="p-2 outline outline-white">Symbol</th>
+            <th className="p-2 outline outline-white">Star</th>
+            <th className="p-2 outline outline-white">Marked Letter</th>
+            <th className="p-2 outline outline-white">Order</th>
+            <th className="p-2 outline outline-white">Extracted Letter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="p-2 outline outline-white">LA Dodgers logo</td>
+            <td className="p-2 outline outline-white">Los Angeles Dodgers</td>
+            <td className="p-2 outline outline-white">6</td>
+            <td className="p-2 outline outline-white">1</td>
+            <td className="p-2 outline outline-white">G</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">
+              Seal of the City of LA
+            </td>
+            <td className="p-2 outline outline-white">Mayor Tom Bradley</td>
+            <td className="p-2 outline outline-white">2</td>
+            <td className="p-2 outline outline-white">2</td>
+            <td className="p-2 outline outline-white">A</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">Satellite dish</td>
+            <td className="p-2 outline outline-white">KTLA</td>
+            <td className="p-2 outline outline-white">2</td>
+            <td className="p-2 outline outline-white">3</td>
+            <td className="p-2 outline outline-white">T</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">Phonograph</td>
+            <td className="p-2 outline outline-white">The Recording Academy</td>
+            <td className="p-2 outline outline-white">3</td>
+            <td className="p-2 outline outline-white">4</td>
+            <td className="p-2 outline outline-white">E</td>
+          </tr>
+          <tr>
+            <td className="p-2 outline outline-white">Building</td>
+            <td className="p-2 outline outline-white">Los Angeles Times</td>
+            <td className="p-2 outline outline-white">3</td>
+            <td className="p-2 outline outline-white">5</td>
+            <td className="p-2 outline outline-white">S</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <div>
       Reading the extracted letters in order gives us our answer,{" "}
       <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
