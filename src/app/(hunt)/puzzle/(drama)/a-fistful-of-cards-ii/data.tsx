@@ -305,9 +305,7 @@ export const solutionBody = (
             <td className="p-2 outline outline-white">The Stash</td>
             <td className="p-2 outline outline-white">Dynamite Workshop</td>
             <td className="p-2 outline outline-white">1</td>
-            <td className="p-2 outline outline-white">
-              D
-            </td>
+            <td className="p-2 outline outline-white">D</td>
           </tr>
           <tr>
             <td className="p-2 outline outline-white">The Town</td>
@@ -318,25 +316,31 @@ export const solutionBody = (
           <tr>
             <td className="p-2 outline outline-white">Discard Pile</td>
             <td className="p-2 outline outline-white">
-              Dynamite Stockpiling<br />
-              Money Cache<br />
-              Make New Again<br />
-              Dynamite Storage<br />
-              Robbery<br />
+              Dynamite Stockpiling
+              <br />
+              Money Cache
+              <br />
+              Make New Again
+              <br />
+              Dynamite Storage
+              <br />
+              Robbery
+              <br />
             </td>
             <td className="p-2 outline outline-white">
-            4<br />
-            1<br />
-            2<br />
-            14<br />
-            5<br />
+              4<br />
+              1<br />
+              2<br />
+              14
+              <br />
+              5<br />
             </td>
             <td className="p-2 outline outline-white">
-            A<br />
-            M<br />
-            A<br />
-            G<br />
-            E<br />
+              A<br />
+              M<br />
+              A<br />
+              G<br />
+              E<br />
             </td>
           </tr>
         </tbody>
