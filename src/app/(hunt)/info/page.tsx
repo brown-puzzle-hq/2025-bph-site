@@ -1,11 +1,12 @@
 "use client";
+
 import Link from "next/link";
 import {
   TOCContext,
   useTOCContextValues,
   TOCSection,
   TableOfContents,
-} from "./TableOfContents";
+} from "../TableOfContents";
 import Timeline from "./Timeline";
 import { IN_PERSON, REMOTE } from "~/hunt.config";
 
