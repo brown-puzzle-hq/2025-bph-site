@@ -325,22 +325,19 @@ export const solutionBody = (
               Dynamite Storage
               <br />
               Robbery
-              <br />
             </td>
             <td className="p-2 outline outline-white">
               4<br />
               1<br />
               2<br />
               14
-              <br />
-              5<br />
+              <br />5
             </td>
             <td className="p-2 outline outline-white">
               A<br />
               M<br />
               A<br />
-              G<br />
-              E<br />
+              G<br />E
             </td>
           </tr>
         </tbody>
