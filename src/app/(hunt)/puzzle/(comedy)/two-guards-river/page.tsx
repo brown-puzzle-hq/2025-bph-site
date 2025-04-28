@@ -4,10 +4,10 @@ import { db } from "~/server/db";
 import { eq, and } from "drizzle-orm";
 import { solves, guesses, errata } from "~/server/db/schema";
 import { redirect } from "next/navigation";
-import GuessTable from "~/app/(hunt)/puzzle/components/GuessTable";
-import ErratumDialog from "@/puzzle/components/ErratumDialog";
 import { canViewPuzzle } from "@/puzzle/actions";
-import CopyButton from "@/puzzle/components/CopyButton";
+import GuessTable from "~/app/(hunt)/puzzle/components/guess/GuessTable";
+import ErratumDialog from "@/puzzle/components/ErratumDialog";
+import CopyButton from "@/puzzle/components/puzzle/CopyButton";
 
 export default async function Page() {
   return (

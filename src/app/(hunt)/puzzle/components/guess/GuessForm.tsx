@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { toast } from "~/hooks/use-toast";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,11 +15,9 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { handleGuess } from "../actions";
-import { useTransition } from "react";
-import { toast } from "~/hooks/use-toast";
-import { NumberOfGuesses } from "./DefaultPuzzlePage";
 import { Infinity } from "lucide-react";
+import { handleGuess } from "./actions";
+import { NumberOfGuesses } from "../puzzle/DefaultPuzzlePage";
 
 function sanitizeAnswer(answer: any) {
   return typeof answer === "string"

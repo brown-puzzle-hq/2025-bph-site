@@ -9,7 +9,7 @@ import { cn } from "~/lib/utils";
 import dynamic from "next/dynamic";
 import { IN_PERSON, Round } from "~/hunt.config";
 
-const Map = dynamic(() => import("../../components/Map"), {
+const Map = dynamic(() => import("./Map"), {
   ssr: false,
   loading: () => (
     <div className="flex h-full w-full items-center justify-center">

@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { cn } from "~/lib/utils";
 import { db } from "~/server/db";
 import { eq, and, gt } from "drizzle-orm";
 import {
@@ -10,10 +11,9 @@ import {
   unlocks,
 } from "~/server/db/schema";
 import { redirect } from "next/navigation";
-import GuessTable from "@/puzzle/components/GuessTable";
+import GuessTable from "~/app/(hunt)/puzzle/components/guess/GuessTable";
 import ErratumDialog from "@/puzzle/components/ErratumDialog";
-import GuessForm from "@/puzzle/components/GuessForm";
-import CopyButton from "@/puzzle/components/CopyButton";
+import GuessForm from "~/app/(hunt)/puzzle/components/guess/GuessForm";
 import TokenRefresher from "@/puzzle/components/TokenRefresher";
 import { canViewPuzzle } from "@/puzzle/actions";
 import {
@@ -23,7 +23,7 @@ import {
   PUZZLES_WITH_INFINITE_GUESSES,
   INITIAL_PUZZLES,
 } from "~/hunt.config";
-import { cn } from "~/lib/utils";
+import CopyButton from "./CopyButton";
 import DefaultPostHuntPuzzlePage from "./DefaultPostHuntPuzzlePage";
 
 export type NumberOfGuesses = number | "infinity";
