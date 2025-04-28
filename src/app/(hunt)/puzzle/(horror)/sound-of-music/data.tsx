@@ -36,7 +36,9 @@ export const solutionBody = <div className="max-w-3xl space-y-4">
   The three feeder answers for this puzzle are MINNOWS, ALTO RHAPSODY, and INDIANA JONES AND THE LAST CRUSADE. Each of these answers contains a {" "}
       <Link href="https://en.wikipedia.org/wiki/Solf%C3%A8ge">
         <span className="underline">solfege</span>
-      </Link>{" "} note: MI in MINNOWS, SO in ALTO RHAPSODY, LA in INDIANA JONES AND THE LAST CRUSADE (note that SO is an alternate form of SOL). The sheet music they are given is in C major, so MI = E, SO = G, LA = A. If they map each word to the notes based on the solfege, then index into the word based on the beat (so if a note is the 18th beat in the measure, they extract the 18th letter), they will get CYANOCOCCUS NINE. CYANOCOCCUS is the scientific name for BLUEBERRY, which is the answer to the puzzle.
+      </Link>{" "} note: MI in MINNOWS, SO in ALTO RHAPSODY, LA in INDIANA JONES AND THE LAST CRUSADE (note that SO is an alternate form of SOL). The sheet music they are given is in C major, so MI = E, SO = G, LA = A. If they map each word to the notes based on the solfege, then index into the word based on the beat (so if a note is the 18th beat in the measure, they extract the 18th letter), they will get CYANOCOCCUS NINE. CYANOCOCCUS is the scientific name for <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
+        BLUEBERRY
+        </span>{" "}, which is the answer to the puzzle.
 </div>;
 
 /**
