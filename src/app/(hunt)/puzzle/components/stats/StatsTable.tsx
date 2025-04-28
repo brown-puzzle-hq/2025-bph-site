@@ -1,0 +1,109 @@
+"use client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+  SortingState,
+  getSortedRowModel,
+} from "@tanstack/react-table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+interface TableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}
+
+export function StatsTable<TData, TValue>({
+  columns,
+  data,
+}: TableProps<TData, TValue>) {
+  const router = useRouter();
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "solveTime", desc: true },
+  ]);
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+    },
+    initialState: {
+      columnVisibility: {
+        responseTime: false,
+        status: false,
+        followUps: false,
+        teamId: false,
+      },
+    },
+  });
+
+  return (
+    <div className="w-full max-w-3xl overflow-y-auto rounded-md">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow
+              key={`header-${headerGroup.id}`}
+              className="hover:bg-inherit"
+            >
+              {headerGroup.headers.map((header) => (
+                <TableHead
+                  key={header.id}
+                  onClick={() =>
+                    header.column.toggleSorting(
+                      header.column.getIsSorted() === "asc",
+                    )
+                  }
+                  className={`py-0 text-white hover:text-opacity-70`}
+                  role="button"
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows.map((row, i) => (
+            <TableRow
+              key={i}
+              data-state={row.getIsSelected() && "selected"}
+              className={`py-0`}
+            >
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id} className={"py-0"}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
