@@ -1,6 +1,7 @@
 "use client";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ChartContainer } from "@/components/ui/chart";
+import { useEffect, useState } from "react";
 
 export type GuessChartItem = {
   guess: string;
@@ -15,7 +16,8 @@ type GuessChartProps = {
 export default function GuessChart({ data, puzzleAnswer }: GuessChartProps) {
   const maxCount = Math.max(...data.map((d) => d.count));
   const intervals = 5;
-  const step = Math.floor((maxCount * 1.1) / intervals / 5) * 5;
+  const step = Math.max(Math.floor(maxCount / intervals / 5) * 5, 5);
+
   return (
     <ChartContainer config={{}} className="min-h-[400px]">
       <BarChart
@@ -39,7 +41,10 @@ export default function GuessChart({ data, puzzleAnswer }: GuessChartProps) {
           tickLine={false}
           axisLine={false}
           tick={{ fill: "#E7E3FC" }}
-          ticks={Array.from({ length: intervals }, (_, i) => i * step)}
+          ticks={Array.from(
+            { length: Math.ceil(maxCount / step) },
+            (_, i) => i * step,
+          )}
           domain={[0, maxCount]}
         />
         <YAxis
@@ -142,7 +147,7 @@ export default function GuessChart({ data, puzzleAnswer }: GuessChartProps) {
             const padding = 8;
             return (
               <text
-                x={x + width + padding} // inside the right side of the bar
+                x={x + width + padding}
                 y={y + height / 2}
                 textAnchor="start"
                 dominantBaseline="middle"
