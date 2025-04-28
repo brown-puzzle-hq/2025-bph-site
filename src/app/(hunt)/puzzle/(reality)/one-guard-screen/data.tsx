@@ -24,34 +24,46 @@ export const remoteBody = inPersonBody;
  * The `solutionBody` renders in the solution page.
  * If there are no solutions available, set it null.
  */
-export const solutionBody = <div className="max-w-3xl space-y-4">
+export const solutionBody = (
+  <div className="max-w-3xl space-y-4">
     <div>
-        This puzzle is a play on the single particle double slit experiment from quantum physics. In this experiment, if one observes (typically with particle detectors) which slit the particle goes through, the particle will go through the slit and straight to the screen. However, if the two slits are not observed and instead only the screen is observed, interference patterns appear in the same manner as if constant streams of particles were fired through both slits, due to the particle interfering with itself. The result of this is shown below:
+      This puzzle is a play on the single particle double slit experiment from
+      quantum physics. In this experiment, if one observes (typically with
+      particle detectors) which slit the particle goes through, the particle
+      will go through the slit and straight to the screen. However, if the two
+      slits are not observed and instead only the screen is observed,
+      interference patterns appear in the same manner as if constant streams of
+      particles were fired through both slits, due to the particle interfering
+      with itself. The result of this is shown below:
     </div>
-    <div className="flex flex-col items-center space-y-2 mt-8">
+    <div className="mt-8 flex flex-col items-center space-y-2">
       <Image src={screen_img} width={500} height={500} alt="" />
     </div>
     <div className="mb-4">
-        By these interference patterns, areas of light and darkness alternate on the screen.
+      By these interference patterns, areas of light and darkness alternate on
+      the screen.
     </div>
     <div>
-        When the entire puzzle (including the slits) is observed, the guard walks straight from the slit to the screen, the same as in the double slit experiment. By resizing the window such that only the screen is visible, this interference pattern will be created, illuminating letters on the wall in this alternating pattern. By letting the simulation run enough times (speeding it up can be helpful), the guard will eventually reveal, from top to bottom, the letters <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
-        NATIONALSECURITY.
-        </span>
+      When the entire puzzle (including the slits) is observed, the guard walks
+      straight from the slit to the screen, the same as in the double slit
+      experiment. By resizing the window such that only the screen is visible,
+      this interference pattern will be created, illuminating letters on the
+      wall in this alternating pattern. By letting the simulation run enough
+      times (speeding it up can be helpful), the guard will eventually reveal,
+      from top to bottom, the letters{" "}
+      <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
+        NATIONAL SECURITY,
+      </span>{" "}
+      which is the answer.
     </div>
-    <div> Thus, the solution is{" "}
-
-    <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
-        NATIONAL SECURITY
-        </span>.
-    </div>
-
-</div>;
+  </div>
+);
 
 /**
  * The `authors` string renders below the `solutionBody`.
  */
-export const authors = "Nate Chinman, Nicholas Cressman, Jack de Haan, Thomas Gordon";
+export const authors =
+  "Nate Chinman, Nicholas Cressman, Jack de Haan, Thomas Gordon";
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
