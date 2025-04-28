@@ -241,7 +241,7 @@ export default async function Home() {
                     <TableCell className="justify-center">
                       <div className="flex justify-center">
                         <a href={`/puzzle/${puzzle.id}/stats`}>
-                          <ChartColumn className="text-black-500 size-5 hover:opacity-60" />
+                          <ChartColumn className="text-black-500 size-5 text-lime-600 hover:opacity-60" />
                         </a>
                       </div>
                     </TableCell>
