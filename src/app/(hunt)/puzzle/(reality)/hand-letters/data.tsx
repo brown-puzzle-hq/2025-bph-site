@@ -90,7 +90,9 @@ export const solutionBody = (
       passes are arranged. Looking at the clock hands (just hour and minute, no
       second hands) reveals the vague shape of a letter spelled out by each
       formation. Putting these letters together, one gets the answer to the
-      puzzle: JUNGLE.
+      puzzle: <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
+      JUNGLE
+        </span>.
     </p>
   </div>
 );
@@ -98,7 +100,7 @@ export const solutionBody = (
 /**
  * The `authors` string renders below the `solutionBody`.
  */
-export const authors = null;
+export const authors = "Noah Elbaum";
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
