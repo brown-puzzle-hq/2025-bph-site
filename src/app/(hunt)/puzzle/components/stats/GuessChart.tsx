@@ -132,7 +132,6 @@ export default function GuessChart({ data, puzzleAnswer }: GuessCharProps) {
             );
           }}
         />
-        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         <Bar
           dataKey="count"
           fill="#CBC3E3"
