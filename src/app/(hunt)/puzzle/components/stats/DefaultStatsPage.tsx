@@ -2,57 +2,48 @@ import StatsTable from "./StatsTable";
 import GuessChart from "./GuessChart";
 import { columns } from "./Columns";
 import { db } from "~/server/db";
-import { and, eq, sql, desc } from "drizzle-orm";
+import { and, eq, desc, count } from "drizzle-orm";
 import { puzzles, teams, solves, guesses, unlocks, hints } from "@/db/schema";
 import { INITIAL_PUZZLES } from "~/hunt.config";
-import { LockOpen } from "lucide-react";
 
 export default async function DefaultStatsPage({
   puzzleId,
 }: {
   puzzleId: string;
 }) {
-  const puzzleAnswer = await db
-    .select({ answer: sql<string>`answer` })
-    .from(puzzles)
-    .where(eq(puzzles.id, puzzleId))
-    .then((res) => res[0]?.answer ?? "");
-
+  // For the header
   const totalUnlocks = INITIAL_PUZZLES.includes(puzzleId)
     ? "-"
     : await db
-        .select({
-          count: sql<number>`COUNT(${unlocks.id})`,
-        })
+        .select({ count: count() })
         .from(unlocks)
-        .where(eq(unlocks.puzzleId, puzzleId))
+        .innerJoin(teams, eq(unlocks.teamId, teams.id))
+        .where(and(eq(unlocks.puzzleId, puzzleId), eq(teams.role, "user")))
         .then((res) => res[0]?.count ?? 0);
 
   const totalGuesses = await db
-    .select({
-      count: sql<number>`COUNT(${guesses.id})`,
-    })
+    .select({ count: count() })
     .from(guesses)
-    .where(eq(guesses.puzzleId, puzzleId))
+    .innerJoin(teams, eq(guesses.teamId, teams.id))
+    .where(and(eq(guesses.puzzleId, puzzleId), eq(teams.role, "user")))
     .then((res) => res[0]?.count ?? 0);
 
   const totalHints = await db
-    .select({
-      count: sql<number>`COUNT(${hints.id})`,
-    })
+    .select({ count: count() })
     .from(hints)
-    .where(and(eq(hints.puzzleId, puzzleId)))
+    .innerJoin(teams, eq(hints.teamId, teams.id))
+    .where(and(eq(hints.puzzleId, puzzleId), eq(teams.role, "user")))
     .then((res) => res[0]?.count ?? 0);
 
+  // For the stats table
   const statsTableData = await db
     .select({
       teamDisplayName: teams.displayName,
-      guesses: sql<number>`COUNT(${guesses.id})`,
+      guesses: count(),
       unlockTime: unlocks.unlockTime,
       solveTime: solves.solveTime,
     })
     .from(solves)
-    .where(eq(solves.puzzleId, puzzleId))
     .innerJoin(teams, eq(solves.teamId, teams.id))
     .innerJoin(
       unlocks,
@@ -68,18 +59,24 @@ export default async function DefaultStatsPage({
         eq(solves.puzzleId, guesses.puzzleId),
       ),
     )
+    .where(and(eq(solves.puzzleId, puzzleId), eq(teams.role, "user")))
     .groupBy(teams.id, unlocks.unlockTime, solves.solveTime);
 
+  // For the guess chart
   const guessChartData = await db
-    .select({
-      guess: guesses.guess,
-      count: sql<number>`COUNT(*)`,
-    })
+    .select({ guess: guesses.guess, count: count() })
     .from(guesses)
-    .where(eq(guesses.puzzleId, puzzleId))
+    .innerJoin(teams, eq(guesses.teamId, teams.id))
+    .where(and(eq(guesses.puzzleId, puzzleId), eq(teams.role, "user")))
     .groupBy(guesses.guess)
-    .orderBy(desc(sql`COUNT(*)`))
+    .orderBy(desc(count()))
     .limit(10);
+
+  const puzzleAnswer = await db
+    .select({ answer: puzzles.answer })
+    .from(puzzles)
+    .where(eq(puzzles.id, puzzleId))
+    .then((res) => res[0]?.answer ?? "");
 
   return (
     <div className="mb-12 w-full max-w-3xl space-y-8 px-4">
