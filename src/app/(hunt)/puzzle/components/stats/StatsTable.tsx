@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   ColumnDef,
@@ -25,11 +24,10 @@ interface TableProps<TData, TValue> {
   data: TData[];
 }
 
-export function StatsTable<TData, TValue>({
+export default function StatsTable<TData, TValue>({
   columns,
   data,
 }: TableProps<TData, TValue>) {
-  const router = useRouter();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     { id: "solveTime", desc: true },
