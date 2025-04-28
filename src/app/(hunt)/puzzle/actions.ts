@@ -110,8 +110,8 @@ export async function canViewSolution(
   if (!session?.user?.id) return "not_authenticated";
   if (session.user.role == "admin") return "success";
   else return "not_authorized";
-  // // If the hunt has ended, anyone can view solutions
-  // if (new Date() > REMOTE.END_TIME) return "success";
+  // // If wrapup has released, anyone can view solutions
+  // if (new Date() > REMOTE.WRAPUP_TIME) return "success";
   // // If the hunt has not ended, users must be signed-in
   // if (!session?.user?.id) return "not_authenticated";
   // // Admin can always view the solution
@@ -132,7 +132,7 @@ export async function canViewStats(
   session: Session | null,
 ): Promise<viewStatus> {
   // If the hunt has ended, anyone can view stats
-  if (new Date() > REMOTE.END_TIME) return "success";
+  if (new Date() > REMOTE.WRAPUP_TIME) return "success";
   // Admin can always view stats
   if (session?.user?.role == "admin") return "success";
   return "not_authorized";
