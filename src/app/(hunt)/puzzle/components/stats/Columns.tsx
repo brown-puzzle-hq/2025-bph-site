@@ -28,11 +28,11 @@ export const columns: ColumnDef<TeamPuzzleStats>[] = [
         <p>Team</p>
 
         {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="size-4" />
+          <ArrowUp className="size-4 stroke-[2.75]" />
         ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="size-4" />
+          <ArrowDown className="size-4 stroke-[2.75]" />
         ) : (
-          <ChevronsUpDown className="size-4" />
+          <ChevronsUpDown className="size-4 stroke-[2.75]" />
         )}
       </div>
     ),
@@ -47,11 +47,11 @@ export const columns: ColumnDef<TeamPuzzleStats>[] = [
       <div className="flex w-28 items-center space-x-1">
         <p>Guesses</p>
         {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="size-4" />
+          <ArrowUp className="size-4 stroke-[2.75]" />
         ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="size-4" />
+          <ArrowDown className="size-4 stroke-[2.75]" />
         ) : (
-          <ChevronsUpDown className="size-4" />
+          <ChevronsUpDown className="size-4 stroke-[2.75]" />
         )}
       </div>
     ),
@@ -63,15 +63,32 @@ export const columns: ColumnDef<TeamPuzzleStats>[] = [
       <div className="flex w-28 items-center space-x-1">
         <p>Unlock Time</p>
         {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="size-4" />
+          <ArrowUp className="size-4 stroke-[2.75]" />
         ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="size-4" />
+          <ArrowDown className="size-4 stroke-[2.75]" />
         ) : (
-          <ChevronsUpDown className="size-4" />
+          <ChevronsUpDown className="size-4 stroke-[2.75]" />
         )}
       </div>
     ),
     cell: ({ row }) => formatTime(row.getValue("unlockTime")),
+    sortingFn: "datetime",
+  },
+  {
+    accessorKey: "solveTime",
+    header: ({ column }) => (
+      <div className="flex w-28 items-center space-x-1">
+        <p>Solve Time</p>
+        {column.getIsSorted() === "asc" ? (
+          <ArrowUp className="size-4 stroke-[2.75]" />
+        ) : column.getIsSorted() === "desc" ? (
+          <ArrowDown className="size-4 stroke-[2.75]" />
+        ) : (
+          <ChevronsUpDown className="size-4 stroke-[2.75]" />
+        )}
+      </div>
+    ),
+    cell: ({ row }) => formatTime(row.getValue("solveTime")),
     sortingFn: "datetime",
   },
   {
@@ -81,14 +98,14 @@ export const columns: ColumnDef<TeamPuzzleStats>[] = [
         ? row.solveTime.getTime() - row.unlockTime.getTime()
         : null,
     header: ({ column }) => (
-      <div className="flex w-28 items-center space-x-1">
-        <p>Delta</p>
+      <div className="flex w-fit items-center space-x-1 text-nowrap">
+        <p>Solve Duration</p>
         {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="size-4" />
+          <ArrowUp className="size-4 stroke-[2.75]" />
         ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="size-4" />
+          <ArrowDown className="size-4 stroke-[2.75]" />
         ) : (
-          <ChevronsUpDown className="size-4" />
+          <ChevronsUpDown className="size-4 stroke-[2.75]" />
         )}
       </div>
     ),
@@ -108,22 +125,5 @@ export const columns: ColumnDef<TeamPuzzleStats>[] = [
 
       return parts.join(" ");
     },
-  },
-  {
-    accessorKey: "solveTime",
-    header: ({ column }) => (
-      <div className="flex w-28 items-center space-x-1">
-        <p>Solve Time</p>
-        {column.getIsSorted() === "asc" ? (
-          <ArrowUp className="size-4" />
-        ) : column.getIsSorted() === "desc" ? (
-          <ArrowDown className="size-4" />
-        ) : (
-          <ChevronsUpDown className="size-4" />
-        )}
-      </div>
-    ),
-    cell: ({ row }) => formatTime(row.getValue("solveTime")),
-    sortingFn: "datetime",
   },
 ];

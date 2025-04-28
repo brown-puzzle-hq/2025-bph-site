@@ -5,6 +5,7 @@ import { db } from "~/server/db";
 import { and, eq, sql, desc } from "drizzle-orm";
 import { puzzles, teams, solves, guesses, unlocks, hints } from "@/db/schema";
 import { INITIAL_PUZZLES } from "~/hunt.config";
+import { LockOpen } from "lucide-react";
 
 export default async function DefaultStatsPage({
   puzzleId,
@@ -79,24 +80,38 @@ export default async function DefaultStatsPage({
     .groupBy(guesses.guess)
     .orderBy(desc(sql`COUNT(*)`))
     .limit(10);
+
   return (
-    <div className="h-full w-full max-w-3xl flex-col items-center justify-center px-4">
-      <div className="flex justify-center space-x-8 py-8">
-        <div>
-          <div>Teams unlocked: {totalUnlocks}</div>
-          <div>Total guesses: {totalGuesses}</div>
+    <div className="mb-12 w-full max-w-3xl space-y-8 px-4">
+      <div className="grid grid-cols-4 gap-0 overflow-hidden rounded-md text-center sm:gap-4">
+        <div className="w-full bg-black/30 py-2 sm:rounded-md">
+          <p className="text-sm font-medium">Unlocks</p>
+          <p className="text-2xl font-bold">{totalUnlocks}</p>
         </div>
-        <div>
-          <div>Total solves: {statsTableData.length}</div>
-          <div>Total hints: {totalHints}</div>
+        <div className="w-full bg-black/30 py-2 sm:rounded-md">
+          <p className="text-sm font-medium">Guesses</p>
+          <p className="text-2xl font-bold">{totalGuesses}</p>
+        </div>
+        <div className="w-full bg-black/30 py-2 sm:rounded-md">
+          <p className="text-sm font-medium">Solves</p>
+          <p className="text-2xl font-bold">{statsTableData.length}</p>
+        </div>
+        <div className="w-full bg-black/30 py-2 sm:rounded-md">
+          <p className="text-sm font-medium">Hints</p>
+          <p className="text-2xl font-bold">{totalHints}</p>
         </div>
       </div>
-      <div className="flex max-w-3xl justify-center">
+      <div>
+        <p className="font-semibold text-main-header">Team Statistics</p>
         <StatsTable columns={columns} data={statsTableData} />
       </div>
-      <div className="flex max-w-3xl flex-col justify-center py-8">
-        <p className="py-8">Most Common Guesses</p>
-        <GuessChart data={guessChartData} puzzleAnswer={puzzleAnswer} />
+      <div>
+        <p className="mb-4 font-semibold text-main-header">
+          Most Common Guesses
+        </p>
+        <div className="flex w-full flex-col">
+          <GuessChart data={guessChartData} puzzleAnswer={puzzleAnswer} />
+        </div>
       </div>
     </div>
   );

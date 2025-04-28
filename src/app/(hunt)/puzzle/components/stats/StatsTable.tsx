@@ -30,7 +30,7 @@ export default function StatsTable<TData, TValue>({
 }: TableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "solveTime", desc: true },
+    { id: "delta", desc: false },
   ]);
 
   const table = useReactTable({
@@ -56,52 +56,50 @@ export default function StatsTable<TData, TValue>({
   });
 
   return (
-    <div className="w-full max-w-3xl overflow-y-auto rounded-md">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow
-              key={`header-${headerGroup.id}`}
-              className="hover:bg-inherit"
-            >
-              {headerGroup.headers.map((header) => (
-                <TableHead
-                  key={header.id}
-                  onClick={() =>
-                    header.column.toggleSorting(
-                      header.column.getIsSorted() === "asc",
-                    )
-                  }
-                  className={`py-0 text-white hover:text-opacity-70`}
-                  role="button"
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row, i) => (
-            <TableRow
-              key={i}
-              data-state={row.getIsSelected() && "selected"}
-              className={`py-0`}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} className={"py-0"}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+    <Table>
+      <TableHeader>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <TableRow
+            key={`header-${headerGroup.id}`}
+            className="hover:bg-inherit"
+          >
+            {headerGroup.headers.map((header) => (
+              <TableHead
+                key={header.id}
+                onClick={() =>
+                  header.column.toggleSorting(
+                    header.column.getIsSorted() === "asc",
+                  )
+                }
+                className="text-main-text hover:text-opacity-85"
+                role="button"
+              >
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
+              </TableHead>
+            ))}
+          </TableRow>
+        ))}
+      </TableHeader>
+      <TableBody>
+        {table.getRowModel().rows.map((row, i) => (
+          <TableRow
+            key={i}
+            data-state={row.getIsSelected() && "selected"}
+            className="hover:bg-inherit"
+          >
+            {row.getVisibleCells().map((cell) => (
+              <TableCell key={cell.id} className="py-1">
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
