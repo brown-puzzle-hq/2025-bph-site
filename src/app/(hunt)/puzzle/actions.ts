@@ -35,6 +35,11 @@ import {
 import { ensureError } from "~/lib/utils";
 
 export type TxType = Parameters<Parameters<typeof db.transaction>[0]>[0];
+
+// TODO: the canView functions should return a more specific type.
+// They also do not need to be async functions, so we can put them in
+// a different file
+
 export type viewStatus = "success" | "not_authenticated" | "not_authorized";
 
 /** Checks whether the user can view the puzzle.
@@ -86,6 +91,12 @@ export async function canViewPuzzle(
 
   // The hunt has not started yet and the user is not an admin or testsolver
   return "not_authorized";
+}
+
+/** Only users who are logged in can view hints. */
+export async function canViewHint(session: Session | null) {
+  if (!session?.user?.id) return "not_authenticated";
+  else return "success";
 }
 
 /** Checks whether the user can view the solution.

@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { db } from "~/server/db";
 import { eq, and, asc } from "drizzle-orm";
 import { followUps, solves, hints, puzzles } from "~/server/db/schema";
-import { canViewPuzzle } from "../actions";
+import { canViewPuzzle, canViewHint } from "../actions";
 import { getNumberOfHintsRemaining } from "~/hunt.config";
 import HuntHintThreads from "./HuntHintThreads";
 
@@ -37,7 +37,7 @@ export default async function DefaultHintPage({
         >
           Login
         </Link>{" "}
-        to see previous hints.
+        to see hints.
       </div>
     );
   }
