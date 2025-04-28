@@ -4,7 +4,7 @@ import { db } from "~/server/db";
 import { puzzles } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
-import { canViewPuzzle, canViewSolution } from "../actions";
+import { canViewPuzzle, canViewSolution, canViewStats } from "../actions";
 import { META_PUZZLES, SEQUENCES } from "~/hunt.config";
 import { Triangle } from "lucide-react";
 
@@ -50,7 +50,10 @@ export default async function DefaultHeader({
       {META_PUZZLES.includes(puzzleId) ? (
         <div />
       ) : (
-        <img src={`/map/sprites-finalized/${puzzleId}.png`} className="h-24 mb-2" />
+        <img
+          src={`/map/sprites-finalized/${puzzleId}.png`}
+          className="mb-2 h-24"
+        />
       )}
 
       {/* Subtitle links below */}
@@ -84,6 +87,18 @@ export default async function DefaultHeader({
                 </Link>
               </>
             )}
+          {(await canViewStats(session)) === "success" && (
+            <>
+              <span className="text-gray-500">|</span>
+              <Link
+                href={`/puzzle/${puzzleId}/stats`}
+                className="text-link hover:underline"
+                prefetch={false}
+              >
+                Stats
+              </Link>
+            </>
+          )}
         </div>
       </div>
 

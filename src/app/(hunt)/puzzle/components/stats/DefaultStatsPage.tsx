@@ -1,5 +1,8 @@
+import { auth } from "~/server/auth/auth";
 import StatsTable from "./StatsTable";
 import GuessChart from "./GuessChart";
+import { canViewStats } from "../../actions";
+import { redirect } from "next/navigation";
 import { columns } from "./Columns";
 import { db } from "~/server/db";
 import { and, eq, desc, count } from "drizzle-orm";
@@ -11,6 +14,17 @@ export default async function DefaultStatsPage({
 }: {
   puzzleId: string;
 }) {
+  // Check if user can view stats
+  const session = await auth();
+  switch (await canViewStats(session)) {
+    case "success":
+      break;
+    case "not_authenticated":
+      redirect("/login");
+    case "not_authorized":
+      redirect("/puzzle");
+  }
+
   // For the header
   const totalUnlocks = INITIAL_PUZZLES.includes(puzzleId)
     ? "-"
