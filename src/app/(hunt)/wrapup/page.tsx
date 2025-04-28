@@ -366,8 +366,8 @@ export default function Page() {
                   </TableRow>
                 </TableBody>
               </Table>
-              {/* most hints + follow-ups */}
-              <h3>Most Hints + Follow-Ups</h3>
+              {/* most hints + replies */}
+              <h3>Most Hints + Replies</h3>
               <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
@@ -436,8 +436,9 @@ export default function Page() {
                     </TableHead>
                     <TableHead className="text-main-header">Hints</TableHead>
                     <TableHead className="text-main-header">
-                      Hints + Follow-Ups
+                      Hints + Replies
                     </TableHead>
+                    <TableHead className="text-main-header">Tokens</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="pointer-events-none">
@@ -448,6 +449,7 @@ export default function Page() {
                     <TableCell className="text-center">85</TableCell>
                     <TableCell className="text-center">5</TableCell>
                     <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>a-fistful-of-cards-ii</TableCell>
@@ -456,6 +458,7 @@ export default function Page() {
                     <TableCell className="text-center">17</TableCell>
                     <TableCell className="text-center">2</TableCell>
                     <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>a-fistful-of-cards-iii</TableCell>
@@ -464,6 +467,7 @@ export default function Page() {
                     <TableCell className="text-center">15</TableCell>
                     <TableCell className="text-center">2</TableCell>
                     <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>a-fistful-of-cards-iv</TableCell>
@@ -472,6 +476,7 @@ export default function Page() {
                     <TableCell className="text-center">12</TableCell>
                     <TableCell className="text-center">23</TableCell>
                     <TableCell className="text-center">33</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>aha-erlebnis</TableCell>
@@ -480,6 +485,7 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">35</TableCell>
                     <TableCell className="text-center">54</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>are-you-sure</TableCell>
@@ -488,6 +494,7 @@ export default function Page() {
                     <TableCell className="text-center">4</TableCell>
                     <TableCell className="text-center">1</TableCell>
                     <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>balloon-animals</TableCell>
@@ -496,6 +503,7 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">10</TableCell>
                     <TableCell className="text-center">15</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>barbie</TableCell>
@@ -504,6 +512,7 @@ export default function Page() {
                     <TableCell className="text-center">19</TableCell>
                     <TableCell className="text-center">38</TableCell>
                     <TableCell className="text-center">58</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>beads</TableCell>
@@ -512,14 +521,16 @@ export default function Page() {
                     <TableCell className="text-center">27</TableCell>
                     <TableCell className="text-center">72</TableCell>
                     <TableCell className="text-center">112</TableCell>
+                    <TableCell className="text-center">2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>bluenos-puzzle-box</TableCell>
                     <TableCell className="text-center">321</TableCell>
                     <TableCell className="text-center">124</TableCell>
-                    <TableCell className="text-center">8</TableCell>
+                    <TableCell className="text-center">10</TableCell>
                     <TableCell className="text-center">14</TableCell>
                     <TableCell className="text-center">23</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>boring-plot</TableCell>
@@ -528,6 +539,7 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">45</TableCell>
                     <TableCell className="text-center">72</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>chain-letters</TableCell>
@@ -536,6 +548,7 @@ export default function Page() {
                     <TableCell className="text-center">15</TableCell>
                     <TableCell className="text-center">23</TableCell>
                     <TableCell className="text-center">37</TableCell>
+                    <TableCell className="text-center">3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>color-wheel</TableCell>
@@ -544,6 +557,7 @@ export default function Page() {
                     <TableCell className="text-center">11</TableCell>
                     <TableCell className="text-center">37</TableCell>
                     <TableCell className="text-center">56</TableCell>
+                    <TableCell className="text-center">3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>connect-the-dots</TableCell>
@@ -552,6 +566,7 @@ export default function Page() {
                     <TableCell className="text-center">15</TableCell>
                     <TableCell className="text-center">37</TableCell>
                     <TableCell className="text-center">51</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>constellation</TableCell>
@@ -560,6 +575,7 @@ export default function Page() {
                     <TableCell className="text-center">3</TableCell>
                     <TableCell className="text-center">29</TableCell>
                     <TableCell className="text-center">39</TableCell>
+                    <TableCell className="text-center">2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>cutting-room-floor</TableCell>
@@ -568,6 +584,7 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">43</TableCell>
                     <TableCell className="text-center">62</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>drop-the</TableCell>
@@ -576,22 +593,25 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">5</TableCell>
                     <TableCell className="text-center">8</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>eye-of-the-storm</TableCell>
                     <TableCell className="text-center">184</TableCell>
                     <TableCell className="text-center">127</TableCell>
-                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">9</TableCell>
                     <TableCell className="text-center">30</TableCell>
                     <TableCell className="text-center">49</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>eye-spy</TableCell>
                     <TableCell className="text-center">4431</TableCell>
                     <TableCell className="text-center">108</TableCell>
-                    <TableCell className="text-center">15</TableCell>
+                    <TableCell className="text-center">35</TableCell>
                     <TableCell className="text-center">16</TableCell>
                     <TableCell className="text-center">21</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>eye-to-eye</TableCell>
@@ -600,6 +620,7 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">3</TableCell>
                     <TableCell className="text-center">6</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>filming-schedule</TableCell>
@@ -608,6 +629,7 @@ export default function Page() {
                     <TableCell className="text-center">7</TableCell>
                     <TableCell className="text-center">5</TableCell>
                     <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>financial-crimes-3</TableCell>
@@ -616,6 +638,7 @@ export default function Page() {
                     <TableCell className="text-center">13</TableCell>
                     <TableCell className="text-center">12</TableCell>
                     <TableCell className="text-center">17</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>find-ben</TableCell>
@@ -624,6 +647,7 @@ export default function Page() {
                     <TableCell className="text-center">22</TableCell>
                     <TableCell className="text-center">7</TableCell>
                     <TableCell className="text-center">8</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>fractal-shanty</TableCell>
@@ -632,6 +656,7 @@ export default function Page() {
                     <TableCell className="text-center">70</TableCell>
                     <TableCell className="text-center">31</TableCell>
                     <TableCell className="text-center">53</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>fridge-magnets</TableCell>
@@ -640,14 +665,16 @@ export default function Page() {
                     <TableCell className="text-center">1</TableCell>
                     <TableCell className="text-center">3</TableCell>
                     <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>genetic-counseling</TableCell>
                     <TableCell className="text-center">193</TableCell>
                     <TableCell className="text-center">111</TableCell>
-                    <TableCell className="text-center">15</TableCell>
+                    <TableCell className="text-center">43</TableCell>
                     <TableCell className="text-center">2</TableCell>
                     <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>hand-letters</TableCell>
@@ -656,6 +683,7 @@ export default function Page() {
                     <TableCell className="text-center">1</TableCell>
                     <TableCell className="text-center">4</TableCell>
                     <TableCell className="text-center">6</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>heist</TableCell>
@@ -664,6 +692,7 @@ export default function Page() {
                     <TableCell className="text-center">60</TableCell>
                     <TableCell className="text-center">14</TableCell>
                     <TableCell className="text-center">16</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>heist-ii</TableCell>
@@ -672,6 +701,7 @@ export default function Page() {
                     <TableCell className="text-center">6</TableCell>
                     <TableCell className="text-center">4</TableCell>
                     <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>heist-iii</TableCell>
@@ -680,22 +710,25 @@ export default function Page() {
                     <TableCell className="text-center">10</TableCell>
                     <TableCell className="text-center">5</TableCell>
                     <TableCell className="text-center">8</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>identify-the-piece</TableCell>
                     <TableCell className="text-center">4249</TableCell>
                     <TableCell className="text-center">131</TableCell>
-                    <TableCell className="text-center">6</TableCell>
+                    <TableCell className="text-center">8</TableCell>
                     <TableCell className="text-center">30</TableCell>
                     <TableCell className="text-center">51</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>imagine</TableCell>
                     <TableCell className="text-center">332</TableCell>
                     <TableCell className="text-center">108</TableCell>
-                    <TableCell className="text-center">12</TableCell>
+                    <TableCell className="text-center">21</TableCell>
                     <TableCell className="text-center">34</TableCell>
                     <TableCell className="text-center">45</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>international-neighbours</TableCell>
@@ -704,6 +737,7 @@ export default function Page() {
                     <TableCell className="text-center">61</TableCell>
                     <TableCell className="text-center">64</TableCell>
                     <TableCell className="text-center">104</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>like-clockwork</TableCell>
@@ -712,6 +746,7 @@ export default function Page() {
                     <TableCell className="text-center">3</TableCell>
                     <TableCell className="text-center">53</TableCell>
                     <TableCell className="text-center">71</TableCell>
+                    <TableCell className="text-center">3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>lost-lyric</TableCell>
@@ -720,14 +755,16 @@ export default function Page() {
                     <TableCell className="text-center">28</TableCell>
                     <TableCell className="text-center">39</TableCell>
                     <TableCell className="text-center">49</TableCell>
+                    <TableCell className="text-center">2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>m-guards-n-doors-and-k-choices</TableCell>
                     <TableCell className="text-center">707</TableCell>
                     <TableCell className="text-center">156</TableCell>
-                    <TableCell className="text-center">0</TableCell>
+                    <TableCell className="text-center">30</TableCell>
                     <TableCell className="text-center">9</TableCell>
                     <TableCell className="text-center">13</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>narcissism</TableCell>
@@ -736,22 +773,25 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">1</TableCell>
                     <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>one-guard-screen</TableCell>
                     <TableCell className="text-center">540</TableCell>
                     <TableCell className="text-center">177</TableCell>
-                    <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">12</TableCell>
                     <TableCell className="text-center">126</TableCell>
                     <TableCell className="text-center">159</TableCell>
+                    <TableCell className="text-center">4</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>opening-sequences</TableCell>
                     <TableCell className="text-center">700</TableCell>
                     <TableCell className="text-center">143</TableCell>
-                    <TableCell className="text-center">11</TableCell>
+                    <TableCell className="text-center">32</TableCell>
                     <TableCell className="text-center">15</TableCell>
                     <TableCell className="text-center">24</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>peanuts</TableCell>
@@ -760,6 +800,7 @@ export default function Page() {
                     <TableCell className="text-center">5</TableCell>
                     <TableCell className="text-center">5</TableCell>
                     <TableCell className="text-center">7</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>piecemeal</TableCell>
@@ -768,6 +809,7 @@ export default function Page() {
                     <TableCell className="text-center">2</TableCell>
                     <TableCell className="text-center">28</TableCell>
                     <TableCell className="text-center">36</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>plagiarism</TableCell>
@@ -776,6 +818,7 @@ export default function Page() {
                     <TableCell className="text-center">1</TableCell>
                     <TableCell className="text-center">14</TableCell>
                     <TableCell className="text-center">15</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>red-blue</TableCell>
@@ -784,6 +827,7 @@ export default function Page() {
                     <TableCell className="text-center">9</TableCell>
                     <TableCell className="text-center">33</TableCell>
                     <TableCell className="text-center">55</TableCell>
+                    <TableCell className="text-center">3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>secret-ingredient</TableCell>
@@ -792,6 +836,7 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">2</TableCell>
                     <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>six-degrees</TableCell>
@@ -800,14 +845,16 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">26</TableCell>
                     <TableCell className="text-center">32</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>sound-of-music</TableCell>
                     <TableCell className="text-center">152</TableCell>
                     <TableCell className="text-center">98</TableCell>
-                    <TableCell className="text-center">1</TableCell>
+                    <TableCell className="text-center">14</TableCell>
                     <TableCell className="text-center">4</TableCell>
                     <TableCell className="text-center">5</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>ten-guards-ten-doors</TableCell>
@@ -816,6 +863,7 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">37</TableCell>
                     <TableCell className="text-center">52</TableCell>
+                    <TableCell className="text-center">3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-compact-disc</TableCell>
@@ -824,6 +872,7 @@ export default function Page() {
                     <TableCell className="text-center">24</TableCell>
                     <TableCell className="text-center">40</TableCell>
                     <TableCell className="text-center">66</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-final-heist</TableCell>
@@ -832,6 +881,7 @@ export default function Page() {
                     <TableCell className="text-center">6</TableCell>
                     <TableCell className="text-center">7</TableCell>
                     <TableCell className="text-center">7</TableCell>
+                    <TableCell className="text-center">2</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-guard-and-the-door</TableCell>
@@ -840,6 +890,7 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">51</TableCell>
                     <TableCell className="text-center">79</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>the-snack-zone</TableCell>
@@ -848,6 +899,7 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">2</TableCell>
                     <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>two-guards-river</TableCell>
@@ -856,6 +908,7 @@ export default function Page() {
                     <TableCell className="text-center">0</TableCell>
                     <TableCell className="text-center">1</TableCell>
                     <TableCell className="text-center">3</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>two-guards-two-doors</TableCell>
@@ -864,6 +917,7 @@ export default function Page() {
                     <TableCell className="text-center">5</TableCell>
                     <TableCell className="text-center">2</TableCell>
                     <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>walk-of-fame</TableCell>
@@ -872,6 +926,7 @@ export default function Page() {
                     <TableCell className="text-center">67</TableCell>
                     <TableCell className="text-center">50</TableCell>
                     <TableCell className="text-center">62</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>watching-between-the-lines</TableCell>
@@ -880,14 +935,16 @@ export default function Page() {
                     <TableCell className="text-center">43</TableCell>
                     <TableCell className="text-center">35</TableCell>
                     <TableCell className="text-center">41</TableCell>
+                    <TableCell className="text-center">3</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>whats-my-ride</TableCell>
                     <TableCell className="text-center">362</TableCell>
                     <TableCell className="text-center">131</TableCell>
-                    <TableCell className="text-center">2</TableCell>
+                    <TableCell className="text-center">34</TableCell>
                     <TableCell className="text-center">8</TableCell>
                     <TableCell className="text-center">9</TableCell>
+                    <TableCell className="text-center">0</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>youve-got-this-covered</TableCell>
@@ -896,6 +953,7 @@ export default function Page() {
                     <TableCell className="text-center">22</TableCell>
                     <TableCell className="text-center">3</TableCell>
                     <TableCell className="text-center">4</TableCell>
+                    <TableCell className="text-center">1</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -1512,6 +1570,41 @@ export default function Page() {
                   <TableRow>
                     <TableCell>We're not sure where to start here</TableCell>
                     <TableCell className="text-center">34</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              <h3>Events</h3>
+              <Table className="my-0 w-fit">
+                <TableHeader>
+                  <TableRow className="hover:bg-inherit">
+                    <TableHead className="text-main-header"></TableHead>
+                    <TableHead className="text-main-header">
+                      Submitted
+                    </TableHead>
+                    <TableHead className="text-main-header">Used</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className="pointer-events-none">
+                  <TableRow>
+                    <TableHead className="text-main-header">
+                      auditioning-for-a-role
+                    </TableHead>
+                    <TableCell className="text-center">23</TableCell>
+                    <TableCell className="text-center">22</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="text-main-header">
+                      poster-pastiche
+                    </TableHead>
+                    <TableCell className="text-center">18</TableCell>
+                    <TableCell className="text-center">16</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableHead className="text-main-header">
+                      sneaking-a-screening
+                    </TableHead>
+                    <TableCell className="text-center">16</TableCell>
+                    <TableCell className="text-center">15</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
