@@ -48,7 +48,9 @@ export const solutionBody = (
       </div>
       <div>
         Once you complete the trees, you should get at the blue boxes at the
-        bottom “egg” and “plant.” Concatenating those words gives EGGPLANT, the
+        bottom “egg” and “plant.” Concatenating those words gives{" "} <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
+          EGGPLANT
+        </span> , the
         puzzle's answer.
       </div>
     </div>
@@ -58,7 +60,7 @@ export const solutionBody = (
 /**
  * The `authors` string renders below the `solutionBody`.
  */
-export const authors = null;
+export const authors = "Noah Elbaum";
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
