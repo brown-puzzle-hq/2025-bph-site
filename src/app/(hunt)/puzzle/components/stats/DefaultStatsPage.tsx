@@ -59,7 +59,7 @@ export default async function DefaultStatsPage({
     })
     .from(solves)
     .innerJoin(teams, eq(solves.teamId, teams.id))
-    .innerJoin(
+    .leftJoin(
       unlocks,
       and(
         eq(solves.teamId, unlocks.teamId),

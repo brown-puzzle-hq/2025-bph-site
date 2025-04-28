@@ -10,13 +10,30 @@ export type TeamPuzzleStats = {
   solveTime: Date | null;
 };
 
-function formatTime(time: Date) {
+function formatTime(time: Date | null) {
+  if (!time) return "-";
   return time.toLocaleString("en-US", {
     month: "numeric",
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
   });
+}
+
+function formatDuration(deltaMs: number | null) {
+  if (deltaMs == null) return "-";
+
+  const totalSeconds = Math.floor(deltaMs / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  const parts = [];
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0 || hours > 0) parts.push(`${minutes}m`);
+  parts.push(`${seconds}s`);
+
+  return parts.join(" ");
 }
 
 // Define the columns for the table using TanStack
@@ -109,21 +126,6 @@ export const columns: ColumnDef<TeamPuzzleStats>[] = [
         )}
       </div>
     ),
-    cell: ({ row }) => {
-      const deltaMs = row.getValue<number>("delta");
-      if (deltaMs == null) return "-";
-
-      const totalSeconds = Math.floor(deltaMs / 1000);
-      const hours = Math.floor(totalSeconds / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
-
-      const parts = [];
-      if (hours > 0) parts.push(`${hours}h`);
-      if (minutes > 0 || hours > 0) parts.push(`${minutes}m`);
-      parts.push(`${seconds}s`);
-
-      return parts.join(" ");
-    },
+    cell: ({ row }) => formatDuration(row.getValue("delta")),
   },
 ];
