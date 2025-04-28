@@ -44,21 +44,21 @@ export const solutionBody = (
       Answer: <span className="bg-main-text hover:bg-inherit">DIAPER</span>.
     </div>
     <div className="mb-6 max-w-3xl">
-      The feeders can be broken down into fragments (SUN)(DAY), (MIN)(NOW)(S),
-      and (FA)(V)(OUR)(ITE) and arranged to form the answers, leaving some
+      The feeders can be broken down into fragments [SUN][DAY], [MIN][NOW][S],
+      and [FA][V][OUR][ITE] and arranged to form the answers, leaving some
       blanks. Here are the complete answers (which are clued by the emojis):
     </div>
     <ul className="mb-6 list-none">
-      <li>(DI)(SUN)(ITE)</li>
-      <li>(MIN)(E)</li>
-      <li>(FA)(R)</li>
-      <li>(S)(NOW)(DAY)</li>
-      <li>(V)(AP)(OUR)</li>
+      <li>[DI][SUN][ITE]</li>
+      <li>[MIN][E]</li>
+      <li>[FA][R]</li>
+      <li>[S][NOW][DAY]</li>
+      <li>[V][AP][OUR]</li>
     </ul>
 
     <div className="mb-6">
-      To complete all of the answers, we needed to add these fragments: (DI),
-      (E), (R), (AP). Anagramming these fragments gives{" "}
+      To complete all of the answers, we needed to add these fragments: [DI],
+      [E], [R], [AP]. Anagramming these fragments gives{" "}
       <span className="bg-main-text hover:bg-inherit">DIAPER</span>.
     </div>
   </div>
@@ -67,7 +67,7 @@ export const solutionBody = (
 /**
  * The `authors` string renders below the `solutionBody`.
  */
-export const authors = null;
+export const authors = "Philip Yao, Thomas Gordon";
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
