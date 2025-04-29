@@ -20,11 +20,11 @@ export default function Page() {
   const values = useTOCContextValues();
   return (
     <TOCContext.Provider value={values}>
-      <div className="flex h-full w-screen py-6">
-        <div className="hidden h-screen p-8 md:block md:w-1/3 lg:w-1/4">
-          <TableOfContents />
-        </div>
-        <div className="flex w-full px-4">
+      <div className="flex px-4 py-6">
+        <TableOfContents />
+        {/* Spacer since TOC is fixed */}
+        <div className="md:w-1/3 xl:w-1/5"></div>
+        <div className="w-full md:w-2/3 xl:w-3/5">
           <article className="prose prose-info w-full max-w-none">
             <h1>Wrapup</h1>
             <p>
