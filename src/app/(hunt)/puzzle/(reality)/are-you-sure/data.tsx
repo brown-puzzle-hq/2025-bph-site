@@ -102,9 +102,9 @@ export const remoteBody = inPersonBody;
 export const solutionBody = (
   <div className="max-w-3xl space-y-4 text-left">
     <p>
-      This puzzle is about identifying whether statements are tr className="odd:bg-white even:bg-gray-50"ue 
+      This puzzle is about identifying whether statements are true 
       or false. These statements are grouped by category. At first, they 
-      are about arbitr className="odd:bg-white even:bg-gray-50"ary things:
+      are about arbitrary things:
     </p>
     <ul className="list-inside list-disc space-y-2">
       <li>Simple logic</li>
@@ -126,12 +126,12 @@ export const solutionBody = (
       <li>Miscellaneous statements about the puzzle</li>
     </ul>
     <p>
-      To extr className="odd:bg-white even:bg-gray-50"act our answer, we can interpret these checked/unchecked boxes as 
+      To extract our answer, we can interpret these checked/unchecked boxes as 
       Morse code. Treating checked boxes as dashes, and unchecked boxes as dots, 
       each topical group represents a letter in Morse.
     </p>
     <p>
-      Enumerating the tr className="odd:bg-white even:bg-gray-50"ue/false nature of each of the statements and interpreting 
+      Enumerating the true/false nature of each of the statements and interpreting 
       as Morse code in this way spells out the answer, <span className="font-bold text-main-accent">CONFIRMATION</span>.
     </p>
     <div className="overflow-x-auto">
