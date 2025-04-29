@@ -22,9 +22,11 @@ export default function Page() {
     <TOCContext.Provider value={values}>
       <div className="flex px-4 py-6">
         <TableOfContents />
+
         {/* Spacer since TOC is fixed */}
-        <div className="md:w-1/3 xl:w-1/5"></div>
-        <div className="w-full md:w-2/3 xl:w-3/5">
+        <div className="md:w-1/3"></div>
+
+        <div className="w-full md:w-2/3">
           <article className="prose prose-info w-full max-w-none prose-img:my-0">
             <h1>Wrapup</h1>
             <p>
@@ -3667,6 +3669,16 @@ export default function Page() {
             </TOCSection>
           </article>
         </div>
+
+        <div
+          className="ml-4 hidden w-[80px] p-8 md:block"
+          style={{
+            backgroundImage: "url('wrapup/images/sidebar.png')",
+            backgroundRepeat: "repeat-y",
+            backgroundSize: "contain",
+            backgroundPosition: "center top",
+          }}
+        ></div>
       </div>
     </TOCContext.Provider>
   );
