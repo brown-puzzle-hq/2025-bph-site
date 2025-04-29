@@ -115,17 +115,17 @@ export default function Page() {
                   <img
                     src="/wrapup/images/image45.jpg"
                     alt=""
-                    className="rounded-md brightness-75"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image40.jpg"
                     alt=""
-                    className="rounded-md brightness-75"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image46.jpg"
                     alt=""
-                    className="rounded-md brightness-90"
+                    className="rounded-md"
                   />
                 </div>
 
@@ -1274,7 +1274,7 @@ export default function Page() {
                 <img
                   src="/wrapup/images/image65.jpg"
                   alt=""
-                  className="rounded-md brightness-75"
+                  className="rounded-md"
                 />
 
                 <p>
@@ -1364,17 +1364,17 @@ export default function Page() {
                   <img
                     src="/wrapup/images/image42.jpg"
                     alt=""
-                    className="rounded-md brightness-[0.6]"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image49.jpg"
                     alt=""
-                    className="rounded-md brightness-[0.6]"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image59.jpg"
                     alt=""
-                    className="rounded-md brightness-[0.6]"
+                    className="rounded-md"
                   />
                 </div>
 
@@ -1462,32 +1462,32 @@ export default function Page() {
                   <img
                     src="/wrapup/images/image6.png"
                     alt=""
-                    className="rounded-md brightness-90"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image15.png"
                     alt=""
-                    className="rounded-md brightness-90"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image73.png"
                     alt=""
-                    className="rounded-md brightness-90"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image43.png"
                     alt=""
-                    className="rounded-md brightness-90"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image47.png"
                     alt=""
-                    className="rounded-md brightness-90"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image58.png"
                     alt=""
-                    className="rounded-md brightness-90"
+                    className="rounded-md"
                   />
                 </div>
 
@@ -1521,22 +1521,22 @@ export default function Page() {
                   <img
                     src="/wrapup/images/image57.jpg"
                     alt=""
-                    className="rounded-md brightness-[0.6]"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image48.jpg"
                     alt=""
-                    className="rounded-md brightness-[0.6]"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image61.jpg"
                     alt=""
-                    className="rounded-md brightness-[0.6]"
+                    className="rounded-md"
                   />
                   <img
                     src="/wrapup/images/image60.jpg"
                     alt=""
-                    className="rounded-md brightness-[0.6]"
+                    className="rounded-md"
                   />
                 </div>
 
