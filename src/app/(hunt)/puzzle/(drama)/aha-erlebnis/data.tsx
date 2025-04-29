@@ -274,7 +274,7 @@ export const solutionBody = (
 /**
  * The `authors` string renders below the `solutionBody`.
  */
-export const authors = null;
+export const authors = "Audrey Feigin, Thomas Gordon, Veronika Grytsai, Bailey Merlino, and Arnav Singhal";
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
