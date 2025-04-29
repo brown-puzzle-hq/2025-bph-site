@@ -48,7 +48,11 @@ export default function Page() {
                   <i>Words by the Guards</i>
                 </p>
 
-                <img src="/wrapup/images/image36.png" alt="" />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image36.png"
+                  alt=""
+                />
 
                 <p>
                   The guards sequence was originally a Thomas innovation&trade;
@@ -63,7 +67,11 @@ export default function Page() {
                 </p>
 
                 <figure>
-                  <img src="/wrapup/images/image14.jpg" alt="" />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image14.jpg"
+                    alt=""
+                  />
                   <figcaption>
                     Foreshadowing at kickoff: you'd see these guards again
                   </figcaption>
@@ -84,8 +92,16 @@ export default function Page() {
                 </p>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <img src="/wrapup/images/image66.jpg" alt="" />
-                  <img src="/wrapup/images/image53.png" alt="" />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image66.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image53.png"
+                    alt=""
+                  />
                 </div>
 
                 <p>
@@ -99,17 +115,17 @@ export default function Page() {
                   <img
                     src="/wrapup/images/image45.jpg"
                     alt=""
-                    className="brightness-75"
+                    className="rounded-md brightness-75"
                   />
                   <img
                     src="/wrapup/images/image40.jpg"
                     alt=""
-                    className="brightness-75"
+                    className="rounded-md brightness-75"
                   />
                   <img
                     src="/wrapup/images/image46.jpg"
                     alt=""
-                    className="brightness-90"
+                    className="rounded-md brightness-90"
                   />
                 </div>
 
@@ -140,9 +156,21 @@ export default function Page() {
                 </p>
 
                 <div className="columns-2 space-y-4">
-                  <img src="/wrapup/images/image75.jpg" alt="" />
-                  <img src="/wrapup/images/image22.png" alt="" />
-                  <img src="/wrapup/images/image74.jpg" alt="" />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image75.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image22.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image74.jpg"
+                    alt=""
+                  />
                 </div>
               </TOCSection>
 
@@ -189,8 +217,16 @@ export default function Page() {
                 </p>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <img src="/wrapup/images/image37.jpg" alt="" />{" "}
-                  <img src="/wrapup/images/image70.jpg" alt="" />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image37.jpg"
+                    alt=""
+                  />{" "}
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image70.jpg"
+                    alt=""
+                  />
                 </div>
 
                 <p>
@@ -211,9 +247,21 @@ export default function Page() {
                 </p>
 
                 <div className="grid grid-cols-3 gap-4">
-                  <img src="/wrapup/images/image28.png" alt="" />
-                  <img src="/wrapup/images/image68.jpg" alt="" />
-                  <img src="/wrapup/images/image24.jpg" alt="" />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image28.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image68.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image24.jpg"
+                    alt=""
+                  />
                 </div>
               </TOCSection>
 
@@ -327,9 +375,21 @@ export default function Page() {
                 </p>
 
                 <div className="columns-2 space-y-4">
-                  <img src="/wrapup/images/image5.jpg" alt="" />
-                  <img src="/wrapup/images/image35.jpg" alt="" />
-                  <img src="/wrapup/images/image32.jpg" alt="" />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image5.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image35.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image32.jpg"
+                    alt=""
+                  />
                 </div>
 
                 <p>
@@ -454,12 +514,36 @@ export default function Page() {
                 </p>
 
                 <div className="grid grid-cols-3 gap-4">
-                  <img src="/wrapup/images/image30.jpg" alt="" />
-                  <img src="/wrapup/images/image63.jpg" alt="" />
-                  <img src="/wrapup/images/image38.jpg" alt="" />
-                  <img src="/wrapup/images/image21.jpg" alt="" />
-                  <img src="/wrapup/images/image72.jpg" alt="" />
-                  <img src="/wrapup/images/image8.png" alt="" />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image30.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image63.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image38.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image21.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image72.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image8.png"
+                    alt=""
+                  />
                 </div>
 
                 <p>
@@ -868,9 +952,21 @@ export default function Page() {
 
                 <figure>
                   <div className="grid grid-cols-3 gap-4">
-                    <img src="/wrapup/images/image27.png" alt="" />
-                    <img src="/wrapup/images/image62.png" alt="" />
-                    <img src="/wrapup/images/image20.png" alt="" />
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image27.png"
+                      alt=""
+                    />
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image62.png"
+                      alt=""
+                    />
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image20.png"
+                      alt=""
+                    />
                   </div>
                   <figcaption>
                     Various drafts of the homepage with varying layouts / color
@@ -880,9 +976,21 @@ export default function Page() {
 
                 <figure>
                   <div className="grid grid-cols-3 gap-4">
-                    <img src="/wrapup/images/image23.png" alt="" />
-                    <img src="/wrapup/images/image51.png" alt="" />
-                    <img src="/wrapup/images/image9.png" alt="" />
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image23.png"
+                      alt=""
+                    />
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image51.png"
+                      alt=""
+                    />
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image9.png"
+                      alt=""
+                    />
                   </div>
                   <figcaption>BPC logos designed by Eliot!</figcaption>
                 </figure>
@@ -924,11 +1032,31 @@ export default function Page() {
                 </p>
 
                 <div className="columns-2 space-y-4">
-                  <img src="/wrapup/images/image13.png" alt="" />
-                  <img src="/wrapup/images/image64.png" alt="" />
-                  <img src="/wrapup/images/image44.png" alt="" />
-                  <img src="/wrapup/images/image71.png" alt="" />
-                  <img src="/wrapup/images/image10.png" alt="" />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image13.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image64.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image44.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image71.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image10.png"
+                    alt=""
+                  />
                 </div>
               </TOCSection>
 
@@ -975,8 +1103,16 @@ export default function Page() {
 
               <figure>
                 <div className="columns-2">
-                  <img src="/wrapup/images/image3.png" alt="" />
-                  <img src="/wrapup/images/image34.jpg" alt="" />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image3.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image34.jpg"
+                    alt=""
+                  />
                 </div>
                 <figcaption>BPH 25 pins designed by Jackie Cohen</figcaption>
               </figure>
@@ -1008,12 +1144,36 @@ export default function Page() {
               </p>
 
               <div className="grid grid-cols-3 gap-4">
-                <img src="/wrapup/images/image67.jpg" alt="" />
-                <img src="/wrapup/images/image31.jpg" alt="" />
-                <img src="/wrapup/images/image17.jpg" alt="" />
-                <img src="/wrapup/images/image16.jpg" alt="" />
-                <img src="/wrapup/images/image18.jpg" alt="" />
-                <img src="/wrapup/images/image41.jpg" alt="" />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image67.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image31.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image17.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image16.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image18.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image41.jpg"
+                  alt=""
+                />
               </div>
 
               <p>
@@ -1049,9 +1209,21 @@ export default function Page() {
               {/* TODO: there's also a drive with videos */}
 
               <div className="grid grid-cols-3 gap-4">
-                <img src="/wrapup/images/image4.jpg" alt="" />
-                <img src="/wrapup/images/image50.jpg" alt="" />
-                <img src="/wrapup/images/image69.jpg" alt="" />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image4.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image50.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image69.jpg"
+                  alt=""
+                />
               </div>
 
               <p>
@@ -1102,7 +1274,7 @@ export default function Page() {
                 <img
                   src="/wrapup/images/image65.jpg"
                   alt=""
-                  className="brightness-75"
+                  className="rounded-md brightness-75"
                 />
 
                 <p>
@@ -1192,17 +1364,17 @@ export default function Page() {
                   <img
                     src="/wrapup/images/image42.jpg"
                     alt=""
-                    className="brightness-[0.6]"
+                    className="rounded-md brightness-[0.6]"
                   />
                   <img
                     src="/wrapup/images/image49.jpg"
                     alt=""
-                    className="brightness-[0.6]"
+                    className="rounded-md brightness-[0.6]"
                   />
                   <img
                     src="/wrapup/images/image59.jpg"
                     alt=""
-                    className="brightness-[0.6]"
+                    className="rounded-md brightness-[0.6]"
                   />
                 </div>
 
@@ -1214,12 +1386,36 @@ export default function Page() {
                 </p>
 
                 <div className="grid grid-cols-6 gap-4">
-                  <img src="/wrapup/images/image54.png" alt="" />
-                  <img src="/wrapup/images/image33.png" alt="" />
-                  <img src="/wrapup/images/image26.png" alt="" />
-                  <img src="/wrapup/images/image55.png" alt="" />
-                  <img src="/wrapup/images/image1.png" alt="" />
-                  <img src="/wrapup/images/image39.png" alt="" />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image54.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image33.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image26.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image55.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image1.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image39.png"
+                    alt=""
+                  />
                 </div>
 
                 <p>
@@ -1266,32 +1462,32 @@ export default function Page() {
                   <img
                     src="/wrapup/images/image6.png"
                     alt=""
-                    className="brightness-90"
+                    className="rounded-md brightness-90"
                   />
                   <img
                     src="/wrapup/images/image15.png"
                     alt=""
-                    className="brightness-90"
+                    className="rounded-md brightness-90"
                   />
                   <img
                     src="/wrapup/images/image73.png"
                     alt=""
-                    className="brightness-90"
+                    className="rounded-md brightness-90"
                   />
                   <img
                     src="/wrapup/images/image43.png"
                     alt=""
-                    className="brightness-90"
+                    className="rounded-md brightness-90"
                   />
                   <img
                     src="/wrapup/images/image47.png"
                     alt=""
-                    className="brightness-90"
+                    className="rounded-md brightness-90"
                   />
                   <img
                     src="/wrapup/images/image58.png"
                     alt=""
-                    className="brightness-90"
+                    className="rounded-md brightness-90"
                   />
                 </div>
 
@@ -1325,22 +1521,22 @@ export default function Page() {
                   <img
                     src="/wrapup/images/image57.jpg"
                     alt=""
-                    className="brightness-[0.6]"
+                    className="rounded-md brightness-[0.6]"
                   />
                   <img
                     src="/wrapup/images/image48.jpg"
                     alt=""
-                    className="brightness-[0.6]"
+                    className="rounded-md brightness-[0.6]"
                   />
                   <img
                     src="/wrapup/images/image61.jpg"
                     alt=""
-                    className="brightness-[0.6]"
+                    className="rounded-md brightness-[0.6]"
                   />
                   <img
                     src="/wrapup/images/image60.jpg"
                     alt=""
-                    className="brightness-[0.6]"
+                    className="rounded-md brightness-[0.6]"
                   />
                 </div>
 
@@ -1470,8 +1666,16 @@ export default function Page() {
               </p>
 
               <div className="grid grid-cols-2 gap-4">
-                <img src="/wrapup/images/image25.jpg" alt="" />
-                <img src="/wrapup/images/image19.jpg" alt="" />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image25.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image19.jpg"
+                  alt=""
+                />
               </div>
             </TOCSection>
 
@@ -1517,8 +1721,16 @@ export default function Page() {
               <p>Some meeting notes:</p>
 
               <div className="grid grid-cols-2 gap-4">
-                <img src="/wrapup/images/image12.png" alt="" />
-                <img src="/wrapup/images/image11.png" alt="" />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image12.png"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image11.png"
+                  alt=""
+                />
               </div>
 
               <p> (We did not load test.)</p>
@@ -1761,9 +1973,21 @@ export default function Page() {
                   this was personally very fun to make!
                 </p>
 
-                <img src="/wrapup/images/image29.png" alt="" />
-                <img src="/wrapup/images/image52.png" alt="" />
-                <img src="/wrapup/images/image2.png" alt="" />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image29.png"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image52.png"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image2.png"
+                  alt=""
+                />
 
                 <p>
                   We also implemented improved data tables. We let admins edit
@@ -1773,7 +1997,11 @@ export default function Page() {
                   database once. Sorry to the affected teams!)
                 </p>
 
-                <img src="/wrapup/images/image76.png" alt="" />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image76.png"
+                  alt=""
+                />
 
                 <p>
                   Finally, we found that the most convenient way to keep track
