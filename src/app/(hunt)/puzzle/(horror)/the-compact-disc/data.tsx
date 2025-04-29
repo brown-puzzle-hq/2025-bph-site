@@ -152,14 +152,14 @@ export const solutionBody = (
           </tr>
         </tbody>
       </table>
-      <div>
-        Reading off the bigrams in reading order off the CD (or in order of
-        decreasing length), we get our answer,{" "}
-        <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
-          KUNG FU
-        </span>
-        .
-      </div>
+    </div>
+    <div>
+      Reading off the bigrams in reading order off the CD (or in order of
+      decreasing length), we get our answer,{" "}
+      <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
+        KUNG FU
+      </span>
+      .
     </div>
   </div>
 );
