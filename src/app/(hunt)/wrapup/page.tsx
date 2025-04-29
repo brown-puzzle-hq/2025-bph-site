@@ -669,7 +669,7 @@ export default function Page() {
                 <img
                   src="/wrapup/images/image7.png"
                   alt=""
-                  className="mx-auto w-1/2"
+                  className="mx-auto w-1/2 rounded-md"
                 />
 
                 <p>Here is a rough timeline of our meta-writing process:</p>
@@ -1090,7 +1090,7 @@ export default function Page() {
                 <img
                   src="/wrapup/images/image56.jpg"
                   alt=""
-                  className="mx-auto w-1/2"
+                  className="mx-auto w-1/2 rounded-md"
                 />
               </TOCSection>
 
