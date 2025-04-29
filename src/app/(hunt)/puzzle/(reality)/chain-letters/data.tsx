@@ -275,7 +275,7 @@ export const solutionBody = (
 /**
  * The `authors` string renders below the `solutionBody`.
  */
-export const authors = "Malcolm Certain, Arnav Singhal";
+export const authors = "Malcolm Certain and Arnav Singhal";
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
