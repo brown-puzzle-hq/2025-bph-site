@@ -264,7 +264,7 @@ export const solutionBody = (
       Reading the characters in the right order gives the clue phrase WOT
       TWELFTH BOOK (9, 5), and the twelfth book of the Wheel of Time series
       (without the leading "The" to fit the enumeration) is{" "}
-      <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
+      <span className="font-bold text-main-accent">
         GATHERING STORM
       </span>
       .

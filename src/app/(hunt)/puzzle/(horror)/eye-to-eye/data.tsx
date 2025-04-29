@@ -73,7 +73,7 @@ export const solutionBody = (
   })}
 </div>
 <div>
-  Looking at the letters that fill the missing eye in the pair of eyes in each row, we can visually read off the answer: <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
+  Looking at the letters that fill the missing eye in the pair of eyes in each row, we can visually read off the answer: <span className="font-bold text-main-accent">
           CARROTS
         </span>
 </div>

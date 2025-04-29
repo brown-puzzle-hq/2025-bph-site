@@ -256,9 +256,8 @@ export const solutionBody = (
     <div>
       Filling these words into the blanks and extracting the numbered letters
       gets the final answer,{" "}
-      <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
-        GEFÜHL PROOF.
-      </span>
+      <span className="font-bold text-main-accent">
+        GEFÜHL PROOF</span>.
       Don't forget the umlaut!
     </div>
     <div>

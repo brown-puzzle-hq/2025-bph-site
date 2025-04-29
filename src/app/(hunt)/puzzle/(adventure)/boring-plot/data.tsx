@@ -290,9 +290,8 @@ export const solutionBody = (
     </div>
     <div>
       This extracts what we need to fix this movie:{" "}
-      <span className="bg-main-text py-0.5 transition-all duration-300 hover:bg-inherit">
-        EXTRA ACTION.
-      </span>
+      <span className="font-bold text-main-accent">
+        EXTRA ACTION</span>.
     </div>
   </div>
 );
