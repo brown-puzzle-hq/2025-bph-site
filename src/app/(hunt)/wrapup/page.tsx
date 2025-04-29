@@ -1722,12 +1722,12 @@ export default function Page() {
 
               <div className="grid grid-cols-2 gap-4">
                 <img
-                  className="rounded-md"
+                  className="w-full rounded-md"
                   src="/wrapup/images/image12.png"
                   alt=""
                 />
                 <img
-                  className="rounded-md"
+                  className="w-full rounded-md"
                   src="/wrapup/images/image11.png"
                   alt=""
                 />
