@@ -88,8 +88,8 @@ export const solutionBody = (
       Extracting using the indices, one obtains{" "}
       <span className="font-bold text-main-accent">PAWNTOF4</span> (4). This
       move gives rise to the Bird's Opening. Since the answer is 4 letters, we
-      get
-      <span className="font-bold text-main-accent"> BIRD</span>.
+      get{" "}
+      <span className="font-bold text-main-accent">BIRD</span>.
     </p>
   </div>
 );

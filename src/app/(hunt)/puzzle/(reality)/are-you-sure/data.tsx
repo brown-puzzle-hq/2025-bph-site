@@ -73,7 +73,7 @@ const checkboxPrompts = [
 
 export const inPersonBody = (
   <div className="mb-2 max-w-4xl space-y-6">
-    <div className="pb-2.5 italic text-center">
+    <div className="pb-2.5 text-center italic">
       Which of these two things do you like more: Samuel Morse or questions that
       have only two possible answers?
     </div>
@@ -102,23 +102,27 @@ export const remoteBody = inPersonBody;
 export const solutionBody = (
   <div className="max-w-3xl space-y-4 text-left">
     <p>
-      This puzzle is about identifying whether statements are true 
-      or false. These statements are grouped by category. At first, they 
-      are about arbitrary things:
+      This puzzle is about identifying whether statements are true or false.
+      These statements are grouped by category. At first, they are about
+      arbitrary things:
     </p>
     <ul className="list-inside list-disc space-y-2">
       <li>Simple logic</li>
       <li>Stock prices of iRobot</li>
       <li>Timothee Chalamet facts</li>
-      <li>The show "Taskmaster" (with one question about the Australian version)</li>
+      <li>
+        The show "Taskmaster" (with one question about the Australian version)
+      </li>
       <li>Organic chemistry</li>
-      <li>The YouTube video where Brian David Gilbert explains the Perfect Pokerap</li>
+      <li>
+        The YouTube video where Brian David Gilbert explains the Perfect Pokerap
+      </li>
     </ul>
-    <p>
-      Then the statements become self-referential:
-    </p>
-    <ul>
-      <li>Statements about information needed for other statements in the puzzle</li>
+    <p>Then the statements become self-referential:</p>
+    <ul className="list-inside list-disc space-y-2">
+      <li>
+        Statements about information needed for other statements in the puzzle
+      </li>
       <li>Statements about the hunt in general</li>
       <li>Statements about the box you are currently checking</li>
       <li>Statements about the solvers' current progress through the hunt</li>
@@ -126,13 +130,17 @@ export const solutionBody = (
       <li>Miscellaneous statements about the puzzle</li>
     </ul>
     <p>
-      To extract our answer, we can interpret these checked/unchecked boxes as 
-      Morse code. Treating checked boxes as dashes, and unchecked boxes as dots, 
+      To extract our answer, we can interpret these checked/unchecked boxes as
+      Morse code. Treating checked boxes as dashes, and unchecked boxes as dots,
       each topical group represents a letter in Morse.
     </p>
     <p>
-      Enumerating the true/false nature of each of the statements and interpreting 
-      as Morse code in this way spells out the answer, <span className="font-bold text-main-accent">CONFIRMATION</span>.
+      Enumerating the true/false nature of each of the statements and
+      interpreting as Morse code in this way spells out the answer,{" "}
+      <span className="font-bold text-main-accent">
+        CONFIRMATION
+      </span>
+      .
     </p>
     <div className="overflow-x-auto">
       <table className="w-full border-collapse border border-gray-300 text-left">
@@ -186,27 +194,49 @@ export const solutionBody = (
               <td className="border border-gray-300 px-4 py-2">{prompt}</td>
               <td className="border border-gray-300 px-4 py-2">
                 {[
-                  true, false, true, false,
-                  true, true, true,
-                  true, false,
-                  false, false, true, false,
-                  false, false,
-                  true, false, true,
-                  true, false,
-                  true, true,
-                  false, true,
                   true,
-                  false, false, true,
-                  true, true,
-                  true, false
-                ][i] ? "True" : "False"}
+                  false,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true,
+                  true,
+                  false,
+                  false,
+                  false,
+                  true,
+                  false,
+                  false,
+                  false,
+                  true,
+                  false,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  false,
+                  false,
+                  true,
+                  true,
+                  true,
+                  true,
+                  false,
+                ][i]
+                  ? "True"
+                  : "False"}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  </div>);
+  </div>
+);
 
 /**
  * The `authors` string renders below the `solutionBody`.
