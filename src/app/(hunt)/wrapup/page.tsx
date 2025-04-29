@@ -94,6 +94,7 @@ export default function Page() {
 
             <TOCSection sectionId={1} tocTitle="The Writing Process">
               <h2>The Writing Process</h2>
+              <i>By Thomas Gordan and Arnav Singhal</i>
 
               <TOCSection sectionId={2} tocTitle="Hunt Structure" parentId={1}>
                 <h3>Hunt Structure</h3>
@@ -318,10 +319,11 @@ export default function Page() {
                 tocTitle="Adjacency and Bottlenecks"
                 parentId={1}
               >
+                <i>Arnav says:</i>
                 <p>
-                  Arnav says: I'm super glad we tried both the adjacency
-                  structure and the guard bottlenecks—they were cute ideas and
-                  quite compelling. In retrospect, I think both were unideal.
+                  I'm super glad we tried both the adjacency structure and the
+                  guard bottlenecks—they were cute ideas and quite compelling.
+                  In retrospect, I think both were unideal.
                 </p>
 
                 <p>
@@ -343,15 +345,16 @@ export default function Page() {
                   hunter's experience.
                 </p>
 
+                <i>Thomas says:</i>
                 <p>
-                  Thomas says: In hindsight, we should have made the map UI more
-                  versatile, in order to encourage its use (and to increase the
-                  information density of the map). Many solvers did not realize
-                  that the unlock structure was adjacency-based until after the
-                  hunt was over; this was a failure mode. I am certainly still
-                  interested in exploring adjacency unlock structures, and if we
-                  decide to attempt it again next year, we definitely will take
-                  some of our learnings.
+                  In hindsight, we should have made the map UI more versatile,
+                  in order to encourage its use (and to increase the information
+                  density of the map). Many solvers did not realize that the
+                  unlock structure was adjacency-based until after the hunt was
+                  over; this was a failure mode. I am certainly still interested
+                  in exploring adjacency unlock structures, and if we decide to
+                  attempt it again next year, we definitely will take some of
+                  our learnings.
                 </p>
 
                 <p>
@@ -382,6 +385,7 @@ export default function Page() {
               </TOCSection>
 
               <TOCSection sectionId={5} tocTitle="Two Weekends" parentId={1}>
+                <h3>Two Weekends</h3>
                 <p>
                   This was an early innovation, pitched some time in
                   mid-September. The idea was to separate two very different
@@ -404,10 +408,11 @@ export default function Page() {
             <TOCSection sectionId={6} tocTitle="Art Direction">
               <h2>Art Direction</h2>
               <p>
-                <i>Words by Bailey Merlino</i>
+                <i>By Bailey Merlino</i>
               </p>
 
               <TOCSection sectionId={7} tocTitle="Landing Page" parentId={6}>
+                <h3>Landing Page</h3>
                 <p>
                   The first art piece for this year's hunt was the landing page
                   cinema, made by Eliot. It looked amazing and set the tone of
@@ -526,7 +531,7 @@ export default function Page() {
               </TOCSection>
 
               <TOCSection sectionId={9} tocTitle="Sprites" parentId={6}>
-                <h2>Sprites</h2>
+                <h3>Sprites</h3>
                 <p>
                   Since we were making a map, we also needed a lot of sprites!
                   Upwards of 50 puzzles meant upwards of 50 unique sprites
@@ -543,6 +548,7 @@ export default function Page() {
               {/* TODO: video */}
 
               <TOCSection sectionId={10} tocTitle="Playing Cards" parentId={6}>
+                <h3>Playing Cards</h3>
                 <p>
                   The other super fun experience from this year's art was the
                   cards. Chloe J and Jackie did most of the illustrations and I
@@ -586,6 +592,8 @@ export default function Page() {
 
             <TOCSection sectionId={11} tocTitle="Tech">
               <h2>Tech</h2>
+              <i>By Chloe Qiao and Alex Wang</i>
+
               <p>
                 We made a completely new site this year! We started building the
                 tech stack (bph-site) last September and tested it with
@@ -625,7 +633,7 @@ export default function Page() {
               <p> (We did not load test.)</p>
 
               <TOCSection sectionId={12} tocTitle="Landing Page" parentId={11}>
-                <h2>Landing Page</h2>
+                <h3>Landing Page</h3>
                 <p>
                   Parallax alone was already quite complex. Add on mobile
                   friendliness and moving spotlights and you get a recipe for
@@ -704,7 +712,7 @@ export default function Page() {
               </TOCSection>
 
               <TOCSection sectionId={13} tocTitle="Map" parentId={11}>
-                <h2>Map</h2>
+                <h3>Map</h3>
 
                 <p>
                   Map was probably the most frustrating component for art, tech,
@@ -713,13 +721,17 @@ export default function Page() {
                   (especially when zooming). Leaflet performs best for tile maps
                   with few markers since markers must be re-rendered every
                   frame. We tried several methods for improving efficiency to no
-                  avail. The night before the in-person event, we decided to
-                  switch to PixiJS. Oops. This decision led to a wonderful 9 AM
-                  (and by 9 AM, we mean going to bed at 9 AM, not waking up at 9
-                  AM). Unfortunately, PixiJS uses a different coordinate system
-                  than Leaflet, so sprites were rotated 90&deg; about the map
-                  origin. This required us to manually reposition every sprite
-                  (sorry, Jack) and push back the hunt start time.
+                  avail.
+                </p>
+
+                <p>
+                  The night before the in-person event, we decided to switch to
+                  PixiJS. Oops. This decision led to a wonderful 9 AM (and by 9
+                  AM, we mean going to bed at 9 AM, not waking up at 9 AM).
+                  Unfortunately, PixiJS uses a different coordinate system than
+                  Leaflet, so sprites were rotated 90&deg; about the map origin.
+                  This required us to manually reposition every sprite (sorry,
+                  Jack) and push back the hunt start time.
                 </p>
 
                 <p>
@@ -731,7 +743,7 @@ export default function Page() {
               </TOCSection>
 
               <TOCSection sectionId={15} tocTitle="Postprodding" parentId={11}>
-                <h2> Postprodding</h2>
+                <h3> Postprodding</h3>
                 <p>
                   The tech team did relatively little postprodding during the
                   hunt. Near the end of March, we wrote a short README on
@@ -813,7 +825,7 @@ export default function Page() {
               </TOCSection>
 
               <TOCSection sectionId={16} tocTitle="Bugs" parentId={11}>
-                <h2>Bugs</h2>
+                <h3>Bugs</h3>
                 <p>
                   Because of the serverless nature of the site, we did not have
                   websockets this year. We instead kept the site responsive
@@ -848,7 +860,7 @@ export default function Page() {
               </TOCSection>
 
               <TOCSection sectionId={17} tocTitle="Admin Tooling" parentId={11}>
-                <h2>Admin Tooling</h2>
+                <h3>Admin Tooling</h3>
 
                 <p>Warning: gushing about tables and graphs.</p>
 
@@ -910,8 +922,9 @@ export default function Page() {
             <TOCSection sectionId={18} tocTitle="Testsolving">
               <h2>Testsolving</h2>
               <p>
-                <i>Words by Arnav Singhal</i>
+                <i>By Arnav Singhal</i>
               </p>
+
               <p>
                 Firstly, and most importantly, huge thanks to MIT Puzzle Club
                 and NES for testsolving our hunt. They provided a lot of very
@@ -984,7 +997,7 @@ export default function Page() {
             <TOCSection sectionId={19} tocTitle="Theme + Story">
               <h2>Theme + Story</h2>
               <p>
-                <i>Words from Philip Yao</i>
+                <i>By Philip Yao</i>
               </p>
               <p>
                 In case you missed it, BPH25 was themed around movies! The
@@ -1112,7 +1125,7 @@ export default function Page() {
             <TOCSection sectionId={23} tocTitle="Events">
               <h2>Events</h2>
               <p>
-                <i>Words by Jack de Haan</i>
+                <i>By Jack de Haan</i>
               </p>
 
               {/* TODO: link tech */}
@@ -1464,6 +1477,8 @@ export default function Page() {
             </TOCSection>
 
             <TOCSection sectionId={27} tocTitle="Puzzles">
+              <h2>Puzzles</h2>
+
               <TOCSection
                 sectionId={28}
                 tocTitle="Guards Sequence"
@@ -1471,7 +1486,7 @@ export default function Page() {
               >
                 <h3>Guards Sequence</h3>
                 <p>
-                  <i>Words by the Guards</i>
+                  <i>By the Guards</i>
                 </p>
 
                 <img
@@ -1646,7 +1661,9 @@ export default function Page() {
               </TOCSection>
 
               <TOCSection sectionId={32} tocTitle="Peanuts" parentId={27}>
-                <h2>Peanuts</h2>
+                <h3>Peanuts</h3>
+                <i>By Megan Carlson</i>
+
                 <p>
                   The idea for a packing peanuts puzzle came from the
                   quintessential question: how can we justify the rental of a
@@ -1704,7 +1721,8 @@ export default function Page() {
               </TOCSection>
 
               <TOCSection sectionId={33} tocTitle="Imagine" parentId={27}>
-                <h2>Imagine</h2>
+                <h3>Imagine</h3>
+                <i>By Megan Carlson</i>
 
                 <ul>
                   <li>
@@ -1763,6 +1781,8 @@ export default function Page() {
 
               <TOCSection sectionId={34} tocTitle="Plagiarism" parentId={27}>
                 <h2>Plagiarism</h2>
+                <i>By Thomas Gordon</i>
+
                 <p>
                   This puzzle idea was borne out of a scheduling necessity. Due
                   to our greedy two-weekend strategy, we accidentally booked out
@@ -1794,6 +1814,7 @@ export default function Page() {
 
               <TOCSection sectionId={35} tocTitle="Puzzle Box" parentId={27}>
                 <h2>Blueno's Puzzle Box (in-person)</h2>
+                <i>By Megan Carlson</i>
                 <p>
                   This year, our only in-person exclusive physical puzzle ended
                   up being Blueno's Puzzle Box! Despite being named in reference
@@ -1841,13 +1862,13 @@ export default function Page() {
 
               <TOCSection sectionId={36} tocTitle="The Boxes" parentId={27}>
                 <h2>The Boxes</h2>
+                <i>Thomas says:</i>
                 <p>
-                  Thomas says: The Box was an idea I vaguely floated at an
-                  in-person meeting around late November and early December,
-                  inspired by Peppermint Herrings' (very successful!) Advent
-                  Hunt. Megan took my ramblings and proceeded to dedicate a
-                  significantly large portion of her time into making it a
-                  reality.
+                  The Box was an idea I vaguely floated at an in-person meeting
+                  around late November and early December, inspired by
+                  Peppermint Herrings' (very successful!) Advent Hunt. Megan
+                  took my ramblings and proceeded to dedicate a significantly
+                  large portion of her time into making it a reality.
                 </p>
 
                 <p>
@@ -1886,9 +1907,10 @@ export default function Page() {
                   something we work harder on.
                 </p>
 
+                <i>Megan says:</i>
                 <p>
-                  Megan says: The Boxes haunted my dreams for a significant part
-                  of the semester. Figuring out how to make the remote solving
+                  The Boxes haunted my dreams for a significant part of the
+                  semester. Figuring out how to make the remote solving
                   experience live up to all of the cool things we orchestrate
                   for in-person weekend is consistently a challenge, and in the
                   past some things have ultimately ended up fully inaccessible
