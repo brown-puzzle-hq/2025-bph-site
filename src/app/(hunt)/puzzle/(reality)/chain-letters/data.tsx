@@ -261,8 +261,8 @@ export const solutionBody = (
       </table>
     </div>
     <div>
-      Reading the characters in the right order gives the clue phrase WOT
-      TWELFTH BOOK (9, 5), and the twelfth book of the Wheel of Time series
+      Reading the characters in the right order gives the clue phrase <span className="text-main-accent">WOT
+      TWELFTH BOOK (9, 5)</span>, and the twelfth book of the Wheel of Time series
       (without the leading "The" to fit the enumeration) is{" "}
       <span className="font-bold text-main-accent">
         GATHERING STORM

@@ -162,7 +162,7 @@ export const solutionBody = (
 
     <div className="mb-5 max-w-3xl">
       This extraction spells out the intermediate answer,{" "}
-      <span className="font-bold text-main-accent">
+      <span className="text-main-accent">
         APOLOGIZE</span>.
     </div>
     <div className="mb-5 max-w-3xl">
