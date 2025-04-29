@@ -9,10 +9,10 @@ import {
 } from "react";
 import { motion, useScroll } from "framer-motion";
 
-// TOCContext
 export type Section = {
   id: number;
   title: string;
+  parentId?: number;
 };
 
 type TOCContextType = {
@@ -37,12 +37,9 @@ export const useTOCContextValues = () => {
     setSections((prev) => [...prev, section]);
   };
 
-  // Remove duplicates (on strict mode) and sort by id
   const processedSections = sections
     .sort((a, b) => a.id - b.id)
-    .filter(function (item, pos, ary) {
-      return !pos || item.id != ary[pos - 1]?.id;
-    });
+    .filter((item, pos, ary) => !pos || item.id !== ary[pos - 1]?.id);
 
   return {
     sections: processedSections,
@@ -52,27 +49,27 @@ export const useTOCContextValues = () => {
   };
 };
 
-// TOCSection
 export const TOCSection = ({
   sectionId,
   tocTitle,
+  parentId,
   isFirst = false,
   isLast = false,
   ...props
 }: {
   sectionId: number;
   tocTitle: string;
+  parentId?: number;
   isFirst?: boolean;
   isLast?: boolean;
 } & HTMLProps<HTMLElement>) => {
-  // Add the section to the TOCContext
   const { registerSection, setActiveSection } = useContext(TOCContext);
+  const container = useRef(null);
+
   useEffect(() => {
-    registerSection({ id: sectionId, title: tocTitle });
+    registerSection({ id: sectionId, title: tocTitle, parentId });
   }, []);
 
-  // Track the scroll position to set the active section
-  const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ["start center", "end center"],
@@ -96,24 +93,51 @@ export const TOCSection = ({
   );
 };
 
-// TableOfContents
 export function TableOfContents() {
   const { sections, activeSection } = useContext(TOCContext);
 
+  // Organize sections into hierarchy
+  const topLevelSections = sections.filter((s) => !s.parentId);
+  const subsectionsMap: Record<number, Section[]> = {};
+  sections.forEach((s) => {
+    if (s.parentId != null) {
+      if (!subsectionsMap[s.parentId]) {
+        subsectionsMap[s.parentId] = [];
+      }
+      subsectionsMap[s.parentId]!.push(s);
+    }
+  });
+
   return (
     <motion.div className="fixed top-[5rem] flex flex-col gap-2 md:w-[calc(33.333%-2rem)] lg:w-[calc(25%-2rem)]">
-      {sections.map(({ id, title }) => (
-        <span
-          key={id}
-          className={`mr-8 cursor-pointer transition-colors duration-200 hover:text-main-text ${activeSection === id ? "text-main-text" : "text-main-text/50"}`}
-          onClick={() =>
-            document
-              .getElementById(`section-${id}`)
-              ?.scrollIntoView({ behavior: "smooth" })
-          }
-        >
-          {title}
-        </span>
+      {topLevelSections.map(({ id, title }) => (
+        <div key={id} className="flex flex-col">
+          <span
+            className={`mr-8 cursor-pointer transition-colors duration-200 hover:text-main-text ${activeSection === id ? "text-main-text" : "text-main-text/50"}`}
+            onClick={() =>
+              document
+                .getElementById(`section-${id}`)
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+          >
+            {title}
+          </span>
+
+          {/* Render subsections if any */}
+          {subsectionsMap[id]?.map((sub) => (
+            <span
+              key={sub.id}
+              className={`ml-4 mr-8 cursor-pointer text-sm transition-colors duration-200 hover:text-main-text ${activeSection === sub.id ? "text-main-text" : "text-main-text/50"}`}
+              onClick={() =>
+                document
+                  .getElementById(`section-${sub.id}`)
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              {sub.title}
+            </span>
+          ))}
+        </div>
       ))}
     </motion.div>
   );
