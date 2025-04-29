@@ -41,584 +41,122 @@ export default function Page() {
               finishers solving with a Box, chat!
             </p>
 
-            <TOCSection sectionId={2} tocTitle="Puzzles">
-              <TOCSection sectionId={2} tocTitle="Guards Sequence">
-                <h3>Guards Sequence</h3>
-                <p>
-                  <i>Words by the Guards</i>
-                </p>
+            <TOCSection sectionId={0} tocTitle="Timeline & Logistics" isFirst>
+              <h2>Timeline & Logistics</h2>
 
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image36.png"
-                  alt=""
-                />
+              <p>
+                Brown Puzzlehunt is a beast of an event to plan. We took on a
+                lot of ambitious logistical challenges this year, from running
+                two weekends to Boxes to a full-steam-ahead timeline. It takes
+                someone slightly insane to keep on top of all of the many things
+                going on with our event at any given time and fortunately we
+                have that delusion in abundance.
+              </p>
 
-                <p>
-                  The guards sequence was originally a Thomas innovation&trade;
-                  but this vision was quickly taken on by three of our new
-                  authors, Jack, Nate, and Nicholas, known within the club as
-                  the triplets (or later the guards). The idea was to spin off
-                  the classic idea of distinguishing between a liar and a
-                  truth-teller via strategic questions and logic, and these
-                  puzzles would gatekeep each round. This quickly devolved into
-                  a plethora of shenanigans: from Two Guards, Two Doors, we soon
-                  increased the number of guards, doors, and other things!
-                </p>
+              <p>
+                We booked on-campus rooms last November, and ended up occupying
+                around 30 rooms across several buildings during our in-person
+                weekend. It took consistent cooperation with the Student
+                Activities Office, Undergraduate Finance Board, and scheduling
+                office to make this event happen, and we're incredibly grateful
+                for their cooperation in our shenanigans. Huge shoutout to our
+                SAO advisor, Malcom Moniz, for all of their help in helping us
+                pull this together!
+              </p>
 
-                <figure>
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image14.jpg"
-                    alt=""
-                  />
-                  <figcaption>
-                    Foreshadowing at kickoff: you'd see these guards again
-                  </figcaption>
-                </figure>
-
-                {/* TODO: links */}
-                <p>
-                  Various guards puzzles spoofed the green-eyed riddle, the
-                  Monty Hall problem, the wolf, goat, and cabbage problem, and
-                  the double-slit experiment.
-                </p>
-
-                <p>
-                  For M guards, N doors, and K choices, we ran the puzzle
-                  in-person as a live game show! Our lovely guards, donned in
-                  suits and fun hats, ran the show with a captive live audience
-                  and their beloved doors.
-                </p>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image66.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image53.png"
-                    alt=""
-                  />
-                </div>
-
-                <p>
-                  The doors in question, for those of you wondering, were
-                  Ukrainian dollhouse-sized doors purchased off of Etsy. They
-                  were the pride and joy of our guards crew, who crowdsourced
-                  the ~$80 from a team of door-aficionados within our club.
-                </p>
-
-                <div className="columns-2 space-y-4">
-                  <img
-                    src="/wrapup/images/image45.jpg"
-                    alt=""
-                    className="rounded-md"
-                  />
-                  <img
-                    src="/wrapup/images/image40.jpg"
-                    alt=""
-                    className="rounded-md"
-                  />
-                  <img
-                    src="/wrapup/images/image46.jpg"
-                    alt=""
-                    className="rounded-md"
-                  />
-                </div>
-
-                <p>
-                  The day before the hunt, the three of them went to our
-                  makerspace (the BDW) and made a stand for the three doors from
-                  scratch—after many hours, it turned out wonderfully!
-                </p>
-
-                <p>
-                  Thanks to the puzzlehunters who asked, but we will not be
-                  selling versions of these (unless you are willing to pay us
-                  over $150...? in which case let's talk)
-                </p>
-              </TOCSection>
-
-              <TOCSection sectionId={2} tocTitle="Jet Lag Sequence">
-                <h2>Jet Lag Sequence</h2>
-                <p>
-                  Did you know Ben Doyle was a Brown alum? Our writing team
-                  contains many a fan of Jet Lag: The Game, so when we
-                  serendipitously found a way to contact THE Ben Doyle we jumped
-                  on the opportunity. Even though we pitched a single video and
-                  subsequently upped the ask to a whole sequence, Ben was super
-                  willing to help us out. Huge shout out to Ben Doyle! We had
-                  lots of fun writing Jet Lag-themed puzzles and it made our
-                  weekly watch parties all the more exciting.
-                </p>
-
-                <div className="columns-2 space-y-4">
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image75.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image22.png"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image74.jpg"
-                    alt=""
-                  />
-                </div>
-              </TOCSection>
-
-              <TOCSection sectionId={2} tocTitle="Heist Sequence">
-                <h2>Heist Sequence</h2>
-                <p>
-                  The Heist sequence was a series of mini-video games and the
-                  brainchild of one Malcolm Certain. While The Final Heist was
-                  intentionally kinda evil, we hope some of the more perseverant
-                  among you enjoyed a unique take on what a meta can be.
-                </p>
-              </TOCSection>
-
-              <TOCSection sectionId={2} tocTitle="A Fistful of Cards">
-                <h2>A Fistful of Cards</h2>
-                <p>
-                  A Fistful of Cards arose as the result of Thomas coercing our
-                  resident MtG expert into writing an MtG-inspired sequence.
-                  These puzzles were lovingly crafted by both Thomas and Jeremy
-                  over a rather short period of time in pursuit of getting the
-                  cards ready to order. This sequence seems to have been a
-                  frequent victim of backsolving, but it's worth a post-solve
-                  for those who skipped over it.
-                </p>
-
-                <p>
-                  For those of you who didn't solve in-person or purchase a Box,
-                  these cards were printed and packaged as real playing cards!
-                  This was easily the most expensive and time-intensive physical
-                  puzzle we coordinated this year, and it required a ton of work
-                  from a ton of people in a very short period of time. If you
-                  have your cards, treasure them! They've got lots of cool
-                  student-made art and make a lovely keepsake.
-                </p>
-              </TOCSection>
-
-              <TOCSection sectionId={2} tocTitle="Peanuts">
-                <h2>Peanuts</h2>
-                <p>
-                  The idea for a packing peanuts puzzle came from the
-                  quintessential question: how can we justify the rental of a
-                  popcorn machine with our club funding? The brilliant answer:
-                  serve packing peanuts disguised as popcorn!
-                </p>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image37.jpg"
-                    alt=""
-                  />{" "}
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image70.jpg"
-                    alt=""
-                  />
-                </div>
-
-                <p>
-                  In-person, teams who approached the popcorn table at kickoff
-                  were asked whether they'd like 'edible or inedible popcorn'.
-                  Our lovely popcorn vendors Noah and Chloe sold most teams on
-                  the inedible popcorn alongside their actual bag of popcorn,
-                  which resulted in a batch of packing peanuts in a popcorn bag.
-                </p>
-
-                <p>
-                  Teams who ordered a Box were also fortunate enough to get
-                  their own batch of peanuts. As I'm sure you can imagine, these
-                  were not the most fun to manufacture in bulk. We spent many a
-                  night hunched over a garbage bag of packing peanuts stolen
-                  from the GeoChem department. While painful to label 4100
-                  packing peanuts, they did have their intended effect.
-                </p>
-
-                <div className="grid grid-cols-3 gap-4">
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image28.png"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image68.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image24.jpg"
-                    alt=""
-                  />
-                </div>
-              </TOCSection>
-
-              <TOCSection sectionId={2} tocTitle="Puzzles">
-                <h2>Imagine</h2>
-
-                <ul>
-                  <li>
-                    Product placement from:
-                    <ul>
-                      <li>Flamin hot cheetos</li>
-                      <li>Dominos</li>
-                      <li>Kleenex</li>
-                      <li>Celcius</li>
-                      <li>Smartwater</li>
-                      <li>Trader Joe's snacks</li>
-                      <li>Coca-cola</li>
-                      <li>Raid shadow legends</li>
-                      <li>NordVPN</li>
-                      <li>Pepsi</li>
-                      <li>Raycon</li>
-                      <li>
-                        Mucinex
-                        <ul>
-                          <li>#mucuss</li>
-                        </ul>
-                      </li>
-                      <li>Hello fresh</li>
-                      <li>Wheat thins</li>
-                      <li>Trident gum</li>
-                      <li>Better Help</li>
-                      <li>Doritos</li>
-                      <li>Exxon mobil</li>
-                      <li>And many, many more</li>
-                    </ul>
-                  </li>
-                  <li>
-                    Most common quotes
-                    <ul>
-                      <li>"Severe and continuous lapse in judgement"</li>
-                      <li>"Toxic gossip train"</li>
-                    </ul>
-                  </li>
-                  <li>Lots of apologies for backsolving too many puzzles</li>
-                  <li>
-                    Many instruments, including ukuleles, contrabass ukuleles,
-                    pianos, recorders, and clarinet
-                  </li>
-                  <li>
-                    The quick brown fox issued an apology for jumping over the
-                    lazy dog
-                  </li>
-                  <li>Several lovely custom songs</li>
-                  <li>An apology in the form of a gif</li>
-                  <li>An apology from Blueno himself</li>
-                  <li>A video made by a cat</li>
-                  <li>Standing in the shower under running water</li>
-                  <li>Rickrolls (x2) and Weezer (x1)</li>
-                </ul>
-              </TOCSection>
-
-              <TOCSection sectionId={2} tocTitle="Plagiarism">
-                <h2>Plagiarism</h2>
-                <p>
-                  This puzzle idea was borne out of a scheduling necessity. Due
-                  to our greedy two-weekend strategy, we accidentally booked out
-                  both weekends that CMU could feasibly run (oops). In the
-                  interest of making sure that the majority of teams could do
-                  both hunts, the two teams agreed to run CMU on Brown's
-                  in-person weekend, freeing up the online audience for both
-                  hunts.
-                </p>
-
-                <p>
-                  This, of course, allowed for shenanigans. While walking to
-                  wrap-up for the MIT Mystery Hunt, I (Thomas) cornered Ryan
-                  Judge and pitched him the idea for this puzzle. I knew that
-                  ambiguous clues were a doable proposition, as I had written
-                  similar puzzles before. Over the course of the next few
-                  months, we sat down together and came up with eight workable
-                  clues for each of the letter pairs for our selected answers.
-                </p>
-
-                <p>
-                  In the end, Ryan did the majority of the work for this puzzle,
-                  finding most of the clues. The CMU crew also did all the work
-                  in post-prodding and hosting the puzzle on the website. They
-                  have my complete thanks in making Plagiarism happen, and are
-                  officially owed a Favor by Brown Puzzle Club.
-                </p>
-              </TOCSection>
-              <TOCSection sectionId={2} tocTitle="Puzzles">
-                <h2>Blueno's Puzzle Box (in-person)</h2>
-                <p>
-                  This year, our only in-person exclusive physical puzzle ended
-                  up being Blueno's Puzzle Box! Despite being named in reference
-                  to Amy's Puzzle Box from Jet Lag: The Game, this magnificent
-                  creation was a glorious mashup of Garfield and Greek mythology
-                  theming. Our resident RISD students Phil and Kaz took up the
-                  challenge of making us a puzzle box, and boy did they deliver.
-                </p>
-
-                <p>
-                  The final product was a massive four-foot wooden cube with
-                  puzzles on all faces. Teams were given free reign to explore
-                  the box in hopes of figuring out all four faces, but little
-                  did they know, there was someone inside the box messing with
-                  their progress! It was tons of fun to gaslight teams into
-                  thinking they left the puzzle in a state that they actually
-                  did not.
-                </p>
-
-                <div className="columns-2 space-y-4">
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image5.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image35.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image32.jpg"
-                    alt=""
-                  />
-                </div>
-
-                <p>
-                  After completing all four faces, teams who chanted "I Hate
-                  Mondays" were rewarded with the answer.
-                </p>
-
-                {/* TODO: insert video */}
-              </TOCSection>
-
-              <TOCSection sectionId={2} tocTitle="The Boxes">
-                <h2>The Boxes</h2>
-                <p>
-                  Thomas says: The Box was an idea I vaguely floated at an
-                  in-person meeting around late November and early December,
-                  inspired by Peppermint Herrings' (very successful!) Advent
-                  Hunt. Megan took my ramblings and proceeded to dedicate a
-                  significantly large portion of her time into making it a
-                  reality.
-                </p>
-
-                <p>
-                  Once SAO had approved our idea, all that remained was to come
-                  up with enough physical puzzles to actually justify the idea.
-                  More physical puzzles had already been an explicit goal, but
-                  the Box reinforced our desire to come up with many
-                  interesting, distinct physical puzzles.
-                </p>
-
-                <p>
-                  In hindsight, I think we could have done a little more work in
-                  making sure that each of the puzzles in the Box required their
-                  physicality. While each of the puzzles in the Box benefited
-                  from being physical objects (either thematically, or by making
-                  certain steps easier), we didn't have any objects which
-                  absolutely could not be solved in a non-physical format. This
-                  was a double-edged sword. It made remote accessibility much,
-                  much easier; but it did limit the capabilities of the puzzles
-                  themselves. Our low difficulty ceiling also limited the
-                  complexity of physical manipulation.
-                </p>
-
-                <p>
-                  However, making physical objects with hidden "aspects" that
-                  cannot be discovered early is really, really hard. As a small
-                  aside, hiding information is very difficult; you either need
-                  to hide it behind a physical transformation (often a
-                  destruction, like applying liquids, breaking it in half, or
-                  setting it on fire), or require the application of a tool that
-                  you yourself need to provide (such as a UV light or magnet).
-                  The former is extremely difficult to construct at scale, and
-                  the latter necessarily would be spoiled by the inclusion of
-                  said tools in the Box. This is still something I'm puzzling
-                  over, and if we decide to do Boxes next year, it will be
-                  something we work harder on.
-                </p>
-
-                <p>
-                  Megan says: The Boxes haunted my dreams for a significant part
-                  of the semester. Figuring out how to make the remote solving
-                  experience live up to all of the cool things we orchestrate
-                  for in-person weekend is consistently a challenge, and in the
-                  past some things have ultimately ended up fully inaccessible
-                  due mostly to a lack of bandwidth to make perfectly remote
-                  accessible versions. So, when Thomas pitched mailing puzzles
-                  to people, I knew what I was signing up for but figured it
-                  would be worth the effort in the end.
-                </p>
-
-                <p>
-                  First, I had to make a desperate plea to the student
-                  activities office to let us do something like this. Spending
-                  our Brown-allotted funding on providing supplies for non-Brown
-                  community members is mildly frowned upon, so we needed to
-                  evenly split our purchases between raised funds and club
-                  funding (easier said than done).
-                </p>
-
-                <p>
-                  Once greenlit, we began brainstorming what sorts of things to
-                  put into the Box. Puzzle design aside, we aimed to keep things
-                  quite small / light from a shipping perspective. Turns out,
-                  figuring out how to send an unknown amount of objects of an
-                  unknown weight and unknown size is not the easiest thing to
-                  calculate, so shipping was a big unknown for most of our
-                  planning process. After many (MANY) spreadsheets and a few too
-                  many questionable emails to supply manufacturers, we got
-                  enough of a rough idea of what we wanted to put into the Box
-                  that we were able to settle on a price. The goal was to get as
-                  close as possible to charging exactly what we'd be paying for
-                  the raw materials, but with a little extra wiggle room so as
-                  not to inadvertently send our club into crippling debt. We
-                  settled on $19, which I think is a pretty reasonable rate for
-                  all of the things the Box contained. I'd say the highest value
-                  items are certainly the cards, followed by the pin and
-                  stickers. While as Thomas mentioned we got some feedback that
-                  not everything in the Box necessarily needed to be a physical
-                  puzzle, which is certainly true, I'd argue that the value from
-                  a few items alone made it worth the price we charged for it.
-                  For transparency, we ended up with a small amount of extra Box
-                  profit due to conservative shipping estimates, so we spent it
-                  on feeding ourselves during in-person weekend (which I'd say
-                  is a worthy expense).
-                </p>
-
-                <p>
-                  Knowing that we were going to ship Boxes put a pretty tight
-                  timeline on all of the puzzles being written for it. Despite
-                  my pleading, our club notoriously operates on a pretty
-                  last-minute timeframe, so the necessity of having several
-                  puzzles completely and irreversibly done was a new challenge.
-                  Cards in particular had to be done super early, as there was a
-                  significant turnaround time to get the nice poker cards and
-                  instructions booklets designed and printed.
-                </p>
-
-                <p>
-                  Beyond just puzzle construction constraints, physical
-                  manufacturing proved a beast. Those packing peanuts took years
-                  off our lives, and many a late night was spent in
-                  Page-Robinson hall with Box materials strewn about the floor.
-                </p>
-
-                <div className="grid grid-cols-3 gap-4">
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image30.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image63.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image38.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image21.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image72.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image8.png"
-                    alt=""
-                  />
-                </div>
-
-                <p>
-                  It was a ton of work to put together, so while it certainly
-                  had its flaws I think we ultimately did a cool and (somewhat
-                  unique) thing! Who's to say whether we will attempt something
-                  like this again in the future. It certainly had its merits but
-                  also somewhat constrained our in-person physical puzzle
-                  efforts and took up a lot of bandwidth for a very long time.
-                  Despite its flaws (and likely missing / erroneous packing
-                  peanuts), I hope everyone who got a Box can see all the time
-                  and effort we put into each component.
-                </p>
-              </TOCSection>
+              <p>Timeline:</p>
+              <ul>
+                <li>September 13th: Theme selected</li>
+                <li>September 19th: First BPH SAO meeting</li>
+                <li>September 22nd: First writing meeting</li>
+                <li>October 6th: Meta writing groups formed</li>
+                <li>October 20th: First tech meeting</li>
+                <li>November 3rd: All metas written (more or less)</li>
+                <li>November 17th: Feeder answers released</li>
+                <li>November 17th: First feeder puzzle written (Find Ben)</li>
+                <li>November 23rd: Puzzlethon!</li>
+                <li>January 17th-20th: BPH writers go to Mystery Hunt </li>
+                <li>January 23rd: BPH is SAO approved</li>
+                <li>January 27th: Brown Puzzlehunt 2025 publicly announced!</li>
+                <li>February 11th: First events planning meeting</li>
+                <li>February 14th: First story meeting</li>
+                <li>February 22nd: First art meeting</li>
+                <li>March 8th-9th: In-person full testsolve</li>
+                <li>March 15th-16th: Remote full testsolve</li>
+                <li>April 2nd: Boxes shipped</li>
+                <li>April 6th: BPH dry run</li>
+                <li>April 12th: Last puzzle written 🥲</li>
+                <li>April 12th-13th: In-person hunt!</li>
+                <li>April 19th-25th: Remote hunt!</li>
+                <li>Now: sleep 😴</li>
+              </ul>
             </TOCSection>
 
-            <TOCSection sectionId={0} tocTitle="Hunt Structure" isFirst>
-              <h2>Hunt Structure</h2>
-              <p>
-                The overall structure of the hunt had two broad goals. Firstly,
-                we wanted to experiment with writing smaller, somewhat-easier
-                puzzles. Last year's hunt had mostly been about designing
-                larger, more difficult puzzles; now we wanted to mess around on
-                the other end of the spectrum.
-              </p>
+            <TOCSection sectionId={1} tocTitle="The Writing Process">
+              <h2>The Writing Process</h2>
 
-              <p>
-                Secondly, we wanted to give people a sense of exploring physical
-                space, through an adjacency unlock structure and a dedicated map
-                screen. In practice, this did not happen very successfully.
-                Experienced solvers often ended up ignoring the map function for
-                the less pretty but more information-dense puzzle list; this had
-                the downside of them getting stuck later in the hunt, when
-                information from the map became useful. Many solvers did,
-                however, use the map function throughout the hunt; those solvers
-                enjoyed a slight competitive advantage towards the end.
-              </p>
+              <TOCSection sectionId={2} tocTitle="Hunt Structure" parentId={1}>
+                <h3>Hunt Structure</h3>
+                <p>
+                  The overall structure of the hunt had two broad goals.
+                  Firstly, we wanted to experiment with writing smaller,
+                  somewhat-easier puzzles. Last year's hunt had mostly been
+                  about designing larger, more difficult puzzles; now we wanted
+                  to mess around on the other end of the spectrum.
+                </p>
 
-              <p>
-                We were strongly aware that this might happen. However, the map
-                was not quick enough on all devices for us to only present that
-                option, and we were reasonably confident that our map-dependent
-                puzzles would force all solvers to, at some point, see our cool
-                art. And it was quite satisfying to watch very capable solvers
-                collide face-first against their own assumption that certain
-                aspects of the hunt would not be useful.
-              </p>
+                <p>
+                  Secondly, we wanted to give people a sense of exploring
+                  physical space, through an adjacency unlock structure and a
+                  dedicated map screen. In practice, this did not happen very
+                  successfully. Experienced solvers often ended up ignoring the
+                  map function for the less pretty but more information-dense
+                  puzzle list; this had the downside of them getting stuck later
+                  in the hunt, when information from the map became useful. Many
+                  solvers did, however, use the map function throughout the
+                  hunt; those solvers enjoyed a slight competitive advantage
+                  towards the end.
+                </p>
 
-              <p>
-                From the first point grew an entirely different beast, which was
-                our sequences! Sequences began as a way for puzzle-writers to
-                demonstrate more flexibility, and explore more complicated
-                puzzle ideas that would not fit into just one feeder.
-              </p>
+                <p>
+                  We were strongly aware that this might happen. However, the
+                  map was not quick enough on all devices for us to only present
+                  that option, and we were reasonably confident that our
+                  map-dependent puzzles would force all solvers to, at some
+                  point, see our cool art. And it was quite satisfying to watch
+                  very capable solvers collide face-first against their own
+                  assumption that certain aspects of the hunt would not be
+                  useful.
+                </p>
 
-              <p>
-                Our implementation of this was strongly inspired by the 2024
-                Galactic Puzzlehunt. Indeed, our first pitch meeting for the
-                hunt's structure was on the 22nd of September 2024, while GPH24
-                was still running.
-              </p>
+                <p>
+                  From the first point grew an entirely different beast, which
+                  was our sequences! Sequences began as a way for puzzle-writers
+                  to demonstrate more flexibility, and explore more complicated
+                  puzzle ideas that would not fit into just one feeder.
+                </p>
 
-              <p>
-                From GPH24, we took these original ideas of easier overall
-                difficulty and "linked" puzzles. However, one aspect of GPH24
-                that we felt could be improved upon was the lack of connection
-                between all the puzzles; the vast majority of puzzles in GPH24
-                did not fall into a sequence, and thus felt broadly unconnected
-                to the hunt. While this was successful for them due to their
-                random unlock structure, user-submitted puzzles, and overall
-                high polish, we were not convinced that it would be successful
-                for our purposes. We also wanted to show off.
-              </p>
+                <p>
+                  Our implementation of this was strongly inspired by the 2024
+                  Galactic Puzzlehunt. Indeed, our first pitch meeting for the
+                  hunt's structure was on the 22nd of September 2024, while
+                  GPH24 was still running.
+                </p>
 
-              <TOCSection sectionId={3} tocTitle="Sequences" parentId={2}>
+                <p>
+                  From GPH24, we took these original ideas of easier overall
+                  difficulty and "linked" puzzles. However, one aspect of GPH24
+                  that we felt could be improved upon was the lack of connection
+                  between all the puzzles; the vast majority of puzzles in GPH24
+                  did not fall into a sequence, and thus felt broadly
+                  unconnected to the hunt. While this was successful for them
+                  due to their random unlock structure, user-submitted puzzles,
+                  and overall high polish, we were not convinced that it would
+                  be successful for our purposes. We also wanted to show off.
+                </p>
+              </TOCSection>
+
+              <TOCSection sectionId={3} tocTitle="Sequences" parentId={1}>
                 <h3>Sequences</h3>
                 <p>
                   The initial intent was actually not for there to be 12
@@ -778,7 +316,7 @@ export default function Page() {
               <TOCSection
                 sectionId={4}
                 tocTitle="Adjacency and Bottlenecks"
-                parentId={2}
+                parentId={1}
               >
                 <p>
                   Arnav says: I'm super glad we tried both the adjacency
@@ -843,7 +381,7 @@ export default function Page() {
                 </p>
               </TOCSection>
 
-              <TOCSection sectionId={5} tocTitle="Two Weekends" parentId={2}>
+              <TOCSection sectionId={5} tocTitle="Two Weekends" parentId={1}>
                 <p>
                   This was an early innovation, pitched some time in
                   mid-September. The idea was to separate two very different
@@ -863,7 +401,513 @@ export default function Page() {
               </TOCSection>
             </TOCSection>
 
-            <TOCSection sectionId={0} tocTitle="Testsolving">
+            <TOCSection sectionId={6} tocTitle="Art Direction">
+              <h2>Art Direction</h2>
+              <p>
+                <i>Words by Bailey Merlino</i>
+              </p>
+
+              <TOCSection sectionId={7} tocTitle="Landing Page" parentId={6}>
+                <p>
+                  The first art piece for this year's hunt was the landing page
+                  cinema, made by Eliot. It looked amazing and set the tone of
+                  BPH25 as glamorous and fun.
+                </p>
+
+                <figure>
+                  <div className="grid grid-cols-3 gap-4">
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image27.png"
+                      alt=""
+                    />
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image62.png"
+                      alt=""
+                    />
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image20.png"
+                      alt=""
+                    />
+                  </div>
+                  <figcaption>
+                    Various drafts of the homepage with varying layouts / color
+                    schemes
+                  </figcaption>
+                </figure>
+
+                <figure>
+                  <div className="grid grid-cols-3 gap-4">
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image23.png"
+                      alt=""
+                    />
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image51.png"
+                      alt=""
+                    />
+                    <img
+                      className="rounded-md"
+                      src="/wrapup/images/image9.png"
+                      alt=""
+                    />
+                  </div>
+                  <figcaption>BPC logos designed by Eliot!</figcaption>
+                </figure>
+              </TOCSection>
+
+              <TOCSection sectionId={8} tocTitle="Map" parentId={6}>
+                <h3>Map</h3>
+                <p>
+                  The map was a running joke/constant source of anxiety because
+                  it was the largest art piece I personally have ever attempted
+                  and also integral to the hunt structure. We decided that we
+                  would have six movies corresponding to six studio lots that
+                  led to each other via a map. To get to other lots, solvers
+                  would have to go through a toll-booth where they would solve a
+                  Guards puzzle.
+                </p>
+
+                <p>
+                  The tricky thing about the map was that it also had to be a
+                  pseudo-Brown campus replica and isometric. I also imposed the
+                  stipulation that each section would be completed in a
+                  different art style. Comedy was colored pencil, Action was
+                  vaguely comic book style, Horror was Junji Ito inspired, Drama
+                  was oil paint, Digging was watercolor, and Reality was boring
+                  (boooo).
+                </p>
+
+                <p>
+                  The other difficult thing about the map was that I had to work
+                  on all of them separately and fit them back together, so
+                  making a very detailed under-drawing was integral to the
+                  process. The entire under-drawing was completed over Spring
+                  break. Then the following week was
+                  skip-all-homework-and-illustrate-in-the-ERC week. Despite the
+                  aforementioned skipping of classes and homework, I still had
+                  two more sections of the map to illustrate the night before
+                  the hunt, which meant staying up until 6:30 am the day of the
+                  hunt to finish. Never again. But, it looked pretty cool so
+                  it's whatever.
+                </p>
+
+                <div className="columns-2 space-y-4">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image13.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image64.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image44.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image71.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image10.png"
+                    alt=""
+                  />
+                </div>
+              </TOCSection>
+
+              <TOCSection sectionId={9} tocTitle="Sprites" parentId={6}>
+                <h2>Sprites</h2>
+                <p>
+                  Since we were making a map, we also needed a lot of sprites!
+                  Upwards of 50 puzzles meant upwards of 50 unique sprites
+                  corresponding to the content of these puzzles. The art team
+                  was on the smaller side and Chloe J, Chloe Q, Phil, and Jackie
+                  made most of these sprites. They are crazy talented and if you
+                  haven't paid close attention, go back and look at them because
+                  they are seriously beautiful. Also, huge shoutout to Chloe Q
+                  for making the art for the sidebars, it adds so much life to
+                  the website and works great thematically.
+                </p>
+              </TOCSection>
+
+              {/* TODO: video */}
+
+              <TOCSection sectionId={10} tocTitle="Playing Cards" parentId={6}>
+                <p>
+                  The other super fun experience from this year's art was the
+                  cards. Chloe J and Jackie did most of the illustrations and I
+                  did the layout/designs on Adobe Illustrator, my mortal enemy.
+                  We also made a booklet and a playmat to go with them (Thank
+                  you Megan and Arnav!) It was an extraordinarily gratifying
+                  experience to see all our hard work come to life with the
+                  physical playing cards and I hope every solver appreciated how
+                  insanely cool they were.
+                </p>
+                <img
+                  src="/wrapup/images/image56.jpg"
+                  alt=""
+                  className="mx-auto w-1/2 rounded-md"
+                />
+              </TOCSection>
+
+              <p>
+                Overall, I'm very proud of what we produced with a smaller team
+                of artists, which is largely because of how kind, talented, and
+                fun the art team was to work with. I look forward to working
+                with them again on a hopefully map-less hunt :)
+              </p>
+
+              <figure>
+                <div className="columns-2">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image3.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image34.jpg"
+                    alt=""
+                  />
+                </div>
+                <figcaption>BPH 25 pins designed by Jackie Cohen</figcaption>
+              </figure>
+            </TOCSection>
+
+            <TOCSection sectionId={11} tocTitle="Tech">
+              <h2>Tech</h2>
+              <p>
+                We made a completely new site this year! We started building the
+                tech stack (bph-site) last September and tested it with
+                Puzzlethon last November. This semester, we focused mainly on
+                extending the hinting and event systems, adding UI improvements,
+                and making the map. No one on the tech team had web development
+                experience at the beginning of the year, so we're really happy
+                that we ended up with a functional site that (most) teams
+                enjoyed.
+              </p>
+
+              <p>
+                Both the backend and frontend are in TypeScript, and the UI
+                components were made using Tailwind CSS and Shadcn. All of our
+                infrastructure runs serverlessly on Vercel. We have a Postgres
+                database on Neon and use Resend for emails. We chose a
+                fully-managed solution because we were reasonably confident it
+                would scale well during the hunt. (Struggles with scaling last
+                year were part of our motivation to remake the site.)
+              </p>
+
+              <p>Some meeting notes:</p>
+
+              <div className="grid grid-cols-2 gap-4">
+                <img
+                  className="w-full rounded-md"
+                  src="/wrapup/images/image12.png"
+                  alt=""
+                />
+                <img
+                  className="w-full rounded-md"
+                  src="/wrapup/images/image11.png"
+                  alt=""
+                />
+              </div>
+
+              <p> (We did not load test.)</p>
+
+              <TOCSection sectionId={12} tocTitle="Landing Page" parentId={11}>
+                <h2>Landing Page</h2>
+                <p>
+                  Parallax alone was already quite complex. Add on mobile
+                  friendliness and moving spotlights and you get a recipe for
+                  pain and suffering. We went through three or so libraries, all
+                  of which had issues (from weird scroll behavior to poor mobile
+                  friendliness). We eventually settled on a Framer Motion
+                  solution with sizing based on Tailwind math.
+                </p>
+
+                <pre className="overflow-auto rounded-md bg-[#272822] p-4 font-mono text-sm leading-relaxed text-white">
+                  <code>
+                    &lt;<span className="text-green-400">motion</span>.
+                    <span className="text-green-400">img</span>
+                    <br />
+                    &nbsp;&nbsp;
+                    <span className="text-yellow-300">className</span>=
+                    <span className="text-pink-300">
+                      &quot;absolute bottom-[calc(max(57vw,64.125vh))]
+                      left-[calc(min(29vw,50vw-23.33vh))]
+                      w-[calc(max(7vw,7.77vh))] origin-bottom opacity-80&quot;
+                    </span>
+                    <br />
+                    &nbsp;&nbsp;<span className="text-yellow-300">src</span>=
+                    <span className="text-pink-300">
+                      &quot;/home/Spotlight.png&quot;
+                    </span>
+                    <br />
+                    &nbsp;&nbsp;<span className="text-yellow-300">initial</span>
+                    =<span className="text-white">{"{{"}</span>{" "}
+                    <span className="text-green-300">rotate</span>:{" "}
+                    <span className="text-blue-300">20</span>{" "}
+                    <span className="text-white">{"}}"}</span>
+                    <br />
+                    &nbsp;&nbsp;<span className="text-yellow-300">animate</span>
+                    =<span className="text-white">{"{{"}</span>
+                    <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="text-green-300">rotate</span>:{" "}
+                    <span className="text-white">[</span>
+                    <span className="text-blue-300">20</span>,{" "}
+                    <span className="text-blue-300">-20</span>
+                    <span className="text-white">]</span>,<br />
+                    &nbsp;&nbsp;
+                    <span className="text-white">{"}}"}</span>
+                    <br />
+                    &nbsp;&nbsp;
+                    <span className="text-yellow-300">transition</span>=
+                    <span className="text-white">{"{{"}</span>
+                    <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="text-green-300">duration</span>:{" "}
+                    <span className="text-blue-300">5</span>,<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="text-green-300">repeat</span>:{" "}
+                    <span className="text-blue-300">Infinity</span>,<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="text-green-300">repeatType</span>:{" "}
+                    <span className="text-pink-300">&quot;reverse&quot;</span>,
+                    <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="text-green-300">ease</span>:{" "}
+                    <span className="text-pink-300">&quot;easeInOut&quot;</span>
+                    ,<br />
+                    &nbsp;&nbsp;
+                    <span className="text-white">{"}}"}</span>
+                    <br />
+                    /&gt;
+                  </code>
+                </pre>
+
+                <p>
+                  For images to adapt nicely between skinny phones and wide
+                  computer screens, size had to be computed as a minimum or
+                  maximum based on viewport width and height.
+                </p>
+              </TOCSection>
+
+              <TOCSection sectionId={13} tocTitle="Map" parentId={11}>
+                <h2>Map</h2>
+
+                <p>
+                  Map was probably the most frustrating component for art, tech,
+                  and solvers. We originally used the Leaflet library which
+                  provided many convenient features but was very laggy
+                  (especially when zooming). Leaflet performs best for tile maps
+                  with few markers since markers must be re-rendered every
+                  frame. We tried several methods for improving efficiency to no
+                  avail. The night before the in-person event, we decided to
+                  switch to PixiJS. Oops. This decision led to a wonderful 9 AM
+                  (and by 9 AM, we mean going to bed at 9 AM, not waking up at 9
+                  AM). Unfortunately, PixiJS uses a different coordinate system
+                  than Leaflet, so sprites were rotated 90&deg; about the map
+                  origin. This required us to manually reposition every sprite
+                  (sorry, Jack) and push back the hunt start time.
+                </p>
+
+                <p>
+                  We made several QOL improvements to the map throughout the
+                  hunt and into remote week. Unfortunately, most changes were
+                  added after the bulk of the activity, so map use remained
+                  relatively limited compared to the puzzle table.
+                </p>
+              </TOCSection>
+
+              <TOCSection sectionId={15} tocTitle="Postprodding" parentId={11}>
+                <h2> Postprodding</h2>
+                <p>
+                  The tech team did relatively little postprodding during the
+                  hunt. Near the end of March, we wrote a short README on
+                  editing the site, gave it to the technical-but-not-tech
+                  puzzle-writing staff, and had them commit to branches. They
+                  did an amazing job! In the end, over half of the 57 puzzles
+                  were postprodded by puzzle writers. Since there were only two
+                  people focused primarily on tech and many, many small tweaks
+                  to puzzles leading up to the hunt, this worked out well. It
+                  gave us time to polish the UI for the map and interactive
+                  guards puzzles. (Shoutout to Arnav for postprodding and
+                  finalizing the other puzzles.)
+                </p>
+
+                <p>
+                  We made certain decisions to simplify the postprodding
+                  process. First, we prioritized collocation. If you're editing
+                  a static puzzle, everything you care about should be in the
+                  puzzle's data.tsx file: the inPersonBody, remoteBody,
+                  remoteBoxBody, solutionBody, authors, copyText,
+                  partialSolutions, and tasks. Images, audio clips, and videos
+                  also belong in that puzzle's folder. This meant that
+                  postprodders didn't need to deal with the complexity of the
+                  rest of the site. In addition, we focused on keeping things
+                  isolated. With Tailwind, CSS classes are placed directly in
+                  the markup so that changes don't impact multiple files.
+                </p>
+              </TOCSection>
+
+              <TOCSection
+                sectionId={14}
+                tocTitle="Hunt Flexibility"
+                parentId={11}
+              >
+                <h2>Hunt Flexibility</h2>
+
+                <p>
+                  Another consideration was flexibility. We wanted to be able to
+                  tweak how the hunt worked at a moment's notice without having
+                  to change a bajillion files.
+                </p>
+
+                <p>
+                  We achieved that by putting fewer things in the database. In
+                  our old fork of gph-site, the puzzle table had fields for
+                  name, slug, answer, body_template, round, order, is_meta,
+                  emoji, unlock_hours, unlock_global, and unlock_local. In
+                  bph-site, we only included the name, slug, and answer. The
+                  rest of the information was hard-coded into the site.
+                </p>
+
+                <p>
+                  Instead of having a body_template field, we chose to have a
+                  different puzzle folder for every puzzle. Most static puzzles
+                  stuck with the DefaultPuzzlePage component, which
+                  automatically handled errata, puzzle body, guesses, partial
+                  solutions, and tasks. Some interactive puzzles had custom
+                  logic.
+                </p>
+
+                <p>
+                  The flexibility made it easy to modify our structure for
+                  puzzle unlocks, metas, rounds, and sequences—and to add new
+                  categories like PUZZLES_WITH_INFINITE_GUESSES in the middle of
+                  the hunt. It was also preferable for us that we could test
+                  these changes locally before committing them to the production
+                  branch, rather than directly making changes on the production
+                  database.
+                </p>
+
+                <p>
+                  This was also a little more dangerous. We had to be absolutely
+                  certain that we were (1) listing valid puzzle ids and (2) not
+                  forgetting any puzzle ids in the database. (One mistake in our
+                  hunt.config.ts rendered the admin graph unusable for an hour.)
+                  This is one benefit of tables over our structure: automatic
+                  foreign-key validation.
+                </p>
+              </TOCSection>
+
+              <TOCSection sectionId={16} tocTitle="Bugs" parentId={11}>
+                <h2>Bugs</h2>
+                <p>
+                  Because of the serverless nature of the site, we did not have
+                  websockets this year. We instead kept the site responsive
+                  using hooks and optimistic updates. We're still interested in
+                  adding a dedicated server for websockets next year.
+                </p>
+
+                <p>
+                  Websockets are a common pain-point during online hunts, and we
+                  didn't have any, so— fortunately, the site never went down
+                  during the hunt. There were a few notable bugs that affected
+                  some teams:
+                </p>
+
+                <p>
+                  One of the remote teams, yukii, caught that puzzle answers
+                  were leaked in the source code. This was because we
+                  accidentally made one of the server components into a client
+                  component after the in-person hunt. We patched that around an
+                  hour into the hunt. This is still a vulnerability in some of
+                  our interactive puzzles, so looking at source code is not the
+                  intended solution. We should have put more constraints on our
+                  databases. Many race condition bugs came out of creating the
+                  solves and events table this semester. Before we reverted the
+                  issue, 1 team used an answer token on a meta puzzle, 1 team
+                  submitted and used an answer token twice, and 3 teams
+                  (temporarily) had an extra solve on the leaderboard. The map
+                  took a lot of memory. We were already concerned about this,
+                  and eventually decided to remove the map from the mobile
+                  puzzle page during the in-person hunt.
+                </p>
+              </TOCSection>
+
+              <TOCSection sectionId={17} tocTitle="Admin Tooling" parentId={11}>
+                <h2>Admin Tooling</h2>
+
+                <p>Warning: gushing about tables and graphs.</p>
+
+                <p>
+                  Most puzzlehunt sites use Django, and Django has an automatic
+                  admin interface. This is very convenient, but we don't regret
+                  stepping away from Django and creating our own admin tools.
+                </p>
+
+                <p>
+                  First was keeping track of a team's progress. Because of the
+                  adjacency graph unlock structure, it seemed natural to also
+                  just model this with a graph. We'll have to change this if we
+                  use DEEP or a different unlock structure in the future, but
+                  this was personally very fun to make!
+                </p>
+
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image29.png"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image52.png"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image2.png"
+                  alt=""
+                />
+
+                <p>
+                  We also implemented improved data tables. We let admins edit
+                  the role and interaction mode directly in the team table.
+                  (This feature was not necessary at all, and toggling the roles
+                  was so addictive I accidentally did it on the production
+                  database once. Sorry to the affected teams!)
+                </p>
+
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image76.png"
+                  alt=""
+                />
+
+                <p>
+                  Finally, we found that the most convenient way to keep track
+                  of the hunt was still having a Discord channel to ping people
+                  about registration, answer submission, solves, hint requests,
+                  and interactions. For dev reasons, we also recommend sending a
+                  Discord message if the catch block in a try/catch statement
+                  gets triggered—it's great for catching early errors.
+                </p>
+              </TOCSection>
+            </TOCSection>
+
+            <TOCSection sectionId={18} tocTitle="Testsolving">
               <h2>Testsolving</h2>
               <p>
                 <i>Words by Arnav Singhal</i>
@@ -937,188 +981,7 @@ export default function Page() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={1} tocTitle="Art Direction">
-              <h2>Art Direction</h2>
-              <p>
-                <i>Words by Bailey Merlino</i>
-              </p>
-
-              <TOCSection sectionId={0} tocTitle="Landing Page">
-                <p>
-                  The first art piece for this year's hunt was the landing page
-                  cinema, made by Eliot. It looked amazing and set the tone of
-                  BPH25 as glamorous and fun.
-                </p>
-
-                <figure>
-                  <div className="grid grid-cols-3 gap-4">
-                    <img
-                      className="rounded-md"
-                      src="/wrapup/images/image27.png"
-                      alt=""
-                    />
-                    <img
-                      className="rounded-md"
-                      src="/wrapup/images/image62.png"
-                      alt=""
-                    />
-                    <img
-                      className="rounded-md"
-                      src="/wrapup/images/image20.png"
-                      alt=""
-                    />
-                  </div>
-                  <figcaption>
-                    Various drafts of the homepage with varying layouts / color
-                    schemes
-                  </figcaption>
-                </figure>
-
-                <figure>
-                  <div className="grid grid-cols-3 gap-4">
-                    <img
-                      className="rounded-md"
-                      src="/wrapup/images/image23.png"
-                      alt=""
-                    />
-                    <img
-                      className="rounded-md"
-                      src="/wrapup/images/image51.png"
-                      alt=""
-                    />
-                    <img
-                      className="rounded-md"
-                      src="/wrapup/images/image9.png"
-                      alt=""
-                    />
-                  </div>
-                  <figcaption>BPC logos designed by Eliot!</figcaption>
-                </figure>
-              </TOCSection>
-
-              <TOCSection sectionId={0} tocTitle="Map" parentId={1}>
-                <p>
-                  The map was a running joke/constant source of anxiety because
-                  it was the largest art piece I personally have ever attempted
-                  and also integral to the hunt structure. We decided that we
-                  would have six movies corresponding to six studio lots that
-                  led to each other via a map. To get to other lots, solvers
-                  would have to go through a toll-booth where they would solve a
-                  Guards puzzle.
-                </p>
-
-                <p>
-                  The tricky thing about the map was that it also had to be a
-                  pseudo-Brown campus replica and isometric. I also imposed the
-                  stipulation that each section would be completed in a
-                  different art style. Comedy was colored pencil, Action was
-                  vaguely comic book style, Horror was Junji Ito inspired, Drama
-                  was oil paint, Digging was watercolor, and Reality was boring
-                  (boooo).
-                </p>
-
-                <p>
-                  The other difficult thing about the map was that I had to work
-                  on all of them separately and fit them back together, so
-                  making a very detailed under-drawing was integral to the
-                  process. The entire under-drawing was completed over Spring
-                  break. Then the following week was
-                  skip-all-homework-and-illustrate-in-the-ERC week. Despite the
-                  aforementioned skipping of classes and homework, I still had
-                  two more sections of the map to illustrate the night before
-                  the hunt, which meant staying up until 6:30 am the day of the
-                  hunt to finish. Never again. But, it looked pretty cool so
-                  it's whatever.
-                </p>
-
-                <div className="columns-2 space-y-4">
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image13.png"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image64.png"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image44.png"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image71.png"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image10.png"
-                    alt=""
-                  />
-                </div>
-              </TOCSection>
-
-              <TOCSection sectionId={0} tocTitle="Sprites" parentId={1}>
-                <p>
-                  Since we were making a map, we also needed a lot of sprites!
-                  Upwards of 50 puzzles meant upwards of 50 unique sprites
-                  corresponding to the content of these puzzles. The art team
-                  was on the smaller side and Chloe J, Chloe Q, Phil, and Jackie
-                  made most of these sprites. They are crazy talented and if you
-                  haven't paid close attention, go back and look at them because
-                  they are seriously beautiful. Also, huge shoutout to Chloe Q
-                  for making the art for the sidebars, it adds so much life to
-                  the website and works great thematically.
-                </p>
-              </TOCSection>
-
-              {/* TODO: video */}
-
-              <TOCSection sectionId={0} tocTitle="Playing Cards" parentId={1}>
-                <p>
-                  The other super fun experience from this year's art was the
-                  cards. Chloe J and Jackie did most of the illustrations and I
-                  did the layout/designs on Adobe Illustrator, my mortal enemy.
-                  We also made a booklet and a playmat to go with them (Thank
-                  you Megan and Arnav!) It was an extraordinarily gratifying
-                  experience to see all our hard work come to life with the
-                  physical playing cards and I hope every solver appreciated how
-                  insanely cool they were.
-                </p>
-                <img
-                  src="/wrapup/images/image56.jpg"
-                  alt=""
-                  className="mx-auto w-1/2 rounded-md"
-                />
-              </TOCSection>
-
-              <p>
-                Overall, I'm very proud of what we produced with a smaller team
-                of artists, which is largely because of how kind, talented, and
-                fun the art team was to work with. I look forward to working
-                with them again on a hopefully map-less hunt :)
-              </p>
-
-              <figure>
-                <div className="columns-2">
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image3.png"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image34.jpg"
-                    alt=""
-                  />
-                </div>
-                <figcaption>BPH 25 pins designed by Jackie Cohen</figcaption>
-              </figure>
-            </TOCSection>
-
-            <TOCSection sectionId={0} tocTitle="Theme + Story">
+            <TOCSection sectionId={19} tocTitle="Theme + Story">
               <h2>Theme + Story</h2>
               <p>
                 <i>Words from Philip Yao</i>
@@ -1132,99 +995,109 @@ export default function Page() {
                 became the digging round! (renamed to adventure :( )
               </p>
 
-              <p>
-                We hope you all enjoyed the kickoff skit!{" "}
-                <s>
-                  A majority of the script was written the night before the
-                  hunt.
-                </s>{" "}
-                Big shoutout to those who were part of making kickoff possible,
-                through brainstorming, writing, proofreading, and, of course,
-                acting! Here are some fun pictures of that.
-              </p>
+              <TOCSection sectionId={20} tocTitle="Kickoff" parentId={19}>
+                <h3>Kickoff</h3>
+                <p>
+                  We hope you all enjoyed the kickoff skit!{" "}
+                  <s>
+                    A majority of the script was written the night before the
+                    hunt.
+                  </s>{" "}
+                  Big shoutout to those who were part of making kickoff
+                  possible, through brainstorming, writing, proofreading, and,
+                  of course, acting! Here are some fun pictures of that.
+                </p>
 
-              <div className="grid grid-cols-3 gap-4">
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image67.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image31.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image17.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image16.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image18.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image41.jpg"
-                  alt=""
-                />
-              </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image67.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image31.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image17.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image16.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image18.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image41.jpg"
+                    alt=""
+                  />
+                </div>
+              </TOCSection>
 
-              <p>
-                During the hunt, solvers unlocked two interactions. After
-                completing the action round, a production team member would go
-                around and hand gold stars and pins to solvers. Sometimes this
-                was more difficult than we had expected. Highlights include
-                almost getting stuck in the Brown bookstore elevator? After
-                unlocking the horror round, someone at HQ would call a team,
-                impersonating Blueno and leaving an angry message. (Making
-                Blueno the villain for the 3rd consecutive year? Oops.)
-                Different HQ members had vastly different interpretations of
-                Blueno (personal favorites include Noah's and Malcolm's).
-              </p>
+              <TOCSection sectionId={21} tocTitle="Interactions" parentId={19}>
+                <h3>Interactions</h3>
+                <p>
+                  During the hunt, solvers unlocked two interactions. After
+                  completing the action round, a production team member would go
+                  around and hand gold stars and pins to solvers. Sometimes this
+                  was more difficult than we had expected. Highlights include
+                  almost getting stuck in the Brown bookstore elevator? After
+                  unlocking the horror round, someone at HQ would call a team,
+                  impersonating Blueno and leaving an angry message. (Making
+                  Blueno the villain for the 3rd consecutive year? Oops.)
+                  Different HQ members had vastly different interpretations of
+                  Blueno (personal favorites include Noah's and Malcolm's).
+                </p>
 
-              {/* TODO: add video here */}
+                {/* TODO: add video here */}
+              </TOCSection>
 
-              <p>
-                Runaround!!! We had 10 in-person teams complete runaround
-                (yay!). Teams had to add finishing touches to the movies by
-                completing a series of tasks in 30 (or fewer, depending on team
-                size) minutes. These tasks included dubbing over a scene,
-                swinging a sword at someone while they read the words to the
-                FitnessGramTM Pacer Test, (NOT!!!) making a coffee order by
-                pouring lemonade into a bucket (sorry Erin), running down Thayer
-                street to take selfies with murals (should've asked teams to
-                send us their pictures, oopsies), and solving a 2x2 Rubik's cube
-                while blindfolded. After finishing runaround, you watched the
-                movie premieres (most of which was also put together the night
-                before the hunt)! Pictures pictures pictures.
-              </p>
+              <TOCSection sectionId={22} tocTitle="Runaround" parentId={19}>
+                <h3>Runaround</h3>
+                <p>
+                  Runaround!!! We had 10 in-person teams complete runaround
+                  (yay!). Teams had to add finishing touches to the movies by
+                  completing a series of tasks in 30 (or fewer, depending on
+                  team size) minutes. These tasks included dubbing over a scene,
+                  swinging a sword at someone while they read the words to the
+                  FitnessGramTM Pacer Test, (NOT!!!) making a coffee order by
+                  pouring lemonade into a bucket (sorry Erin), running down
+                  Thayer street to take selfies with murals (should've asked
+                  teams to send us their pictures, oopsies), and solving a 2x2
+                  Rubik's cube while blindfolded. After finishing runaround, you
+                  watched the movie premieres (most of which was also put
+                  together the night before the hunt)! Pictures pictures
+                  pictures.
+                </p>
 
-              {/* TODO: there's also a drive with videos */}
+                {/* TODO: there's also a drive with videos */}
 
-              <div className="grid grid-cols-3 gap-4">
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image4.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image50.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image69.jpg"
-                  alt=""
-                />
-              </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image4.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image50.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image69.jpg"
+                    alt=""
+                  />
+                </div>
+              </TOCSection>
 
               <p>
                 A huge thanks to everyone who was involved with the story and
@@ -1236,9 +1109,8 @@ export default function Page() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={0} tocTitle="Events">
+            <TOCSection sectionId={23} tocTitle="Events">
               <h2>Events</h2>
-
               <p>
                 <i>Words by Jack de Haan</i>
               </p>
@@ -1268,7 +1140,11 @@ export default function Page() {
                 hilariously fun way to round out Saturday night.
               </p>
 
-              <TOCSection sectionId={0} tocTitle="Auditioning for a Role">
+              <TOCSection
+                sectionId={24}
+                tocTitle="Auditioning for a Role"
+                parentId={23}
+              >
                 <h3>Auditioning for a Role</h3>
 
                 <img
@@ -1351,7 +1227,11 @@ export default function Page() {
                 </ul>
               </TOCSection>
 
-              <TOCSection sectionId={0} tocTitle="Poster Pastiche" parentId={2}>
+              <TOCSection
+                sectionId={25}
+                tocTitle="Poster Pastiche"
+                parentId={23}
+              >
                 <h3>Poster Pastiche</h3>
                 <p>
                   <i>
@@ -1508,7 +1388,12 @@ export default function Page() {
                 </ul>
               </TOCSection>
 
-              <TOCSection sectionId={0} tocTitle="Sneaking a Screening">
+              <TOCSection
+                sectionId={26}
+                tocTitle="Sneaking a Screening"
+                parentId={23}
+              >
+                <h3>Sneaking a Screening</h3>
                 <p>
                   <i>
                     Please send 1—2 interns with a talent for stealth and
@@ -1578,57 +1463,543 @@ export default function Page() {
               </TOCSection>
             </TOCSection>
 
-            <TOCSection sectionId={0} tocTitle="Timeline + Logistics">
-              <h2>Timeline + Logistics</h2>
-              <p>Timeline:</p>
-              <ul>
-                <li>September 13th: Theme selected</li>
-                <li>September 19th: First BPH SAO meeting</li>
-                <li>September 22nd: First writing meeting</li>
-                <li>October 6th: Meta writing groups formed</li>
-                <li>October 20th: First tech meeting</li>
-                <li>November 3rd: All metas written (more or less)</li>
-                <li>November 17th: Feeder answers released</li>
-                <li>November 17th: First feeder puzzle written (Find Ben)</li>
-                <li>November 23rd: Puzzlethon!</li>
-                <li>January 17th-20th: BPH writers go to Mystery Hunt </li>
-                <li>January 23rd: BPH is SAO approved</li>
-                <li>January 27th: Brown Puzzlehunt 2025 publicly announced!</li>
-                <li>February 11th: First events planning meeting</li>
-                <li>February 14th: First story meeting</li>
-                <li>February 22nd: First art meeting</li>
-                <li>March 8th-9th: In-person full testsolve</li>
-                <li>March 15th-16th: Remote full testsolve</li>
-                <li>April 2nd: Boxes shipped</li>
-                <li>April 6th: BPH dry run</li>
-                <li>April 12th: Last puzzle written 🥲</li>
-                <li>April 12th-13th: In-person hunt!</li>
-                <li>April 19th-25th: Remote hunt!</li>
-                <li>Now: sleep 😴</li>
-              </ul>
+            <TOCSection sectionId={27} tocTitle="Puzzles">
+              <TOCSection
+                sectionId={28}
+                tocTitle="Guards Sequence"
+                parentId={27}
+              >
+                <h3>Guards Sequence</h3>
+                <p>
+                  <i>Words by the Guards</i>
+                </p>
 
-              <p>
-                Brown Puzzlehunt is a beast of an event to plan. We took on a
-                lot of ambitious logistical challenges this year, from running
-                two weekends to Boxes to a full-steam-ahead timeline. It takes
-                someone slightly insane to keep on top of all of the many things
-                going on with our event at any given time and fortunately we
-                have that delusion in abundance.
-              </p>
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image36.png"
+                  alt=""
+                />
 
-              <p>
-                We booked on-campus rooms last November, and ended up occupying
-                around 30 rooms across several buildings during our in-person
-                weekend. It took consistent cooperation with the Student
-                Activities Office, Undergraduate Finance Board, and scheduling
-                office to make this event happen, and we're incredibly grateful
-                for their cooperation in our shenanigans. Huge shoutout to our
-                SAO advisor, Malcom Moniz, for all of their help in helping us
-                pull this together!
-              </p>
+                <p>
+                  The guards sequence was originally a Thomas innovation&trade;
+                  but this vision was quickly taken on by three of our new
+                  authors, Jack, Nate, and Nicholas, known within the club as
+                  the triplets (or later the guards). The idea was to spin off
+                  the classic idea of distinguishing between a liar and a
+                  truth-teller via strategic questions and logic, and these
+                  puzzles would gatekeep each round. This quickly devolved into
+                  a plethora of shenanigans: from Two Guards, Two Doors, we soon
+                  increased the number of guards, doors, and other things!
+                </p>
+
+                <figure>
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image14.jpg"
+                    alt=""
+                  />
+                  <figcaption>
+                    Foreshadowing at kickoff: you'd see these guards again
+                  </figcaption>
+                </figure>
+
+                {/* TODO: links */}
+                <p>
+                  Various guards puzzles spoofed the green-eyed riddle, the
+                  Monty Hall problem, the wolf, goat, and cabbage problem, and
+                  the double-slit experiment.
+                </p>
+
+                <p>
+                  For M guards, N doors, and K choices, we ran the puzzle
+                  in-person as a live game show! Our lovely guards, donned in
+                  suits and fun hats, ran the show with a captive live audience
+                  and their beloved doors.
+                </p>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image66.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image53.png"
+                    alt=""
+                  />
+                </div>
+
+                <p>
+                  The doors in question, for those of you wondering, were
+                  Ukrainian dollhouse-sized doors purchased off of Etsy. They
+                  were the pride and joy of our guards crew, who crowdsourced
+                  the ~$80 from a team of door-aficionados within our club.
+                </p>
+
+                <div className="columns-2 space-y-4">
+                  <img
+                    src="/wrapup/images/image45.jpg"
+                    alt=""
+                    className="rounded-md"
+                  />
+                  <img
+                    src="/wrapup/images/image40.jpg"
+                    alt=""
+                    className="rounded-md"
+                  />
+                  <img
+                    src="/wrapup/images/image46.jpg"
+                    alt=""
+                    className="rounded-md"
+                  />
+                </div>
+
+                <p>
+                  The day before the hunt, the three of them went to our
+                  makerspace (the BDW) and made a stand for the three doors from
+                  scratch—after many hours, it turned out wonderfully!
+                </p>
+
+                <p>
+                  Thanks to the puzzlehunters who asked, but we will not be
+                  selling versions of these (unless you are willing to pay us
+                  over $150...? in which case let's talk)
+                </p>
+              </TOCSection>
+
+              <TOCSection
+                sectionId={29}
+                tocTitle="Jet Lag Sequence"
+                parentId={27}
+              >
+                <h2>Jet Lag Sequence</h2>
+                <p>
+                  Did you know Ben Doyle was a Brown alum? Our writing team
+                  contains many a fan of Jet Lag: The Game, so when we
+                  serendipitously found a way to contact THE Ben Doyle we jumped
+                  on the opportunity. Even though we pitched a single video and
+                  subsequently upped the ask to a whole sequence, Ben was super
+                  willing to help us out. Huge shout out to Ben Doyle! We had
+                  lots of fun writing Jet Lag-themed puzzles and it made our
+                  weekly watch parties all the more exciting.
+                </p>
+
+                <div className="columns-2 space-y-4">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image75.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image22.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image74.jpg"
+                    alt=""
+                  />
+                </div>
+              </TOCSection>
+
+              <TOCSection
+                sectionId={30}
+                tocTitle="Heist Sequence"
+                parentId={27}
+              >
+                <h2>Heist Sequence</h2>
+                <p>
+                  The Heist sequence was a series of mini-video games and the
+                  brainchild of one Malcolm Certain. While The Final Heist was
+                  intentionally kinda evil, we hope some of the more perseverant
+                  among you enjoyed a unique take on what a meta can be.
+                </p>
+              </TOCSection>
+
+              <TOCSection
+                sectionId={31}
+                tocTitle="A Fistful of Cards"
+                parentId={28}
+              >
+                <h2>A Fistful of Cards</h2>
+                <p>
+                  A Fistful of Cards arose as the result of Thomas coercing our
+                  resident MtG expert into writing an MtG-inspired sequence.
+                  These puzzles were lovingly crafted by both Thomas and Jeremy
+                  over a rather short period of time in pursuit of getting the
+                  cards ready to order. This sequence seems to have been a
+                  frequent victim of backsolving, but it's worth a post-solve
+                  for those who skipped over it.
+                </p>
+
+                <p>
+                  For those of you who didn't solve in-person or purchase a Box,
+                  these cards were printed and packaged as real playing cards!
+                  This was easily the most expensive and time-intensive physical
+                  puzzle we coordinated this year, and it required a ton of work
+                  from a ton of people in a very short period of time. If you
+                  have your cards, treasure them! They've got lots of cool
+                  student-made art and make a lovely keepsake.
+                </p>
+              </TOCSection>
+
+              <TOCSection sectionId={32} tocTitle="Peanuts" parentId={27}>
+                <h2>Peanuts</h2>
+                <p>
+                  The idea for a packing peanuts puzzle came from the
+                  quintessential question: how can we justify the rental of a
+                  popcorn machine with our club funding? The brilliant answer:
+                  serve packing peanuts disguised as popcorn!
+                </p>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image37.jpg"
+                    alt=""
+                  />{" "}
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image70.jpg"
+                    alt=""
+                  />
+                </div>
+
+                <p>
+                  In-person, teams who approached the popcorn table at kickoff
+                  were asked whether they'd like 'edible or inedible popcorn'.
+                  Our lovely popcorn vendors Noah and Chloe sold most teams on
+                  the inedible popcorn alongside their actual bag of popcorn,
+                  which resulted in a batch of packing peanuts in a popcorn bag.
+                </p>
+
+                <p>
+                  Teams who ordered a Box were also fortunate enough to get
+                  their own batch of peanuts. As I'm sure you can imagine, these
+                  were not the most fun to manufacture in bulk. We spent many a
+                  night hunched over a garbage bag of packing peanuts stolen
+                  from the GeoChem department. While painful to label 4100
+                  packing peanuts, they did have their intended effect.
+                </p>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image28.png"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image68.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image24.jpg"
+                    alt=""
+                  />
+                </div>
+              </TOCSection>
+
+              <TOCSection sectionId={33} tocTitle="Imagine" parentId={27}>
+                <h2>Imagine</h2>
+
+                <ul>
+                  <li>
+                    Product placement from:
+                    <ul>
+                      <li>Flamin hot cheetos</li>
+                      <li>Dominos</li>
+                      <li>Kleenex</li>
+                      <li>Celcius</li>
+                      <li>Smartwater</li>
+                      <li>Trader Joe's snacks</li>
+                      <li>Coca-cola</li>
+                      <li>Raid shadow legends</li>
+                      <li>NordVPN</li>
+                      <li>Pepsi</li>
+                      <li>Raycon</li>
+                      <li>
+                        Mucinex
+                        <ul>
+                          <li>#mucuss</li>
+                        </ul>
+                      </li>
+                      <li>Hello fresh</li>
+                      <li>Wheat thins</li>
+                      <li>Trident gum</li>
+                      <li>Better Help</li>
+                      <li>Doritos</li>
+                      <li>Exxon mobil</li>
+                      <li>And many, many more</li>
+                    </ul>
+                  </li>
+                  <li>
+                    Most common quotes
+                    <ul>
+                      <li>"Severe and continuous lapse in judgement"</li>
+                      <li>"Toxic gossip train"</li>
+                    </ul>
+                  </li>
+                  <li>Lots of apologies for backsolving too many puzzles</li>
+                  <li>
+                    Many instruments, including ukuleles, contrabass ukuleles,
+                    pianos, recorders, and clarinet
+                  </li>
+                  <li>
+                    The quick brown fox issued an apology for jumping over the
+                    lazy dog
+                  </li>
+                  <li>Several lovely custom songs</li>
+                  <li>An apology in the form of a gif</li>
+                  <li>An apology from Blueno himself</li>
+                  <li>A video made by a cat</li>
+                  <li>Standing in the shower under running water</li>
+                  <li>Rickrolls (x2) and Weezer (x1)</li>
+                </ul>
+              </TOCSection>
+
+              <TOCSection sectionId={34} tocTitle="Plagiarism" parentId={27}>
+                <h2>Plagiarism</h2>
+                <p>
+                  This puzzle idea was borne out of a scheduling necessity. Due
+                  to our greedy two-weekend strategy, we accidentally booked out
+                  both weekends that CMU could feasibly run (oops). In the
+                  interest of making sure that the majority of teams could do
+                  both hunts, the two teams agreed to run CMU on Brown's
+                  in-person weekend, freeing up the online audience for both
+                  hunts.
+                </p>
+
+                <p>
+                  This, of course, allowed for shenanigans. While walking to
+                  wrap-up for the MIT Mystery Hunt, I (Thomas) cornered Ryan
+                  Judge and pitched him the idea for this puzzle. I knew that
+                  ambiguous clues were a doable proposition, as I had written
+                  similar puzzles before. Over the course of the next few
+                  months, we sat down together and came up with eight workable
+                  clues for each of the letter pairs for our selected answers.
+                </p>
+
+                <p>
+                  In the end, Ryan did the majority of the work for this puzzle,
+                  finding most of the clues. The CMU crew also did all the work
+                  in post-prodding and hosting the puzzle on the website. They
+                  have my complete thanks in making Plagiarism happen, and are
+                  officially owed a Favor by Brown Puzzle Club.
+                </p>
+              </TOCSection>
+
+              <TOCSection sectionId={35} tocTitle="Puzzle Box" parentId={27}>
+                <h2>Blueno's Puzzle Box (in-person)</h2>
+                <p>
+                  This year, our only in-person exclusive physical puzzle ended
+                  up being Blueno's Puzzle Box! Despite being named in reference
+                  to Amy's Puzzle Box from Jet Lag: The Game, this magnificent
+                  creation was a glorious mashup of Garfield and Greek mythology
+                  theming. Our resident RISD students Phil and Kaz took up the
+                  challenge of making us a puzzle box, and boy did they deliver.
+                </p>
+
+                <p>
+                  The final product was a massive four-foot wooden cube with
+                  puzzles on all faces. Teams were given free reign to explore
+                  the box in hopes of figuring out all four faces, but little
+                  did they know, there was someone inside the box messing with
+                  their progress! It was tons of fun to gaslight teams into
+                  thinking they left the puzzle in a state that they actually
+                  did not.
+                </p>
+
+                <div className="columns-2 space-y-4">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image5.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image35.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image32.jpg"
+                    alt=""
+                  />
+                </div>
+
+                <p>
+                  After completing all four faces, teams who chanted "I Hate
+                  Mondays" were rewarded with the answer.
+                </p>
+
+                {/* TODO: insert video */}
+              </TOCSection>
+
+              <TOCSection sectionId={36} tocTitle="The Boxes" parentId={27}>
+                <h2>The Boxes</h2>
+                <p>
+                  Thomas says: The Box was an idea I vaguely floated at an
+                  in-person meeting around late November and early December,
+                  inspired by Peppermint Herrings' (very successful!) Advent
+                  Hunt. Megan took my ramblings and proceeded to dedicate a
+                  significantly large portion of her time into making it a
+                  reality.
+                </p>
+
+                <p>
+                  Once SAO had approved our idea, all that remained was to come
+                  up with enough physical puzzles to actually justify the idea.
+                  More physical puzzles had already been an explicit goal, but
+                  the Box reinforced our desire to come up with many
+                  interesting, distinct physical puzzles.
+                </p>
+
+                <p>
+                  In hindsight, I think we could have done a little more work in
+                  making sure that each of the puzzles in the Box required their
+                  physicality. While each of the puzzles in the Box benefited
+                  from being physical objects (either thematically, or by making
+                  certain steps easier), we didn't have any objects which
+                  absolutely could not be solved in a non-physical format. This
+                  was a double-edged sword. It made remote accessibility much,
+                  much easier; but it did limit the capabilities of the puzzles
+                  themselves. Our low difficulty ceiling also limited the
+                  complexity of physical manipulation.
+                </p>
+
+                <p>
+                  However, making physical objects with hidden "aspects" that
+                  cannot be discovered early is really, really hard. As a small
+                  aside, hiding information is very difficult; you either need
+                  to hide it behind a physical transformation (often a
+                  destruction, like applying liquids, breaking it in half, or
+                  setting it on fire), or require the application of a tool that
+                  you yourself need to provide (such as a UV light or magnet).
+                  The former is extremely difficult to construct at scale, and
+                  the latter necessarily would be spoiled by the inclusion of
+                  said tools in the Box. This is still something I'm puzzling
+                  over, and if we decide to do Boxes next year, it will be
+                  something we work harder on.
+                </p>
+
+                <p>
+                  Megan says: The Boxes haunted my dreams for a significant part
+                  of the semester. Figuring out how to make the remote solving
+                  experience live up to all of the cool things we orchestrate
+                  for in-person weekend is consistently a challenge, and in the
+                  past some things have ultimately ended up fully inaccessible
+                  due mostly to a lack of bandwidth to make perfectly remote
+                  accessible versions. So, when Thomas pitched mailing puzzles
+                  to people, I knew what I was signing up for but figured it
+                  would be worth the effort in the end.
+                </p>
+
+                <p>
+                  First, I had to make a desperate plea to the student
+                  activities office to let us do something like this. Spending
+                  our Brown-allotted funding on providing supplies for non-Brown
+                  community members is mildly frowned upon, so we needed to
+                  evenly split our purchases between raised funds and club
+                  funding (easier said than done).
+                </p>
+
+                <p>
+                  Once greenlit, we began brainstorming what sorts of things to
+                  put into the Box. Puzzle design aside, we aimed to keep things
+                  quite small / light from a shipping perspective. Turns out,
+                  figuring out how to send an unknown amount of objects of an
+                  unknown weight and unknown size is not the easiest thing to
+                  calculate, so shipping was a big unknown for most of our
+                  planning process. After many (MANY) spreadsheets and a few too
+                  many questionable emails to supply manufacturers, we got
+                  enough of a rough idea of what we wanted to put into the Box
+                  that we were able to settle on a price. The goal was to get as
+                  close as possible to charging exactly what we'd be paying for
+                  the raw materials, but with a little extra wiggle room so as
+                  not to inadvertently send our club into crippling debt. We
+                  settled on $19, which I think is a pretty reasonable rate for
+                  all of the things the Box contained. I'd say the highest value
+                  items are certainly the cards, followed by the pin and
+                  stickers. While as Thomas mentioned we got some feedback that
+                  not everything in the Box necessarily needed to be a physical
+                  puzzle, which is certainly true, I'd argue that the value from
+                  a few items alone made it worth the price we charged for it.
+                  For transparency, we ended up with a small amount of extra Box
+                  profit due to conservative shipping estimates, so we spent it
+                  on feeding ourselves during in-person weekend (which I'd say
+                  is a worthy expense).
+                </p>
+
+                <p>
+                  Knowing that we were going to ship Boxes put a pretty tight
+                  timeline on all of the puzzles being written for it. Despite
+                  my pleading, our club notoriously operates on a pretty
+                  last-minute timeframe, so the necessity of having several
+                  puzzles completely and irreversibly done was a new challenge.
+                  Cards in particular had to be done super early, as there was a
+                  significant turnaround time to get the nice poker cards and
+                  instructions booklets designed and printed.
+                </p>
+
+                <p>
+                  Beyond just puzzle construction constraints, physical
+                  manufacturing proved a beast. Those packing peanuts took years
+                  off our lives, and many a late night was spent in
+                  Page-Robinson hall with Box materials strewn about the floor.
+                </p>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image30.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image63.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image38.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image21.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image72.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image8.png"
+                    alt=""
+                  />
+                </div>
+
+                <p>
+                  It was a ton of work to put together, so while it certainly
+                  had its flaws I think we ultimately did a cool and (somewhat
+                  unique) thing! Who's to say whether we will attempt something
+                  like this again in the future. It certainly had its merits but
+                  also somewhat constrained our in-person physical puzzle
+                  efforts and took up a lot of bandwidth for a very long time.
+                  Despite its flaws (and likely missing / erroneous packing
+                  peanuts), I hope everyone who got a Box can see all the time
+                  and effort we put into each component.
+                </p>
+              </TOCSection>
             </TOCSection>
 
-            <TOCSection sectionId={0} tocTitle="Reflections">
+            <TOCSection sectionId={37} tocTitle="Reflections">
               <h2>Reflections</h2>
               <p>
                 Our hunt writing team went through a huge transition this year!
@@ -1679,7 +2050,7 @@ export default function Page() {
               </div>
             </TOCSection>
 
-            <TOCSection sectionId={0} tocTitle="Exit Survey">
+            <TOCSection sectionId={38} tocTitle="Exit Survey">
               <h2>Exit survey</h2>
 
               {/* TODO: Actually link feedback form */}
@@ -1696,325 +2067,7 @@ export default function Page() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={0} tocTitle="Tech">
-              <p>
-                We made a completely new site this year! We started building the
-                tech stack (bph-site) last September and tested it with
-                Puzzlethon last November. This semester, we focused mainly on
-                extending the hinting and event systems, adding UI improvements,
-                and making the map. No one on the tech team had web development
-                experience at the beginning of the year, so we're really happy
-                that we ended up with a functional site that (most) teams
-                enjoyed.
-              </p>
-
-              <p>
-                Both the backend and frontend are in TypeScript, and the UI
-                components were made using Tailwind CSS and Shadcn. All of our
-                infrastructure runs serverlessly on Vercel. We have a Postgres
-                database on Neon and use Resend for emails. We chose a
-                fully-managed solution because we were reasonably confident it
-                would scale well during the hunt. (Struggles with scaling last
-                year were part of our motivation to remake the site.)
-              </p>
-
-              <p>Some meeting notes:</p>
-
-              <div className="grid grid-cols-2 gap-4">
-                <img
-                  className="w-full rounded-md"
-                  src="/wrapup/images/image12.png"
-                  alt=""
-                />
-                <img
-                  className="w-full rounded-md"
-                  src="/wrapup/images/image11.png"
-                  alt=""
-                />
-              </div>
-
-              <p> (We did not load test.)</p>
-
-              <TOCSection sectionId={0} tocTitle="Landing Page">
-                <h2>Landing Page</h2>
-                <p>
-                  Parallax alone was already quite complex. Add on mobile
-                  friendliness and moving spotlights and you get a recipe for
-                  pain and suffering. We went through three or so libraries, all
-                  of which had issues (from weird scroll behavior to poor mobile
-                  friendliness). We eventually settled on a Framer Motion
-                  solution with sizing based on Tailwind math.
-                </p>
-
-                <pre className="overflow-auto rounded-md bg-[#272822] p-4 font-mono text-sm leading-relaxed text-white">
-                  <code>
-                    &lt;<span className="text-green-400">motion</span>.
-                    <span className="text-green-400">img</span>
-                    <br />
-                    &nbsp;&nbsp;
-                    <span className="text-yellow-300">className</span>=
-                    <span className="text-pink-300">
-                      &quot;absolute bottom-[calc(max(57vw,64.125vh))]
-                      left-[calc(min(29vw,50vw-23.33vh))]
-                      w-[calc(max(7vw,7.77vh))] origin-bottom opacity-80&quot;
-                    </span>
-                    <br />
-                    &nbsp;&nbsp;<span className="text-yellow-300">src</span>=
-                    <span className="text-pink-300">
-                      &quot;/home/Spotlight.png&quot;
-                    </span>
-                    <br />
-                    &nbsp;&nbsp;<span className="text-yellow-300">initial</span>
-                    =<span className="text-white">{"{{"}</span>{" "}
-                    <span className="text-green-300">rotate</span>:{" "}
-                    <span className="text-blue-300">20</span>{" "}
-                    <span className="text-white">{"}}"}</span>
-                    <br />
-                    &nbsp;&nbsp;<span className="text-yellow-300">animate</span>
-                    =<span className="text-white">{"{{"}</span>
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span className="text-green-300">rotate</span>:{" "}
-                    <span className="text-white">[</span>
-                    <span className="text-blue-300">20</span>,{" "}
-                    <span className="text-blue-300">-20</span>
-                    <span className="text-white">]</span>,<br />
-                    &nbsp;&nbsp;
-                    <span className="text-white">{"}}"}</span>
-                    <br />
-                    &nbsp;&nbsp;
-                    <span className="text-yellow-300">transition</span>=
-                    <span className="text-white">{"{{"}</span>
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span className="text-green-300">duration</span>:{" "}
-                    <span className="text-blue-300">5</span>,<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span className="text-green-300">repeat</span>:{" "}
-                    <span className="text-blue-300">Infinity</span>,<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span className="text-green-300">repeatType</span>:{" "}
-                    <span className="text-pink-300">&quot;reverse&quot;</span>,
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span className="text-green-300">ease</span>:{" "}
-                    <span className="text-pink-300">&quot;easeInOut&quot;</span>
-                    ,<br />
-                    &nbsp;&nbsp;
-                    <span className="text-white">{"}}"}</span>
-                    <br />
-                    /&gt;
-                  </code>
-                </pre>
-
-                <p>
-                  For images to adapt nicely between skinny phones and wide
-                  computer screens, size had to be computed as a minimum or
-                  maximum based on viewport width and height.
-                </p>
-              </TOCSection>
-
-              <TOCSection sectionId={0} tocTitle="Map">
-                <h2>Map</h2>
-
-                <p>
-                  Map was probably the most frustrating component for art, tech,
-                  and solvers. We originally used the Leaflet library which
-                  provided many convenient features but was very laggy
-                  (especially when zooming). Leaflet performs best for tile maps
-                  with few markers since markers must be re-rendered every
-                  frame. We tried several methods for improving efficiency to no
-                  avail. The night before the in-person event, we decided to
-                  switch to PixiJS. Oops. This decision led to a wonderful 9 AM
-                  (and by 9 AM, we mean going to bed at 9 AM, not waking up at 9
-                  AM). Unfortunately, PixiJS uses a different coordinate system
-                  than Leaflet, so sprites were rotated 90&deg; about the map
-                  origin. This required us to manually reposition every sprite
-                  (sorry, Jack) and push back the hunt start time.
-                </p>
-
-                <p>
-                  We made several QOL improvements to the map throughout the
-                  hunt and into remote week. Unfortunately, most changes were
-                  added after the bulk of the activity, so map use remained
-                  relatively limited compared to the puzzle table.
-                </p>
-              </TOCSection>
-
-              <TOCSection sectionId={0} tocTitle="Postprodding">
-                <h2> Postprodding</h2>
-                <p>
-                  The tech team did relatively little postprodding during the
-                  hunt. Near the end of March, we wrote a short README on
-                  editing the site, gave it to the technical-but-not-tech
-                  puzzle-writing staff, and had them commit to branches. They
-                  did an amazing job! In the end, over half of the 57 puzzles
-                  were postprodded by puzzle writers. Since there were only two
-                  people focused primarily on tech and many, many small tweaks
-                  to puzzles leading up to the hunt, this worked out well. It
-                  gave us time to polish the UI for the map and interactive
-                  guards puzzles. (Shoutout to Arnav for postprodding and
-                  finalizing the other puzzles.)
-                </p>
-
-                <p>
-                  We made certain decisions to simplify the postprodding
-                  process. First, we prioritized collocation. If you're editing
-                  a static puzzle, everything you care about should be in the
-                  puzzle's data.tsx file: the inPersonBody, remoteBody,
-                  remoteBoxBody, solutionBody, authors, copyText,
-                  partialSolutions, and tasks. Images, audio clips, and videos
-                  also belong in that puzzle's folder. This meant that
-                  postprodders didn't need to deal with the complexity of the
-                  rest of the site. In addition, we focused on keeping things
-                  isolated. With Tailwind, CSS classes are placed directly in
-                  the markup so that changes don't impact multiple files.
-                </p>
-              </TOCSection>
-
-              <TOCSection sectionId={0} tocTitle="Hunt Flexibility">
-                <h2>Hunt Flexibility</h2>
-
-                <p>
-                  Another consideration was flexibility. We wanted to be able to
-                  tweak how the hunt worked at a moment's notice without having
-                  to change a bajillion files.
-                </p>
-
-                <p>
-                  We achieved that by putting fewer things in the database. In
-                  our old fork of gph-site, the puzzle table had fields for
-                  name, slug, answer, body_template, round, order, is_meta,
-                  emoji, unlock_hours, unlock_global, and unlock_local. In
-                  bph-site, we only included the name, slug, and answer. The
-                  rest of the information was hard-coded into the site.
-                </p>
-
-                <p>
-                  Instead of having a body_template field, we chose to have a
-                  different puzzle folder for every puzzle. Most static puzzles
-                  stuck with the DefaultPuzzlePage component, which
-                  automatically handled errata, puzzle body, guesses, partial
-                  solutions, and tasks. Some interactive puzzles had custom
-                  logic.
-                </p>
-
-                <p>
-                  The flexibility made it easy to modify our structure for
-                  puzzle unlocks, metas, rounds, and sequences—and to add new
-                  categories like PUZZLES_WITH_INFINITE_GUESSES in the middle of
-                  the hunt. It was also preferable for us that we could test
-                  these changes locally before committing them to the production
-                  branch, rather than directly making changes on the production
-                  database.
-                </p>
-
-                <p>
-                  This was also a little more dangerous. We had to be absolutely
-                  certain that we were (1) listing valid puzzle ids and (2) not
-                  forgetting any puzzle ids in the database. (One mistake in our
-                  hunt.config.ts rendered the admin graph unusable for an hour.)
-                  This is one benefit of tables over our structure: automatic
-                  foreign-key validation.
-                </p>
-              </TOCSection>
-
-              <TOCSection sectionId={0} tocTitle="Bugs">
-                <h2>Bugs</h2>
-                <p>
-                  Because of the serverless nature of the site, we did not have
-                  websockets this year. We instead kept the site responsive
-                  using hooks and optimistic updates. We're still interested in
-                  adding a dedicated server for websockets next year.
-                </p>
-
-                <p>
-                  Websockets are a common pain-point during online hunts, and we
-                  didn't have any, so— fortunately, the site never went down
-                  during the hunt. There were a few notable bugs that affected
-                  some teams:
-                </p>
-
-                <p>
-                  One of the remote teams, yukii, caught that puzzle answers
-                  were leaked in the source code. This was because we
-                  accidentally made one of the server components into a client
-                  component after the in-person hunt. We patched that around an
-                  hour into the hunt. This is still a vulnerability in some of
-                  our interactive puzzles, so looking at source code is not the
-                  intended solution. We should have put more constraints on our
-                  databases. Many race condition bugs came out of creating the
-                  solves and events table this semester. Before we reverted the
-                  issue, 1 team used an answer token on a meta puzzle, 1 team
-                  submitted and used an answer token twice, and 3 teams
-                  (temporarily) had an extra solve on the leaderboard. The map
-                  took a lot of memory. We were already concerned about this,
-                  and eventually decided to remove the map from the mobile
-                  puzzle page during the in-person hunt.
-                </p>
-              </TOCSection>
-
-              <TOCSection sectionId={0} tocTitle="Admin Tooling">
-                <h2>Admin Tooling</h2>
-
-                <p>Warning: gushing about tables and graphs.</p>
-
-                <p>
-                  Most puzzlehunt sites use Django, and Django has an automatic
-                  admin interface. This is very convenient, but we don't regret
-                  stepping away from Django and creating our own admin tools.
-                </p>
-
-                <p>
-                  First was keeping track of a team's progress. Because of the
-                  adjacency graph unlock structure, it seemed natural to also
-                  just model this with a graph. We'll have to change this if we
-                  use DEEP or a different unlock structure in the future, but
-                  this was personally very fun to make!
-                </p>
-
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image29.png"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image52.png"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image2.png"
-                  alt=""
-                />
-
-                <p>
-                  We also implemented improved data tables. We let admins edit
-                  the role and interaction mode directly in the team table.
-                  (This feature was not necessary at all, and toggling the roles
-                  was so addictive I accidentally did it on the production
-                  database once. Sorry to the affected teams!)
-                </p>
-
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image76.png"
-                  alt=""
-                />
-
-                <p>
-                  Finally, we found that the most convenient way to keep track
-                  of the hunt was still having a Discord channel to ping people
-                  about registration, answer submission, solves, hint requests,
-                  and interactions. For dev reasons, we also recommend sending a
-                  Discord message if the catch block in a try/catch statement
-                  gets triggered—it's great for catching early errors.
-                </p>
-              </TOCSection>
-            </TOCSection>
-
-            <TOCSection sectionId={2} tocTitle="Statistics">
+            <TOCSection sectionId={39} tocTitle="Statistics">
               <h2>Statistics</h2>
               {/* QUICK STATS */}
               <h3>Summary</h3>
