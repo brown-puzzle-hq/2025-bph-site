@@ -50,6 +50,11 @@ export default {
             "--tw-prose-headings": theme("colors.main-header"),
             "--tw-prose-links": theme("colors.link"),
             "--tw-prose-bold": theme("colors.main-header"),
+            "--tw-prose-captions": theme("colors.main-text"),
+            figcaption: {
+              fontStyle: "italic",
+              textAlign: "center",
+            },
           },
         },
         "custom-colors": {

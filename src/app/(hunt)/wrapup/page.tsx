@@ -25,7 +25,7 @@ export default function Page() {
         {/* Spacer since TOC is fixed */}
         <div className="md:w-1/3 xl:w-1/5"></div>
         <div className="w-full md:w-2/3 xl:w-3/5">
-          <article className="prose prose-info w-full max-w-none">
+          <article className="prose prose-info w-full max-w-none prose-img:my-0">
             <h1>Wrapup</h1>
             <p>
               Congratulations to the 12 in-person teams and 74 remote teams who
@@ -44,7 +44,12 @@ export default function Page() {
             <TOCSection sectionId={2} tocTitle="Puzzles">
               <TOCSection sectionId={2} tocTitle="Guards Sequence">
                 <h3>Guards Sequence</h3>
-                <i>Words by the Guards</i>
+                <p>
+                  <i>Words by the Guards</i>
+                </p>
+
+                <img src="/wrapup/images/image36.png" alt="" />
+
                 <p>
                   The guards sequence was originally a Thomas innovation&trade;
                   but this vision was quickly taken on by three of our new
@@ -57,8 +62,12 @@ export default function Page() {
                   increased the number of guards, doors, and other things!
                 </p>
 
-                {/* TODO: image */}
-                {/* <p> foreshadowing at kickoff: you'd see these guards again</p> */}
+                <figure>
+                  <img src="/wrapup/images/image14.jpg" alt="" />
+                  <figcaption>
+                    Foreshadowing at kickoff: you'd see these guards again
+                  </figcaption>
+                </figure>
 
                 {/* TODO: links */}
                 <p>
@@ -74,12 +83,35 @@ export default function Page() {
                   and their beloved doors.
                 </p>
 
+                <div className="grid grid-cols-2 gap-4">
+                  <img src="/wrapup/images/image66.jpg" alt="" />
+                  <img src="/wrapup/images/image53.png" alt="" />
+                </div>
+
                 <p>
                   The doors in question, for those of you wondering, were
                   Ukrainian dollhouse-sized doors purchased off of Etsy. They
                   were the pride and joy of our guards crew, who crowdsourced
                   the ~$80 from a team of door-aficionados within our club.
                 </p>
+
+                <div className="columns-2 space-y-4">
+                  <img
+                    src="/wrapup/images/image45.jpg"
+                    alt=""
+                    className="brightness-75"
+                  />
+                  <img
+                    src="/wrapup/images/image40.jpg"
+                    alt=""
+                    className="brightness-75"
+                  />
+                  <img
+                    src="/wrapup/images/image46.jpg"
+                    alt=""
+                    className="brightness-90"
+                  />
+                </div>
 
                 <p>
                   The day before the hunt, the three of them went to our
@@ -106,6 +138,12 @@ export default function Page() {
                   lots of fun writing Jet Lag-themed puzzles and it made our
                   weekly watch parties all the more exciting.
                 </p>
+
+                <div className="columns-2 space-y-4">
+                  <img src="/wrapup/images/image75.jpg" alt="" />
+                  <img src="/wrapup/images/image22.png" alt="" />
+                  <img src="/wrapup/images/image74.jpg" alt="" />
+                </div>
               </TOCSection>
 
               <TOCSection sectionId={2} tocTitle="Heist Sequence">
@@ -149,6 +187,34 @@ export default function Page() {
                   popcorn machine with our club funding? The brilliant answer:
                   serve packing peanuts disguised as popcorn!
                 </p>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <img src="/wrapup/images/image37.jpg" alt="" />{" "}
+                  <img src="/wrapup/images/image70.jpg" alt="" />
+                </div>
+
+                <p>
+                  In-person, teams who approached the popcorn table at kickoff
+                  were asked whether they'd like 'edible or inedible popcorn'.
+                  Our lovely popcorn vendors Noah and Chloe sold most teams on
+                  the inedible popcorn alongside their actual bag of popcorn,
+                  which resulted in a batch of packing peanuts in a popcorn bag.
+                </p>
+
+                <p>
+                  Teams who ordered a Box were also fortunate enough to get
+                  their own batch of peanuts. As I'm sure you can imagine, these
+                  were not the most fun to manufacture in bulk. We spent many a
+                  night hunched over a garbage bag of packing peanuts stolen
+                  from the GeoChem department. While painful to label 4100
+                  packing peanuts, they did have their intended effect.
+                </p>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <img src="/wrapup/images/image28.png" alt="" />
+                  <img src="/wrapup/images/image68.jpg" alt="" />
+                  <img src="/wrapup/images/image24.jpg" alt="" />
+                </div>
               </TOCSection>
 
               <TOCSection sectionId={2} tocTitle="Puzzles">
@@ -260,7 +326,11 @@ export default function Page() {
                   did not.
                 </p>
 
-                {/* TODO: insert images */}
+                <div className="columns-2 space-y-4">
+                  <img src="/wrapup/images/image5.jpg" alt="" />
+                  <img src="/wrapup/images/image35.jpg" alt="" />
+                  <img src="/wrapup/images/image32.jpg" alt="" />
+                </div>
 
                 <p>
                   After completing all four faces, teams who chanted "I Hate
@@ -383,7 +453,14 @@ export default function Page() {
                   Page-Robinson hall with Box materials strewn about the floor.
                 </p>
 
-                {/* TODO: image */}
+                <div className="grid grid-cols-3 gap-4">
+                  <img src="/wrapup/images/image30.jpg" alt="" />
+                  <img src="/wrapup/images/image63.jpg" alt="" />
+                  <img src="/wrapup/images/image38.jpg" alt="" />
+                  <img src="/wrapup/images/image21.jpg" alt="" />
+                  <img src="/wrapup/images/image72.jpg" alt="" />
+                  <img src="/wrapup/images/image8.png" alt="" />
+                </div>
 
                 <p>
                   It was a ton of work to put together, so while it certainly
@@ -504,8 +581,14 @@ export default function Page() {
                   for so many of the Horror feeders to be sequence capstones if
                   the remaining ones were not.
                 </p>
-                {/* Add images */}
-                Here is a rough timeline of our meta-writing process:
+
+                <img
+                  src="/wrapup/images/image7.png"
+                  alt=""
+                  className="mx-auto w-1/2"
+                />
+
+                <p>Here is a rough timeline of our meta-writing process:</p>
                 <ul>
                   <li>
                     November 11: the last round meta (Horror) is finalized.
@@ -783,8 +866,26 @@ export default function Page() {
                   BPH25 as glamorous and fun.
                 </p>
 
-                {/* TODO: Images */}
-                {/* TODO: More images */}
+                <figure>
+                  <div className="grid grid-cols-3 gap-4">
+                    <img src="/wrapup/images/image27.png" alt="" />
+                    <img src="/wrapup/images/image62.png" alt="" />
+                    <img src="/wrapup/images/image20.png" alt="" />
+                  </div>
+                  <figcaption>
+                    Various drafts of the homepage with varying layouts / color
+                    schemes
+                  </figcaption>
+                </figure>
+
+                <figure>
+                  <div className="grid grid-cols-3 gap-4">
+                    <img src="/wrapup/images/image23.png" alt="" />
+                    <img src="/wrapup/images/image51.png" alt="" />
+                    <img src="/wrapup/images/image9.png" alt="" />
+                  </div>
+                  <figcaption>BPC logos designed by Eliot!</figcaption>
+                </figure>
               </TOCSection>
 
               <TOCSection sectionId={0} tocTitle="Map" parentId={1}>
@@ -821,6 +922,14 @@ export default function Page() {
                   hunt to finish. Never again. But, it looked pretty cool so
                   it's whatever.
                 </p>
+
+                <div className="columns-2 space-y-4">
+                  <img src="/wrapup/images/image13.png" alt="" />
+                  <img src="/wrapup/images/image64.png" alt="" />
+                  <img src="/wrapup/images/image44.png" alt="" />
+                  <img src="/wrapup/images/image71.png" alt="" />
+                  <img src="/wrapup/images/image10.png" alt="" />
+                </div>
               </TOCSection>
 
               <TOCSection sectionId={0} tocTitle="Sprites" parentId={1}>
@@ -850,16 +959,27 @@ export default function Page() {
                   physical playing cards and I hope every solver appreciated how
                   insanely cool they were.
                 </p>
+                <img
+                  src="/wrapup/images/image56.jpg"
+                  alt=""
+                  className="mx-auto w-1/2"
+                />
               </TOCSection>
-
-              {/* TODO: Add Jackie's pins somewhere */}
 
               <p>
                 Overall, I'm very proud of what we produced with a smaller team
-                of artists, which is in large part because of how kind,
-                talented, and fun the art team was to work with. I look forward
-                to working with them again on a hopefully map-less hunt :)
+                of artists, which is largely because of how kind, talented, and
+                fun the art team was to work with. I look forward to working
+                with them again on a hopefully map-less hunt :)
               </p>
+
+              <figure>
+                <div className="columns-2">
+                  <img src="/wrapup/images/image3.png" alt="" />
+                  <img src="/wrapup/images/image34.jpg" alt="" />
+                </div>
+                <figcaption>BPH 25 pins designed by Jackie Cohen</figcaption>
+              </figure>
             </TOCSection>
 
             <TOCSection sectionId={0} tocTitle="Theme + Story">
@@ -887,7 +1007,14 @@ export default function Page() {
                 acting! Here are some fun pictures of that.
               </p>
 
-              {/* TODO: add photos here */}
+              <div className="grid grid-cols-3 gap-4">
+                <img src="/wrapup/images/image67.jpg" alt="" />
+                <img src="/wrapup/images/image31.jpg" alt="" />
+                <img src="/wrapup/images/image17.jpg" alt="" />
+                <img src="/wrapup/images/image16.jpg" alt="" />
+                <img src="/wrapup/images/image18.jpg" alt="" />
+                <img src="/wrapup/images/image41.jpg" alt="" />
+              </div>
 
               <p>
                 During the hunt, solvers unlocked two interactions. After
@@ -919,7 +1046,13 @@ export default function Page() {
                 before the hunt)! Pictures pictures pictures.
               </p>
 
-              {/* TODO: Add pictures. There's also a drive with videos */}
+              {/* TODO: there's also a drive with videos */}
+
+              <div className="grid grid-cols-3 gap-4">
+                <img src="/wrapup/images/image4.jpg" alt="" />
+                <img src="/wrapup/images/image50.jpg" alt="" />
+                <img src="/wrapup/images/image69.jpg" alt="" />
+              </div>
 
               <p>
                 A huge thanks to everyone who was involved with the story and
@@ -966,7 +1099,11 @@ export default function Page() {
               <TOCSection sectionId={0} tocTitle="Auditioning for a Role">
                 <h3>Auditioning for a Role</h3>
 
-                {/* TODO: Images */}
+                <img
+                  src="/wrapup/images/image65.jpg"
+                  alt=""
+                  className="brightness-75"
+                />
 
                 <p>
                   <i>
@@ -1051,7 +1188,23 @@ export default function Page() {
                   </i>
                 </p>
 
-                {/* TODO: Images */}
+                <div className="grid grid-cols-3 gap-4">
+                  <img
+                    src="/wrapup/images/image42.jpg"
+                    alt=""
+                    className="brightness-[0.6]"
+                  />
+                  <img
+                    src="/wrapup/images/image49.jpg"
+                    alt=""
+                    className="brightness-[0.6]"
+                  />
+                  <img
+                    src="/wrapup/images/image59.jpg"
+                    alt=""
+                    className="brightness-[0.6]"
+                  />
+                </div>
 
                 <p>
                   This event involved 6 teams of ~8 interns each with over 50
@@ -1060,7 +1213,14 @@ export default function Page() {
                   real-life movies...
                 </p>
 
-                {/* TODO:: Images */}
+                <div className="grid grid-cols-6 gap-4">
+                  <img src="/wrapup/images/image54.png" alt="" />
+                  <img src="/wrapup/images/image33.png" alt="" />
+                  <img src="/wrapup/images/image26.png" alt="" />
+                  <img src="/wrapup/images/image55.png" alt="" />
+                  <img src="/wrapup/images/image1.png" alt="" />
+                  <img src="/wrapup/images/image39.png" alt="" />
+                </div>
 
                 <p>
                   ...and had 20 minutes to make a set of 10 instructions,
@@ -1102,7 +1262,38 @@ export default function Page() {
                   impressive final products!
                 </p>
 
-                {/* TODO:O Add images */}
+                <div className="grid grid-cols-6 gap-4">
+                  <img
+                    src="/wrapup/images/image6.png"
+                    alt=""
+                    className="brightness-90"
+                  />
+                  <img
+                    src="/wrapup/images/image15.png"
+                    alt=""
+                    className="brightness-90"
+                  />
+                  <img
+                    src="/wrapup/images/image73.png"
+                    alt=""
+                    className="brightness-90"
+                  />
+                  <img
+                    src="/wrapup/images/image43.png"
+                    alt=""
+                    className="brightness-90"
+                  />
+                  <img
+                    src="/wrapup/images/image47.png"
+                    alt=""
+                    className="brightness-90"
+                  />
+                  <img
+                    src="/wrapup/images/image58.png"
+                    alt=""
+                    className="brightness-90"
+                  />
+                </div>
 
                 <p>
                   At the end, all participating teams were given the answer
@@ -1129,6 +1320,29 @@ export default function Page() {
                     might prove useful.
                   </i>
                 </p>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <img
+                    src="/wrapup/images/image57.jpg"
+                    alt=""
+                    className="brightness-[0.6]"
+                  />
+                  <img
+                    src="/wrapup/images/image48.jpg"
+                    alt=""
+                    className="brightness-[0.6]"
+                  />
+                  <img
+                    src="/wrapup/images/image61.jpg"
+                    alt=""
+                    className="brightness-[0.6]"
+                  />
+                  <img
+                    src="/wrapup/images/image60.jpg"
+                    alt=""
+                    className="brightness-[0.6]"
+                  />
+                </div>
 
                 <p>
                   The final event was arguably the most fun (for both the
@@ -1255,7 +1469,10 @@ export default function Page() {
                 optimistic about what's to come for next year :)
               </p>
 
-              {/* TODO: add photos */}
+              <div className="grid grid-cols-2 gap-4">
+                <img src="/wrapup/images/image25.jpg" alt="" />
+                <img src="/wrapup/images/image19.jpg" alt="" />
+              </div>
             </TOCSection>
 
             <TOCSection sectionId={0} tocTitle="Exit Survey">
@@ -1299,7 +1516,10 @@ export default function Page() {
 
               <p>Some meeting notes:</p>
 
-              {/* TODO: Add images */}
+              <div className="grid grid-cols-2 gap-4">
+                <img src="/wrapup/images/image12.png" alt="" />
+                <img src="/wrapup/images/image11.png" alt="" />
+              </div>
 
               <p> (We did not load test.)</p>
 
@@ -1314,7 +1534,66 @@ export default function Page() {
                   solution with sizing based on Tailwind math.
                 </p>
 
-                {/* TODO: add images */}
+                <pre className="overflow-auto rounded-md bg-[#272822] p-4 font-mono text-sm leading-relaxed text-white">
+                  <code>
+                    &lt;<span className="text-green-400">motion</span>.
+                    <span className="text-green-400">img</span>
+                    <br />
+                    &nbsp;&nbsp;
+                    <span className="text-yellow-300">className</span>=
+                    <span className="text-pink-300">
+                      &quot;absolute bottom-[calc(max(57vw,64.125vh))]
+                      left-[calc(min(29vw,50vw-23.33vh))]
+                      w-[calc(max(7vw,7.77vh))] origin-bottom opacity-80&quot;
+                    </span>
+                    <br />
+                    &nbsp;&nbsp;<span className="text-yellow-300">src</span>=
+                    <span className="text-pink-300">
+                      &quot;/home/Spotlight.png&quot;
+                    </span>
+                    <br />
+                    &nbsp;&nbsp;<span className="text-yellow-300">initial</span>
+                    =<span className="text-white">{"{{"}</span>{" "}
+                    <span className="text-green-300">rotate</span>:{" "}
+                    <span className="text-blue-300">20</span>{" "}
+                    <span className="text-white">{"}}"}</span>
+                    <br />
+                    &nbsp;&nbsp;<span className="text-yellow-300">animate</span>
+                    =<span className="text-white">{"{{"}</span>
+                    <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="text-green-300">rotate</span>:{" "}
+                    <span className="text-white">[</span>
+                    <span className="text-blue-300">20</span>,{" "}
+                    <span className="text-blue-300">-20</span>
+                    <span className="text-white">]</span>,<br />
+                    &nbsp;&nbsp;
+                    <span className="text-white">{"}}"}</span>
+                    <br />
+                    &nbsp;&nbsp;
+                    <span className="text-yellow-300">transition</span>=
+                    <span className="text-white">{"{{"}</span>
+                    <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="text-green-300">duration</span>:{" "}
+                    <span className="text-blue-300">5</span>,<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="text-green-300">repeat</span>:{" "}
+                    <span className="text-blue-300">Infinity</span>,<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="text-green-300">repeatType</span>:{" "}
+                    <span className="text-pink-300">&quot;reverse&quot;</span>,
+                    <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="text-green-300">ease</span>:{" "}
+                    <span className="text-pink-300">&quot;easeInOut&quot;</span>
+                    ,<br />
+                    &nbsp;&nbsp;
+                    <span className="text-white">{"}}"}</span>
+                    <br />
+                    /&gt;
+                  </code>
+                </pre>
 
                 <p>
                   For images to adapt nicely between skinny phones and wide
@@ -1482,7 +1761,9 @@ export default function Page() {
                   this was personally very fun to make!
                 </p>
 
-                {/* TODO: images */}
+                <img src="/wrapup/images/image29.png" alt="" />
+                <img src="/wrapup/images/image52.png" alt="" />
+                <img src="/wrapup/images/image2.png" alt="" />
 
                 <p>
                   We also implemented improved data tables. We let admins edit
@@ -1492,7 +1773,7 @@ export default function Page() {
                   database once. Sorry to the affected teams!)
                 </p>
 
-                {/* TODO: images */}
+                <img src="/wrapup/images/image76.png" alt="" />
 
                 <p>
                   Finally, we found that the most convenient way to keep track
