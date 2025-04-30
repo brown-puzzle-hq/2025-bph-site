@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { motion, useScroll } from "framer-motion";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 
 export type Section = {
   id: number;
@@ -95,26 +95,25 @@ export const TOCSection = ({
 
 export function TableOfContents() {
   const { sections, activeSection } = useContext(TOCContext);
-  const [delayedActiveSection, setDelayedActiveSection] = useState<
-    number | null
-  >(null);
+
+  const [isScrolling, setIsScrolling] = useState(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const [stableActiveSection, setStableActiveSection] = useState<number>(-1);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
-    const handleScroll = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        // Trigger your logic AFTER scroll ends
-        setDelayedActiveSection(activeSection);
-      }, 100); // wait 100ms after last scroll event
-    };
+    if (activeSection !== stableActiveSection) {
+      setIsScrolling(true);
 
-    window.addEventListener("scroll", handleScroll);
+      scrollTimeout.current = setTimeout(() => {
+        setStableActiveSection(activeSection);
+        setIsScrolling(false);
+      }, 200);
+    }
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      clearTimeout(timeoutId);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
     };
   }, [activeSection]);
 
@@ -136,35 +135,46 @@ export function TableOfContents() {
         <div key={id} className="flex flex-col">
           <span
             className={`mr-8 cursor-pointer transition-colors duration-200 hover:text-main-text ${activeSection === id ? "text-main-text" : "text-main-text/50"}`}
-            onClick={() => {
-              setDelayedActiveSection(id);
-              setTimeout(
-                () =>
-                  document
-                    .getElementById(`section-${id}`)
-                    ?.scrollIntoView({ behavior: "smooth" }),
-                100,
-              );
-            }}
+            onClick={() =>
+              document
+                .getElementById(`section-${id}`)
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
           >
             {title}
           </span>
 
           {/* Render subsections if any */}
-          {activeSection === id &&
-            subsectionsMap[id]?.map((sub) => (
-              <span
-                key={sub.id}
-                className={`ml-4 mr-8 cursor-pointer text-sm transition-colors duration-200 hover:text-main-text ${activeSection === sub.id ? "text-main-text" : "text-main-text/50"}`}
-                onClick={() =>
-                  document
-                    .getElementById(`section-${sub.id}`)
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-              >
-                {sub.title}
-              </span>
-            ))}
+          <div className="relative">
+            <AnimatePresence mode="wait">
+              {!isScrolling && stableActiveSection === id && (
+                <motion.div
+                  className="flex flex-col"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {subsectionsMap[id]?.map((sub, i) => (
+                    <motion.span
+                      key={sub.id}
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.05 * i }}
+                      className={`ml-4 mr-8 cursor-pointer text-sm transition-colors duration-200 hover:text-main-text ${activeSection === sub.id ? "text-main-text" : "text-main-text/50"}`}
+                      onClick={() =>
+                        document
+                          .getElementById(`section-${sub.id}`)
+                          ?.scrollIntoView({ behavior: "smooth" })
+                      }
+                    >
+                      {sub.title}
+                    </motion.span>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       ))}
     </motion.div>

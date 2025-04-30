@@ -28,7 +28,7 @@ export default function WrapUp() {
 
         <div className="w-full md:w-2/3 xl:w-3/5">
           <article className="prose prose-wrapup w-full max-w-none bg-black/30 p-6 prose-img:my-0">
-            <h1 className="font-semibold text-amber-300">✨ Wrapup ✨</h1>
+            <h1 className="font-semibold text-amber-300">Wrapup</h1>
             <p>
               Congratulations to the 12 in-person teams and 74 remote teams who
               finished the hunt!
