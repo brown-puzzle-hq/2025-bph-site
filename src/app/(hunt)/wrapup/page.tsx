@@ -20,14 +20,14 @@ export default function Page() {
   const values = useTOCContextValues();
   return (
     <TOCContext.Provider value={values}>
-      <div className="flex px-4 py-6">
+      <div className="flex px-4">
         <TableOfContents />
 
         {/* Spacer since TOC is fixed */}
         <div className="md:w-1/3 xl:w-1/5"></div>
 
         <div className="w-full md:w-2/3 xl:w-3/5">
-          <article className="prose prose-info w-full max-w-none prose-img:my-0">
+          <article className="prose prose-info w-full max-w-none bg-black/30 p-6 prose-img:my-0">
             <h1>Wrapup</h1>
             <p>
               Congratulations to the 12 in-person teams and 74 remote teams who
@@ -1810,6 +1810,24 @@ export default function Page() {
               <TOCSection sectionId={33} tocTitle="Imagine" parentId={27}>
                 <h3>Imagine</h3>
                 <i>By Megan Carlson</i>
+
+                <p>
+                  Imagine was our only submission-based puzzle of the hunt.
+                  After completing a short puzzle about everyone's favorite
+                  out-of-touch{" "}
+                  <a
+                    href="https://www.youtube.com/watch?v=omEDLKS5pbY"
+                    className="text-link no-underline hover:underline"
+                  >
+                    celebrity pandemic video
+                  </a>
+                  , solvers were tasked with sending in their own classic
+                  apology video. We received upwards of 100 video submissions.
+                  The puzzle author thoroughly enjoyed each and every submission
+                  (and yes, we watched all of them). While we won't be posting
+                  any of these vulnerable apology videos for privacy reasons,
+                  here are a few highlights:
+                </p>
 
                 <ul>
                   <li>

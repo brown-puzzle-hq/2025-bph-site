@@ -63,12 +63,12 @@ export default function Page() {
   const values = useTOCContextValues();
   return (
     <TOCContext.Provider value={values}>
-      <div className="flex px-4 py-6">
+      <div className="flex px-4">
         <TableOfContents />
         {/* Spacer since TOC is fixed */}
         <div className="md:w-1/3 xl:w-1/5"></div>
         <div className="w-full md:w-2/3 xl:w-3/5">
-          <article className="prose prose-info w-full max-w-none">
+          <article className="prose prose-info w-full max-w-none bg-black/30 p-6">
             <h1>Hunt Information</h1>
             <TOCSection
               sectionId={0}
