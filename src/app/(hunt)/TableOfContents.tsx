@@ -98,16 +98,26 @@ export function TableOfContents() {
   const { sections, activeSection } = useContext(TOCContext);
 
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
-  const [stableActiveSection, setStableActiveSection] = useState<number>(-1);
+  const [stableParentSection, setStableParentSection] = useState<number | null>(
+    null,
+  );
+
+  // Get parent of active section
+  const getParentOfActiveSection = (): number | null => {
+    if (activeSection === -1) return null;
+    const activeSubsection = sections.find((s) => s.id === activeSection);
+    return activeSubsection?.parentId ?? activeSubsection?.id ?? null;
+  };
+
+  const parentOfActiveSection = getParentOfActiveSection();
 
   useEffect(() => {
     if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
-    if (activeSection !== stableActiveSection) {
-      setStableActiveSection(-1);
-
+    if (parentOfActiveSection !== stableParentSection) {
+      setStableParentSection(null);
       scrollTimeout.current = setTimeout(
-        () => setStableActiveSection(activeSection),
+        () => setStableParentSection(parentOfActiveSection),
         200,
       );
     }
@@ -115,7 +125,7 @@ export function TableOfContents() {
     return () => {
       if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
     };
-  }, [activeSection]);
+  }, [parentOfActiveSection]);
 
   // Organize sections into hierarchy
   const topLevelSections = sections.filter((s) => !s.parentId);
@@ -129,20 +139,12 @@ export function TableOfContents() {
     }
   });
 
-  const getParentOfActiveSection = (): number | null => {
-    if (activeSection === -1) return null;
-    const activeSubsection = sections.find((s) => s.id === activeSection);
-    return activeSubsection?.parentId ?? null;
-  };
-
-  const parentOfActiveSection = getParentOfActiveSection();
-
   return (
     <motion.div className="no-scrollbar fixed bottom-0 top-[80px] hidden flex-col gap-2 overflow-y-auto pr-2 md:flex md:w-1/3 xl:w-1/5">
       {topLevelSections.map(({ id, title }) => (
         <div key={id} className="flex flex-col">
           <span
-            className={`mr-8 cursor-pointer transition-colors duration-200 hover:text-main-text ${activeSection === id || parentOfActiveSection === id ? "text-main-text" : "text-main-text/50"}`}
+            className={`mr-8 cursor-pointer transition-colors duration-200 hover:text-main-text ${parentOfActiveSection === id ? "text-main-text" : "text-main-text/50"}`}
             onClick={() =>
               document
                 .getElementById(`section-${id}`)
@@ -155,8 +157,7 @@ export function TableOfContents() {
           {/* Render subsections if any */}
           <div className="relative">
             <AnimatePresence mode="wait">
-              {((parentOfActiveSection === id && stableActiveSection !== -1) ||
-                stableActiveSection === id) && (
+              {stableParentSection === id && (
                 <motion.div
                   className="flex flex-col"
                   initial={{ opacity: 0 }}
