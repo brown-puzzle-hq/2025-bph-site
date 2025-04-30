@@ -124,6 +124,9 @@ export default function WrapUp() {
 
             <TOCSection sectionId={0} tocTitle="Timeline & Logistics" isFirst>
               <h2>Timeline & Logistics</h2>
+              <p>
+                <i>By Megan Carlson and Thomas Gordon</i>
+              </p>
 
               <p>
                 Brown Puzzlehunt is a beast of an event to plan. We took on a
@@ -145,42 +148,226 @@ export default function WrapUp() {
                 pull this together!
               </p>
 
-              <p>Timeline:</p>
-              <ul>
-                <li>September 13th: Theme selected</li>
-                <li>September 19th: First BPH SAO meeting</li>
-                <li>September 22nd: First writing meeting</li>
-                <li>October 6th: Meta writing groups formed</li>
-                <li>October 20th: First tech meeting</li>
-                <li>November 3rd: All metas written (more or less)</li>
-                <li>November 17th: Feeder answers released</li>
-                <li>November 17th: First feeder puzzle written (Find Ben)</li>
-                <li>
-                  November 23rd:{" "}
-                  <a
-                    // TODO: may need to migrate at some point
-                    href="https://puzzlethon.brownpuzzle.club/"
-                    className="text-link no-underline hover:underline"
-                  >
-                    Puzzlethon
-                  </a>
-                  !
-                </li>
-                <li>January 17th-20th: BPH writers go to Mystery Hunt </li>
-                <li>January 23rd: BPH is SAO approved</li>
-                <li>January 27th: Brown Puzzlehunt 2025 publicly announced!</li>
-                <li>February 11th: First events planning meeting</li>
-                <li>February 14th: First story meeting</li>
-                <li>February 22nd: First art meeting</li>
-                <li>March 8th-9th: In-person full testsolve</li>
-                <li>March 15th-16th: Remote full testsolve</li>
-                <li>April 2nd: Boxes shipped</li>
-                <li>April 6th: BPH dry run</li>
-                <li>April 12th: Last puzzle written 🥲</li>
-                <li>April 12th-13th: In-person hunt!</li>
-                <li>April 19th-25th: Remote hunt!</li>
-                <li>Now: sleep 😴</li>
-              </ul>
+              <TOCSection sectionId={1} tocTitle="Timeline" parentId={0}>
+                <h3>Timeline</h3>
+                <ul>
+                  <li>September 13th: Theme selected</li>
+                  <li>September 19th: First BPH SAO meeting</li>
+                  <li>September 22nd: First writing meeting</li>
+                  <li>October 6th: Meta writing groups formed</li>
+                  <li>October 20th: First tech meeting</li>
+                  <li>November 3rd: All metas written (more or less)</li>
+                  <li>November 17th: Feeder answers released</li>
+                  <li>November 17th: First feeder puzzle written (Find Ben)</li>
+                  <li>
+                    November 23rd:{" "}
+                    <a
+                      // TODO: may need to migrate at some point
+                      href="https://puzzlethon.brownpuzzle.club/"
+                      className="text-link no-underline hover:underline"
+                    >
+                      Puzzlethon
+                    </a>
+                    !
+                  </li>
+                  <li>January 17th-20th: BPH writers go to Mystery Hunt </li>
+                  <li>January 23rd: BPH is SAO approved</li>
+                  <li>
+                    January 27th: Brown Puzzlehunt 2025 publicly announced!
+                  </li>
+                  <li>February 11th: First events planning meeting</li>
+                  <li>February 14th: First story meeting</li>
+                  <li>February 22nd: First art meeting</li>
+                  <li>March 8th-9th: In-person full testsolve</li>
+                  <li>March 15th-16th: Remote full testsolve</li>
+                  <li>April 2nd: Boxes shipped</li>
+                  <li>April 6th: BPH dry run</li>
+                  <li>April 12th: Last puzzle written 🥲</li>
+                  <li>April 12th-13th: In-person hunt!</li>
+                  <li>April 19th-25th: Remote hunt!</li>
+                  <li>Now: sleep 😴</li>
+                </ul>
+              </TOCSection>
+
+              <TOCSection sectionId={2} tocTitle="Two Weekends" parentId={0}>
+                <h3>Two Weekends</h3>
+                <p>
+                  This was an early innovation, pitched some time in
+                  mid-September. The idea was to separate two very different
+                  kinds of resource consumption; the in-person hunt, which
+                  requires innumerable person-hours, team check-ins, classroom
+                  space, props, and live performance; and remote hunt, which
+                  requires greater website infrastructure, and hinting (which
+                  can be done remotely).
+                </p>
+
+                <p>
+                  This was very successful, and we're probably going to do it
+                  next year as well. It also convinced us that our hunt was more
+                  or less Good before we released it to the Online Hunt
+                  Community, which is always a scary proposition.
+                </p>
+              </TOCSection>
+
+              <TOCSection sectionId={3} tocTitle="The Boxes" parentId={0}>
+                <h3>The Boxes</h3>
+                <i>Thomas says:</i>
+                <p>
+                  The Box was an idea I vaguely floated at an in-person meeting
+                  around late November and early December, inspired by
+                  Peppermint Herrings' (very successful!) Advent Hunt. Megan
+                  took my ramblings and proceeded to dedicate a significantly
+                  large portion of her time into making it a reality.
+                </p>
+
+                <p>
+                  Once SAO had approved our idea, all that remained was to come
+                  up with enough physical puzzles to actually justify the idea.
+                  More physical puzzles had already been an explicit goal, but
+                  the Box reinforced our desire to come up with many
+                  interesting, distinct physical puzzles.
+                </p>
+
+                <p>
+                  In hindsight, I think we could have done a little more work in
+                  making sure that each of the puzzles in the Box required their
+                  physicality. While each of the puzzles in the Box benefited
+                  from being physical objects (either thematically, or by making
+                  certain steps easier), we didn't have any objects which
+                  absolutely could not be solved in a non-physical format. This
+                  was a double-edged sword. It made remote accessibility much,
+                  much easier; but it did limit the capabilities of the puzzles
+                  themselves. Our low difficulty ceiling also limited the
+                  complexity of physical manipulation.
+                </p>
+
+                <p>
+                  However, making physical objects with hidden "aspects" that
+                  cannot be discovered early is really, really hard. As a small
+                  aside, hiding information is very difficult; you either need
+                  to hide it behind a physical transformation (often a
+                  destruction, like applying liquids, breaking it in half, or
+                  setting it on fire), or require the application of a tool that
+                  you yourself need to provide (such as a UV light or magnet).
+                  The former is extremely difficult to construct at scale, and
+                  the latter necessarily would be spoiled by the inclusion of
+                  said tools in the Box. This is still something I'm puzzling
+                  over, and if we decide to do Boxes next year, it will be
+                  something we work harder on.
+                </p>
+
+                <i>Megan says:</i>
+                <p>
+                  The Boxes haunted my dreams for a significant part of the
+                  semester. Figuring out how to make the remote solving
+                  experience live up to all of the cool things we orchestrate
+                  for in-person weekend is consistently a challenge, and in the
+                  past some things have ultimately ended up fully inaccessible
+                  due mostly to a lack of bandwidth to make perfectly remote
+                  accessible versions. So, when Thomas pitched mailing puzzles
+                  to people, I knew what I was signing up for but figured it
+                  would be worth the effort in the end.
+                </p>
+
+                <p>
+                  First, I had to make a desperate plea to the student
+                  activities office to let us do something like this. Spending
+                  our Brown-allotted funding on providing supplies for non-Brown
+                  community members is mildly frowned upon, so we needed to
+                  evenly split our purchases between raised funds and club
+                  funding (easier said than done).
+                </p>
+
+                <p>
+                  Once greenlit, we began brainstorming what sorts of things to
+                  put into the Box. Puzzle design aside, we aimed to keep things
+                  quite small / light from a shipping perspective. Turns out,
+                  figuring out how to send an unknown amount of objects of an
+                  unknown weight and unknown size is not the easiest thing to
+                  calculate, so shipping was a big unknown for most of our
+                  planning process. After many (MANY) spreadsheets and a few too
+                  many questionable emails to supply manufacturers, we got
+                  enough of a rough idea of what we wanted to put into the Box
+                  that we were able to settle on a price. The goal was to get as
+                  close as possible to charging exactly what we'd be paying for
+                  the raw materials, but with a little extra wiggle room so as
+                  not to inadvertently send our club into crippling debt. We
+                  settled on $19, which I think is a pretty reasonable rate for
+                  all of the things the Box contained. I'd say the highest value
+                  items are certainly the cards, followed by the pin and
+                  stickers. While as Thomas mentioned we got some feedback that
+                  not everything in the Box necessarily needed to be a physical
+                  puzzle, which is certainly true, I'd argue that the value from
+                  a few items alone made it worth the price we charged for it.
+                  For transparency, we ended up with a small amount of extra Box
+                  profit due to conservative shipping estimates, so we spent it
+                  on feeding ourselves during in-person weekend (which I'd say
+                  is a worthy expense).
+                </p>
+
+                <p>
+                  Knowing that we were going to ship Boxes put a pretty tight
+                  timeline on all of the puzzles being written for it. Despite
+                  my pleading, our club notoriously operates on a pretty
+                  last-minute timeframe, so the necessity of having several
+                  puzzles completely and irreversibly done was a new challenge.
+                  Cards in particular had to be done super early, as there was a
+                  significant turnaround time to get the nice poker cards and
+                  instructions booklets designed and printed.
+                </p>
+
+                <p>
+                  Beyond just puzzle construction constraints, physical
+                  manufacturing proved a beast. Those packing peanuts took years
+                  off our lives, and many a late night was spent in
+                  Page-Robinson hall with Box materials strewn about the floor.
+                </p>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image30.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image63.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image38.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image21.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image72.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="rounded-md"
+                    src="/wrapup/images/image8.png"
+                    alt=""
+                  />
+                </div>
+
+                <p>
+                  It was a ton of work to put together, so while it certainly
+                  had its flaws I think we ultimately did a cool and (somewhat
+                  unique) thing! Who's to say whether we will attempt something
+                  like this again in the future. It certainly had its merits but
+                  also somewhat constrained our in-person physical puzzle
+                  efforts and took up a lot of bandwidth for a very long time.
+                  Despite its flaws (and likely missing / erroneous packing
+                  peanuts), I hope everyone who got a Box can see all the time
+                  and effort we put into each component.
+                </p>
+              </TOCSection>
             </TOCSection>
 
             <TOCSection sectionId={1} tocTitle="The Writing Process">
@@ -465,26 +652,6 @@ export default function WrapUp() {
 
               <p>
                 But the guards thing was funny, Your Honor. The defense rests.
-              </p>
-            </TOCSection>
-
-            <TOCSection sectionId={5} tocTitle="Two Weekends" parentId={1}>
-              <h3>Two Weekends</h3>
-              <p>
-                This was an early innovation, pitched some time in
-                mid-September. The idea was to separate two very different kinds
-                of resource consumption; the in-person hunt, which requires
-                innumerable person-hours, team check-ins, classroom space,
-                props, and live performance; and remote hunt, which requires
-                greater website infrastructure, and hinting (which can be done
-                remotely).
-              </p>
-
-              <p>
-                This was very successful, and we're probably going to do it next
-                year as well. It also convinced us that our hunt was more or
-                less Good before we released it to the Online Hunt Community,
-                which is always a scary proposition.
               </p>
             </TOCSection>
 
@@ -2066,166 +2233,6 @@ export default function WrapUp() {
                 allow="autoplay"
                 className="mx-auto aspect-video w-2/3 rounded-md"
               ></iframe>
-            </TOCSection>
-
-            <TOCSection sectionId={36} tocTitle="The Boxes" parentId={27}>
-              <h3>The Boxes</h3>
-              <i>Thomas says:</i>
-              <p>
-                The Box was an idea I vaguely floated at an in-person meeting
-                around late November and early December, inspired by Peppermint
-                Herrings' (very successful!) Advent Hunt. Megan took my
-                ramblings and proceeded to dedicate a significantly large
-                portion of her time into making it a reality.
-              </p>
-
-              <p>
-                Once SAO had approved our idea, all that remained was to come up
-                with enough physical puzzles to actually justify the idea. More
-                physical puzzles had already been an explicit goal, but the Box
-                reinforced our desire to come up with many interesting, distinct
-                physical puzzles.
-              </p>
-
-              <p>
-                In hindsight, I think we could have done a little more work in
-                making sure that each of the puzzles in the Box required their
-                physicality. While each of the puzzles in the Box benefited from
-                being physical objects (either thematically, or by making
-                certain steps easier), we didn't have any objects which
-                absolutely could not be solved in a non-physical format. This
-                was a double-edged sword. It made remote accessibility much,
-                much easier; but it did limit the capabilities of the puzzles
-                themselves. Our low difficulty ceiling also limited the
-                complexity of physical manipulation.
-              </p>
-
-              <p>
-                However, making physical objects with hidden "aspects" that
-                cannot be discovered early is really, really hard. As a small
-                aside, hiding information is very difficult; you either need to
-                hide it behind a physical transformation (often a destruction,
-                like applying liquids, breaking it in half, or setting it on
-                fire), or require the application of a tool that you yourself
-                need to provide (such as a UV light or magnet). The former is
-                extremely difficult to construct at scale, and the latter
-                necessarily would be spoiled by the inclusion of said tools in
-                the Box. This is still something I'm puzzling over, and if we
-                decide to do Boxes next year, it will be something we work
-                harder on.
-              </p>
-
-              <i>Megan says:</i>
-              <p>
-                The Boxes haunted my dreams for a significant part of the
-                semester. Figuring out how to make the remote solving experience
-                live up to all of the cool things we orchestrate for in-person
-                weekend is consistently a challenge, and in the past some things
-                have ultimately ended up fully inaccessible due mostly to a lack
-                of bandwidth to make perfectly remote accessible versions. So,
-                when Thomas pitched mailing puzzles to people, I knew what I was
-                signing up for but figured it would be worth the effort in the
-                end.
-              </p>
-
-              <p>
-                First, I had to make a desperate plea to the student activities
-                office to let us do something like this. Spending our
-                Brown-allotted funding on providing supplies for non-Brown
-                community members is mildly frowned upon, so we needed to evenly
-                split our purchases between raised funds and club funding
-                (easier said than done).
-              </p>
-
-              <p>
-                Once greenlit, we began brainstorming what sorts of things to
-                put into the Box. Puzzle design aside, we aimed to keep things
-                quite small / light from a shipping perspective. Turns out,
-                figuring out how to send an unknown amount of objects of an
-                unknown weight and unknown size is not the easiest thing to
-                calculate, so shipping was a big unknown for most of our
-                planning process. After many (MANY) spreadsheets and a few too
-                many questionable emails to supply manufacturers, we got enough
-                of a rough idea of what we wanted to put into the Box that we
-                were able to settle on a price. The goal was to get as close as
-                possible to charging exactly what we'd be paying for the raw
-                materials, but with a little extra wiggle room so as not to
-                inadvertently send our club into crippling debt. We settled on
-                $19, which I think is a pretty reasonable rate for all of the
-                things the Box contained. I'd say the highest value items are
-                certainly the cards, followed by the pin and stickers. While as
-                Thomas mentioned we got some feedback that not everything in the
-                Box necessarily needed to be a physical puzzle, which is
-                certainly true, I'd argue that the value from a few items alone
-                made it worth the price we charged for it. For transparency, we
-                ended up with a small amount of extra Box profit due to
-                conservative shipping estimates, so we spent it on feeding
-                ourselves during in-person weekend (which I'd say is a worthy
-                expense).
-              </p>
-
-              <p>
-                Knowing that we were going to ship Boxes put a pretty tight
-                timeline on all of the puzzles being written for it. Despite my
-                pleading, our club notoriously operates on a pretty last-minute
-                timeframe, so the necessity of having several puzzles completely
-                and irreversibly done was a new challenge. Cards in particular
-                had to be done super early, as there was a significant
-                turnaround time to get the nice poker cards and instructions
-                booklets designed and printed.
-              </p>
-
-              <p>
-                Beyond just puzzle construction constraints, physical
-                manufacturing proved a beast. Those packing peanuts took years
-                off our lives, and many a late night was spent in Page-Robinson
-                hall with Box materials strewn about the floor.
-              </p>
-
-              <div className="grid grid-cols-3 gap-4">
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image30.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image63.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image38.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image21.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image72.jpg"
-                  alt=""
-                />
-                <img
-                  className="rounded-md"
-                  src="/wrapup/images/image8.png"
-                  alt=""
-                />
-              </div>
-
-              <p>
-                It was a ton of work to put together, so while it certainly had
-                its flaws I think we ultimately did a cool and (somewhat unique)
-                thing! Who's to say whether we will attempt something like this
-                again in the future. It certainly had its merits but also
-                somewhat constrained our in-person physical puzzle efforts and
-                took up a lot of bandwidth for a very long time. Despite its
-                flaws (and likely missing / erroneous packing peanuts), I hope
-                everyone who got a Box can see all the time and effort we put
-                into each component.
-              </p>
             </TOCSection>
 
             <TOCSection sectionId={37} tocTitle="Reflections">
