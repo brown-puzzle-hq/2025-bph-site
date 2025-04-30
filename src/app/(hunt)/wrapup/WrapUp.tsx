@@ -1080,8 +1080,8 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={19} tocTitle="Theme + Story">
-              <h2>Theme + Story</h2>
+            <TOCSection sectionId={19} tocTitle="Theme & Story">
+              <h2>Theme & Story</h2>
               <p>
                 <i>By Philip Yao</i>
               </p>
@@ -2508,8 +2508,8 @@ export default function WrapUp() {
                   </TableRow>
                 </TableBody>
               </Table>
-              {/* most hints + replies */}
-              <h3>Most Hints + Replies</h3>
+              {/* most hints & replies */}
+              <h3>Most Hints & Replies</h3>
               <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
@@ -2576,7 +2576,7 @@ export default function WrapUp() {
                     </TableHead>
                     <TableHead className="text-main-header">Hints</TableHead>
                     <TableHead className="text-main-header">
-                      Hints + Replies
+                      Hints & Replies
                     </TableHead>
                     <TableHead className="text-main-header">Tokens</TableHead>
                   </TableRow>
