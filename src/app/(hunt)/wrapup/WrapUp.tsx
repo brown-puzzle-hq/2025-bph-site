@@ -147,235 +147,233 @@ export default function WrapUp() {
                 SAO advisor, Malcom Moniz, for all of their help in helping us
                 pull this together!
               </p>
-
-              <TOCSection sectionId={1} tocTitle="Timeline" parentId={0}>
-                <h3>Timeline</h3>
-                <ul>
-                  <li>September 13th: Theme selected</li>
-                  <li>September 19th: First BPH SAO meeting</li>
-                  <li>September 22nd: First writing meeting</li>
-                  <li>October 6th: Meta writing groups formed</li>
-                  <li>October 20th: First tech meeting</li>
-                  <li>November 3rd: All metas written (more or less)</li>
-                  <li>November 17th: Feeder answers released</li>
-                  <li>November 17th: First feeder puzzle written (Find Ben)</li>
-                  <li>
-                    November 23rd:{" "}
-                    <a
-                      // TODO: may need to migrate at some point
-                      href="https://puzzlethon.brownpuzzle.club/"
-                      className="text-link no-underline hover:underline"
-                    >
-                      Puzzlethon
-                    </a>
-                    !
-                  </li>
-                  <li>January 17th-20th: BPH writers go to Mystery Hunt </li>
-                  <li>January 23rd: BPH is SAO approved</li>
-                  <li>
-                    January 27th: Brown Puzzlehunt 2025 publicly announced!
-                  </li>
-                  <li>February 11th: First events planning meeting</li>
-                  <li>February 14th: First story meeting</li>
-                  <li>February 22nd: First art meeting</li>
-                  <li>March 8th-9th: In-person full testsolve</li>
-                  <li>March 15th-16th: Remote full testsolve</li>
-                  <li>April 2nd: Boxes shipped</li>
-                  <li>April 6th: BPH dry run</li>
-                  <li>April 12th: Last puzzle written 🥲</li>
-                  <li>April 12th-13th: In-person hunt!</li>
-                  <li>April 19th-25th: Remote hunt!</li>
-                  <li>Now: sleep 😴</li>
-                </ul>
-              </TOCSection>
-
-              <TOCSection sectionId={2} tocTitle="Two Weekends" parentId={0}>
-                <h3>Two Weekends</h3>
-                <p>
-                  This was an early innovation, pitched some time in
-                  mid-September. The idea was to separate two very different
-                  kinds of resource consumption; the in-person hunt, which
-                  requires innumerable person-hours, team check-ins, classroom
-                  space, props, and live performance; and remote hunt, which
-                  requires greater website infrastructure, and hinting (which
-                  can be done remotely).
-                </p>
-
-                <p>
-                  This was very successful, and we're probably going to do it
-                  next year as well. It also convinced us that our hunt was more
-                  or less Good before we released it to the Online Hunt
-                  Community, which is always a scary proposition.
-                </p>
-              </TOCSection>
-
-              <TOCSection sectionId={3} tocTitle="The Boxes" parentId={0}>
-                <h3>The Boxes</h3>
-                <i>Thomas says:</i>
-                <p>
-                  The Box was an idea I vaguely floated at an in-person meeting
-                  around late November and early December, inspired by
-                  Peppermint Herrings' (very successful!) Advent Hunt. Megan
-                  took my ramblings and proceeded to dedicate a significantly
-                  large portion of her time into making it a reality.
-                </p>
-
-                <p>
-                  Once SAO had approved our idea, all that remained was to come
-                  up with enough physical puzzles to actually justify the idea.
-                  More physical puzzles had already been an explicit goal, but
-                  the Box reinforced our desire to come up with many
-                  interesting, distinct physical puzzles.
-                </p>
-
-                <p>
-                  In hindsight, I think we could have done a little more work in
-                  making sure that each of the puzzles in the Box required their
-                  physicality. While each of the puzzles in the Box benefited
-                  from being physical objects (either thematically, or by making
-                  certain steps easier), we didn't have any objects which
-                  absolutely could not be solved in a non-physical format. This
-                  was a double-edged sword. It made remote accessibility much,
-                  much easier; but it did limit the capabilities of the puzzles
-                  themselves. Our low difficulty ceiling also limited the
-                  complexity of physical manipulation.
-                </p>
-
-                <p>
-                  However, making physical objects with hidden "aspects" that
-                  cannot be discovered early is really, really hard. As a small
-                  aside, hiding information is very difficult; you either need
-                  to hide it behind a physical transformation (often a
-                  destruction, like applying liquids, breaking it in half, or
-                  setting it on fire), or require the application of a tool that
-                  you yourself need to provide (such as a UV light or magnet).
-                  The former is extremely difficult to construct at scale, and
-                  the latter necessarily would be spoiled by the inclusion of
-                  said tools in the Box. This is still something I'm puzzling
-                  over, and if we decide to do Boxes next year, it will be
-                  something we work harder on.
-                </p>
-
-                <i>Megan says:</i>
-                <p>
-                  The Boxes haunted my dreams for a significant part of the
-                  semester. Figuring out how to make the remote solving
-                  experience live up to all of the cool things we orchestrate
-                  for in-person weekend is consistently a challenge, and in the
-                  past some things have ultimately ended up fully inaccessible
-                  due mostly to a lack of bandwidth to make perfectly remote
-                  accessible versions. So, when Thomas pitched mailing puzzles
-                  to people, I knew what I was signing up for but figured it
-                  would be worth the effort in the end.
-                </p>
-
-                <p>
-                  First, I had to make a desperate plea to the student
-                  activities office to let us do something like this. Spending
-                  our Brown-allotted funding on providing supplies for non-Brown
-                  community members is mildly frowned upon, so we needed to
-                  evenly split our purchases between raised funds and club
-                  funding (easier said than done).
-                </p>
-
-                <p>
-                  Once greenlit, we began brainstorming what sorts of things to
-                  put into the Box. Puzzle design aside, we aimed to keep things
-                  quite small / light from a shipping perspective. Turns out,
-                  figuring out how to send an unknown amount of objects of an
-                  unknown weight and unknown size is not the easiest thing to
-                  calculate, so shipping was a big unknown for most of our
-                  planning process. After many (MANY) spreadsheets and a few too
-                  many questionable emails to supply manufacturers, we got
-                  enough of a rough idea of what we wanted to put into the Box
-                  that we were able to settle on a price. The goal was to get as
-                  close as possible to charging exactly what we'd be paying for
-                  the raw materials, but with a little extra wiggle room so as
-                  not to inadvertently send our club into crippling debt. We
-                  settled on $19, which I think is a pretty reasonable rate for
-                  all of the things the Box contained. I'd say the highest value
-                  items are certainly the cards, followed by the pin and
-                  stickers. While as Thomas mentioned we got some feedback that
-                  not everything in the Box necessarily needed to be a physical
-                  puzzle, which is certainly true, I'd argue that the value from
-                  a few items alone made it worth the price we charged for it.
-                  For transparency, we ended up with a small amount of extra Box
-                  profit due to conservative shipping estimates, so we spent it
-                  on feeding ourselves during in-person weekend (which I'd say
-                  is a worthy expense).
-                </p>
-
-                <p>
-                  Knowing that we were going to ship Boxes put a pretty tight
-                  timeline on all of the puzzles being written for it. Despite
-                  my pleading, our club notoriously operates on a pretty
-                  last-minute timeframe, so the necessity of having several
-                  puzzles completely and irreversibly done was a new challenge.
-                  Cards in particular had to be done super early, as there was a
-                  significant turnaround time to get the nice poker cards and
-                  instructions booklets designed and printed.
-                </p>
-
-                <p>
-                  Beyond just puzzle construction constraints, physical
-                  manufacturing proved a beast. Those packing peanuts took years
-                  off our lives, and many a late night was spent in
-                  Page-Robinson hall with Box materials strewn about the floor.
-                </p>
-
-                <div className="grid grid-cols-3 gap-4">
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image30.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image63.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image38.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image21.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image72.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="/wrapup/images/image8.png"
-                    alt=""
-                  />
-                </div>
-
-                <p>
-                  It was a ton of work to put together, so while it certainly
-                  had its flaws I think we ultimately did a cool and (somewhat
-                  unique) thing! Who's to say whether we will attempt something
-                  like this again in the future. It certainly had its merits but
-                  also somewhat constrained our in-person physical puzzle
-                  efforts and took up a lot of bandwidth for a very long time.
-                  Despite its flaws (and likely missing / erroneous packing
-                  peanuts), I hope everyone who got a Box can see all the time
-                  and effort we put into each component.
-                </p>
-              </TOCSection>
             </TOCSection>
 
-            <TOCSection sectionId={1} tocTitle="The Writing Process">
+            <TOCSection sectionId={1} tocTitle="Timeline" parentId={0}>
+              <h3>Timeline</h3>
+              <ul>
+                <li>September 13th: Theme selected</li>
+                <li>September 19th: First BPH SAO meeting</li>
+                <li>September 22nd: First writing meeting</li>
+                <li>October 6th: Meta writing groups formed</li>
+                <li>October 20th: First tech meeting</li>
+                <li>November 3rd: All metas written (more or less)</li>
+                <li>November 17th: Feeder answers released</li>
+                <li>November 17th: First feeder puzzle written (Find Ben)</li>
+                <li>
+                  November 23rd:{" "}
+                  <a
+                    // TODO: may need to migrate at some point
+                    href="https://puzzlethon.brownpuzzle.club/"
+                    className="text-link no-underline hover:underline"
+                  >
+                    Puzzlethon
+                  </a>
+                  !
+                </li>
+                <li>January 17th-20th: BPH writers go to Mystery Hunt </li>
+                <li>January 23rd: BPH is SAO approved</li>
+                <li>January 27th: Brown Puzzlehunt 2025 publicly announced!</li>
+                <li>February 11th: First events planning meeting</li>
+                <li>February 14th: First story meeting</li>
+                <li>February 22nd: First art meeting</li>
+                <li>March 8th-9th: In-person full testsolve</li>
+                <li>March 15th-16th: Remote full testsolve</li>
+                <li>April 2nd: Boxes shipped</li>
+                <li>April 6th: BPH dry run</li>
+                <li>April 12th: Last puzzle written 🥲</li>
+                <li>April 12th-13th: In-person hunt!</li>
+                <li>April 19th-25th: Remote hunt!</li>
+                <li>Now: sleep 😴</li>
+              </ul>
+            </TOCSection>
+
+            <TOCSection sectionId={2} tocTitle="Two Weekends" parentId={0}>
+              <h3>Two Weekends</h3>
+              <p>
+                This was an early innovation, pitched some time in
+                mid-September. The idea was to separate two very different kinds
+                of resource consumption; the in-person hunt, which requires
+                innumerable person-hours, team check-ins, classroom space,
+                props, and live performance; and remote hunt, which requires
+                greater website infrastructure, and hinting (which can be done
+                remotely).
+              </p>
+
+              <p>
+                This was very successful, and we're probably going to do it next
+                year as well. It also convinced us that our hunt was more or
+                less Good before we released it to the Online Hunt Community,
+                which is always a scary proposition.
+              </p>
+            </TOCSection>
+
+            <TOCSection sectionId={3} tocTitle="The Boxes" parentId={0}>
+              <h3>The Boxes</h3>
+              <i>Thomas says:</i>
+              <p>
+                The Box was an idea I vaguely floated at an in-person meeting
+                around late November and early December, inspired by Peppermint
+                Herrings' (very successful!) Advent Hunt. Megan took my
+                ramblings and proceeded to dedicate a significantly large
+                portion of her time into making it a reality.
+              </p>
+
+              <p>
+                Once SAO had approved our idea, all that remained was to come up
+                with enough physical puzzles to actually justify the idea. More
+                physical puzzles had already been an explicit goal, but the Box
+                reinforced our desire to come up with many interesting, distinct
+                physical puzzles.
+              </p>
+
+              <p>
+                In hindsight, I think we could have done a little more work in
+                making sure that each of the puzzles in the Box required their
+                physicality. While each of the puzzles in the Box benefited from
+                being physical objects (either thematically, or by making
+                certain steps easier), we didn't have any objects which
+                absolutely could not be solved in a non-physical format. This
+                was a double-edged sword. It made remote accessibility much,
+                much easier; but it did limit the capabilities of the puzzles
+                themselves. Our low difficulty ceiling also limited the
+                complexity of physical manipulation.
+              </p>
+
+              <p>
+                However, making physical objects with hidden "aspects" that
+                cannot be discovered early is really, really hard. As a small
+                aside, hiding information is very difficult; you either need to
+                hide it behind a physical transformation (often a destruction,
+                like applying liquids, breaking it in half, or setting it on
+                fire), or require the application of a tool that you yourself
+                need to provide (such as a UV light or magnet). The former is
+                extremely difficult to construct at scale, and the latter
+                necessarily would be spoiled by the inclusion of said tools in
+                the Box. This is still something I'm puzzling over, and if we
+                decide to do Boxes next year, it will be something we work
+                harder on.
+              </p>
+
+              <i>Megan says:</i>
+              <p>
+                The Boxes haunted my dreams for a significant part of the
+                semester. Figuring out how to make the remote solving experience
+                live up to all of the cool things we orchestrate for in-person
+                weekend is consistently a challenge, and in the past some things
+                have ultimately ended up fully inaccessible due mostly to a lack
+                of bandwidth to make perfectly remote accessible versions. So,
+                when Thomas pitched mailing puzzles to people, I knew what I was
+                signing up for but figured it would be worth the effort in the
+                end.
+              </p>
+
+              <p>
+                First, I had to make a desperate plea to the student activities
+                office to let us do something like this. Spending our
+                Brown-allotted funding on providing supplies for non-Brown
+                community members is mildly frowned upon, so we needed to evenly
+                split our purchases between raised funds and club funding
+                (easier said than done).
+              </p>
+
+              <p>
+                Once greenlit, we began brainstorming what sorts of things to
+                put into the Box. Puzzle design aside, we aimed to keep things
+                quite small / light from a shipping perspective. Turns out,
+                figuring out how to send an unknown amount of objects of an
+                unknown weight and unknown size is not the easiest thing to
+                calculate, so shipping was a big unknown for most of our
+                planning process. After many (MANY) spreadsheets and a few too
+                many questionable emails to supply manufacturers, we got enough
+                of a rough idea of what we wanted to put into the Box that we
+                were able to settle on a price. The goal was to get as close as
+                possible to charging exactly what we'd be paying for the raw
+                materials, but with a little extra wiggle room so as not to
+                inadvertently send our club into crippling debt. We settled on
+                $19, which I think is a pretty reasonable rate for all of the
+                things the Box contained. I'd say the highest value items are
+                certainly the cards, followed by the pin and stickers. While as
+                Thomas mentioned we got some feedback that not everything in the
+                Box necessarily needed to be a physical puzzle, which is
+                certainly true, I'd argue that the value from a few items alone
+                made it worth the price we charged for it. For transparency, we
+                ended up with a small amount of extra Box profit due to
+                conservative shipping estimates, so we spent it on feeding
+                ourselves during in-person weekend (which I'd say is a worthy
+                expense).
+              </p>
+
+              <p>
+                Knowing that we were going to ship Boxes put a pretty tight
+                timeline on all of the puzzles being written for it. Despite my
+                pleading, our club notoriously operates on a pretty last-minute
+                timeframe, so the necessity of having several puzzles completely
+                and irreversibly done was a new challenge. Cards in particular
+                had to be done super early, as there was a significant
+                turnaround time to get the nice poker cards and instructions
+                booklets designed and printed.
+              </p>
+
+              <p>
+                Beyond just puzzle construction constraints, physical
+                manufacturing proved a beast. Those packing peanuts took years
+                off our lives, and many a late night was spent in Page-Robinson
+                hall with Box materials strewn about the floor.
+              </p>
+
+              <div className="grid grid-cols-3 gap-4">
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image30.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image63.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image38.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image21.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image72.jpg"
+                  alt=""
+                />
+                <img
+                  className="rounded-md"
+                  src="/wrapup/images/image8.png"
+                  alt=""
+                />
+              </div>
+
+              <p>
+                It was a ton of work to put together, so while it certainly had
+                its flaws I think we ultimately did a cool and (somewhat unique)
+                thing! Who's to say whether we will attempt something like this
+                again in the future. It certainly had its merits but also
+                somewhat constrained our in-person physical puzzle efforts and
+                took up a lot of bandwidth for a very long time. Despite its
+                flaws (and likely missing / erroneous packing peanuts), I hope
+                everyone who got a Box can see all the time and effort we put
+                into each component.
+              </p>
+            </TOCSection>
+
+            <TOCSection sectionId={4} tocTitle="The Writing Process">
               <h2>The Writing Process</h2>
               <i>By Thomas Gordan and Arnav Singhal</i>
             </TOCSection>
 
-            <TOCSection sectionId={2} tocTitle="Hunt Structure" parentId={1}>
+            <TOCSection sectionId={5} tocTitle="Hunt Structure" parentId={4}>
               <h3>Hunt Structure</h3>
               <p>
                 The overall structure of the hunt had two broad goals. Firstly,
@@ -434,7 +432,7 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={3} tocTitle="Sequences" parentId={1}>
+            <TOCSection sectionId={6} tocTitle="Sequences" parentId={4}>
               <h3>Sequences</h3>
               <p>
                 The initial intent was actually not for there to be 12
@@ -586,9 +584,9 @@ export default function WrapUp() {
             </TOCSection>
 
             <TOCSection
-              sectionId={4}
+              sectionId={7}
               tocTitle="Adjacency and Bottlenecks"
-              parentId={1}
+              parentId={4}
             >
               <h3>Adjacency and Bottlenecks</h3>
               <i>Arnav says:</i>
@@ -655,14 +653,14 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={6} tocTitle="Art Direction">
+            <TOCSection sectionId={8} tocTitle="Art Direction">
               <h2>Art Direction</h2>
               <p>
                 <i>By Bailey Merlino</i>
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={7} tocTitle="Landing Page" parentId={6}>
+            <TOCSection sectionId={9} tocTitle="Landing Page" parentId={8}>
               <h3>Landing Page</h3>
               <p>
                 The first art piece for this year's hunt was the landing page
@@ -716,7 +714,7 @@ export default function WrapUp() {
               </figure>
             </TOCSection>
 
-            <TOCSection sectionId={8} tocTitle="Map" parentId={6}>
+            <TOCSection sectionId={10} tocTitle="Map" parentId={8}>
               <h3>Map</h3>
               <p>
                 The map was a running joke/constant source of anxiety because it
@@ -779,7 +777,7 @@ export default function WrapUp() {
               </div>
             </TOCSection>
 
-            <TOCSection sectionId={9} tocTitle="Sprites" parentId={6}>
+            <TOCSection sectionId={11} tocTitle="Sprites" parentId={8}>
               <h3>Sprites</h3>
               <p>
                 Since we were making a map, we also needed a lot of sprites!
@@ -800,7 +798,7 @@ export default function WrapUp() {
               ></iframe>
             </TOCSection>
 
-            <TOCSection sectionId={10} tocTitle="Playing Cards" parentId={6}>
+            <TOCSection sectionId={12} tocTitle="Playing Cards" parentId={8}>
               <h3>Playing Cards</h3>
               <p>
                 The other super fun experience from this year's art was the
@@ -842,7 +840,7 @@ export default function WrapUp() {
               <figcaption>BPH 25 pins designed by Jackie Cohen</figcaption>
             </figure>
 
-            <TOCSection sectionId={11} tocTitle="Tech">
+            <TOCSection sectionId={13} tocTitle="Tech">
               <h2>Tech</h2>
               <i>By Chloe Qiao and Alex Wang</i>
 
@@ -891,7 +889,7 @@ export default function WrapUp() {
               <p> (We did not load test.)</p>
             </TOCSection>
 
-            <TOCSection sectionId={12} tocTitle="Landing Page" parentId={11}>
+            <TOCSection sectionId={14} tocTitle="Landing Page" parentId={13}>
               <h3>Landing Page</h3>
               <p>
                 Parallax alone was already quite complex. Add on mobile
@@ -970,7 +968,7 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={13} tocTitle="Map" parentId={11}>
+            <TOCSection sectionId={15} tocTitle="Map" parentId={13}>
               <h3 id="map-tech">Map</h3>
 
               <p>
@@ -1000,7 +998,7 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={14} tocTitle="Postprodding" parentId={11}>
+            <TOCSection sectionId={16} tocTitle="Postprodding" parentId={13}>
               <h3> Postprodding</h3>
               <p>
                 The tech team did relatively little postprodding during the
@@ -1032,9 +1030,9 @@ export default function WrapUp() {
             </TOCSection>
 
             <TOCSection
-              sectionId={15}
+              sectionId={17}
               tocTitle="Hunt Flexibility"
-              parentId={11}
+              parentId={13}
             >
               <h3>Hunt Flexibility</h3>
 
@@ -1080,7 +1078,7 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={16} tocTitle="Bugs" parentId={11}>
+            <TOCSection sectionId={18} tocTitle="Bugs" parentId={13}>
               <h3>Bugs</h3>
               <p>
                 Because of the serverless nature of the site, we did not have
@@ -1122,7 +1120,7 @@ export default function WrapUp() {
               </ul>
             </TOCSection>
 
-            <TOCSection sectionId={17} tocTitle="Admin Tooling" parentId={11}>
+            <TOCSection sectionId={19} tocTitle="Admin Tooling" parentId={13}>
               <h3>Admin Tooling</h3>
 
               <p>
@@ -1184,7 +1182,7 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={18} tocTitle="Testsolving">
+            <TOCSection sectionId={20} tocTitle="Testsolving">
               <h2>Testsolving</h2>
               <p>
                 <i>By Arnav Singhal</i>
@@ -1265,7 +1263,7 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={19} tocTitle="Theme & Story">
+            <TOCSection sectionId={21} tocTitle="Theme & Story">
               <h2>Theme & Story</h2>
               <p>
                 <i>By Philip Yao</i>
@@ -1280,7 +1278,7 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={20} tocTitle="Kickoff" parentId={19}>
+            <TOCSection sectionId={22} tocTitle="Kickoff" parentId={21}>
               <h3>Kickoff</h3>
               <p>
                 We hope you all enjoyed the kickoff skit!{" "}
@@ -1327,7 +1325,7 @@ export default function WrapUp() {
               </div>
             </TOCSection>
 
-            <TOCSection sectionId={21} tocTitle="Interactions" parentId={19}>
+            <TOCSection sectionId={23} tocTitle="Interactions" parentId={21}>
               <h3>Interactions</h3>
               <p>
                 During the hunt, solvers unlocked two interactions. After
@@ -1349,7 +1347,7 @@ export default function WrapUp() {
               ></iframe>
             </TOCSection>
 
-            <TOCSection sectionId={22} tocTitle="Runaround" parentId={19}>
+            <TOCSection sectionId={24} tocTitle="Runaround" parentId={21}>
               <h3>Runaround</h3>
               <p>
                 Runaround!!! We had 10 in-person teams complete runaround
@@ -1407,7 +1405,7 @@ export default function WrapUp() {
               questionable stuff and yelling at me to lock in.
             </p>
 
-            <TOCSection sectionId={23} tocTitle="Events">
+            <TOCSection sectionId={25} tocTitle="Events">
               <h2>Events</h2>
               <p>
                 <i>By Jack de Haan</i>
@@ -1445,9 +1443,9 @@ export default function WrapUp() {
             </TOCSection>
 
             <TOCSection
-              sectionId={24}
+              sectionId={26}
               tocTitle="Auditioning for a Role"
-              parentId={23}
+              parentId={25}
             >
               <h3>Auditioning for a Role</h3>
 
@@ -1528,7 +1526,7 @@ export default function WrapUp() {
               </ul>
             </TOCSection>
 
-            <TOCSection sectionId={25} tocTitle="Poster Pastiche" parentId={23}>
+            <TOCSection sectionId={27} tocTitle="Poster Pastiche" parentId={25}>
               <h3>Poster Pastiche</h3>
               <p>
                 <i>
@@ -1685,9 +1683,9 @@ export default function WrapUp() {
             </TOCSection>
 
             <TOCSection
-              sectionId={26}
+              sectionId={28}
               tocTitle="Sneaking a Screening"
-              parentId={23}
+              parentId={25}
             >
               <h3>Sneaking a Screening</h3>
               <p>
@@ -1757,11 +1755,11 @@ export default function WrapUp() {
               </ul>
             </TOCSection>
 
-            <TOCSection sectionId={27} tocTitle="Puzzles">
+            <TOCSection sectionId={29} tocTitle="Puzzles">
               <h2>Puzzles</h2>
             </TOCSection>
 
-            <TOCSection sectionId={28} tocTitle="Guards Sequence" parentId={27}>
+            <TOCSection sectionId={30} tocTitle="Guards Sequence" parentId={29}>
               <h3>Guards Sequence</h3>
               <p>
                 <i>By the Guards</i>
@@ -1900,9 +1898,9 @@ export default function WrapUp() {
             </TOCSection>
 
             <TOCSection
-              sectionId={29}
+              sectionId={31}
               tocTitle="Jet Lag Sequence"
-              parentId={27}
+              parentId={29}
             >
               <h3>Jet Lag Sequence</h3>
               <p>
@@ -1941,7 +1939,7 @@ export default function WrapUp() {
               </div>
             </TOCSection>
 
-            <TOCSection sectionId={30} tocTitle="Heist Sequence" parentId={27}>
+            <TOCSection sectionId={32} tocTitle="Heist Sequence" parentId={29}>
               <h3>Heist Sequence</h3>
               <p>
                 The Heist sequence was a series of mini-video games and the
@@ -1959,9 +1957,9 @@ export default function WrapUp() {
             </TOCSection>
 
             <TOCSection
-              sectionId={31}
+              sectionId={33}
               tocTitle="A Fistful of Cards"
-              parentId={27}
+              parentId={29}
             >
               <h3>A Fistful of Cards</h3>
               <p>
@@ -1992,7 +1990,7 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={32} tocTitle="Peanuts" parentId={27}>
+            <TOCSection sectionId={34} tocTitle="Peanuts" parentId={29}>
               <h3>Peanuts</h3>
               <i>By Megan Carlson</i>
 
@@ -2058,7 +2056,7 @@ export default function WrapUp() {
               </div>
             </TOCSection>
 
-            <TOCSection sectionId={33} tocTitle="Imagine" parentId={27}>
+            <TOCSection sectionId={35} tocTitle="Imagine" parentId={29}>
               <h3>Imagine</h3>
               <i>By Megan Carlson</i>
 
@@ -2140,7 +2138,7 @@ export default function WrapUp() {
               </ul>
             </TOCSection>
 
-            <TOCSection sectionId={34} tocTitle="Plagiarism" parentId={27}>
+            <TOCSection sectionId={36} tocTitle="Plagiarism" parentId={29}>
               <h3>Plagiarism</h3>
               <i>By Thomas Gordon</i>
 
@@ -2178,7 +2176,7 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={35} tocTitle="Puzzle Box" parentId={27}>
+            <TOCSection sectionId={37} tocTitle="Puzzle Box" parentId={29}>
               <h3>Blueno's Puzzle Box (in-person)</h3>
               <i>By Megan Carlson</i>
               <p>
@@ -2235,7 +2233,7 @@ export default function WrapUp() {
               ></iframe>
             </TOCSection>
 
-            <TOCSection sectionId={37} tocTitle="Reflections">
+            <TOCSection sectionId={38} tocTitle="Reflections">
               <h2>Reflections</h2>
               <p>
                 Our hunt writing team went through a huge transition this year!
@@ -2286,7 +2284,7 @@ export default function WrapUp() {
               </div>
             </TOCSection>
 
-            <TOCSection sectionId={38} tocTitle="Exit Survey">
+            <TOCSection sectionId={39} tocTitle="Exit Survey">
               <h2>Exit survey</h2>
 
               <p>
@@ -2314,7 +2312,7 @@ export default function WrapUp() {
               </p>
             </TOCSection>
 
-            <TOCSection sectionId={39} tocTitle="Statistics">
+            <TOCSection sectionId={40} tocTitle="Statistics">
               <h2>Statistics</h2>
               {/* TEAM STATS */}
               {/* fewest guesses */}
