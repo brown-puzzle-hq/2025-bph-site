@@ -24,9 +24,9 @@ export default function Page() {
         <TableOfContents />
 
         {/* Spacer since TOC is fixed */}
-        <div className="md:w-1/3"></div>
+        <div className="md:w-1/3 xl:w-1/5"></div>
 
-        <div className="w-full md:w-2/3">
+        <div className="w-full md:w-2/3 xl:w-3/5">
           <article className="prose prose-info w-full max-w-none prose-img:my-0">
             <h1>Wrapup</h1>
             <p>
@@ -76,7 +76,17 @@ export default function Page() {
                 <li>November 3rd: All metas written (more or less)</li>
                 <li>November 17th: Feeder answers released</li>
                 <li>November 17th: First feeder puzzle written (Find Ben)</li>
-                <li>November 23rd: Puzzlethon!</li>
+                <li>
+                  November 23rd:{" "}
+                  <a
+                    // TODO: may need to migrate at some point
+                    href="https://puzzlethon.brownpuzzle.club/"
+                    className="text-link no-underline hover:underline"
+                  >
+                    Puzzlethon
+                  </a>
+                  !
+                </li>
                 <li>January 17th-20th: BPH writers go to Mystery Hunt </li>
                 <li>January 23rd: BPH is SAO approved</li>
                 <li>January 27th: Brown Puzzlehunt 2025 publicly announced!</li>
@@ -545,9 +555,13 @@ export default function Page() {
                   for making the art for the sidebars, it adds so much life to
                   the website and works great thematically.
                 </p>
-              </TOCSection>
 
-              {/* TODO: video */}
+                <iframe
+                  src="https://drive.google.com/file/d/1z23iKN46JqZTr-r7RLjxMMbWy43mM01z/preview"
+                  allow="autoplay"
+                  className="mx-auto aspect-video w-2/3 rounded-md"
+                ></iframe>
+              </TOCSection>
 
               <TOCSection sectionId={10} tocTitle="Playing Cards" parentId={6}>
                 <h3>Playing Cards</h3>
@@ -598,13 +612,19 @@ export default function Page() {
 
               <p>
                 We made a completely new site this year! We started building the
-                tech stack (bph-site) last September and tested it with
-                Puzzlethon last November. This semester, we focused mainly on
-                extending the hinting and event systems, adding UI improvements,
-                and making the map. No one on the tech team had web development
-                experience at the beginning of the year, so we're really happy
-                that we ended up with a functional site that (most) teams
-                enjoyed.
+                tech stack (bph-site) last September and tested it with{" "}
+                <a
+                  // TODO: may need to migrate at some point
+                  href="https://puzzlethon.brownpuzzle.club/"
+                  className="text-link no-underline hover:underline"
+                >
+                  Puzzlethon
+                </a>{" "}
+                last November. This semester, we focused mainly on extending the
+                hinting and event systems, adding UI improvements, and making
+                the map. No one on the tech team had web development experience
+                at the beginning of the year, so we're really happy that we
+                ended up with a functional site that (most) teams enjoyed.
               </p>
 
               <p>
@@ -714,7 +734,7 @@ export default function Page() {
               </TOCSection>
 
               <TOCSection sectionId={13} tocTitle="Map" parentId={11}>
-                <h3>Map</h3>
+                <h3 id="map-tech">Map</h3>
 
                 <p>
                   Map was probably the most frustrating component for art, tech,
@@ -1072,7 +1092,11 @@ export default function Page() {
                   Blueno (personal favorites include Noah's and Malcolm's).
                 </p>
 
-                {/* TODO: add video here */}
+                <iframe
+                  src="https://drive.google.com/file/d/1lNxc5ZkRPysQGEtffH7lrGTOKx7bDhJe/preview"
+                  allow="autoplay"
+                  className="mx-auto aspect-video w-2/3 rounded-md"
+                ></iframe>
               </TOCSection>
 
               <TOCSection sectionId={22} tocTitle="Runaround" parentId={19}>
@@ -1093,7 +1117,18 @@ export default function Page() {
                   pictures.
                 </p>
 
-                {/* TODO: there's also a drive with videos */}
+                <div className="mb-4 grid grid-cols-2 gap-4">
+                  <iframe
+                    src="https://drive.google.com/file/d/1pSsxTZrNyu2-E7T4RZBOkLQV6ELwdzib/preview"
+                    allow="autoplay"
+                    className="aspect-video w-full rounded-md"
+                  ></iframe>
+                  <iframe
+                    src="https://drive.google.com/file/d/1nrhUNaxFvPsrR3BKhhlgV_KILF31TUbH/preview"
+                    allow="autoplay"
+                    className="aspect-video w-full rounded-md"
+                  ></iframe>
+                </div>
 
                 <div className="grid grid-cols-3 gap-4">
                   <img
@@ -1130,19 +1165,24 @@ export default function Page() {
                 <i>By Jack de Haan</i>
               </p>
 
-              {/* TODO: link tech */}
-
               <p>
                 Events were overall a blast!! Since I spent launch-delay and all
-                of the morning on tech (instead of preparing the events as was
-                originally planned), the first event (Auditioning for a Role)
-                was not finalized until, well, during the event. (Unfortunately,
-                the events team was a three-person team, and two of those people
-                (Megan & Erin) had many other roles during the hunt, so it was
-                mostly on me (Jack) to run it all.) This, as well as us
-                underestimating how long it would take to run each audition, led
-                to most teams having to wait longer than expected for their turn
-                (sincere apologies for that).
+                of the morning on{" "}
+                <a
+                  href="/wrapup#map-tech"
+                  className="text-link no-underline hover:underline"
+                >
+                  tech
+                </a>{" "}
+                (instead of preparing the events as was originally planned), the
+                first event (Auditioning for a Role) was not finalized until,
+                well, during the event. (Unfortunately, the events team was a
+                three-person team, and two of those people (Megan & Erin) had
+                many other roles during the hunt, so it was mostly on me (Jack)
+                to run it all.) This, as well as us underestimating how long it
+                would take to run each audition, led to most teams having to
+                wait longer than expected for their turn (sincere apologies for
+                that).
               </p>
 
               <p>
@@ -1520,18 +1560,49 @@ export default function Page() {
                   </figcaption>
                 </figure>
 
-                {/* TODO: links */}
                 <p>
-                  Various guards puzzles spoofed the green-eyed riddle, the
-                  Monty Hall problem, the wolf, goat, and cabbage problem, and
-                  the double-slit experiment.
+                  Various guards puzzles spoofed the{" "}
+                  <a
+                    href="https://medium.com/@leducbao1992/thoughts-on-the-green-eyed-logic-puzzle-and-the-importance-of-meta-information-691b5ca6a26"
+                    className="text-link no-underline hover:underline"
+                  >
+                    green-eyed riddle
+                  </a>
+                  , the{" "}
+                  <a
+                    href="https://en.wikipedia.org/wiki/Monty_Hall_problem"
+                    className="text-link no-underline hover:underline"
+                  >
+                    Monty Hall problem
+                  </a>
+                  , the{" "}
+                  <a
+                    href="https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem"
+                    className="text-link no-underline hover:underline"
+                  >
+                    wolf, goat, and cabbage problem
+                  </a>
+                  , and the{" "}
+                  <a
+                    href="https://en.wikipedia.org/wiki/Double-slit_experiment"
+                    className="text-link no-underline hover:underline"
+                  >
+                    double-slit experiment
+                  </a>
+                  .
                 </p>
 
                 <p>
-                  For M guards, N doors, and K choices, we ran the puzzle
-                  in-person as a live game show! Our lovely guards, donned in
-                  suits and fun hats, ran the show with a captive live audience
-                  and their beloved doors.
+                  For{" "}
+                  <a
+                    href="/puzzle/m-guards-n-doors-and-k-choices"
+                    className="text-link no-underline hover:underline"
+                  >
+                    M guards, N doors, and K choices
+                  </a>
+                  , we ran the puzzle in-person as a live game show! Our lovely
+                  guards, donned in suits and fun hats, ran the show with a
+                  captive live audience and their beloved doors.
                 </p>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -1593,13 +1664,20 @@ export default function Page() {
                 <h2>Jet Lag Sequence</h2>
                 <p>
                   Did you know Ben Doyle was a Brown alum? Our writing team
-                  contains many a fan of Jet Lag: The Game, so when we
-                  serendipitously found a way to contact THE Ben Doyle we jumped
-                  on the opportunity. Even though we pitched a single video and
-                  subsequently upped the ask to a whole sequence, Ben was super
-                  willing to help us out. Huge shout out to Ben Doyle! We had
-                  lots of fun writing Jet Lag-themed puzzles and it made our
-                  weekly watch parties all the more exciting.
+                  contains many a fan of{" "}
+                  <a
+                    href="https://www.youtube.com/c/jetlagthegame"
+                    className="text-link no-underline hover:underline"
+                  >
+                    Jet Lag: The Game
+                  </a>
+                  , so when we serendipitously found a way to contact THE Ben
+                  Doyle we jumped on the opportunity. Even though we pitched a
+                  single video and subsequently upped the ask to a whole
+                  sequence, Ben was super willing to help us out. Huge shout out
+                  to Ben Doyle! We had lots of fun writing Jet Lag-themed
+                  puzzles and it made our weekly watch parties all the more
+                  exciting.
                 </p>
 
                 <div className="columns-2 space-y-4">
@@ -1657,8 +1735,15 @@ export default function Page() {
                   This was easily the most expensive and time-intensive physical
                   puzzle we coordinated this year, and it required a ton of work
                   from a ton of people in a very short period of time. If you
-                  have your cards, treasure them! They've got lots of cool
-                  student-made art and make a lovely keepsake.
+                  have your{" "}
+                  <a
+                    href="/puzzle/a-fistful-of-cards-iv"
+                    className="text-link no-underline hover:underline"
+                  >
+                    cards
+                  </a>
+                  , treasure them! They've got lots of cool student-made art and
+                  make a lovely keepsake.
                 </p>
               </TOCSection>
 
@@ -1820,10 +1905,17 @@ export default function Page() {
                 <p>
                   This year, our only in-person exclusive physical puzzle ended
                   up being Blueno's Puzzle Box! Despite being named in reference
-                  to Amy's Puzzle Box from Jet Lag: The Game, this magnificent
-                  creation was a glorious mashup of Garfield and Greek mythology
-                  theming. Our resident RISD students Phil and Kaz took up the
-                  challenge of making us a puzzle box, and boy did they deliver.
+                  to{" "}
+                  <a
+                    href="https://jetlag.fandom.com/wiki/Tag_Across_Europe_(2)/Challenges"
+                    className="text-link no-underline hover:underline"
+                  >
+                    Amy's Puzzle Box
+                  </a>{" "}
+                  from Jet Lag: The Game, this magnificent creation was a
+                  glorious mashup of Garfield and Greek mythology theming. Our
+                  resident RISD students Phil and Kaz took up the challenge of
+                  making us a puzzle box, and boy did they deliver.
                 </p>
 
                 <p>
@@ -1859,7 +1951,11 @@ export default function Page() {
                   Mondays" were rewarded with the answer.
                 </p>
 
-                {/* TODO: insert video */}
+                <iframe
+                  src="https://drive.google.com/file/d/1B3_xK4zoS0kcJdyGfV5EnIFzX7AzZxKt/preview"
+                  allow="autoplay"
+                  className="mx-auto aspect-video w-2/3 rounded-md"
+                ></iframe>
               </TOCSection>
 
               <TOCSection sectionId={36} tocTitle="The Boxes" parentId={27}>
@@ -2077,17 +2173,28 @@ export default function Page() {
             <TOCSection sectionId={38} tocTitle="Exit Survey">
               <h2>Exit survey</h2>
 
-              {/* TODO: Actually link feedback form */}
-
               <p>
                 Thanks so much for solving our third annual hunt! We're always
                 trying to improve our event and would love any feedback you have
-                for us. Find our feedback form here.
+                for us. Find our feedback form{" "}
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSf_zdQ3ml_4QMhZ9YpiHtcB_pwX5-r3CRJTPR266JkT7soMgQ/viewform?usp=dialog"
+                  className="text-link no-underline hover:underline"
+                >
+                  here
+                </a>
+                .
               </p>
-
               <p>
                 If you'd like to support Brown Puzzle Club to enable us to keep
-                doing cool things like this in the future, you can do so here.
+                doing cool things like this in the future, you can do so{" "}
+                <a
+                  href="https://bbis.advancement.brown.edu/BBPhenix/give-now?did=05732af4-d994-4d40-bcd6-fb42d07b6eab"
+                  className="text-link no-underline hover:underline"
+                >
+                  here
+                </a>
+                .
               </p>
             </TOCSection>
 
@@ -3671,7 +3778,7 @@ export default function Page() {
         </div>
 
         <div
-          className="ml-4 hidden w-[80px] p-8 md:block"
+          className="ml-auto hidden w-[80px] xl:block"
           style={{
             backgroundImage: "url('wrapup/images/sidebar.png')",
             backgroundRepeat: "repeat-y",
