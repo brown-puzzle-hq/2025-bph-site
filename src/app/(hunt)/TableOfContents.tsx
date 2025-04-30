@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { motion, useScroll, AnimatePresence } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 
 export type Section = {
   id: number;
@@ -151,19 +151,20 @@ export function TableOfContents() {
           </span>
 
           {/* Render subsections if any */}
-          {activeSection === id && subsectionsMap[id]?.map((sub) => (
-            <span
-              key={sub.id}
-              className={`ml-4 mr-8 cursor-pointer text-sm transition-colors duration-200 hover:text-main-text ${activeSection === sub.id ? "text-main-text" : "text-main-text/50"}`}
-              onClick={() =>
-                document
-                  .getElementById(`section-${sub.id}`)
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              {sub.title}
-            </span>
-          ))}
+          {activeSection === id &&
+            subsectionsMap[id]?.map((sub) => (
+              <span
+                key={sub.id}
+                className={`ml-4 mr-8 cursor-pointer text-sm transition-colors duration-200 hover:text-main-text ${activeSection === sub.id ? "text-main-text" : "text-main-text/50"}`}
+                onClick={() =>
+                  document
+                    .getElementById(`section-${sub.id}`)
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                {sub.title}
+              </span>
+            ))}
         </div>
       ))}
     </motion.div>
