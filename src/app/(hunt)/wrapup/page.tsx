@@ -7,6 +7,7 @@ export default async function Page() {
   const session = await auth();
   if (new Date() > REMOTE.WRAPUP_TIME || session?.user?.role === "admin") {
     return <WrapUp />;
+  } else {
+    redirect("/");
   }
-  redirect("/");
 }

@@ -225,9 +225,15 @@ export const solutionBody = (
         </p>
       </li>
     </ol>
-    <p className="mb-4">Thus, the solution is APPLE.</p>
+    <p className="mb-4">Thus, the solution is <span className="font-bold text-main-accent">
+          APPLE</span>.</p>
   </div>
 );
+
+/**
+ * The `authors` string renders below the `solutionBody`.
+ */
+export const authors = "Nate Chinman, Nicholas Cressman, Jack de Haan";
 
 /**
  * The `copyText` should provide a convenient text representation of the puzzle
