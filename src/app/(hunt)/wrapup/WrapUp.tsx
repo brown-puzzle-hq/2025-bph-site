@@ -27,21 +27,100 @@ export default function WrapUp() {
         <div className="md:w-1/3 xl:w-1/5"></div>
 
         <div className="w-full md:w-2/3 xl:w-3/5">
-          <article className="prose prose-info w-full max-w-none bg-black/30 p-6 prose-img:my-0">
-            <h1>Wrapup</h1>
+          <article className="prose prose-wrapup w-full max-w-none bg-black/30 p-6 prose-img:my-0">
+            <h1 className="font-semibold text-amber-300">✨ Wrapup ✨</h1>
             <p>
               Congratulations to the 12 in-person teams and 74 remote teams who
               finished the hunt!
             </p>
             <p>
-              Congrats to our winning in-person team, air bud: golden receiver,
-              and our first in-person finisher, Living Off Hope!
+              Congrats to our winning in-person team,{" "}
+              <span className="font-semibold text-amber-400">
+                air bud: golden receiver
+              </span>
+              , and our first in-person finisher,{" "}
+              <span className="font-semibold text-amber-400">
+                Living Off Hope
+              </span>
+              !
             </p>
             <p>
-              Another congratulations to our first remote finishers, ⡫ I GUESS
-              WE CAN'T ALL SIT NEXT TO EACH OTHER, and our first remote
-              finishers solving with a Box, chat!
+              Another congratulations to our first remote finishers,{" "}
+              <span className="font-semibold text-amber-400">
+                ⡫ I GUESS WE CAN'T ALL SIT NEXT TO EACH OTHER
+              </span>
+              , and our first remote finishers solving with a Box,{" "}
+              <span className="font-semibold text-amber-400">chat</span>!
             </p>
+
+            {/* QUICK STATS */}
+            <h3>Quick Summary</h3>
+            <Table className="my-0 w-fit">
+              <TableHeader>
+                <TableRow className="hover:bg-inherit">
+                  <TableHead className="text-main-header"></TableHead>
+                  <TableHead className="text-main-header">In Person</TableHead>
+                  <TableHead className="text-main-header">Remote Box</TableHead>
+                  <TableHead className="text-main-header">Remote</TableHead>
+                  <TableHead className="text-main-header">Total</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="pointer-events-none">
+                <TableRow>
+                  <TableHead className="text-main-header">Teams</TableHead>
+                  <TableCell className="text-center">40</TableCell>
+                  <TableCell className="text-center">49</TableCell>
+                  <TableCell className="text-center">271</TableCell>
+                  <TableCell className="text-center">360</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="text-main-header">Finishers</TableHead>
+                  <TableCell className="text-center">12</TableCell>
+                  <TableCell className="text-center">27</TableCell>
+                  <TableCell className="text-center">47</TableCell>
+                  <TableCell className="text-center">86</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="text-main-header">
+                    Action Meta Solves
+                  </TableHead>
+                  <TableCell className="text-center">29</TableCell>
+                  <TableCell className="text-center">38</TableCell>
+                  <TableCell className="text-center">139</TableCell>
+                  <TableCell className="text-center">206</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="text-main-header">
+                    Participants
+                  </TableHead>
+                  <TableCell className="text-center">247</TableCell>
+                  <TableCell className="text-center">129</TableCell>
+                  <TableCell className="text-center">487</TableCell>
+                  <TableCell className="text-center">863</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="text-main-header">Hints</TableHead>
+                  <TableCell className="text-center">163</TableCell>
+                  <TableCell className="text-center">205</TableCell>
+                  <TableCell className="text-center">908</TableCell>
+                  <TableCell className="text-center">1276</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="text-main-header">Guesses</TableHead>
+                  <TableCell className="text-center">3751</TableCell>
+                  <TableCell className="text-center">8172</TableCell>
+                  <TableCell className="text-center">23521</TableCell>
+                  <TableCell className="text-center">35444</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableHead className="text-main-header">Solves</TableHead>
+                  <TableCell className="text-center">1118</TableCell>
+                  <TableCell className="text-center">1936</TableCell>
+                  <TableCell className="text-center">5343</TableCell>
+                  <TableCell className="text-center">8397</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
 
             <TOCSection sectionId={0} tocTitle="Timeline & Logistics" isFirst>
               <h2>Timeline & Logistics</h2>
@@ -331,6 +410,7 @@ export default function WrapUp() {
                 tocTitle="Adjacency and Bottlenecks"
                 parentId={1}
               >
+                <h3>Adjacency and Bottlenecks</h3>
                 <i>Arnav says:</i>
                 <p>
                   I'm super glad we tried both the adjacency structure and the
@@ -2218,89 +2298,13 @@ export default function WrapUp() {
 
             <TOCSection sectionId={39} tocTitle="Statistics">
               <h2>Statistics</h2>
-              {/* QUICK STATS */}
-              <h3>Summary</h3>
-              <Table className="my-0 w-fit">
-                <TableHeader>
-                  <TableRow className="hover:bg-inherit">
-                    <TableHead className="text-main-header"></TableHead>
-                    <TableHead className="text-main-header">
-                      In Person
-                    </TableHead>
-                    <TableHead className="text-main-header">
-                      Remote Box
-                    </TableHead>
-                    <TableHead className="text-main-header">Remote</TableHead>
-                    <TableHead className="text-main-header">Total</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody className="pointer-events-none">
-                  <TableRow>
-                    <TableHead className="text-main-header">Teams</TableHead>
-                    <TableCell className="text-center">40</TableCell>
-                    <TableCell className="text-center">49</TableCell>
-                    <TableCell className="text-center">271</TableCell>
-                    <TableCell className="text-center">360</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="text-main-header">
-                      Finishers
-                    </TableHead>
-                    <TableCell className="text-center">12</TableCell>
-                    <TableCell className="text-center">27</TableCell>
-                    <TableCell className="text-center">47</TableCell>
-                    <TableCell className="text-center">86</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="text-main-header">
-                      Action Meta Solves
-                    </TableHead>
-                    <TableCell className="text-center">29</TableCell>
-                    <TableCell className="text-center">38</TableCell>
-                    <TableCell className="text-center">139</TableCell>
-                    <TableCell className="text-center">206</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="text-main-header">
-                      Participants
-                    </TableHead>
-                    <TableCell className="text-center">247</TableCell>
-                    <TableCell className="text-center">129</TableCell>
-                    <TableCell className="text-center">487</TableCell>
-                    <TableCell className="text-center">863</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="text-main-header">Hints</TableHead>
-                    <TableCell className="text-center">163</TableCell>
-                    <TableCell className="text-center">205</TableCell>
-                    <TableCell className="text-center">908</TableCell>
-                    <TableCell className="text-center">1276</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="text-main-header">Guesses</TableHead>
-                    <TableCell className="text-center">3751</TableCell>
-                    <TableCell className="text-center">8172</TableCell>
-                    <TableCell className="text-center">23521</TableCell>
-                    <TableCell className="text-center">35444</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableHead className="text-main-header">Solves</TableHead>
-                    <TableCell className="text-center">1118</TableCell>
-                    <TableCell className="text-center">1936</TableCell>
-                    <TableCell className="text-center">5343</TableCell>
-                    <TableCell className="text-center">8397</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
               {/* TEAM STATS */}
               {/* fewest guesses */}
               <h3>Fewest Guesses</h3>
               <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
-                    <TableHead className="text-main-header">
-                      Display Name
-                    </TableHead>
+                    <TableHead className="text-main-header">Team</TableHead>
                     <TableHead className="text-main-header">
                       Guess Count*
                     </TableHead>
@@ -2360,9 +2364,7 @@ export default function WrapUp() {
               <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
-                    <TableHead className="text-main-header">
-                      Display Name
-                    </TableHead>
+                    <TableHead className="text-main-header">Team</TableHead>
                     <TableHead className="text-main-header">
                       Guess Count
                     </TableHead>
@@ -2418,9 +2420,7 @@ export default function WrapUp() {
               <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
-                    <TableHead className="text-main-header">
-                      Display Name
-                    </TableHead>
+                    <TableHead className="text-main-header">Team</TableHead>
                     <TableHead className="text-main-header">
                       Hint Count
                     </TableHead>
@@ -2496,9 +2496,7 @@ export default function WrapUp() {
               <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
-                    <TableHead className="text-main-header">
-                      Display Name
-                    </TableHead>
+                    <TableHead className="text-main-header">Team</TableHead>
                     <TableHead className="text-main-header">
                       Hint Count
                     </TableHead>
@@ -2554,9 +2552,7 @@ export default function WrapUp() {
               <Table className="my-0 w-fit">
                 <TableHeader>
                   <TableRow className="hover:bg-inherit">
-                    <TableHead className="text-main-header">
-                      Display Name
-                    </TableHead>
+                    <TableHead className="text-main-header">Team</TableHead>
                     <TableHead className="text-main-header">
                       Total Hint Count
                     </TableHead>
@@ -3445,9 +3441,7 @@ export default function WrapUp() {
                   <TableRow className="hover:bg-inherit">
                     <TableHead className="text-main-header"></TableHead>
                     <TableHead className="text-main-header">Puzzle</TableHead>
-                    <TableHead className="text-main-header">
-                      Display Name
-                    </TableHead>
+                    <TableHead className="text-main-header">Team</TableHead>
                     <TableHead className="text-main-header">
                       Time After Start
                     </TableHead>
