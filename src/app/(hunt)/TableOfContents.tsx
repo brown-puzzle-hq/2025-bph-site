@@ -150,38 +150,20 @@ export function TableOfContents() {
             {title}
           </span>
 
-          {/* Render subsections if active */}
-          <AnimatePresence initial={false}>
-            {delayedActiveSection === id && (
-              <motion.div
-                key={`sub-${id}`}
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.1 }}
-                className="flex flex-col"
-              >
-                {subsectionsMap[id]?.map((sub) => (
-                  <span
-                    key={sub.id}
-                    className={`ml-4 mr-8 cursor-pointer text-sm transition-colors duration-200 hover:text-main-text ${activeSection === sub.id ? "text-main-text" : "text-main-text/50"}`}
-                    onClick={() => {
-                      setDelayedActiveSection(sub.id);
-                      setTimeout(
-                        () =>
-                          document
-                            .getElementById(`section-${sub.id}`)
-                            ?.scrollIntoView({ behavior: "smooth" }),
-                        100,
-                      );
-                    }}
-                  >
-                    {sub.title}
-                  </span>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Render subsections if any */}
+          {activeSection === id && subsectionsMap[id]?.map((sub) => (
+            <span
+              key={sub.id}
+              className={`ml-4 mr-8 cursor-pointer text-sm transition-colors duration-200 hover:text-main-text ${activeSection === sub.id ? "text-main-text" : "text-main-text/50"}`}
+              onClick={() =>
+                document
+                  .getElementById(`section-${sub.id}`)
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              {sub.title}
+            </span>
+          ))}
         </div>
       ))}
     </motion.div>
