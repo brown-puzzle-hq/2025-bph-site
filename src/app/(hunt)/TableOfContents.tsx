@@ -74,6 +74,7 @@ export const TOCSection = ({
     target: container,
     offset: ["start center", "end center"],
   });
+
   scrollYProgress.on("change", (value: number) => {
     if (value > 0 && value < 1) {
       setActiveSection(sectionId);
@@ -96,7 +97,6 @@ export const TOCSection = ({
 export function TableOfContents() {
   const { sections, activeSection } = useContext(TOCContext);
 
-  const [isScrolling, setIsScrolling] = useState(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const [stableActiveSection, setStableActiveSection] = useState<number>(-1);
 
@@ -104,12 +104,12 @@ export function TableOfContents() {
     if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
     if (activeSection !== stableActiveSection) {
-      setIsScrolling(true);
+      setStableActiveSection(-1);
 
-      scrollTimeout.current = setTimeout(() => {
-        setStableActiveSection(activeSection);
-        setIsScrolling(false);
-      }, 200);
+      scrollTimeout.current = setTimeout(
+        () => setStableActiveSection(activeSection),
+        200,
+      );
     }
 
     return () => {
@@ -129,12 +129,20 @@ export function TableOfContents() {
     }
   });
 
+  const getParentOfActiveSection = (): number | null => {
+    if (activeSection === -1) return null;
+    const activeSubsection = sections.find((s) => s.id === activeSection);
+    return activeSubsection?.parentId ?? null;
+  };
+
+  const parentOfActiveSection = getParentOfActiveSection();
+
   return (
     <motion.div className="no-scrollbar fixed bottom-0 top-[80px] hidden flex-col gap-2 overflow-y-auto pr-2 md:flex md:w-1/3 xl:w-1/5">
       {topLevelSections.map(({ id, title }) => (
         <div key={id} className="flex flex-col">
           <span
-            className={`mr-8 cursor-pointer transition-colors duration-200 hover:text-main-text ${activeSection === id ? "text-main-text" : "text-main-text/50"}`}
+            className={`mr-8 cursor-pointer transition-colors duration-200 hover:text-main-text ${activeSection === id || parentOfActiveSection === id ? "text-main-text" : "text-main-text/50"}`}
             onClick={() =>
               document
                 .getElementById(`section-${id}`)
@@ -147,7 +155,8 @@ export function TableOfContents() {
           {/* Render subsections if any */}
           <div className="relative">
             <AnimatePresence mode="wait">
-              {!isScrolling && stableActiveSection === id && (
+              {((parentOfActiveSection === id && stableActiveSection !== -1) ||
+                stableActiveSection === id) && (
                 <motion.div
                   className="flex flex-col"
                   initial={{ opacity: 0 }}

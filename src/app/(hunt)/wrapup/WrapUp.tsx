@@ -844,7 +844,7 @@ export default function WrapUp() {
                 </p>
               </TOCSection>
 
-              <TOCSection sectionId={15} tocTitle="Postprodding" parentId={11}>
+              <TOCSection sectionId={14} tocTitle="Postprodding" parentId={11}>
                 <h3> Postprodding</h3>
                 <p>
                   The tech team did relatively little postprodding during the
@@ -876,11 +876,11 @@ export default function WrapUp() {
               </TOCSection>
 
               <TOCSection
-                sectionId={14}
+                sectionId={15}
                 tocTitle="Hunt Flexibility"
                 parentId={11}
               >
-                <h2>Hunt Flexibility</h2>
+                <h3>Hunt Flexibility</h3>
 
                 <p>
                   Another consideration was flexibility. We wanted to be able to
@@ -1741,7 +1741,7 @@ export default function WrapUp() {
                 tocTitle="Jet Lag Sequence"
                 parentId={27}
               >
-                <h2>Jet Lag Sequence</h2>
+                <h3>Jet Lag Sequence</h3>
                 <p>
                   Did you know Ben Doyle was a Brown alum? Our writing team
                   contains many a fan of{" "}
@@ -1784,7 +1784,7 @@ export default function WrapUp() {
                 tocTitle="Heist Sequence"
                 parentId={27}
               >
-                <h2>Heist Sequence</h2>
+                <h3>Heist Sequence</h3>
                 <p>
                   The Heist sequence was a series of mini-video games and the
                   brainchild of one Malcolm Certain. While The Final Heist was
@@ -1798,7 +1798,7 @@ export default function WrapUp() {
                 tocTitle="A Fistful of Cards"
                 parentId={28}
               >
-                <h2>A Fistful of Cards</h2>
+                <h3>A Fistful of Cards</h3>
                 <p>
                   A Fistful of Cards arose as the result of Thomas coercing our
                   resident MtG expert into writing an MtG-inspired sequence.
@@ -1965,7 +1965,7 @@ export default function WrapUp() {
               </TOCSection>
 
               <TOCSection sectionId={34} tocTitle="Plagiarism" parentId={27}>
-                <h2>Plagiarism</h2>
+                <h3>Plagiarism</h3>
                 <i>By Thomas Gordon</i>
 
                 <p>
@@ -1998,7 +1998,7 @@ export default function WrapUp() {
               </TOCSection>
 
               <TOCSection sectionId={35} tocTitle="Puzzle Box" parentId={27}>
-                <h2>Blueno's Puzzle Box (in-person)</h2>
+                <h3>Blueno's Puzzle Box (in-person)</h3>
                 <i>By Megan Carlson</i>
                 <p>
                   This year, our only in-person exclusive physical puzzle ended
@@ -2057,7 +2057,7 @@ export default function WrapUp() {
               </TOCSection>
 
               <TOCSection sectionId={36} tocTitle="The Boxes" parentId={27}>
-                <h2>The Boxes</h2>
+                <h3>The Boxes</h3>
                 <i>Thomas says:</i>
                 <p>
                   The Box was an idea I vaguely floated at an in-person meeting
