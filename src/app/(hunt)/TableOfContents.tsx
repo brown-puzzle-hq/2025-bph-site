@@ -155,36 +155,34 @@ export function TableOfContents() {
           </span>
 
           {/* Render subsections if any */}
-          <div className="relative">
-            <AnimatePresence mode="wait">
-              {stableParentSection === id && (
-                <motion.div
-                  className="flex flex-col"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {subsectionsMap[id]?.map((sub, i) => (
-                    <motion.span
-                      key={sub.id}
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.05 * i }}
-                      className={`ml-4 mr-8 cursor-pointer text-sm transition-colors duration-200 hover:text-main-text ${activeSection === sub.id ? "text-main-text" : "text-main-text/50"}`}
-                      onClick={() =>
-                        document
-                          .getElementById(`section-${sub.id}`)
-                          ?.scrollIntoView({ behavior: "smooth" })
-                      }
-                    >
-                      {sub.title}
-                    </motion.span>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          <AnimatePresence mode="wait">
+            {stableParentSection === id && (
+              <motion.div
+                className="flex flex-col"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {subsectionsMap[id]?.map((sub, i) => (
+                  <motion.span
+                    key={sub.id}
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 * i }}
+                    className={`ml-4 mr-8 cursor-pointer text-sm transition-colors duration-200 hover:text-main-text ${activeSection === sub.id ? "text-main-text" : "text-main-text/50"}`}
+                    onClick={() =>
+                      document
+                        .getElementById(`section-${sub.id}`)
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
+                  >
+                    {sub.title}
+                  </motion.span>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       ))}
     </motion.div>

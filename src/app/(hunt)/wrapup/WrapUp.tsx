@@ -334,14 +334,14 @@ export default function WrapUp() {
                   The Final Heist.
                 </li>
                 <li>
-                  March 1: You’ve Got This Covered, Fractal Shanty, and
+                  March 1: You've Got This Covered, Fractal Shanty, and
                   International Neighbours are absorbed into a new sequence, 🧩;
                   Philip and Thomas write the meta, Fridge Magnets. (This is
                   broadly accepted to be the point of no return.)
                 </li>
                 <li>
                   March 2: ⭐ begins development. (At this time, both Walk of
-                  Fame and What’s My Ride? had been finalized, but the final
+                  Fame and What's My Ride? had been finalized, but the final
                   feeder slot and the meta would not be finalized for some
                   time.) The first draft of the ⛓️ meta, Red Blue, is written.
                 </li>
@@ -1294,7 +1294,7 @@ export default function WrapUp() {
                   the drama script had to be read a language other than English
                 </li>
                 <li>
-                  the comedy script had action words (like “jump” or “dance”)
+                  the comedy script had action words (like "jump" or "dance")
                   that had to be acted out physically
                 </li>
                 <li>
@@ -1419,20 +1419,20 @@ export default function WrapUp() {
               </p>
 
               <ul>
-                <li>“Excellentman” (Action): could not use adjectives</li>
+                <li>"Excellentman" (Action): could not use adjectives</li>
                 <li>
-                  “Biliogy of an Autumn” (Reality): could only use one-syllable
+                  "Biliogy of an Autumn" (Reality): could only use one-syllable
                   words
                 </li>
-                <li>“A Partial Known” (Drama): could only write in haikus</li>
+                <li>"A Partial Known" (Drama): could only write in haikus</li>
                 <li>
-                  “French General TNT” (Comedy): could not reference cliors
+                  "French General TNT" (Comedy): could not reference cliors
                 </li>
                 <li>
-                  “North Dakota Williams and the Unfinished Script” (Adventure):
+                  "North Dakota Williams and the Unfinished Script" (Adventure):
                   no restriction
                 </li>
-                <li>“Yell” (Horror): could not use body parts</li>
+                <li>"Yell" (Horror): could not use body parts</li>
               </ul>
 
               <p>
@@ -3751,14 +3751,14 @@ export default function WrapUp() {
         </div>
 
         <div
-          className="ml-auto hidden w-[80px] xl:block"
+          className="mx-auto hidden w-[80px] translate-x-4 xl:block"
           style={{
             backgroundImage: "url('wrapup/images/sidebar.png')",
             backgroundRepeat: "repeat-y",
             backgroundSize: "contain",
             backgroundPosition: "center top",
           }}
-        ></div>
+        />
       </div>
     </TOCContext.Provider>
   );
