@@ -17,7 +17,7 @@ import {
   insertFollowUp,
   insertHintRequest,
   MessageType,
-} from "../actions";
+} from "./actions";
 import { toast } from "~/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { hintStatusEnum } from "~/server/db/schema";

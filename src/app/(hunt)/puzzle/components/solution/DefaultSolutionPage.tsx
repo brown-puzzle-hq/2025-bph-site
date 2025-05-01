@@ -3,7 +3,7 @@ import { db } from "~/server/db";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { puzzles } from "~/server/db/schema";
-import { canViewSolution } from "../actions";
+import { canViewSolution } from "../../actions";
 
 export default async function DefaultSolutionPage({
   puzzleId,

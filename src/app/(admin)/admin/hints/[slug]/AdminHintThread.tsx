@@ -4,18 +4,18 @@ import { useState, useEffect, startTransition } from "react";
 import { useSession } from "next-auth/react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { AutosizeTextarea } from "~/components/ui/autosize-textarea";
-import { EyeOff, Key, KeyRound, RefreshCw, Waypoints } from "lucide-react";
+import { EyeOff, KeyRound, RefreshCw, Waypoints } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { insertHintResponse } from "../../actions";
 import { toast } from "~/hooks/use-toast";
 import {
-  editHintStatus,
   claimHint,
   unclaimHint,
+  editHintStatus,
+  insertHintResponse,
   editMessage,
   insertFollowUp,
   MessageType,
-} from "../../actions";
+} from "../actions";
 import {
   Select,
   SelectContent,

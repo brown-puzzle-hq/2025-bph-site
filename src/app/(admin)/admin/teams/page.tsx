@@ -1,6 +1,6 @@
 import { db } from "@/db/index";
-import { columns } from "./components/team-table/Columns";
-import { TeamTable } from "./components/team-table/TeamTable";
+import { columns } from "./Columns";
+import { TeamTable } from "./TeamTable";
 import { count, sql } from "drizzle-orm";
 import { and, asc, desc, eq, ne } from "drizzle-orm/expressions";
 import { teams, solves } from "~/server/db/schema";

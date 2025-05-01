@@ -1,8 +1,8 @@
 import { db } from "@/db/index";
 import { asc, desc } from "drizzle-orm";
 import { hints, followUps } from "@/db/schema";
-import { columns } from "./components/hint-table/Columns";
-import { HintTable } from "./components/hint-table/HintTable";
+import { columns } from "./Columns";
+import { HintTable } from "./HintTable";
 
 export const fetchCache = "force-no-store";
 

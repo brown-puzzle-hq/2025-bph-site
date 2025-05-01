@@ -39,7 +39,7 @@ import {
   actualInteractionModeValues,
   roleEnum,
 } from "~/server/db/schema";
-import { type EditedTeam, type Role, updateTeam } from "../../actions";
+import { type EditedTeam, type Role, updateTeam } from "./actions";
 import { cn } from "~/lib/utils";
 import { Checkbox } from "~/components/ui/checkbox";
 
@@ -289,8 +289,7 @@ export function TeamTable<TData, TValue>({
 
             <p
               className={cn(
-                !interactionModeFilters.includes("remote") &&
-                  "text-[#BBBBBB]",
+                !interactionModeFilters.includes("remote") && "text-[#BBBBBB]",
               )}
             >
               Remote

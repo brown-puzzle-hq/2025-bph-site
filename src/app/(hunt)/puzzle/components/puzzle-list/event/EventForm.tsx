@@ -4,7 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { insertAnswerToken } from "../actions";
+import { insertAnswerToken } from "./actions";
 import { SquareCheckBig } from "lucide-react";
 
 function sanitizeAnswer(answer: any) {

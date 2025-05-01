@@ -4,8 +4,8 @@
 import { useState } from "react";
 import { cn } from "~/lib/utils";
 import CopyButton from "./CopyButton";
-import GuessTable from "./GuessTable";
-import { Guess } from "./GuessTable";
+import GuessTable from "./guess/GuessTable";
+import { Guess } from "./guess/GuessTable";
 
 // Form
 import { z } from "zod";

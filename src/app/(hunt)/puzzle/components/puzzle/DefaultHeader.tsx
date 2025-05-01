@@ -9,7 +9,7 @@ import {
   canViewHint,
   canViewSolution,
   canViewStats,
-} from "../actions";
+} from "../../actions";
 import { META_PUZZLES, SEQUENCES } from "~/hunt.config";
 import { Triangle } from "lucide-react";
 

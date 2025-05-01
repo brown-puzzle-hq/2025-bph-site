@@ -149,7 +149,7 @@ export function formatPhoneNumber(phoneNumber: string | null): string {
   return phoneNumber;
 }
 
-export function ProfileForm({
+export default function ProfileForm({
   id,
   displayName,
   role,

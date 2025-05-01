@@ -1,6 +1,6 @@
 "use client";
 import PuzzleTable from "./PuzzleTable";
-import EventTable from "./EventTable";
+import EventTable from "./event/EventTable";
 import { cn } from "~/lib/utils";
 import { Round } from "~/hunt.config";
 import { IN_PERSON } from "~/hunt.config";

@@ -10,10 +10,10 @@ import {
   unlocks,
 } from "~/server/db/schema";
 import { redirect } from "next/navigation";
-import GuessTable from "@/puzzle/components/GuessTable";
-import ErratumDialog from "@/puzzle/components/ErratumDialog";
-import GuessForm from "@/puzzle/components/GuessForm";
-import CopyButton from "@/puzzle/components/CopyButton";
+import GuessTable from "@/puzzle/components/puzzle/guess/GuessTable";
+import ErratumDialog from "~/app/(hunt)/puzzle/components/puzzle/ErratumDialog";
+import GuessForm from "@/puzzle/components/puzzle/guess/GuessForm";
+import CopyButton from "@/puzzle/components/puzzle/CopyButton";
 import TokenRefresher from "@/puzzle/components/TokenRefresher";
 import { canViewPuzzle } from "@/puzzle/actions";
 import {

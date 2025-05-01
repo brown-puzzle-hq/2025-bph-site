@@ -5,9 +5,9 @@ import { eq, and } from "drizzle-orm";
 import { solves, guesses, errata } from "~/server/db/schema";
 import { redirect } from "next/navigation";
 import GuessTable from "~/app/(hunt)/puzzle/components/GuessTable";
-import ErratumDialog from "@/puzzle/components/ErratumDialog";
+import ErratumDialog from "~/app/(hunt)/puzzle/components/puzzle/ErratumDialog";
 import { canViewPuzzle } from "@/puzzle/actions";
-import CopyButton from "@/puzzle/components/CopyButton";
+import CopyButton from "~/app/(hunt)/puzzle/components/puzzle/CopyButton";
 
 export default async function Page() {
   return (

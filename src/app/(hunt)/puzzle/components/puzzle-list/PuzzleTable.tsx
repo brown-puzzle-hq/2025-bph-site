@@ -21,7 +21,7 @@ export default function PuzzleTable({
     <div>
       {availableRounds.map((round) => (
         <div key={round.name}>
-          <h2 className="m-4 text-center text-xl font-semibold">
+          <h2 className="m-1 pb-2 pt-4 text-center text-xl font-semibold">
             {round.name}
           </h2>
           <div className="w-full overflow-hidden rounded-md text-sm font-medium">
@@ -56,6 +56,7 @@ export default function PuzzleTable({
                   </a>
                 </div>
               ))}
+            <hr className="w-full" />
           </div>
         </div>
       ))}

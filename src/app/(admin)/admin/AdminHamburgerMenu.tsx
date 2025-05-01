@@ -6,14 +6,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Ellipsis } from "lucide-react";
-import { LogoutButton } from "~/app/nav/LogoutButton";
-import { HamburgerMenu, MenuItem } from "~/app/nav/HamburgerMenu";
+import { LogoutButton } from "@/components/nav/LogoutButton";
+import { HamburgerMenu, MenuItem } from "@/components/nav/HamburgerMenu";
 
 export default async function AdminHamburgerMenu() {
   const OtherMenuItems = () => {
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger className="align-middle px-1.5 py-1">
+        <DropdownMenuTrigger className="px-1.5 py-1 align-middle">
           <Ellipsis className="mb-0.5 h-[20px]" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>

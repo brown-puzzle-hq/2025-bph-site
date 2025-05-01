@@ -14,10 +14,10 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { handleGuess } from "../actions";
+import { handleGuess } from "./actions";
 import { useTransition } from "react";
 import { toast } from "~/hooks/use-toast";
-import { NumberOfGuesses } from "./DefaultPuzzlePage";
+import { NumberOfGuesses } from "../DefaultPuzzlePage";
 import { Infinity } from "lucide-react";
 
 function sanitizeAnswer(answer: any) {

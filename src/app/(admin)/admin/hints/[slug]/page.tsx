@@ -1,9 +1,9 @@
 import { db } from "@/db/index";
 import { followUps, guesses, hints, unlocks } from "@/db/schema";
 import { and, asc, eq } from "drizzle-orm";
-import Toast from "../components/hint-page/Toast";
-import AdminHintThread from "../components/hint-page/AdminHintThread";
-import GuessTable from "~/app/(hunt)/puzzle/components/GuessTable";
+import Toast from "./Toast";
+import AdminHintThread from "./AdminHintThread";
+import GuessTable from "@/puzzle/components/puzzle/guess/GuessTable";
 import { IN_PERSON, REMOTE, ROUNDS } from "~/hunt.config";
 
 export default async function Page({

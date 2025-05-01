@@ -1,7 +1,7 @@
 "use client";
 
 import { Row } from "@tanstack/react-table";
-import { claimHint, unclaimHint, refundHint } from "../../actions";
+import { claimHint, unclaimHint } from "./actions";
 import { toast } from "~/hooks/use-toast";
 import { useSession } from "next-auth/react";
 import { FollowUpHint, HintClaimer } from "./Columns";
@@ -87,7 +87,7 @@ export default function ClaimBox<TData>({ row }: { row: Row<TData> }) {
       </button>
     );
   }
-  
+
   return (
     <p className="border-y border-white">
       {status === "answered" ? "Answered" : "Refunded"}

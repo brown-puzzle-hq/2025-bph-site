@@ -2,14 +2,14 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapIcon, RefreshCw, Table } from "lucide-react";
 import PuzzleTable from "./PuzzleTable";
-import EventTable from "./EventTable";
+import EventTable from "./event/EventTable";
 import { useState, useMemo } from "react";
 import { getCookie, setCookie } from "typescript-cookie";
 import { cn } from "~/lib/utils";
 import dynamic from "next/dynamic";
 import { IN_PERSON, Round } from "~/hunt.config";
 
-const Map = dynamic(() => import("../../components/Map"), {
+const Map = dynamic(() => import("./Map"), {
   ssr: false,
   loading: () => (
     <div className="flex h-full w-full items-center justify-center">
