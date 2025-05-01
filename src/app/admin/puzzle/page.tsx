@@ -94,7 +94,7 @@ export default async function Home() {
       )?.name.toLowerCase();
 
       const module = await import(
-        `../../../(hunt)/puzzle/(${roundName})/${puzzle.id}/data.tsx`
+        `../../(hunt)/puzzle/(${roundName})/${puzzle.id}/data.tsx`
       ).catch(() => null);
 
       const {
