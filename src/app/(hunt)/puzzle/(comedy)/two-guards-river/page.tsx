@@ -4,7 +4,7 @@ import { db } from "~/server/db";
 import { eq, and } from "drizzle-orm";
 import { solves, guesses, errata } from "~/server/db/schema";
 import { redirect } from "next/navigation";
-import GuessTable from "~/app/(hunt)/puzzle/components/GuessTable";
+import GuessTable from "@/puzzle/components/puzzle/guess/GuessTable";
 import ErratumDialog from "~/app/(hunt)/puzzle/components/puzzle/ErratumDialog";
 import { canViewPuzzle } from "@/puzzle/actions";
 import CopyButton from "~/app/(hunt)/puzzle/components/puzzle/CopyButton";
