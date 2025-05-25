@@ -18,7 +18,7 @@ export default function GuessChart({ data, puzzleAnswer }: GuessChartProps) {
   const step = Math.max(Math.floor(maxCount / intervals / 5) * 5, 5);
 
   return (
-    <ChartContainer config={{}} className="min-h-[400px]">
+    <ChartContainer config={{}} className="min-h-[400px] w-full">
       <BarChart
         accessibilityLayer
         data={data}
