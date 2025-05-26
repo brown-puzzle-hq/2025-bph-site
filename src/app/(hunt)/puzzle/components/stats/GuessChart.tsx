@@ -52,6 +52,7 @@ export default function GuessChart({ data, puzzleAnswer }: GuessChartProps) {
       return baseLength + (extra ? 1 : 0) + 1;
     }),
   );
+  console.log(maxLength);
   const labelSpace = 0.25; // Added length in character widths between the label and bar
   const leftMargin = (maxLength + labelSpace) * 8.43 * fontScaler + 8.43;
 
@@ -109,7 +110,10 @@ export default function GuessChart({ data, puzzleAnswer }: GuessChartProps) {
             const boxY = y - boxHeight / 2;
 
             const textX = x - labelSpace * 8.43 * fontScaler;
-            const textY = y - boxHeight / 2 + 12.5 * fontScaler;
+            const textY =
+              y +
+              (8.43 / 2) * fontScaler - // Half a line down
+              ((lines.length - 1) / 2) * 16.5 * fontScaler; // Some number of lines up
 
             if (payload.value === puzzleAnswer) {
               return (
@@ -131,7 +135,7 @@ export default function GuessChart({ data, puzzleAnswer }: GuessChartProps) {
                     y={textY}
                     fill="#E7E3FC"
                     textAnchor={textAnchor}
-                    dominantBaseline="central"
+                    dominantBaseline="alphabetic"
                     fontSize={fontSize}
                     fontWeight="bold"
                     fontFamily="monospace"
@@ -157,7 +161,7 @@ export default function GuessChart({ data, puzzleAnswer }: GuessChartProps) {
                 y={textY}
                 fill="#E7E3FC"
                 textAnchor={textAnchor}
-                dominantBaseline="central"
+                dominantBaseline="alphabetic"
                 fontSize={fontSize}
                 fontFamily="monospace"
               >
