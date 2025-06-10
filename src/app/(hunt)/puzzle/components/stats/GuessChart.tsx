@@ -52,7 +52,6 @@ export default function GuessChart({ data, puzzleAnswer }: GuessChartProps) {
       return baseLength + (extra ? 1 : 0) + 1;
     }),
   );
-  console.log(maxLength);
   const labelSpace = 0.25; // Added length in character widths between the label and bar
   const leftMargin = (maxLength + labelSpace) * 8.43 * fontScaler + 8.43;
 
