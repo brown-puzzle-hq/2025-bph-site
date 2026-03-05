@@ -63,10 +63,10 @@ export const HintEmailTemplate: React.FC<Readonly<HintEmailTemplateProps>> = ({
     <p style={{ color: "#333 !important" }}>
       You can view it at{" "}
       <a
-        href={`https://www.brownpuzzlehunt.com/puzzle/${puzzleId}/hint`}
+        href={`https://2025.brownpuzzlehunt.com/puzzle/${puzzleId}/hint`}
         style={{ color: "#1a73e8", textDecoration: "none", fontWeight: "bold" }}
       >
-        https://www.brownpuzzlehunt.com/puzzle/{puzzleId}/hint
+        https://2025.brownpuzzlehunt.com/puzzle/{puzzleId}/hint
       </a>
       .
     </p>
@@ -124,10 +124,10 @@ export const FollowUpEmailTemplate: React.FC<
     <p style={{ color: "#333 !important" }}>
       You can view it at{" "}
       <a
-        href={`https://www.brownpuzzlehunt.com/puzzle/${puzzleId}/hint`}
+        href={`https://2025.brownpuzzlehunt.com/puzzle/${puzzleId}/hint`}
         style={{ color: "#1a73e8", textDecoration: "none", fontWeight: "bold" }}
       >
-        https://www.brownpuzzlehunt.com/puzzle/{puzzleId}/hint
+        https://2025.brownpuzzlehunt.com/puzzle/{puzzleId}/hint
       </a>
       .
     </p>
@@ -180,10 +180,10 @@ export const ErratumEmailTemplate: React.FC<
     <p style={{ color: "#333 !important" }}>
       You can view it at{" "}
       <a
-        href={`https://www.brownpuzzlehunt.com/puzzle/${puzzleId}`}
+        href={`https://2025.brownpuzzlehunt.com/puzzle/${puzzleId}`}
         style={{ color: "#1a73e8", textDecoration: "none", fontWeight: "bold" }}
       >
-        https://www.brownpuzzlehunt.com/puzzle/{puzzleId}
+        https://2025.brownpuzzlehunt.com/puzzle/{puzzleId}
       </a>
       .
     </p>

@@ -67,7 +67,7 @@ export async function insertHintRequest(puzzleId: string, hint: string) {
     };
   }
 
-  const hintMessage = `🙏 **Hint** [request](https://www.brownpuzzlehunt.com/admin/hints/${result.id}) by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId} ): ${hint} <@&1310029428864057504>`;
+  const hintMessage = `🙏 **Hint** [request](https://2025.brownpuzzlehunt.com/admin/hints/${result.id}) by [${teamId}](https://2025.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://2025.brownpuzzlehunt.com/puzzle/${puzzleId} ): ${hint} <@&1310029428864057504>`;
   await sendBotMessage(hintMessage, "hint");
 
   return { error: null, id: result.id };
@@ -155,7 +155,7 @@ export async function insertFollowUp({
       }
       // Otherwise, notify admin on Discord that there is a follow-up
       else if (message !== "[Claimed]") {
-        const hintMessage = `🙏 **Hint** [follow-up](https://www.brownpuzzlehunt.com/admin/hints/${hintId}?reply=true) by [${teamDisplayName}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleName}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId} ): ${message} <@&1310029428864057504>`;
+        const hintMessage = `🙏 **Hint** [follow-up](https://2025.brownpuzzlehunt.com/admin/hints/${hintId}?reply=true) by [${teamDisplayName}](https://2025.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleName}](https://2025.brownpuzzlehunt.com/puzzle/${puzzleId} ): ${message} <@&1310029428864057504>`;
         await sendBotMessage(hintMessage, "hint");
       }
       return result[0].id;
