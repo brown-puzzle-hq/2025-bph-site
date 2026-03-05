@@ -191,7 +191,7 @@ To run the development server and see your changes live:
     ```ts
     export const copyText = `one\ttwo
     three\tfour
-    =IMAGE("https://www.brownpuzzlehunt.com/home/Register.png")`;
+    =IMAGE("https://2025.brownpuzzlehunt.com/home/Register.png")`;
     ```
 3. With HTML, you will have to use raw HTML `style` tags which differ slightly from Tailwind (used for puzzle and solution bodies). You might want to write the HTML elsewhere for syntax highlighting before placing it into the `copyText`.
     ```ts
@@ -207,7 +207,7 @@ To run the development server and see your changes live:
             <td style="background-color: yellow; border-top: 1px solid #452c63;">Cell</td>
         </tr>
         <tr>
-            <td>=IMAGE("https://www.brownpuzzlehunt.com/home/Register.png")</td>
+            <td>=IMAGE("https://2025.brownpuzzlehunt.com/home/Register.png")</td>
         </tr>
     </table>`;
     ```

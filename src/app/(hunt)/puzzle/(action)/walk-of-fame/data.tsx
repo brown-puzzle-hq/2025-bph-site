@@ -169,19 +169,19 @@ export const boxCopyText = null;
 
 export const remoteCopyText = `<table>
     <tr>
-        <td>=IMAGE("https://www.brownpuzzlehunt.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWalk%20of%20Fame%20(1).2baccab3.png&w=640&q=75")</td>
+        <td>=IMAGE("https://2025.brownpuzzlehunt.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWalk%20of%20Fame%20(1).2baccab3.png&w=640&q=75")</td>
     </tr>
     <tr>
-        <td>=IMAGE("https://www.brownpuzzlehunt.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWalk%20of%20Fame%20(2).8a2de31c.png&w=640&q=75")</td>
+        <td>=IMAGE("https://2025.brownpuzzlehunt.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWalk%20of%20Fame%20(2).8a2de31c.png&w=640&q=75")</td>
     </tr>
     <tr>
-        <td>=IMAGE("https://www.brownpuzzlehunt.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWalk%20of%20Fame%20(3).c8e2df2e.png&w=640&q=75")</td>
+        <td>=IMAGE("https://2025.brownpuzzlehunt.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWalk%20of%20Fame%20(3).c8e2df2e.png&w=640&q=75")</td>
     </tr>
     <tr>
-        <td>=IMAGE("https://www.brownpuzzlehunt.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWalk%20of%20Fame%20(4).a37638c0.png&w=640&q=75")</td>
+        <td>=IMAGE("https://2025.brownpuzzlehunt.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWalk%20of%20Fame%20(4).a37638c0.png&w=640&q=75")</td>
     </tr>
     <tr>
-        <td>=IMAGE("https://www.brownpuzzlehunt.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWalk%20of%20Fame%20(5).f78ca136.png&w=640&q=75")</td>
+        <td>=IMAGE("https://2025.brownpuzzlehunt.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWalk%20of%20Fame%20(5).f78ca136.png&w=640&q=75")</td>
     </tr>
 </table>`;
 

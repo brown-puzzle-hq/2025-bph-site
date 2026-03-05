@@ -155,7 +155,7 @@ export async function handleGuess(puzzleId: string, guess: string) {
   }
 
   // Message the guess channel
-  const guessMessage = `🧩 **Guess** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId} ): \`${guess}\` [${isCorrect ? (solveType === "guess" ? "✓" : "**E** → ✓") : "✕"}]`;
+  const guessMessage = `🧩 **Guess** by [${teamId}](https://2025.brownpuzzlehunt.com/teams/${teamId}) on [${puzzleId}](https://2025.brownpuzzlehunt.com/puzzle/${puzzleId} ): \`${guess}\` [${isCorrect ? (solveType === "guess" ? "✓" : "**E** → ✓") : "✕"}]`;
   await sendBotMessage(guessMessage, "guess");
 
   // Message interaction channel about action meta solve and ping the lore role
@@ -166,7 +166,7 @@ export async function handleGuess(puzzleId: string, guess: string) {
       where: eq(teams.id, teamId),
     });
 
-    const actionInteractionMessage = `💥 **Action Interaction** for [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) after [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId} ). ${query && query.solvingLocation ? `They are in ${query.solvingLocation}.` : ""} <@&1201541948880736378>`;
+    const actionInteractionMessage = `💥 **Action Interaction** for [${teamId}](https://2025.brownpuzzlehunt.com/teams/${teamId}) after [${puzzleId}](https://2025.brownpuzzlehunt.com/puzzle/${puzzleId} ). ${query && query.solvingLocation ? `They are in ${query.solvingLocation}.` : ""} <@&1201541948880736378>`;
     await sendBotMessage(actionInteractionMessage, "interaction");
   }
 
@@ -182,14 +182,14 @@ export async function handleGuess(puzzleId: string, guess: string) {
       where: eq(teams.id, teamId),
     });
 
-    const horrorInteractionMessage = `👻 **Horror Interaction** for [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) after [${puzzleId}](https://www.brownpuzzlehunt.com/puzzle/${puzzleId} ). ${query && query.solvingLocation ? `They are in ${query.solvingLocation}.` : ""} <@&1201541948880736378>`;
+    const horrorInteractionMessage = `👻 **Horror Interaction** for [${teamId}](https://2025.brownpuzzlehunt.com/teams/${teamId}) after [${puzzleId}](https://2025.brownpuzzlehunt.com/puzzle/${puzzleId} ). ${query && query.solvingLocation ? `They are in ${query.solvingLocation}.` : ""} <@&1201541948880736378>`;
     await sendBotMessage(horrorInteractionMessage, "interaction");
   }
 
   // If the team has finished the hunt, message the finish channel
   // Only ping the HQ role if it is the in-person hunt
   if (hasFinishedHunt) {
-    const finishMessage = `🏆 **Hunt Finish** by [${teamId}](https://www.brownpuzzlehunt.com/teams/${teamId}) ${new Date() < IN_PERSON.END_TIME ? "<@&900958940475559969>" : ""}`;
+    const finishMessage = `🏆 **Hunt Finish** by [${teamId}](https://2025.brownpuzzlehunt.com/teams/${teamId}) ${new Date() < IN_PERSON.END_TIME ? "<@&900958940475559969>" : ""}`;
     await sendBotMessage(finishMessage, "interaction");
   }
 
