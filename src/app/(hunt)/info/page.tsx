@@ -367,7 +367,7 @@ export default function Page() {
                 </Link>{" "}
                 to{" "}
                 <Link
-                  href="https://brownpuzzle.club/"
+                  href="https://brownpuzzleclub.com/"
                   className="no-underline hover:underline"
                 >
                   Brown Puzzle Club

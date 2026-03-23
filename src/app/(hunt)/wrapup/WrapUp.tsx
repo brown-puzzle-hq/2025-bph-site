@@ -237,7 +237,7 @@ export default function WrapUp() {
                   November 23rd:{" "}
                   <a
                     // TODO: may need to migrate at some point
-                    href="https://puzzlethon.brownpuzzle.club/"
+                    href="https://puzzlethon.brownpuzzleclub.com/"
                     className="text-link no-underline hover:underline"
                   >
                     Puzzlethon
@@ -922,7 +922,7 @@ export default function WrapUp() {
                 tech stack (bph-site) last September and tested it with{" "}
                 <a
                   // TODO: may need to migrate at some point
-                  href="https://puzzlethon.brownpuzzle.club/"
+                  href="https://puzzlethon.brownpuzzleclub.com/"
                   className="text-link no-underline hover:underline"
                 >
                   Puzzlethon
