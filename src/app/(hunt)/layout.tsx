@@ -31,14 +31,14 @@ export default async function RootLayout({
           </Link>{" "}
           to your friendly neighborhood{" "}
           <Link
-            href="https://brownpuzzle.club/"
+            href="https://brownpuzzleclub.com/"
             className="text-link hover:underline"
           >
             puzzle club
           </Link>{" "}
           or checking out our{" "}
           <Link
-            href="https://brownpuzzle.club/archive/"
+            href="https://brownpuzzleclub.com/archive/"
             className="text-link hover:underline"
           >
             archive
@@ -55,7 +55,7 @@ export default async function RootLayout({
           </Link>{" "}
           or viewing our{" "}
           <Link
-            href="https://brownpuzzle.club/archive/"
+            href="https://brownpuzzleclub.com/archive/"
             className="text-link hover:underline"
           >
             archive
